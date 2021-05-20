@@ -1,3 +1,23 @@
+
+INSERT INTO ecommerce.pago(tipoPago, descripcion) VALUES('TARJETA','Tipo de pago en el cual puedes usar tanto tu tarjeta de crédito como débito');
+INSERT INTO ecommerce.pago(tipoPago, descripcion) VALUES('CONTRAREEMBOLSO','Tipo de pago que funciona pagando en mano a la empresa que entrega el paquete');
+
+INSERT INTO ecommerce.perfil(nombrePerfil, descripcion) VALUES('CLIENTE','Cliente de la tienda. Solo puede realizar pedidos');
+INSERT INTO ecommerce.perfil(nombrePerfil, descripcion) VALUES('SECRETARIO','Secretario de la tienda. Puede dar de alta y baja productos');
+INSERT INTO ecommerce.perfil(nombrePerfil, descripcion) VALUES('ADMINISTRADOR','Administrador de la tienda. Puede dar de alta y baja secretarios');
+
+INSERT INTO ecommerce.usuario(nombre, primerApellido, segundoApellido, email, contraseña, idPerfil, idPago) VALUES ('Usuario 1','Apellido 1', 'Apellido 1.2', 'email1','contraseña',1,1);
+INSERT INTO ecommerce.usuario(nombre, primerApellido, segundoApellido, email, contraseña, idPerfil, idPago) VALUES ('Usuario 2','Apellido 2', 'Apellido 2.1', 'email2','contraseña',3,2);
+INSERT INTO ecommerce.usuario(nombre, primerApellido, segundoApellido, email, contraseña, idPerfil, idPago) VALUES ('Usuario 3','Apellido 3', 'Apellido 3.1', 'email3','contraseña',2,2);
+INSERT INTO ecommerce.usuario(nombre, primerApellido, segundoApellido, email, contraseña, idPerfil, idPago) VALUES ('Usuario 4','Apellido 4', 'Apellido 4.1', 'email4','contraseña',3,1);
+
+INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Frutas','Frutas');
+INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Verduras','Verduras que no contienen químicos ni son alteradas genéticamente');
+INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Huevos','Huevos de granjas ecologicamente sostenibles');
+INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Cafe e infusiones','');
+INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Postres','Postres realizados con productos naturales y sin conservantes');
+INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Cereales','');
+INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Lacteos','Productos lácteos sin aditivos ni conservantes');
 /*fruta-2*/
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Plátano", 2.5, "Plátanos de Canarias de agricultura ecológica", 50, null, 2);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Manzana Golden", 2.8, "Manzana variedad GOLDEN procedente de agricultura ecológica", 90, null, 2);
@@ -21,14 +41,8 @@ INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) 
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Calabacín", 1.95, "Calabacín de agricultura ecológica.", 150, null, 3);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Calabaza", 4.15, "Calabaza de agricultura ecológica. Disponibilidad según temporada", 0, null, 3);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Cebolla blanca", 4.00, "Cebolla blanca de agricultura ecológica.", 250, null, 3);
-INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Cebolla morada", 3.85, "Cebolla morada ecológica. Disponibilidad según temporada", 150, null, 3);INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Bebidas alcoholicas','Bebidas que contengan un porcentaje de alcohol mayor a 0');
-INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Frutas','Frutas');
-INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Verduras','Verduras que no contienen químicos ni son alteradas genéticamente');
-INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Huevos','Huevos de granjas ecologicamente sostenibles');
-INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Cafe e infusiones','');
-INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Postres','Postres realizados con productos naturales y sin conservantes');
-INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Cereales','');
-INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Lacteos','Productos lácteos sin aditivos ni conservantes');
+INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Cebolla morada", 3.85, "Cebolla morada ecológica. Disponibilidad según temporada", 150, null, 3);
+INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Bebidas alcoholicas','Bebidas que contengan un porcentaje de alcohol mayor a 0');
 
 INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Estrella Galicia',1.20,'Cerveza Estrella Galicia con 4,5% vol.',40,null,1);
 INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Vino Château Cheval Blanc',25000,'Vino pres',5,null,1);
