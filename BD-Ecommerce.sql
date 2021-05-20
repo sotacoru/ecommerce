@@ -24,7 +24,7 @@ CREATE TABLE Usuario(
     nombre VARCHAR(20) NOT NULL,
     primerApellido VARCHAR(20) NOT NULL,
     segundoApellido VARCHAR(20) NOT NULL,
-    email VARCHAR(300) NOT NULL,
+    email VARCHAR(300) NOT NULL UNIQUE,
     contraseña VARCHAR(150) NOT NULL,
     idPerfil TINYINT NOT NULL,
     idPago TINYINT,
@@ -33,7 +33,7 @@ CREATE TABLE Usuario(
 
 CREATE TABLE Pedido(
     idPedido INT AUTO_INCREMENT,
-    precioTotal INT(5) NOT NULL,
+    precioTotal DECIMAL(7,2) NOT NULL,
     realizado BOOL DEFAULT 0 NOT NULL,
     idUsuario INT,
     idPago TINYINT,
@@ -52,13 +52,15 @@ CREATE TABLE Categoria(
 CREATE TABLE Producto(
     idProducto INT AUTO_INCREMENT,
     nombre VARCHAR(60) NOT NULL,
-    precio SMALLINT(3) NOT NULL,
+    precio DECIMAL(5,2) NOT NULL,
     descrpcion VARCHAR(500) NOT NULL,
     cantidad SMALLINT(4) NOT NULL,
     foto VARCHAR(200) NOT NULL,
     idCategoria TINYINT NOT NULL,
     PRIMARY KEY (idProducto)
 );
+
+
 
 CREATE TABLE Pedido_Producto(
     idPedido INT AUTO_INCREMENT,
