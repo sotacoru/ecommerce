@@ -21,4 +21,30 @@ public class Pago {
 	
 	@Column(name = "descripcion")
 	private String descripcion;
+
+	public Long getIdPago() {
+		return idPago;
+	}
+
+	public void setIdPago(Long idPago) {
+		this.idPago = idPago;
+	}
+
+	public String getTipoPago() {
+		return tipoPago;
+	}
+
+	public void setTipoPago(String tipoPago) {
+		this.tipoPago = tipoPago;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	
+	
 }

@@ -11,9 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="Usuario")
 public class Usuario implements Serializable {
 
 	@Id
@@ -31,15 +34,15 @@ public class Usuario implements Serializable {
 
 	private String contraseña;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name="perfil")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name="Perfil")
 	@JoinColumn(name="idPerfil")
-	private Long idPerfil;
+	private Perfil perfil;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name="pago")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name="Pago")
 	@JoinColumn(name="idPago")
-	private Long idPago;
+	private Pago pago;
 
 	
 	// Metodos getter y setter
@@ -91,20 +94,20 @@ public class Usuario implements Serializable {
 		this.contraseña = contraseña;
 	}
 
-	public Long getIdPerfil() {
-		return idPerfil;
+	public Perfil getPerfil() {
+		return perfil;
 	}
 
-	public void setIdPerfil(Long idPerfil) {
-		this.idPerfil = idPerfil;
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 
-	public Long getIdPago() {
-		return idPago;
+	public Pago getIdPago() {
+		return pago;
 	}
 
-	public void setIdPago(Long idPago) {
-		this.idPago = idPago;
+	public void setPago(Pago pago) {
+		this.pago = pago;
 	}
 
 	private static final long serialVersionUID = 1L;
