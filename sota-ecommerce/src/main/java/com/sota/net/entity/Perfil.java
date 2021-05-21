@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Perfil")
-public class Perfil implements Serializable{
+public class Perfil implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,15 +19,12 @@ public class Perfil implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idPerfil")
 	private Long idPerfil;
-	
-	
-	@Column( name = "nombrePerfil")
-	private String nombrePerfil;
-	
-	
-	@Column( name = "descripcion")
-	private String descripcion;
 
+	@Column(name = "nombrePerfil")
+	private String nombrePerfil;
+
+	@Column(name = "descripcion")
+	private String descripcion;
 
 	public Long getIdPerfil() {
 		return idPerfil;
@@ -52,5 +49,5 @@ public class Perfil implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
+
 }

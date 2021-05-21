@@ -16,11 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Usuario")
+@Table(name = "Usuario")
 public class Usuario implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUsuario;
 
 	private String nombre;
@@ -35,16 +35,15 @@ public class Usuario implements Serializable {
 	private String contraseña;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name="Perfil")
-	@JoinColumn(name="idPerfil")
+	@JoinTable(name = "Perfil")
+	@JoinColumn(name = "idPerfil")
 	private Perfil perfil;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name="Pago")
-	@JoinColumn(name="idPago")
+	@JoinTable(name = "Pago")
+	@JoinColumn(name = "idPago")
 	private Pago pago;
 
-	
 	// Metodos getter y setter
 	public Long getIdUsuario() {
 		return idUsuario;

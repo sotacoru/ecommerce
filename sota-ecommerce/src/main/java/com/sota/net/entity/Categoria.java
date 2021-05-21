@@ -11,39 +11,46 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Categoria")
-public class Categoria implements Serializable{
-	
+public class Categoria implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="idCategoria")
+	@Column(name = "idCategoria")
 	private long idCategoria;
-	
+
 	private String nombreCategoria;
-	
+
 	private String descripcion;
-	
+
 	public Categoria() {
 	}
+
 	public Categoria(long idCategoria, String nombreCategoria, String descripcion) {
 		this.idCategoria = idCategoria;
 		this.nombreCategoria = nombreCategoria;
 		this.descripcion = descripcion;
 	}
+
 	public long getIdCategoria() {
 		return idCategoria;
 	}
+
 	public void setIdCategoria(long idCategoria) {
 		this.idCategoria = idCategoria;
 	}
+
 	public String getNombreCategoria() {
 		return nombreCategoria;
 	}
+
 	public void setNombreCategoria(String nombreCategoria) {
 		this.nombreCategoria = nombreCategoria;
 	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}

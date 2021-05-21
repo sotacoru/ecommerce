@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Pago")
-public class Pago implements Serializable{
+public class Pago implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,10 +19,10 @@ public class Pago implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idPago")
 	private Long idPago;
-	
+
 	@Column(name = "tipoPago")
 	private String tipoPago;
-	
+
 	@Column(name = "descripcion")
 	private String descripcion;
 
@@ -49,6 +49,5 @@ public class Pago implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
-	
+
 }

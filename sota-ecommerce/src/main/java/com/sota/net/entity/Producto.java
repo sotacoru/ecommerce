@@ -109,7 +109,6 @@ public class Producto implements Serializable {
 		this.categoriaProducto = categoriaProducto;
 	}
 
-
 	private static final long serialVersionUID = 1L;
 
 }
