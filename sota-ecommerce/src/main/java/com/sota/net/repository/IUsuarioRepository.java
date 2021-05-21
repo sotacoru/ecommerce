@@ -20,4 +20,5 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long>{
 	
 	@Query("select u from Usuario u where u.id = ?1")
 	public Usuario updateById(Usuario idUsuario);
+	
 }
