@@ -46,7 +46,7 @@ INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) 
 
 
 INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Estrella Galicia',1.20,'Cerveza Estrella Galicia con 4,5% vol.',40,null,1);
-INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Vino Château Cheval Blanc',25000,'Vino pres',5,null,1);
+INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Vino Château Cheval Blanc',999,'Vino pres',5,null,1);
 INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Whisky Red Label',20,'Whisky de la marca Johnnie Walker',34,null,1);
 INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Licor 43',23,'Contiene 27% vol.',20,null,1);
 INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Absolut Vodka ',25,'Vodka de la marca Absolut. Contiene 35% vol.',15,null,1);
