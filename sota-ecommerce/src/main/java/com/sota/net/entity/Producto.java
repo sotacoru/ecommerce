@@ -9,7 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -31,12 +32,12 @@ public class Producto implements Serializable {
 
 	private String foto;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idCategoria")
-	private int categoriaProducto;
+	private Categoria categoriaProducto;
 
 	public Producto(Long id, String nombre, Double precio, String descripcion, int cantidad, String foto,
-			int categoriaProducto) {
+			Categoria categoriaProducto) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -100,17 +101,15 @@ public class Producto implements Serializable {
 		this.foto = foto;
 	}
 
-	public int getCategoriaProducto() {
+	public Categoria getCategoriaProducto() {
 		return categoriaProducto;
 	}
 
-	public void setCategoriaProducto(int categoriaProducto) {
+	public void setCategoriaProducto(Categoria categoriaProducto) {
 		this.categoriaProducto = categoriaProducto;
 	}
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 }
