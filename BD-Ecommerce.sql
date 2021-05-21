@@ -53,9 +53,9 @@ CREATE TABLE Producto(
     idProducto INT AUTO_INCREMENT,
     nombre VARCHAR(60) NOT NULL,
     precio DECIMAL(5,2) NOT NULL,
-    descrpcion VARCHAR(500) NOT NULL,
+    descripcion VARCHAR(500) NOT NULL,
     cantidad SMALLINT(4) NOT NULL,
-    foto VARCHAR(200) NOT NULL,
+    foto VARCHAR(200),
     idCategoria TINYINT NOT NULL,
     PRIMARY KEY (idProducto)
 );
