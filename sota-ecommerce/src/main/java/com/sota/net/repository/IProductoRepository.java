@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import com.sota.net.entity.Categoria;
 import com.sota.net.entity.Producto;
 
 public interface IProductoRepository extends CrudRepository<Producto, Long>{
@@ -32,5 +33,8 @@ public interface IProductoRepository extends CrudRepository<Producto, Long>{
 	
 	@Query("select p from producto p ORDER BY p.precio DESC")
 	public List<Producto> OrderByPricioMin(Double precio);
+	
+	@Query("from categoria")
+	public List<Categoria> findAllCategoria();
 
 }
