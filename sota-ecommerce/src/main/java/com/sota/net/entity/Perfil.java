@@ -9,22 +9,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "Perfil")
 public class Perfil implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(value="Id del perfil", dataType = "Long", example="1", position=1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idPerfil")
 	private Long idPerfil;
 	
-	
+	@ApiModelProperty(value="Nombre del perfil del usuario", dataType = "String", example="ADMINISTRADOR", position=2)
 	@Column( name = "nombrePerfil")
 	private String nombrePerfil;
 	
-	
+	@ApiModelProperty(value="Descripción del perfil del usuario", dataType = "String", example="Usuario con permisos absolutos", position=3)
 	@Column( name = "descripcion")
 	private String descripcion;
 

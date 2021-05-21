@@ -15,30 +15,40 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name="Usuario")
 public class Usuario implements Serializable {
 
+	@ApiModelProperty(value="ID del usuario", dataType = "long", example="1", position=1)
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idUsuario;
 
+	@ApiModelProperty(value="Nombre del usuario", dataType = "String", example="Pepe", position=2)
 	private String nombre;
 
+	@ApiModelProperty(value="Primer apellido del usuario", dataType = "String", example="Rodríguez", position=3)
 	private String primerApellido;
 
+	@ApiModelProperty(value="Segundo apellido del usuario", dataType = "String", example="López", position=4)
 	private String segundoApellido;
 
+	@ApiModelProperty(value="Email del usuario", dataType = "String", example="email@email.com", position=5)
 	@Column(unique = true)
 	private String email;
 
+	@ApiModelProperty(value="Contraseña del usuario", dataType = "String", example="Contraseña123.", position=6)
 	private String contraseña;
 
+	@ApiModelProperty(value="Perfil asociado al usuario", dataType = "Perfil", example="ADMINISTRADOR", position=7)
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name="Perfil")
 	@JoinColumn(name="idPerfil")
 	private Perfil perfil;
 
+	@ApiModelProperty(value="Pago favorito elegido por el usuario", dataType = "Pago", example="TARJETA", position=8)
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name="Pago")
 	@JoinColumn(name="idPago")

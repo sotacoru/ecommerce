@@ -13,25 +13,34 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "producto")
 public class Producto implements Serializable {
 
+	@ApiModelProperty(value="Id del producto", dataType = "Long", example="1", position=1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idProducto")
 	private Long id;
 
+	@ApiModelProperty(value="Nombre del producto", dataType = "String", example="Vino", position=2)
 	private String nombre;
 
+	@ApiModelProperty(value="Precio del vino", dataType = "Double", example="250", position=3)
 	private Double precio;
 
+	@ApiModelProperty(value="Descripción del producto", dataType = "String", example="Vino añejo", position=4)
 	private String descripcion;
 
+	@ApiModelProperty(value="Cantidad total del producto", dataType = "Int", example="10", position=5)
 	private int cantidad;
 
+	@ApiModelProperty(value="Ruta de la foto", dataType = "String", example="ruta/foto/foto.jpg", position=6)
 	private String foto;
 
+	@ApiModelProperty(value="Categoría del producto", dataType = "Categoria", example="BEBIDAS ALCOHOLICAS", position=7)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idCategoria")
 	private Categoria categoriaProducto;
