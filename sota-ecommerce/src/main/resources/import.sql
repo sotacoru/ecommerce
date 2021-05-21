@@ -18,6 +18,7 @@ INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Cafe e infusiones',
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Postres','Postres realizados con productos naturales y sin conservantes');
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Cereales','');
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Lacteos','Productos lácteos sin aditivos ni conservantes');
+INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Bebidas alcoholicas','Bebidas que contengan un porcentaje de alcohol mayor a 0');
 /*fruta-2*/
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Plátano", 2.5, "Plátanos de Canarias de agricultura ecológica", 50, null, 2);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Manzana Golden", 2.8, "Manzana variedad GOLDEN procedente de agricultura ecológica", 90, null, 2);
@@ -42,7 +43,7 @@ INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) 
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Calabaza", 4.15, "Calabaza de agricultura ecológica. Disponibilidad según temporada", 0, null, 3);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Cebolla blanca", 4.00, "Cebolla blanca de agricultura ecológica.", 250, null, 3);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Cebolla morada", 3.85, "Cebolla morada ecológica. Disponibilidad según temporada", 150, null, 3);
-INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Bebidas alcoholicas','Bebidas que contengan un porcentaje de alcohol mayor a 0');
+
 
 INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Estrella Galicia',1.20,'Cerveza Estrella Galicia con 4,5% vol.',40,null,1);
 INSERT INTO producto (nombre,precio,descripcion,cantidad,foto,idCategoria) VALUES ('Vino Château Cheval Blanc',25000,'Vino pres',5,null,1);
