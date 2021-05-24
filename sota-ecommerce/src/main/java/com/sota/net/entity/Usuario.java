@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -111,4 +110,5 @@ public class Usuario implements Serializable {
 	}
 
 	private static final long serialVersionUID = 1L;
+
 }
