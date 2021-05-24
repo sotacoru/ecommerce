@@ -1,12 +1,10 @@
 package com.sota.net.controller;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +40,7 @@ public class UsuarioController {
 	}
 
 	// MOSTRAR USUARIO POR ID
-	@GetMapping("/usuarios/{id}")
+	@GetMapping("/usuario/{id}")
 	public ResponseEntity<?> show(@PathVariable Long idUsuario) {
 		Usuario usuario = usuarioService.findById(idUsuario);
 
@@ -65,8 +60,8 @@ public class UsuarioController {
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	}
 
-	// CREACION PRODUCTOS
-	@PostMapping("/productos")
+	// CREACION USUARIOS
+	@PostMapping("/usuario")
 	public ResponseEntity<?> create(@RequestBody Usuario usuario, BindingResult result) {
 		Usuario usuarioNew = null;
 		Map<String, Object> response = new HashMap<>();
@@ -93,8 +88,8 @@ public class UsuarioController {
 	}
 
 	// UPDATE USUARIOS
-	@PutMapping("/productos/{id}")
-	public ResponseEntity<?> update(@Validated @RequestBody Usuario usuario, BindingResult result,
+	@PutMapping("/usuario/{id}")
+	public ResponseEntity<?> update(@RequestBody Usuario usuario, BindingResult result,
 			@PathVariable Long idUsuario) {
 		Usuario usuarioActual = usuarioService.findById(idUsuario);
 		Usuario usuarioUpdated = null;

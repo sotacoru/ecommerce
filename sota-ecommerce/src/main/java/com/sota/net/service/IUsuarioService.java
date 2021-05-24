@@ -6,7 +6,7 @@ import com.sota.net.entity.Usuario;
 
 public interface IUsuarioService {
 
-	public Usuario findByName(String nombre);
+	public Usuario findByNombre(Usuario nombre);
 	 
 	public Usuario findById(Long idUsuario);
 	
@@ -14,5 +14,5 @@ public interface IUsuarioService {
 	
 	public List<Usuario> findAll();
 	
-	public void delete(Long idUsuario);
+	public void deleteUsuarioById(Long idUsuario);
 }
