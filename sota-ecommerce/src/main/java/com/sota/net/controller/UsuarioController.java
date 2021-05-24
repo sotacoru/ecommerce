@@ -31,8 +31,6 @@ public class UsuarioController {
 	@Autowired
 	IUsuarioService usuarioService;
 
-	private final Logger log = LoggerFactory.getLogger(UsuarioController.class);
-
 	// MOSTRAR TODOS LOS USUARIOS
 	@GetMapping("/usuario")
 	public List<Usuario> index() {

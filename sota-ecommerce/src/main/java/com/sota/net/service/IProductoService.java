@@ -21,8 +21,6 @@ public interface IProductoService {
 
 	abstract List<Producto> findByDescripcion(String term);
 
-
-
 	abstract List<Producto> findByStock();
 
 	abstract List<Producto> OrderByNombre(String nombre);

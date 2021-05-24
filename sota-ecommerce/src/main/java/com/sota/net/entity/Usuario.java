@@ -1,10 +1,14 @@
 package com.sota.net.entity;
 
 import java.io.Serializable;
-
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,11 +17,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "usuario")
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, UserDetails {
 
 	@ApiModelProperty(value="ID del usuario", dataType = "long", example="1", position=1)
 	@Id
@@ -149,5 +159,58 @@ public class Usuario implements Serializable {
 
 
 	private static final long serialVersionUID = 1L;
+
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
+		@SuppressWarnings("static-access")
+		List<GrantedAuthority> auths = Arrays.asList(perfil.getNombreperfil().values()).stream().map(ur -> new SimpleGrantedAuthority("ROLE_" + ur.name())).collect(Collectors.toList());
+		return auths;
+		// @formatter:off
+		// @formatter:on
+	}
+
+
+	@Override
+	public String getPassword() {
+		return contraseña;
+	}
+
+
+
+	@Override
+	public String getUsername() {
+		return nombre;
+	}
+
+
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return false;
+	}
+
+
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
 }
