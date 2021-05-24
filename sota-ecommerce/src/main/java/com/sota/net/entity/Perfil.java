@@ -12,40 +12,39 @@ import javax.persistence.Table;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
-@Table(name = "Perfil")
-public class Perfil implements Serializable{
+@Table(name = "perfil")
+public class Perfil implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value="Id del perfil", dataType = "Long", example="1", position=1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idPerfil")
-	private Long idPerfil;
-	
+	@Column(name = "idperfil")
+	private Long idperfil;
+
 	@ApiModelProperty(value="Nombre del perfil del usuario", dataType = "String", example="ADMINISTRADOR", position=2)
-	@Column( name = "nombrePerfil")
-	private String nombrePerfil;
-	
+	@Column(name = "nombreperfil")
+	private String nombreperfil;
+
 	@ApiModelProperty(value="Descripción del perfil del usuario", dataType = "String", example="Usuario con permisos absolutos", position=3)
-	@Column( name = "descripcion")
+	@Column(name = "descripcion")
 	private String descripcion;
 
-
-	public Long getIdPerfil() {
-		return idPerfil;
+	public Long getIdperfil() {
+		return idperfil;
 	}
 
-	public void setIdPerfil(Long idPerfil) {
-		this.idPerfil = idPerfil;
+	public void setIdperfil(Long idperfil) {
+		this.idperfil = idperfil;
 	}
 
-	public String getNombrePerfil() {
-		return nombrePerfil;
+	public String getNombreperfil() {
+		return nombreperfil;
 	}
 
-	public void setNombrePerfil(String nombrePerfil) {
-		this.nombrePerfil = nombrePerfil;
+	public void setNombreperfil(String nombreperfil) {
+		this.nombreperfil = nombreperfil;
 	}
 
 	public String getDescripcion() {
@@ -55,5 +54,10 @@ public class Perfil implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
 }

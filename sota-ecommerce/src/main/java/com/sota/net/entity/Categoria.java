@@ -4,61 +4,89 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
-@Table(name = "Categoria")
-public class Categoria implements Serializable{
-	
+@Table(name = "categoria")
+public class Categoria implements Serializable {
+
 	@ApiModelProperty(value="Id de la categoria", dataType = "Long", example="1", position=1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="idCategoria")
-	private long idCategoria;
-	
+	private long id;
+
 	@ApiModelProperty(value="Nombre de la categoría del producto", dataType = "String", example="BEBDIAS ALCOHÓLICAS", position=2)
-	private String nombreCategoria;
-	
-	@ApiModelProperty(value="Descripción de la categoría", dataType = "String", example="Bebidas con porcentaje de alcohol superior al 0%", position=3)
+	private String nombrecategoria;
+
+@ApiModelProperty(value="Descripción de la categoría", dataType = "String", example="Bebidas con porcentaje de alcohol superior al 0%", position=3)
 	private String descripcion;
-	
-	public Categoria() {
-	}
-	
-	public Categoria(long idCategoria, String nombreCategoria, String descripcion) {
-		this.idCategoria = idCategoria;
-		this.nombreCategoria = nombreCategoria;
+
+
+
+	public Categoria(long id, String nombrecategoria, String descripcion) {
+		super();
+		this.id = id;
+		this.nombrecategoria = nombrecategoria;
 		this.descripcion = descripcion;
 	}
-	
-	public long getIdCategoria() {
-		return idCategoria;
+
+
+
+	public long getId() {
+		return id;
 	}
-	
-	public void setIdCategoria(long idCategoria) {
-		this.idCategoria = idCategoria;
+
+
+
+	public void setId(long id) {
+		this.id = id;
 	}
-	
-	public String getNombreCategoria() {
-		return nombreCategoria;
+
+
+
+	public String getNombrecategoria() {
+		return nombrecategoria;
 	}
-	
-	public void setNombreCategoria(String nombreCategoria) {
-		this.nombreCategoria = nombreCategoria;
+
+
+
+	public void setNombrecategoria(String nombrecategoria) {
+		this.nombrecategoria = nombrecategoria;
 	}
-	
+
+
+
 	public String getDescripcion() {
 		return descripcion;
 	}
-	
+
+
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+	public Categoria() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 	private static final long serialVersionUID = 1L;
 }
