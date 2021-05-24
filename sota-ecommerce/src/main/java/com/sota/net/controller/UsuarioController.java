@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sota.net.entity.Usuario;
+import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
 
 @RestController
 @RequestMapping("/api")
 public class UsuarioController {
+	
+	private IUsuarioRepository usuarioRepository;
+	
+	public IUsuarioRepository getUsuarioRepository() {
+		return usuarioRepository;
+	}
 
 	@Autowired
 	IUsuarioService usuarioService;
@@ -40,7 +49,7 @@ public class UsuarioController {
 	}
 
 	// MOSTRAR USUARIO POR ID
-	@GetMapping("/usuario/{id}")
+	@RequestMapping(value="/usuario/{idUsuario}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> show(@PathVariable Long idUsuario) {
 		Usuario usuario = usuarioService.findById(idUsuario);
 
@@ -88,7 +97,7 @@ public class UsuarioController {
 	}
 
 	// UPDATE USUARIOS
-	@PutMapping("/usuario/{id}")
+	@PutMapping("/usuario/{idUsuario}")
 	public ResponseEntity<?> update(@RequestBody Usuario usuario, BindingResult result,
 			@PathVariable Long idUsuario) {
 		Usuario usuarioActual = usuarioService.findById(idUsuario);
@@ -116,6 +125,9 @@ public class UsuarioController {
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
 			usuarioActual.setEmail(usuario.getEmail());
 			usuarioActual.setPago(usuario.getPago());
+			System.out.println("Estamos dentro del try");
+			System.out.println(usuario.getNombre());
+
 
 			usuarioUpdated = usuarioService.save(usuarioActual);
 		} catch (DataAccessException e) {
@@ -125,7 +137,7 @@ public class UsuarioController {
 		}
 
 		response.put("mensaje", "El usuario ha sido actualizado con exito");
-		response.put("cliente", usuarioUpdated);
+		response.put("usuario", usuarioUpdated);
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}

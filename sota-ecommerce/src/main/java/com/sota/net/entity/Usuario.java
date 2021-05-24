@@ -13,13 +13,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idusuario;
+	private Long idUsuario;
 
 	private String nombre;
 
@@ -32,6 +34,7 @@ public class Usuario implements Serializable {
 
 	private String contraseña;
 
+	@JsonSerialize
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idperfil")
 	private Perfil perfil;
@@ -43,13 +46,13 @@ public class Usuario implements Serializable {
 	
 
 	public Long getIdusuario() {
-		return idusuario;
+		return idUsuario;
 	}
 
 
 
 	public void setIdusuario(Long idusuario) {
-		this.idusuario = idusuario;
+		this.idUsuario = idusuario;
 	}
 
 
