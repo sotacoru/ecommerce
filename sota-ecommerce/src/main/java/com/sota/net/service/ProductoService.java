@@ -49,10 +49,6 @@ public class ProductoService implements IProductoService {
 		return rep.findByDescripcion(term);
 	}
 
-	@Override
-	public List<Producto> findByCategoria(int categoriaProducto) {
-		return rep.findByCategoria(categoriaProducto);
-	}
 
 	@Override
 	public List<Producto> findByStock() {
@@ -73,4 +69,6 @@ public class ProductoService implements IProductoService {
 	public List<Producto> OrderByPricioMin(Double precio) {
 		return rep.orderByPricioMin(precio);
 	}
+
+	
 }

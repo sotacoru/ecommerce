@@ -21,7 +21,7 @@ public interface IProductoService {
 
 	abstract List<Producto> findByDescripcion(String term);
 
-	abstract List<Producto> findByCategoria(int categoriaProducto);
+
 
 	abstract List<Producto> findByStock();
 

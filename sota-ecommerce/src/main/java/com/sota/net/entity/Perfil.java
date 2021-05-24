@@ -10,36 +10,36 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Perfil")
+@Table(name = "perfil")
 public class Perfil implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idPerfil")
-	private Long idPerfil;
+	@Column(name = "idperfil")
+	private Long idperfil;
 
-	@Column(name = "nombrePerfil")
-	private String nombrePerfil;
+	@Column(name = "nombreperfil")
+	private String nombreperfil;
 
 	@Column(name = "descripcion")
 	private String descripcion;
 
-	public Long getIdPerfil() {
-		return idPerfil;
+	public Long getIdperfil() {
+		return idperfil;
 	}
 
-	public void setIdPerfil(Long idPerfil) {
-		this.idPerfil = idPerfil;
+	public void setIdperfil(Long idperfil) {
+		this.idperfil = idperfil;
 	}
 
-	public String getNombrePerfil() {
-		return nombrePerfil;
+	public String getNombreperfil() {
+		return nombreperfil;
 	}
 
-	public void setNombrePerfil(String nombrePerfil) {
-		this.nombrePerfil = nombrePerfil;
+	public void setNombreperfil(String nombreperfil) {
+		this.nombreperfil = nombreperfil;
 	}
 
 	public String getDescripcion() {
@@ -50,4 +50,9 @@ public class Perfil implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
 }
