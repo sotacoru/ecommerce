@@ -112,10 +112,10 @@ public class UsuarioController {
 
 		try {
 			usuarioActual.setNombre(usuario.getNombre());
-			usuarioActual.setPrimerApellido(usuario.getPrimerApellido());
-			usuarioActual.setSegundoApellido(usuario.getSegundoApellido());
+			usuarioActual.setPrimerapellido(usuario.getPrimerapellido());
+			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
 			usuarioActual.setEmail(usuario.getEmail());
-			usuarioActual.setPago(usuario.getIdPago());
+			usuarioActual.setPago(usuario.getPago());
 
 			usuarioUpdated = usuarioService.save(usuarioActual);
 		} catch (DataAccessException e) {
