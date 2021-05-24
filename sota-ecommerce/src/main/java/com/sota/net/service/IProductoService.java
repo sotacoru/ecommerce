@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IProductoService {
 	abstract List<Producto> findAll();
 
-	abstract Optional<Producto> findById(Long id);
+	abstract Producto findById(Long id);
 
 	abstract Producto save(Producto producto);
 
