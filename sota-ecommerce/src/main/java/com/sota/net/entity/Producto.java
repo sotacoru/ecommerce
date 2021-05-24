@@ -38,13 +38,13 @@ public class Producto implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcategoria")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private Categoria idcategoria;
+	private Long idcategoria;
 
 	
 
 
 	public Producto(Long id, String nombre, Double precio, String descripcion, int cantidad, String foto,
-			Categoria idcategoria) {
+			Long idcategoria) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -150,14 +150,14 @@ public class Producto implements Serializable {
 
 
 
-	public Categoria getIdcategoria() {
+	public Long getIdcategoria() {
 		return idcategoria;
 	}
 
 
 
 
-	public void setIdcategoria(Categoria idcategoria) {
+	public void setIdcategoria(Long idcategoria) {
 		this.idcategoria = idcategoria;
 	}
 
