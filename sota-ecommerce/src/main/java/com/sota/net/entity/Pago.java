@@ -10,36 +10,36 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Pago")
-public class Pago implements Serializable{
+@Table(name = "pago")
+public class Pago implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idPago")
-	private Long idPago;
-	
-	@Column(name = "tipoPago")
-	private String tipoPago;
-	
+	@Column(name = "idpago")
+	private Long idpago;
+
+	@Column(name = "tipopago")
+	private String tipopago;
+
 	@Column(name = "descripcion")
 	private String descripcion;
 
-	public Long getIdPago() {
-		return idPago;
+	public Long getIdpago() {
+		return idpago;
 	}
 
-	public void setIdPago(Long idPago) {
-		this.idPago = idPago;
+	public void setIdpago(Long idpago) {
+		this.idpago = idpago;
 	}
 
-	public String getTipoPago() {
-		return tipoPago;
+	public String getTipopago() {
+		return tipopago;
 	}
 
-	public void setTipoPago(String tipoPago) {
-		this.tipoPago = tipoPago;
+	public void setTipopago(String tipopago) {
+		this.tipopago = tipopago;
 	}
 
 	public String getDescripcion() {
@@ -49,6 +49,6 @@ public class Pago implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
+
 	
 }

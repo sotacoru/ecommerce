@@ -16,99 +16,129 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Usuario")
+@Table(name = "usuario")
 public class Usuario implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long idUsuario;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idusuario;
 
 	private String nombre;
 
-	private String primerApellido;
+	private String primerapellido;
 
-	private String segundoApellido;
+	private String segundoapellido;
 
 	@Column(unique = true)
 	private String email;
 
 	private String contraseña;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name="Perfil")
-	@JoinColumn(name="idPerfil")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idperfil")
 	private Perfil perfil;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name="Pago")
-	@JoinColumn(name="idPago")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idpago")
 	private Pago pago;
 
 	
-	// Metodos getter y setter
-	public Long getIdUsuario() {
-		return idUsuario;
+
+	public Long getIdusuario() {
+		return idusuario;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+
+
+	public void setIdusuario(Long idusuario) {
+		this.idusuario = idusuario;
 	}
+
+
 
 	public String getNombre() {
 		return nombre;
 	}
 
+
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-	public String getPrimerApellido() {
-		return primerApellido;
+
+
+	public String getPrimerapellido() {
+		return primerapellido;
 	}
 
-	public void setPrimerApellido(String primerApellido) {
-		this.primerApellido = primerApellido;
+
+
+	public void setPrimerapellido(String primerapellido) {
+		this.primerapellido = primerapellido;
 	}
 
-	public String getSegundoApellido() {
-		return segundoApellido;
+
+
+	public String getSegundoapellido() {
+		return segundoapellido;
 	}
 
-	public void setSegundoApellido(String segundoApellido) {
-		this.segundoApellido = segundoApellido;
+
+
+	public void setSegundoapellido(String segundoapellido) {
+		this.segundoapellido = segundoapellido;
 	}
+
+
 
 	public String getEmail() {
 		return email;
 	}
 
+
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 
 	public String getContraseña() {
 		return contraseña;
 	}
 
+
+
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
+
+
 
 	public Perfil getPerfil() {
 		return perfil;
 	}
 
+
+
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
 
-	public Pago getIdPago() {
+
+
+	public Pago getPago() {
 		return pago;
 	}
+
+
 
 	public void setPago(Pago pago) {
 		this.pago = pago;
 	}
+
+
 
 	private static final long serialVersionUID = 1L;
 }

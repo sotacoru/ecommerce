@@ -1,7 +1,5 @@
 package com.sota.net.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -13,43 +11,75 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "categoria")
-public class Categoria implements Serializable{
-	
+public class Categoria implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="idcategoria")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private long idCategoria;
-	
-	private String nombreCategoria;
-	
+	private long id;
+
+	private String nombrecategoria;
+
 	private String descripcion;
-	
-	public Categoria() {
-	}
-	public Categoria(long idCategoria, String nombreCategoria, String descripcion) {
-		this.idCategoria = idCategoria;
-		this.nombreCategoria = nombreCategoria;
+
+
+
+	public Categoria(long id, String nombrecategoria, String descripcion) {
+		super();
+		this.id = id;
+		this.nombrecategoria = nombrecategoria;
 		this.descripcion = descripcion;
 	}
-	public long getIdCategoria() {
-		return idCategoria;
+
+
+
+	public long getId() {
+		return id;
 	}
-	public void setIdCategoria(long idCategoria) {
-		this.idCategoria = idCategoria;
+
+
+
+	public void setId(long id) {
+		this.id = id;
 	}
-	public String getNombreCategoria() {
-		return nombreCategoria;
+
+
+
+	public String getNombrecategoria() {
+		return nombrecategoria;
 	}
-	public void setNombreCategoria(String nombreCategoria) {
-		this.nombreCategoria = nombreCategoria;
+
+
+
+	public void setNombrecategoria(String nombrecategoria) {
+		this.nombrecategoria = nombrecategoria;
 	}
+
+
+
 	public String getDescripcion() {
 		return descripcion;
 	}
+
+
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+	public Categoria() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 	private static final long serialVersionUID = 1L;
 }
