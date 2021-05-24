@@ -1,5 +1,7 @@
 package com.sota.net.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -10,12 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Categoria")
+@Table(name = "categoria")
 public class Categoria implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="idCategoria")
+	@Column(name="idcategoria")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private long idCategoria;
 	
 	private String nombreCategoria;

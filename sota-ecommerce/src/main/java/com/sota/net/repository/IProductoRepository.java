@@ -10,11 +10,11 @@ import com.sota.net.entity.Producto;
 
 public interface IProductoRepository extends JpaRepository<Producto, Long> {
 
-	@Query("select p from Producto p where  p.nombre like %?1%")
-	public List<Producto> findByNombre(String nombre);
+	@Query("select p from Producto p where  p.nombre like %?1% ")
+	public List<Producto> findByNombreContaining(String nombre);
 
 	@Query("select p from Producto p where  p.descripcion like %?1%")
-	public List<Producto> findByDescripcion(String term);
+	public List<Producto> findByDescripcionContaining(String term);
 	@Query("select p from Producto p where  p.categoriaProducto = ?1")
 	public List<Producto> findByCategoria(int categoriaProducto);
 

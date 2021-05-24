@@ -40,12 +40,12 @@ public class ProductoService implements IProductoService {
 
     @Override
     public List<Producto> findByNombre(String nombre) {
-        return rep.findByNombre(nombre);
+        return rep.findByNombreContaining(nombre);
     }
 
     @Override
     public List<Producto> findByDescripcion(String term) {
-        return rep.findByDescripcion(term);
+        return rep.findByDescripcionContaining(term);
     }
 
     @Override

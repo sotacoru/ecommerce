@@ -1,5 +1,7 @@
 package com.sota.net.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -19,7 +21,8 @@ public class Producto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idProducto")
+	@Column(name = "idproducto")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Long id;
 
 	private String nombre;
@@ -33,7 +36,8 @@ public class Producto implements Serializable {
 	private String foto;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idCategoria")
+	@JoinColumn(name = "idcategoria")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Categoria categoriaProducto;
 
 	public Producto(Long id, String nombre, Double precio, String descripcion, int cantidad, String foto,
@@ -49,8 +53,6 @@ public class Producto implements Serializable {
 	}
 
 	public Producto() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Long getId() {
