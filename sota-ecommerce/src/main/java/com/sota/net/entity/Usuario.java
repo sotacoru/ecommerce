@@ -2,6 +2,7 @@ package com.sota.net.entity;
 
 import java.io.Serializable;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,7 +40,7 @@ public class Usuario implements Serializable {
 	@JoinColumn(name = "idpago")
 	private Pago pago;
 
-	
+
 
 	public Long getIdusuario() {
 		return idusuario;
