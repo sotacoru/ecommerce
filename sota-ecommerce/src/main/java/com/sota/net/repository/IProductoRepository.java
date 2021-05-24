@@ -17,7 +17,6 @@ public interface IProductoRepository extends JpaRepository<Producto, Long> {
 	public List<Producto> findByDescripcion(String term);
 
 
-
 	@Query("select p from Producto p where  p.cantidad > 0")
 	public List<Producto> findByStock();
 
