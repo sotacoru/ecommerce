@@ -20,7 +20,7 @@ INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Cereales','');
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Lacteos','Productos lácteos sin aditivos ni conservantes');
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Bebidas alcoholicas','Bebidas que contengan un porcentaje de alcohol mayor a 0');
 /*fruta-2*/
-INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Plátano", 2.5, "Plátanos de Canarias de agricultura ecológica", 50, null, 2);
+INSERT INTO producto (nombre, precio, descripcion, cantidad,  foto, idCategoria) VALUES ("Plátano", 2.5, "Plátanos de Canarias de agricultura ecológica", 50, null, 2);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Manzana Golden", 2.8, "Manzana variedad GOLDEN procedente de agricultura ecológica", 90, null, 2);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Manzana Gala", 3.8, "Manzana variedad GALA procedente de agricultura ecológica", 130, null, 2);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Pera Conferéncia", 2.5, "Pera Conférencia procedente de agricultura ecológica y agricultores locales", 50, null, 2);
