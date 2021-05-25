@@ -20,8 +20,8 @@ public class ProductoService implements IProductoService {
 	}
 
 	@Override
-	public Optional<Producto> findById(Long id) {
-		return rep.findById(id);
+	public Producto findById(Long id) {
+		return rep.findById(id).orElse(null);
 	}
 
 	@Override
