@@ -1,84 +1,69 @@
 package com.sota.net.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "categoria")
 public class Categoria implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	private String nombrecategoria;
+    private String nombrecategoria;
 
-	private String descripcion;
-
-
-
-	public Categoria(long id, String nombrecategoria, String descripcion) {
-		super();
-		this.id = id;
-		this.nombrecategoria = nombrecategoria;
-		this.descripcion = descripcion;
-	}
+    private String descripcion;
 
 
-
-	public long getId() {
-		return id;
-	}
-
-
-
-	public void setId(long id) {
-		this.id = id;
-	}
+    public Categoria(long id, String nombrecategoria, String descripcion) {
+        super();
+        this.id = id;
+        this.nombrecategoria = nombrecategoria;
+        this.descripcion = descripcion;
+    }
 
 
-
-	public String getNombrecategoria() {
-		return nombrecategoria;
-	}
-
+    public long getId() {
+        return id;
+    }
 
 
-	public void setNombrecategoria(String nombrecategoria) {
-		this.nombrecategoria = nombrecategoria;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
 
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
+    public String getNombrecategoria() {
+        return nombrecategoria;
+    }
 
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+    public void setNombrecategoria(String nombrecategoria) {
+        this.nombrecategoria = nombrecategoria;
+    }
 
 
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
+    public String getDescripcion() {
+        return descripcion;
+    }
 
 
-	public Categoria() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
 
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
-	private static final long serialVersionUID = 1L;
+
+    public Categoria() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+
+    private static final long serialVersionUID = 1L;
 }

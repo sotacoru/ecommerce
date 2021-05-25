@@ -1,145 +1,118 @@
 package com.sota.net.entity;
 
-import java.io.Serializable;
-
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idUsuario;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idUsuario;
 
-	private String nombre;
+    private String nombre;
 
-	private String primerapellido;
+    private String primerapellido;
 
-	private String segundoapellido;
+    private String segundoapellido;
 
-	@Column(unique = true)
-	private String email;
+    @Column(unique = true)
+    private String email;
 
-	private String contraseña;
+    private String contrasenha;
 
-	@JsonSerialize
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idperfil")
-	private Perfil perfil;
+    @JsonSerialize
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idperfil")
+    private Perfil perfil;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idpago")
-	private Pago pago;
-
-	
-
-	public Long getIdusuario() {
-		return idUsuario;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idpago")
+    private Pago pago;
 
 
-
-	public void setIdusuario(Long idusuario) {
-		this.idUsuario = idusuario;
-	}
-
+    public Long getIdusuario() {
+        return idUsuario;
+    }
 
 
-	public String getNombre() {
-		return nombre;
-	}
+    public void setIdusuario(Long idusuario) {
+        this.idUsuario = idusuario;
+    }
 
 
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
+    public String getNombre() {
+        return nombre;
+    }
 
 
-	public String getPrimerapellido() {
-		return primerapellido;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
 
-
-	public void setPrimerapellido(String primerapellido) {
-		this.primerapellido = primerapellido;
-	}
-
+    public String getPrimerapellido() {
+        return primerapellido;
+    }
 
 
-	public String getSegundoapellido() {
-		return segundoapellido;
-	}
+    public void setPrimerapellido(String primerapellido) {
+        this.primerapellido = primerapellido;
+    }
 
 
-
-	public void setSegundoapellido(String segundoapellido) {
-		this.segundoapellido = segundoapellido;
-	}
-
+    public String getSegundoapellido() {
+        return segundoapellido;
+    }
 
 
-	public String getEmail() {
-		return email;
-	}
+    public void setSegundoapellido(String segundoapellido) {
+        this.segundoapellido = segundoapellido;
+    }
 
 
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
+    public String getEmail() {
+        return email;
+    }
 
 
-	public String getContraseña() {
-		return contraseña;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 
-
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
-	}
-
+    public String getContrasenha() {
+        return contrasenha;
+    }
 
 
-	public Perfil getPerfil() {
-		return perfil;
-	}
+    public void setContrasenha(String contrasenha) {
+        this.contrasenha = contrasenha;
+    }
 
 
-
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
-	}
-
+    public Perfil getPerfil() {
+        return perfil;
+    }
 
 
-	public Pago getPago() {
-		return pago;
-	}
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
 
 
-
-	public void setPago(Pago pago) {
-		this.pago = pago;
-	}
-
+    public Pago getPago() {
+        return pago;
+    }
 
 
-	private static final long serialVersionUID = 1L;
+    public void setPago(Pago pago) {
+        this.pago = pago;
+    }
+
+
+    private static final long serialVersionUID = 1L;
 }
