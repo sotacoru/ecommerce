@@ -7,21 +7,26 @@ import org.springframework.data.jpa.repository.Query;
 import com.sota.net.entity.Categoria;
 import com.sota.net.entity.Producto;
 
-
 public interface IProductoRepository extends JpaRepository<Producto, Long> {
 
 	@Query("select p from Producto p where  p.nombre like %?1%")
 	public List<Producto> findByNombre(String nombre);
+
 	@Query("select p from Producto p where p.nombre like %?1% and p.descripcion like %?2%")
 	public List<Producto> findByNombreAndDescripcion(String nombre, String term);
+
 	@Query("select p from Producto p where  p.descripcion like %?1%")
 	public List<Producto> findByDescripcion(String term);
+
 	@Query("select p from Producto p where  p.descripcion like %?1% and p.foto IS NOT NULL ")
 	public List<Producto> findByDescripcionAndFotoNotNull(String term);
+
 	@Query("select p from Producto p where  p.descripcion like %?1% and p.foto IS NOT NULL ")
 	public List<Producto> findByNombreAndFotoNotNull(String nombre);
+
 	@Query("select p from Producto p where p.nombre like %?1% and p.descripcion like %?2% and p.foto IS NOT NULL ")
 	public List<Producto> findByNombreAndDescripcionAndFotoNotNull(String nombre, String term);
+
 	@Query("select p from Producto p where  p.foto IS NOT NULL")
 	public List<Producto> findIfFotoIsNotNull();
 
@@ -37,9 +42,4 @@ public interface IProductoRepository extends JpaRepository<Producto, Long> {
 	@Query("from Categoria")
 	public List<Categoria> findAllCategoria();
 
-
 }
-
-
-
-

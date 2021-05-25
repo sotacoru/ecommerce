@@ -11,7 +11,7 @@ public class CorsConfiguration {
 	@Bean
 	public CorsFilter CorsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		org.springframework.web.cors.CorsConfiguration configuracion= new org.springframework.web.cors.CorsConfiguration();
+		org.springframework.web.cors.CorsConfiguration configuracion = new org.springframework.web.cors.CorsConfiguration();
 		configuracion.addAllowedOrigin("*");
 		configuracion.addAllowedHeader("*");
 		configuracion.addAllowedMethod("*");
@@ -19,6 +19,6 @@ public class CorsConfiguration {
 		configuracion.addExposedHeader("*");
 		source.registerCorsConfiguration("/**", configuracion);
 		return new CorsFilter(source);
-		
+
 	}
 }

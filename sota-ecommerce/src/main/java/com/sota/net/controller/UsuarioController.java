@@ -29,19 +29,19 @@ import com.sota.net.service.IUsuarioService;
 @RestController
 @RequestMapping("/api")
 public class UsuarioController {
-	
+
 	private IUsuarioRepository usuarioRepository;
-	
+
 	public IUsuarioRepository getUsuarioRepository() {
 		return usuarioRepository;
 	}
 
 	@Autowired
 	private IUsuarioService usuarioService;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	// MOSTRAR TODOS LOS USUARIOS
 	@GetMapping("/usuario")
 	public List<Usuario> index() {
@@ -49,7 +49,7 @@ public class UsuarioController {
 	}
 
 	// MOSTRAR USUARIO POR ID
-	@RequestMapping(value="/usuario/{idUsuario}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/usuario/{idUsuario}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> show(@PathVariable Long idUsuario) {
 		Usuario usuario = usuarioService.findById(idUsuario);
 
@@ -101,8 +101,7 @@ public class UsuarioController {
 
 	// UPDATE USUARIOS
 	@PutMapping("/usuario/{idUsuario}")
-	public ResponseEntity<?> update(@RequestBody Usuario usuario, BindingResult result,
-			@PathVariable Long idUsuario) {
+	public ResponseEntity<?> update(@RequestBody Usuario usuario, BindingResult result, @PathVariable Long idUsuario) {
 		Usuario usuarioActual = usuarioService.findById(idUsuario);
 		Usuario usuarioUpdated = null;
 
@@ -130,7 +129,6 @@ public class UsuarioController {
 			usuarioActual.setPago(usuario.getPago());
 			System.out.println("Estamos dentro del try");
 			System.out.println(usuario.getNombre());
-
 
 			usuarioUpdated = usuarioService.save(usuarioActual);
 		} catch (DataAccessException e) {

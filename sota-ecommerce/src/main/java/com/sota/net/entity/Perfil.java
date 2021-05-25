@@ -22,18 +22,18 @@ public class Perfil implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value="Id del perfil", dataType = "Long", example="1", position=1)
+	@ApiModelProperty(value = "Id del perfil", dataType = "Long", example = "1", position = 1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idperfil")
 	private Long idperfil;
 
-	@ApiModelProperty(value="Nombre del perfil del usuario", dataType = "String", example="ADMINISTRADOR", position=2)
+	@ApiModelProperty(value = "Nombre del perfil del usuario", dataType = "String", example = "ADMINISTRADOR", position = 2)
 	@Column(name = "nombreperfil")
 	@Enumerated(EnumType.STRING)
 	private UserPerfil nombreperfil;
 
-	@ApiModelProperty(value="Descripción del perfil del usuario", dataType = "String", example="Usuario con permisos absolutos", position=3)
+	@ApiModelProperty(value = "Descripción del perfil del usuario", dataType = "String", example = "Usuario con permisos absolutos", position = 3)
 	@Column(name = "descripcion")
 	private String descripcion;
 
@@ -64,6 +64,5 @@ public class Perfil implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 
 }

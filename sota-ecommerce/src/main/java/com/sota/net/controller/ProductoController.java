@@ -1,4 +1,5 @@
 package com.sota.net.controller;
+
 import com.sota.net.entity.Categoria;
 import com.sota.net.entity.Producto;
 import com.sota.net.entity.dto.ProductoBusqueda;
@@ -35,44 +36,44 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.sota.net.service.IFotoService;
 
-
 @RestController
 @RequestMapping("/api")
 public class ProductoController {
-    @Autowired
-    private IProductoService productoService;
+	@Autowired
+	private IProductoService productoService;
 	@Autowired
 	private IFotoService fotoService;
 
 	@GetMapping("/producto/stock")
-    public List<Producto> getStock(){
-        return productoService.findByStock();
+	public List<Producto> getStock() {
+		return productoService.findByStock();
 
-    }
-    @PostMapping("/producto/busqueda")
-    public ResponseEntity<?> busqueda(@RequestBody ProductoBusqueda pb, BindingResult bindingResult){
+	}
+
+	@PostMapping("/producto/busqueda")
+	public ResponseEntity<?> busqueda(@RequestBody ProductoBusqueda pb, BindingResult bindingResult) {
 
 		Map<String, Object> response = new HashMap<>();
 
 		if (comporbarBindingResult(bindingResult, response))
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		if (pb.getNombre()!=null && pb.getDescripcion()==null) {
+		if (pb.getNombre() != null && pb.getDescripcion() == null) {
 
-            return ResponseEntity.ok(productoService.findByNombre(pb.getNombre()));
+			return ResponseEntity.ok(productoService.findByNombre(pb.getNombre()));
 
-        }
-      if (pb.getNombre()!=null && pb.getDescripcion()==null) {
+		}
+		if (pb.getNombre() != null && pb.getDescripcion() == null) {
 
-          return ResponseEntity.ok(productoService.findByDescripcion(pb.getDescripcion()));
-      }
-      if (pb.getNombre()!=null && pb.getDescripcion()!=null){
-      	return  ResponseEntity.ok((productoService.findByNombreAndDescripcion(pb.getNombre(), pb.getDescripcion())));
-      }
-      if (pb.getFotoExist().booleanValue()){
-      	return  ResponseEntity.ok(productoService.findIfFotoIsNotNull());
-	  }
-        return ResponseEntity.ok( productoService.findByStock());
-    }
+			return ResponseEntity.ok(productoService.findByDescripcion(pb.getDescripcion()));
+		}
+		if (pb.getNombre() != null && pb.getDescripcion() != null) {
+			return ResponseEntity.ok((productoService.findByNombreAndDescripcion(pb.getNombre(), pb.getDescripcion())));
+		}
+		if (pb.getFotoExist().booleanValue()) {
+			return ResponseEntity.ok(productoService.findIfFotoIsNotNull());
+		}
+		return ResponseEntity.ok(productoService.findByStock());
+	}
 
 	@GetMapping("/producto/{id}")
 	public ResponseEntity<Object> show(@PathVariable Long id) {
@@ -104,7 +105,8 @@ public class ProductoController {
 
 		Map<String, Object> response = new HashMap<>();
 
-		if (comporbarBindingResult(result, response)) return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		if (comporbarBindingResult(result, response))
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		try {
 			newProducto = productoService.save(producto);
 
@@ -113,7 +115,6 @@ public class ProductoController {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 
 		response.put("mensaje", "El producto ha sido creado con exito!");
 		response.put("producto", newProducto);
@@ -129,7 +130,8 @@ public class ProductoController {
 
 		Producto productoUpdate = null;
 
-		if (comporbarBindingResult(result, response)) return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		if (comporbarBindingResult(result, response))
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
 		if (productoActual == null) {
 			response.put("mensaje", "Error, no se puede editar, el cliente con el ID:"
@@ -178,7 +180,7 @@ public class ProductoController {
 			response.put("mensaje", "El producto que intenta eliminar no existe");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
-		//Eliminar la foto
+		// Eliminar la foto
 		// TODO revisar que este correcto
 		try {
 			String foto = productoBorrar.getFoto();
@@ -197,7 +199,6 @@ public class ProductoController {
 		return ResponseEntity.ok(response);
 
 	}
-
 
 	@PostMapping("/productos/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
@@ -241,10 +242,10 @@ public class ProductoController {
 
 		return new ResponseEntity<>(recurso, cabecera, HttpStatus.OK);
 	}
+
 	@GetMapping("producto/categorias")
 	public List<Categoria> listarCategorias() {
 		return productoService.findAllCategoria();
 	}
-
 
 }
