@@ -180,18 +180,12 @@ public class ProductoController {
 			response.put("mensaje", "El producto que intenta eliminar no existe");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
-		// Eliminar la foto
-		// TODO revisar que este correcto
+		String nombreFoto = productoBorrar.getFoto();
 		try {
-			String foto = productoBorrar.getFoto();
-			if (foto != null && foto.length() > 0) {
-				Path rant = Paths.get("uploads").resolve(foto).toAbsolutePath();
-				Files.delete(rant);
-
-			}
-
+			
+			fotoService.eliminar(nombreFoto);
 			productoService.delete(id);
-		} catch (DataAccessException | IOException e) {
+		} catch (DataAccessException  e) {
 			response.put("error", "No se hay podido eliminar el producto");
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

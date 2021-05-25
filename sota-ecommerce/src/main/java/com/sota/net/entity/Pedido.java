@@ -12,10 +12,10 @@ public class Pedido implements Serializable {
     private long id;
     private Double precioTotal;
     private int realizado;
-    @JoinColumn("idusuario")
+    @JoinColumn(name = "idusuario")
     @OneToOne
     private Usuario idUsuario;
-    @JoinColumn("idpago")
+    @JoinColumn(name = "idpago")
     @OneToMany(fetch = FetchType.LAZY)
     private List<Pago> idPago;
 
