@@ -20,7 +20,7 @@ public class Categoria implements Serializable {
 
 	private String descripcion;
 
-	
+
 
 	public Categoria(long id, String nombrecategoria, String descripcion) {
 		super();
