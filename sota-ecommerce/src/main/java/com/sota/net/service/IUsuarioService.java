@@ -6,7 +6,7 @@ import com.sota.net.entity.Usuario;
 
 public interface IUsuarioService {
 
-	public Usuario findByNombre(Usuario nombre);
+	public Usuario findByEmail(String email);
 	 
 	public Usuario findById(Long idUsuario);
 	

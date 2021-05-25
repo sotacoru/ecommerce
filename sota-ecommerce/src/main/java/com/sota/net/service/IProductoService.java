@@ -19,11 +19,13 @@ public interface IProductoService {
 
 	abstract List<Producto> findByNombre(String nombre);
 	abstract List<Producto> findByDescripcion(String term);
+  
 	abstract List<Producto> findByNombreAndDescripcion(String nombre, String term);
 	abstract List<Producto> findIfFotoIsNotNull();
 	abstract List<Producto> findByNombreAndFotoIsNotNull(String foto);
 	abstract List<Producto>  findByDescripcionAndFotoIsNotNull(String descripcion);
 	abstract List<Producto>  findByDescripcionAndNombreAndFotoIsNotNull(String foto, String descripcion);
+
 	abstract List<Producto> findByStock();
 
 	abstract List<Producto> OrderByPricioMax(Double precio);

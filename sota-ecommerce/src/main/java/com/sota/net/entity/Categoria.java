@@ -8,16 +8,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "categoria")
 public class Categoria implements Serializable {
 
+	@ApiModelProperty(value="Id de la categoria", dataType = "Long", example="1", position=1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@ApiModelProperty(value="Nombre de la categoría del producto", dataType = "String", example="BEBDIAS ALCOHÓLICAS", position=2)
 	private String nombrecategoria;
 
+@ApiModelProperty(value="Descripción de la categoría", dataType = "String", example="Bebidas con porcentaje de alcohol superior al 0%", position=3)
 	private String descripcion;
 
 
