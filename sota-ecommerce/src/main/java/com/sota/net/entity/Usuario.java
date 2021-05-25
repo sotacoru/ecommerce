@@ -22,6 +22,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.sota.net.model.UserPerfil;
+
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
@@ -166,7 +168,7 @@ public class Usuario implements Serializable, UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
 		@SuppressWarnings("static-access")
-		List<GrantedAuthority> auths = Arrays.asList(perfil.getNombreperfil().values()).stream().map(ur -> new SimpleGrantedAuthority("ROLE_" + ur.name())).collect(Collectors.toList());
+		List<GrantedAuthority> auths = Arrays.asList(UserPerfil.values()).stream().map(ur -> new SimpleGrantedAuthority("ROLE_" + ur.name())).collect(Collectors.toList());
 		return auths;
 		// @formatter:off
 		// @formatter:on
@@ -182,7 +184,7 @@ public class Usuario implements Serializable, UserDetails {
 
 	@Override
 	public String getUsername() {
-		return nombre;
+		return email;
 	}
 
 
