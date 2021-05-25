@@ -4,9 +4,13 @@ package com.sota.net.entity.dto;
 import org.springframework.stereotype.Component;
 
 import com.sota.net.entity.Usuario;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Component
+@RequiredArgsConstructor
 public class UsuarioDtoConverter {
 	
 	private PasswordEncoder passEncoder;

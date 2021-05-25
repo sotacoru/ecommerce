@@ -11,9 +11,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,29 +28,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sota.net.configuration.security.JwtProvider;
 import com.sota.net.entity.Usuario;
 import com.sota.net.entity.dto.GetUsuarioDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
+import com.sota.net.model.JwtUserResponse;
+import com.sota.net.model.LoginRequest;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class UsuarioController {
 
-	private IUsuarioRepository usuarioRepository;
-	
-	private UsuarioDtoConverter usuarioDtoConverter;
+	private final IUsuarioRepository usuarioRepository;
+	private final UsuarioDtoConverter usuarioDtoConverter;
 
+	private final IUsuarioService usuarioService;
+	private final PasswordEncoder passwordEncoder;
+	
+	private final AuthenticationManager authenticationManager;
+	private final JwtProvider jwtProvider;
+	
 	public IUsuarioRepository getUsuarioRepository() {
 		return usuarioRepository;
 	}
-
-	@Autowired
-	private IUsuarioService usuarioService;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	
 
 	// MOSTRAR TODOS LOS USUARIOS
 	@GetMapping("/usuario")
@@ -146,9 +157,39 @@ public class UsuarioController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/me")
+	@PostMapping("/login/prueba")
+	public ResponseEntity<JwtUserResponse> loginPrueba(@RequestBody LoginRequest loginRequest) {
+		Authentication authentication =
+				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+						loginRequest.getEmail(),
+						loginRequest.getContraseña()
+						));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		Usuario nuevoUsuario = (Usuario) authentication.getPrincipal();
+		String jwtToken = jwtProvider.generateToken(authentication);
+		
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(convertUserEntityAndTokenToJwtUserResponse(nuevoUsuario, jwtToken));
+	}
+
+	
 	public GetUsuarioDto yo(@AuthenticationPrincipal Usuario usuario) {
 		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);
+	}
+
+	private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario nuevoUsuario, String jwtToken) {
+		return JwtUserResponse
+				.jwtUserResponseBuilder()
+				.nombre(nuevoUsuario.getNombre())
+				.primerApellido(nuevoUsuario.getPrimerapellido())
+				.segundoApellido(nuevoUsuario.getSegundoapellido())
+				.email(nuevoUsuario.getEmail())
+				.perfil(nuevoUsuario.getPerfil())
+				.pago(nuevoUsuario.getPago())
+				.token(jwtToken)
+				.build();
+				
 	}
 
 }
