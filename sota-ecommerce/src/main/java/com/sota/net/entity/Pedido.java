@@ -2,77 +2,78 @@ package com.sota.net.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "pedido")
 public class Pedido implements Serializable {
-   
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private Double precioTotal;
-    private int realizado;
-    @JoinColumn(name = "idusuario")
-    @OneToOne
-    private Usuario idUsuario;
-    @JoinColumn(name = "idpago")
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Pago> idPago;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	private Double precioTotal;
+	private int realizado;
 
-    public Pedido(long id, Double precioTotal, int realizado, Usuario idUsuario, List<Pago> idPago) {
-        this.id = id;
-        this.precioTotal = precioTotal;
-        this.realizado = realizado;
-        this.idUsuario = idUsuario;
-        this.idPago = idPago;
-    }
+	@JoinColumn(name = "idusuario")
+	@OneToOne
+	private Usuario idUsuario;
 
-    public Pedido() {
-    }
+	@JoinColumn(name = "idpago")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Pago idPago;
 
-    public long getId() {
-        return id;
-    }
+	public Pedido(long id, Double precioTotal, int realizado, Usuario idUsuario, Pago idPago) {
+		this.id = id;
+		this.precioTotal = precioTotal;
+		this.realizado = realizado;
+		this.idUsuario = idUsuario;
+		this.idPago = idPago;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public Pedido() {
+	}
 
-    public Double getPrecioTotal() {
-        return precioTotal;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setPrecioTotal(Double precioTotal) {
-        this.precioTotal = precioTotal;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public int getRealizado() {
-        return realizado;
-    }
+	public Double getPrecioTotal() {
+		return precioTotal;
+	}
 
-    public void setRealizado(int realizado) {
-        this.realizado = realizado;
-    }
+	public void setPrecioTotal(Double precioTotal) {
+		this.precioTotal = precioTotal;
+	}
 
-    public Usuario getIdUsuario() {
-        return idUsuario;
-    }
+	public int getRealizado() {
+		return realizado;
+	}
 
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+	public void setRealizado(int realizado) {
+		this.realizado = realizado;
+	}
 
-    public List<Pago> getIdPago() {
-        return idPago;
-    }
+	public Usuario getIdUsuario() {
+		return idUsuario;
+	}
 
-    public void setIdPago(List<Pago> idPago) {
-        this.idPago = idPago;
-    }
-    
-    /**
-   	 * 
-   	 */
-   	private static final long serialVersionUID = 1L;
+	public void setIdUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public Pago getIdPago() {
+		return idPago;
+	}
+
+	public void setIdPago(Pago idPago) {
+		this.idPago = idPago;
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 }
