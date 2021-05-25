@@ -66,6 +66,19 @@ public class Usuario implements Serializable, UserDetails {
 
 
 
+	public Usuario(String nombre, String primerapellido, String segundoapellido, String email,
+			String contraseña, Perfil perfil, Pago pago) {
+		this.nombre = nombre;
+		this.primerapellido = primerapellido;
+		this.segundoapellido = segundoapellido;
+		this.email = email;
+		this.contraseña = contraseña;
+		this.perfil = perfil;
+		this.pago = pago;
+	}
+
+
+
 	public Long getIdusuario() {
 		return idUsuario;
 	}
@@ -170,7 +183,7 @@ public class Usuario implements Serializable, UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
 		@SuppressWarnings("static-access")
-		List<GrantedAuthority> auths = Arrays.asList(UserPerfil.values()).stream().map(ur -> new SimpleGrantedAuthority("ROLE_" + ur.name())).collect(Collectors.toList());
+		List<GrantedAuthority> auths = Arrays.asList(UserPerfil.values()).stream().map(ur -> new SimpleGrantedAuthority("ROL_" + ur.name())).collect(Collectors.toList());
 		return auths;
 		// @formatter:off
 		// @formatter:on

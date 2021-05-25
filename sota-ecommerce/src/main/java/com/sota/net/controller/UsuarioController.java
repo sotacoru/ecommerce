@@ -1,6 +1,7 @@
 package com.sota.net.controller;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,6 +38,8 @@ public class UsuarioController {
 
 	@Autowired
 	private IUsuarioService usuarioService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	// MOSTRAR TODOS LOS USUARIOS
@@ -81,7 +84,9 @@ public class UsuarioController {
 		}
 
 		try {
-			usuario.setContraseña(passwordEncoder.encode(usuario.getPassword()));
+			System.out.println(usuario.getContraseña());
+			usuario.setContraseña(passwordEncoder.encode(usuario.getPassword()).toString());
+			System.out.println(usuario.getContraseña());
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert");
