@@ -5,9 +5,12 @@ public class ProductoBusqueda {
 
     private String descripcion;
 
-    public ProductoBusqueda(String nombre, String descripcion) {
+    private Boolean fotoExist;
+
+    public ProductoBusqueda(String nombre, String descripcion, boolean fotoExist) {
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.fotoExist = fotoExist;
     }
 
     public ProductoBusqueda() {
@@ -27,5 +30,12 @@ public class ProductoBusqueda {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    public Boolean getFotoExist() {
+        return fotoExist;
+    }
+
+    public void setFotoExist(Boolean fotoExist) {
+        this.fotoExist = fotoExist;
     }
 }

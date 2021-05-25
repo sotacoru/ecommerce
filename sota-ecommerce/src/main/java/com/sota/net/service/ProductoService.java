@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service("productoService")
 public class ProductoService implements IProductoService {
@@ -49,16 +48,37 @@ public class ProductoService implements IProductoService {
 		return rep.findByDescripcion(term);
 	}
 
+	@Override
+	public List<Producto> findByNombreAndDescripcion(String nombre, String term) {
+		return rep.findByNombreAndDescripcion(nombre, term);
+	}
+
+	@Override
+	public List<Producto> findIfFotoIsNotNull() {
+		return rep.findIfFotoIsNotNull();
+	}
+
+	@Override
+	public List<Producto> findByNombreAndFotoIsNotNull(String nombre) {
+		return rep.findByNombreAndFotoNotNull(nombre);
+	}
+
+	@Override
+	public List<Producto> findByDescripcionAndFotoIsNotNull(String term) {
+		return rep.findByDescripcionAndFotoNotNull(term);
+	}
+
+	@Override
+	public List<Producto> findByDescripcionAndNombreAndFotoIsNotNull(String nombre, String term) {
+		return rep.findByNombreAndDescripcionAndFotoNotNull(nombre, term);
+	}
+
 
 	@Override
 	public List<Producto> findByStock() {
 		return rep.findByStock();
 	}
 
-	@Override
-	public List<Producto> OrderByNombre(String nombre) {
-		return rep.orderByNombre(nombre);
-	}
 
 	@Override
 	public List<Producto> OrderByPricioMax(Double precio) {
