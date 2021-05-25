@@ -23,13 +23,13 @@ public class UsuarioServiceImpl implements IUsuarioService{
 
 	@Override
 	public Usuario save(Usuario usuario) {
-		return null;
+		return usuarioRepository.save(usuario);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public List<Usuario> findAll() {
-		return (List<Usuario>) usuarioRepository.findAllUsuarios();
+		return (List<Usuario>) usuarioRepository.findAll();
 	}
 
 	@Override

@@ -25,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.sota.net.model.UserPerfil;
 
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -34,7 +35,7 @@ public class Usuario implements Serializable, UserDetails {
 	@ApiModelProperty(value="ID del usuario", dataType = "long", example="1", position=1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idusuario;
+	private Long idUsuario;
 
 	@ApiModelProperty(value="Nombre del usuario", dataType = "String", example="Pepe", position=2)
 	private String nombre;
@@ -53,6 +54,7 @@ public class Usuario implements Serializable, UserDetails {
 	private String contraseña;
 
 	@ApiModelProperty(value="Perfil asociado al usuario", dataType = "Perfil", example="ADMINISTRADOR", position=7)
+	@JsonSerialize
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idperfil")
 	private Perfil perfil;
@@ -65,13 +67,13 @@ public class Usuario implements Serializable, UserDetails {
 
 
 	public Long getIdusuario() {
-		return idusuario;
+		return idUsuario;
 	}
 
 
 
 	public void setIdusuario(Long idusuario) {
-		this.idusuario = idusuario;
+		this.idUsuario = idusuario;
 	}
 
 
@@ -166,7 +168,7 @@ public class Usuario implements Serializable, UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
+
 		@SuppressWarnings("static-access")
 		List<GrantedAuthority> auths = Arrays.asList(UserPerfil.values()).stream().map(ur -> new SimpleGrantedAuthority("ROLE_" + ur.name())).collect(Collectors.toList());
 		return auths;
