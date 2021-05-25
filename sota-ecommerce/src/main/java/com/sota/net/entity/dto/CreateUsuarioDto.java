@@ -15,8 +15,6 @@ public class CreateUsuarioDto {
 	private Perfil perfil;
 	private Pago pago;
 	
-	
-	
 	public CreateUsuarioDto() {
 	}
 	
@@ -94,7 +92,5 @@ public class CreateUsuarioDto {
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-	
-	
 	
 }

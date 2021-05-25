@@ -1,6 +1,5 @@
 package com.sota.net.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,15 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.sota.net.entity.Usuario;
 
+import lombok.RequiredArgsConstructor;
+
 @Service("UserDetailsService")
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService{
 
-	@Autowired
 	private UsuarioServiceImpl usuarioService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
 		
 		Usuario u = usuarioService.findByEmail(username);
 		
@@ -25,6 +25,16 @@ public class CustomUserDetailsService implements UserDetailsService{
 		}
 		
 		return (UserDetails) new UsernameNotFoundException(username + " no encontrado");
+	}
+	
+	public UserDetails loadUserById(Long id) throws UsernameNotFoundException{
+		Usuario u = usuarioService.findById(id);
+		
+		if(u!=null) {
+			return u;
+		}
+		
+		return (UserDetails) new UsernameNotFoundException("ID: " + id + " no encontrado");
 	}
 	
 }
