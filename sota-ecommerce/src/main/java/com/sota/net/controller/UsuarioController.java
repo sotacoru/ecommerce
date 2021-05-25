@@ -11,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sota.net.entity.Usuario;
+import com.sota.net.entity.dto.GetUsuarioDto;
+import com.sota.net.entity.dto.UsuarioDtoConverter;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
 
@@ -31,6 +34,8 @@ import com.sota.net.service.IUsuarioService;
 public class UsuarioController {
 
 	private IUsuarioRepository usuarioRepository;
+	
+	private UsuarioDtoConverter usuarioDtoConverter;
 
 	public IUsuarioRepository getUsuarioRepository() {
 		return usuarioRepository;
@@ -84,9 +89,7 @@ public class UsuarioController {
 		}
 
 		try {
-			System.out.println(usuario.getContraseña());
 			usuario.setContraseña(passwordEncoder.encode(usuario.getPassword()).toString());
-			System.out.println(usuario.getContraseña());
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert");
@@ -141,6 +144,11 @@ public class UsuarioController {
 		response.put("usuario", usuarioUpdated);
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/me")
+	public GetUsuarioDto yo(@AuthenticationPrincipal Usuario usuario) {
+		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);
 	}
 
 }

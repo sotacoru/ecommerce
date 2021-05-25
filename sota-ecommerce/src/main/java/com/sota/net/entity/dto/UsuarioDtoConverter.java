@@ -7,7 +7,7 @@ import com.sota.net.entity.Usuario;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Component
-public class UsarioDtoConverter {
+public class UsuarioDtoConverter {
 	
 	private PasswordEncoder passEncoder;
 
