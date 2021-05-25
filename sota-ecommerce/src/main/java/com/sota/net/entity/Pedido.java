@@ -7,7 +7,8 @@ import java.util.List;
 @Entity
 @Table(name = "pedido")
 public class Pedido implements Serializable {
-    @Id
+   
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private Double precioTotal;
@@ -69,4 +70,9 @@ public class Pedido implements Serializable {
     public void setIdPago(List<Pago> idPago) {
         this.idPago = idPago;
     }
+    
+    /**
+   	 * 
+   	 */
+   	private static final long serialVersionUID = 1L;
 }
