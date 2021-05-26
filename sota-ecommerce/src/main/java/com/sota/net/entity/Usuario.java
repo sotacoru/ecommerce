@@ -131,12 +131,13 @@ public class Usuario implements Serializable, UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-
+		// @formatter:off
+		
 		@SuppressWarnings("static-access")
 		List<GrantedAuthority> auths = Arrays.asList(UserPerfil.values()).stream()
-				.map(ur -> new SimpleGrantedAuthority("ROL_" + ur.name())).collect(Collectors.toList());
+				.map(ur -> new SimpleGrantedAuthority(ur.name())).collect(Collectors.toList());
 		return auths;
-		// @formatter:off
+		
 		// @formatter:on
 	}
 

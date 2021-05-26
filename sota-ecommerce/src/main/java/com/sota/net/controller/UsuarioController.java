@@ -164,9 +164,6 @@ public class UsuarioController {
 
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> loginPrueba(@RequestBody LoginRequest loginRequest) {
-		System.out.println("hola");
-		System.out.println(loginRequest.getEmail());
-		System.out.println(loginRequest.getContraseña());
 		Authentication authentication =
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 						loginRequest.getEmail(),
@@ -174,6 +171,7 @@ public class UsuarioController {
 						));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
+		System.out.println("dlnssd,mnds,mndsds,b");
 		Usuario nuevoUsuario = (Usuario) authentication.getPrincipal();
 		String jwtToken = jwtProvider.generateToken(authentication);
 
@@ -182,7 +180,9 @@ public class UsuarioController {
 	}
 
 
+	@GetMapping("/yo")
 	public GetUsuarioDto yo(@AuthenticationPrincipal Usuario usuario) {
+		
 		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);
 	}
 

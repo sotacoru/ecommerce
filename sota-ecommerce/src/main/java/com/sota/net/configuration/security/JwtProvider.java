@@ -57,29 +57,23 @@ public class JwtProvider {
 	}
 	
 	public boolean validateToken(String authToken) {
-
 		try {
 			
 			Jwts.parser().setSigningKey(jwtSecreto.getBytes()).parseClaimsJws(authToken);
 			
 		}catch(SignatureException ex) {
-			
 			//Error en la firma del token JWT
 			
 		}catch(MalformedJwtException ex) {
-			
 			//Token malformado
 			
 		}catch(ExpiredJwtException ex) {
-			
 			//El token ha expirado
 			
 		}catch(UnsupportedJwtException ex) {
-			
 			//Token JWT no soportado
 			
 		}catch(IllegalArgumentException ex) {
-			
 			//JWT claims vacío
 			
 		}

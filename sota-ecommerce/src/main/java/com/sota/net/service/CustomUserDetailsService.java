@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sota.net.entity.Usuario;
@@ -15,14 +16,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService{
 
-	private UsuarioServiceImpl usuarioService;
+	private final UsuarioServiceImpl usuarioService;
+	private final PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		System.out.println(email);
 		Usuario u = usuarioService.findByEmail(email);
-		System.out.println("fjdfkdfldfkdflk");
+		
 		if(u!=null) {
+			u.setPassword(passwordEncoder.encode(u.getPassword()));
 			return u;
 		}
 

@@ -24,23 +24,26 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter{
 	private final JwtProvider tokenProvider;
 	private final CustomUserDetailsService UserDetailsService;
 	
+	//Funciona
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
 		try {
-			
 			String token = getJwtFromRequest(request);
 			
 			if(StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
 				Long idUsuario = tokenProvider.getUserIdFromJWT(token);
 				Usuario usuario = (Usuario) UserDetailsService.loadUserById(idUsuario);
+				System.out.println(usuario.getAuthorities());
 				UsernamePasswordAuthenticationToken authentication =
 						new UsernamePasswordAuthenticationToken(usuario, usuario.getPerfil().getNombreperfil(), usuario.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetails(request));
 			}
 			
 		}catch(Exception ex) {
+			System.out.println("No funciona");
 			//NO se pudo autenticar el usuario en contexto de seguridad
 		}
 		
