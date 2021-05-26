@@ -19,12 +19,10 @@ export class HeaderComponent implements OnInit {
                 label: 'Productos',
                 items: [
                   {label: 'Categorias'}
-                      ]
+                ],
+                routerLink: ['/pedidos']
             },
-            {
-                label: 'Log In',
-                icon: 'pi pi-fw pi-users'
-            },
+            {label: 'Log In', icon: 'pi pi-fw pi-users', routerLink: ['/login']}
         ];
   }
 
