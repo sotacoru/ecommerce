@@ -9,37 +9,37 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class UsuarioServiceImpl implements IUsuarioService {
+public class UsuarioServiceImpl implements IUsuarioService{
 
-    @Autowired
-    private IUsuarioRepository usuarioRepository;
+	@Autowired
+	private IUsuarioRepository usuarioRepository;
 
-    @Override
-    public Usuario save(Usuario usuario) {
-        return this.usuarioRepository.save(usuario);
-    }
+	@Override
+	@Transactional(readOnly=true)
+	public Usuario findByEmail(String email) {
+		return usuarioRepository.findByEmail(email);
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Usuario> findAll() {
-        return (List<Usuario>) this.usuarioRepository.findAll();
-    }
+	@Override
+	public Usuario save(Usuario usuario) {
+		return usuarioRepository.save(usuario);
+	}
 
-    @Override
-    public void deleteUsuarioById(Long idUsuario) {
-        this.usuarioRepository.deleteById(idUsuario);
-    }
+	@Override
+	@Transactional(readOnly=true)
+	public List<Usuario> findAll() {
+		return (List<Usuario>) usuarioRepository.findAll();
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public Usuario findByEmail(String email) {
-        return null;
-    }
+	@Override
+	public void deleteUsuarioById(Long idUsuario) {
+		usuarioRepository.deleteById(idUsuario);
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public Usuario findById(Long idUsuario) {
-        return this.usuarioRepository.findById(idUsuario).orElse(null);
-    }
+	@Override
+	@Transactional(readOnly=true)
+	public Usuario findById(Long idUsuario) {
+		return usuarioRepository.findById(idUsuario).orElse(null);
+	}
 
 }
