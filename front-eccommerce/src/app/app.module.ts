@@ -15,11 +15,15 @@ import { PedidosComponent } from './pedidos/pedidos.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { VistaPerfilUsuarioComponent } from './vista-perfil-usuario/vista-perfil-usuario.component';
+
 import { DetalleProductosComponent } from './detalle-productos/detalle-productos.component';
 import { LoginRegisComponent } from './login-regis/login-regis.component';
 
+import { ProductosComponent } from './productos/productos.component';
+import { FormComponent } from './productos/form.component';
+
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     HeaderComponent,
     FooterComponent,
@@ -29,7 +33,9 @@ import { LoginRegisComponent } from './login-regis/login-regis.component';
     VistaPerfilUsuarioComponent,
     DetalleProductosComponent,
     LoginRegisComponent
-  ],
+    ProductosComponent,
+    FormComponent,
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
