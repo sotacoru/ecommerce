@@ -1,7 +1,6 @@
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
-.mvn/wrapper/MavenWrapperDownloader.java
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -20,7 +19,6 @@ src/main/resources/application.properties
 *.iws
 *.iml
 *.ipr
-.metadata
 
 ### NetBeans ###
 /nbproject/private/

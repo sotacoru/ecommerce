@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SotaEcommerceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SotaEcommerceApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(SotaEcommerceApplication.class, args);
+	}
 
 }
