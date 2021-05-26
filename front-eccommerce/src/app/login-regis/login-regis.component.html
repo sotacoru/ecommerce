@@ -1,22 +1,17 @@
-<div class="card border-primary text-center p1 p-grid" >
+<div class="card border-primary text-center p1" >
 
-  <div class="botones p-grid p-col-6">
-    <div class="p-col-6">
+  <div class="botones">
       <input type="submit" (click)='isLogin = true' class="btn btn-lg btn-primary btn-block" value="Login">
-    </div>
-    <div class="p-col-6">
       <input type="submit" (click)='isLogin = false' class="btn btn-lg btn-primary btn-block" value="Registrarse">
-    </div>
   </div>
 
-<div class="formularios">
+<div class="formularios" height=80%>
   <div *ngIf="isLogin">
-  <div class="card-header">{{titulo}}</div>
   <div class="card-body">
     <form method="post">
       <div class="form-group col-sm-6">
         <input type="text" [(ngModel)]="usuario.nombre" class="form-control"
-        placeholder="Nombre de usuario" name="username" id="username" autofocus required>
+        placeholder="Nombre de usuario" name="username" id="username" autofocus required/>
       </div>
       <br>
 
@@ -35,7 +30,6 @@
 </div>
 
 <div *ngIf="!isLogin">
-  <div class="card-header">{{titulo2}}</div>
   <div class="card-body">
     <form method="post">
       <div class="form-group col-sm-6">
@@ -81,4 +75,3 @@
 </div>
 
 <div>
-</div>
