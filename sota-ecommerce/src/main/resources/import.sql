@@ -1,4 +1,3 @@
-
 INSERT INTO pago(tipoPago, descripcion) VALUES('TARJETA','Tipo a de pago en el cual puedes usar tanto tu tarjeta de crédito como débito');
 INSERT INTO pago(tipoPago, descripcion) VALUES('CONTRAREEMBOLSO','Tipo de pago que funciona pagando en mano a la empresa que entrega el paquete');
 
@@ -70,4 +69,3 @@ INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) 
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Ghee Mantequilla Clarificada 100% natural Vegetalia ", 8.90, "Ghe Mantequilla Clarificada 100% Natural Vegetalia. Elaborado con leche de vaca.", 12, null, 8);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Queso vegano Vegancheese ahumado Grano vita 200 g", 2.88, "Delicioso 'queso vegano' de anacardo, ideal para tomar en crudo como para cocinar, con suave y cremosa textura.", 4, null, 8);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Queso vegano Veggieques lonchas BIO Natursoy, 150 g", 2.72, "Ingredientes: Agua, grasa de coco*(20%), almidón de patata*, harina de ALTRAMUZ*, sal marina, espesantes: goma xantana y agar-agar*, extracto de cúrcuma*, aromas naturales.", 10, null, 8);
-

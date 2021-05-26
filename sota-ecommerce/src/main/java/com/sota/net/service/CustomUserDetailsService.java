@@ -1,5 +1,7 @@
 package com.sota.net.service;
 
+import com.sota.net.entity.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,18 +25,18 @@ public class CustomUserDetailsService implements UserDetailsService{
 		if(u!=null) {
 			return u;
 		}
-		
+
 		return (UserDetails) new UsernameNotFoundException(email + " no encontrado");
 	}
-	
+
 	public UserDetails loadUserById(Long id) throws UsernameNotFoundException{
 		Usuario u = usuarioService.findById(id);
-		
+
 		if(u!=null) {
 			return u;
 		}
-		
+
 		return (UserDetails) new UsernameNotFoundException("ID: " + id + " no encontrado");
 	}
-	
+
 }

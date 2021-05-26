@@ -1,11 +1,10 @@
 package com.sota.net.controller;
 
-import java.util.HashMap;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import com.sota.net.entity.Usuario;
+import com.sota.net.repository.IUsuarioRepository;
+import com.sota.net.service.IUsuarioService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -49,14 +48,14 @@ public class UsuarioController {
 
 	private final IUsuarioService usuarioService;
 	private final PasswordEncoder passwordEncoder;
-	
+
 	private final AuthenticationManager authenticationManager;
 	private final JwtProvider jwtProvider;
-	
+
 	public IUsuarioRepository getUsuarioRepository() {
 		return usuarioRepository;
 	}
-	
+
 
 	// MOSTRAR TODOS LOS USUARIOS
 	@GetMapping("/usuario")
@@ -156,7 +155,7 @@ public class UsuarioController {
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> loginPrueba(@RequestBody LoginRequest loginRequest) {
 		System.out.println("hola");
@@ -168,15 +167,15 @@ public class UsuarioController {
 						loginRequest.getContraseña()
 						));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+
 		Usuario nuevoUsuario = (Usuario) authentication.getPrincipal();
 		String jwtToken = jwtProvider.generateToken(authentication);
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(convertUserEntityAndTokenToJwtUserResponse(nuevoUsuario, jwtToken));
 	}
 
-	
+
 	public GetUsuarioDto yo(@AuthenticationPrincipal Usuario usuario) {
 		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);
 	}
@@ -192,7 +191,7 @@ public class UsuarioController {
 				.pago(nuevoUsuario.getPago())
 				.token(jwtToken)
 				.build();
-				
+
 	}
 
 }

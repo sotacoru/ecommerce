@@ -1,35 +1,13 @@
 package com.sota.net.entity;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import com.sota.net.model.UserPerfil;
-
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "usuario")
+<<<<<<< HEAD
 public class Usuario implements Serializable, UserDetails {
 
 	@ApiModelProperty(value = "ID del usuario", dataType = "long", example = "1", position = 1)
@@ -180,4 +158,5 @@ public class Usuario implements Serializable, UserDetails {
 	public Usuario() {
 	}
 
+    private static final long serialVersionUID = 1L;
 }

@@ -1,20 +1,19 @@
 package com.sota.net.service;
 
-import java.util.List;
-
+import com.sota.net.entity.Usuario;
+import com.sota.net.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sota.net.entity.Usuario;
-import com.sota.net.repository.IUsuarioRepository;
+import java.util.List;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService{
 
 	@Autowired
 	private IUsuarioRepository usuarioRepository;
-	
+
 	@Override
 	@Transactional(readOnly=true)
 	public Usuario findByEmail(String email) {
@@ -42,5 +41,5 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	public Usuario findById(Long idUsuario) {
 		return usuarioRepository.findById(idUsuario).orElse(null);
 	}
-	
+
 }
