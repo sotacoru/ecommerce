@@ -1,4 +1,7 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
 import { BrowserModule } from '@angular/platform-browser';
 
 import {MenubarModule} from 'primeng/menubar';
@@ -10,10 +13,10 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { FormLoginRegistroComponent } from './form-login-registro/form-login-registro.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { VistaPerfilUsuarioComponent } from './vista-perfil-usuario/vista-perfil-usuario.component';
 import { DetalleProductosComponent } from './detalle-productos/detalle-productos.component';
+import { LoginRegisComponent } from './login-regis/login-regis.component';
 
 @NgModule({
   declarations: [
@@ -22,15 +25,17 @@ import { DetalleProductosComponent } from './detalle-productos/detalle-productos
     FooterComponent,
     PedidosComponent,
     UsuariosComponent,
-    FormLoginRegistroComponent,
     CarritoComponent,
     VistaPerfilUsuarioComponent,
-    DetalleProductosComponent
+    DetalleProductosComponent,
+    LoginRegisComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MenubarModule
+    MenubarModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
