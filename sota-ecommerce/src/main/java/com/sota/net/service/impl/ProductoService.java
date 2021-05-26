@@ -70,14 +70,14 @@ public class ProductoService extends QueryService implements IProductoService {
             return specification;
         }
         if (criteria.getNombre() != null) {
-            specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
+           specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
         }
         if (criteria.getDescripcion() != null) {
             specification =
-                  specification.and(this.buildStringSpecification(criteria.getDescripcion(), Producto_.descripcion));
+                 specification.and(this.buildStringSpecification(criteria.getDescripcion(), Producto_.descripcion));
         }
         if (criteria.getHaveFoto() != null) {
-           specification = specification.and(this.buildSpecification(criteria.getHaveFoto(), Producto_.foto));
+          specification = specification.and(this.buildSpecification(criteria.getHaveFoto(), Producto_.foto));
         }
 
 
