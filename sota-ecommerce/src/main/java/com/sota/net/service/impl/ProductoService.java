@@ -1,10 +1,11 @@
-package com.sota.net.service;
+package com.sota.net.service.impl;
 
 import com.sota.net.entity.Categoria;
 import com.sota.net.entity.Producto;
 import com.sota.net.entity.Producto_;
 import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.repository.IProductoRepository;
+import com.sota.net.service.IProductoService;
 import com.sota.net.utils.busqueda.ProductoCriteria;
 import io.github.jhipster.service.QueryService;
 import io.github.jhipster.service.filter.StringFilter;
@@ -45,6 +46,11 @@ public class ProductoService extends QueryService implements IProductoService {
     @Override
     public List<Categoria> findAllCategoria() {
         return this.rep.findAllCategoria();
+    }
+
+    @Override
+    public List<Producto> findByCategoria(String categoria) {
+        return this.rep.findByCategoria(categoria);
     }
 
     @Override

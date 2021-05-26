@@ -1,6 +1,7 @@
 package com.sota.net.service;
 
 import com.sota.net.entity.Usuario;
+import com.sota.net.service.impl.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
