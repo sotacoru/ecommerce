@@ -22,7 +22,7 @@ public class Usuario implements Serializable {
     @Column(unique = true)
     private String email;
 
-    private String contrasenha;
+    private String password;
 
     @JsonSerialize
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,7 +35,7 @@ public class Usuario implements Serializable {
 
 
     public Long getIdusuario() {
-        return idUsuario;
+        return this.idUsuario;
     }
 
 
@@ -45,7 +45,7 @@ public class Usuario implements Serializable {
 
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
 
@@ -55,7 +55,7 @@ public class Usuario implements Serializable {
 
 
     public String getPrimerapellido() {
-        return primerapellido;
+        return this.primerapellido;
     }
 
 
@@ -65,7 +65,7 @@ public class Usuario implements Serializable {
 
 
     public String getSegundoapellido() {
-        return segundoapellido;
+        return this.segundoapellido;
     }
 
 
@@ -75,7 +75,7 @@ public class Usuario implements Serializable {
 
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
 
@@ -84,18 +84,18 @@ public class Usuario implements Serializable {
     }
 
 
-    public String getContrasenha() {
-        return contrasenha;
+    public String getPassword() {
+        return this.password;
     }
 
 
-    public void setContrasenha(String contrasenha) {
-        this.contrasenha = contrasenha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 
     public Perfil getPerfil() {
-        return perfil;
+        return this.perfil;
     }
 
 
@@ -105,7 +105,7 @@ public class Usuario implements Serializable {
 
 
     public Pago getPago() {
-        return pago;
+        return this.pago;
     }
 
 
