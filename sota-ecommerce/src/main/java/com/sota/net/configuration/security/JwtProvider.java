@@ -42,8 +42,8 @@ public class JwtProvider {
 			.setSubject(Long.toString(usuario.getIdusuario()))
 			.setIssuedAt(new Date())
 			.setExpiration(tokenExpirationDate)
-			.claim("nombre", usuario.getEmail())
-			.claim("roles", usuario.getPerfil().getNombreperfil())
+			.claim("email", usuario.getEmail())
+			.claim("rol", usuario.getPerfil().getNombreperfil())
 			.compact();
 	}
 	
@@ -60,7 +60,7 @@ public class JwtProvider {
 		try {
 			
 			Jwts.parser().setSigningKey(jwtSecreto.getBytes()).parseClaimsJws(authToken);
-			
+			return true;
 		}catch(SignatureException ex) {
 			//Error en la firma del token JWT
 			
@@ -78,6 +78,6 @@ public class JwtProvider {
 			
 		}
 		
-		return true;
+		return false;
 	}
 }

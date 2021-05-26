@@ -4,9 +4,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sota.net.model.UserPerfil;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +23,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
+@Data 
 @Table(name = "usuario")
 public class Usuario implements Serializable, UserDetails {
 
@@ -135,7 +142,7 @@ public class Usuario implements Serializable, UserDetails {
 		
 		@SuppressWarnings("static-access")
 		List<GrantedAuthority> auths = Arrays.asList(UserPerfil.values()).stream()
-				.map(ur -> new SimpleGrantedAuthority(ur.name())).collect(Collectors.toList());
+				.map(ur -> new SimpleGrantedAuthority("ROLE_"+ur.name())).collect(Collectors.toList());
 		return auths;
 		
 		// @formatter:on
