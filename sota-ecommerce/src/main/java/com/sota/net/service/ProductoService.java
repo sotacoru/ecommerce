@@ -2,7 +2,7 @@ package com.sota.net.service;
 
 import com.sota.net.entity.Categoria;
 import com.sota.net.entity.Producto;
-import com.sota.net.entity.Producto_;
+//import com.sota.net.entity.Producto_;
 import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.repository.IProductoRepository;
 import com.sota.net.utils.busqueda.ProductoCriteria;
@@ -46,6 +46,7 @@ public class ProductoService extends QueryService implements IProductoService {
     public List<Categoria> findAllCategoria() {
         return this.rep.findAllCategoria();
     }
+    /*
 
     @Override
     public List<Producto> findWithFilter(ProductoBusqueda dto) {
@@ -117,5 +118,29 @@ public class ProductoService extends QueryService implements IProductoService {
         return this.rep.orderByPricioMin(precio);
     }
 
+*/
 
+	@Override
+	public List<Producto> findWithFilter(ProductoBusqueda dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Producto> findByStock() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Producto> OrderByPricioMax(Double precio) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Producto> OrderByPricioMin(Double precio) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
