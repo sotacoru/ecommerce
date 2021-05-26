@@ -104,7 +104,6 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-<<<<<<< HEAD
 		<dependency>
     		<groupId>io.jsonwebtoken</groupId>
     		<artifactId>jjwt-impl</artifactId>
@@ -128,9 +127,6 @@
 			<version>1.18.20</version>
 			<scope>provided</scope>
 		</dependency>
-=======
-
->>>>>>> master
 	</dependencies>
 
 	<build>

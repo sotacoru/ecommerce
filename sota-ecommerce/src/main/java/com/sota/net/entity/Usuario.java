@@ -1,13 +1,24 @@
 package com.sota.net.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.sota.net.model.UserPerfil;
+
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "usuario")
-<<<<<<< HEAD
 public class Usuario implements Serializable, UserDetails {
 
 	@ApiModelProperty(value = "ID del usuario", dataType = "long", example = "1", position = 1)
@@ -117,7 +128,6 @@ public class Usuario implements Serializable, UserDetails {
 		this.pago = pago;
 	}
 
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
