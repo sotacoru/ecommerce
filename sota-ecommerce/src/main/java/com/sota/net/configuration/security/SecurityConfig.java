@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/api/producto/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/administracion/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/yo").permitAll()
+				.antMatchers(HttpMethod.GET, "/administracion/uploads/img/**").permitAll()
 				.anyRequest().authenticated();
 		
 		//Filtro

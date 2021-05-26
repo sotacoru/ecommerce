@@ -192,7 +192,7 @@ public class ProductoController {
     }
 
 
-    @PostMapping("/administracion//productos/upload")
+    @PostMapping("/administracion/productos/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
         Map<String, Object> response = new HashMap<>();
         Producto producto = this.productoService.findById(id);
