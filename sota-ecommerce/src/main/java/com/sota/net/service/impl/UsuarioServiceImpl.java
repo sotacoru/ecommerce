@@ -1,7 +1,8 @@
-package com.sota.net.service;
+package com.sota.net.service.impl;
 
 import com.sota.net.entity.Usuario;
 import com.sota.net.repository.IUsuarioRepository;
+import com.sota.net.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -17,14 +17,8 @@ public interface IProductoService {
 
     abstract List<Categoria> findAllCategoria();
 
-    /*
-        abstract List<Producto> findByNombre(String nombre);
-        abstract List<Producto> findByDescripcion(String term);
-        abstract List<Producto> findByNombreAndDescripcion(String nombre, String term);
-        abstract List<Producto> findIfFotoIsNotNull();
-        abstract List<Producto> findByNombreAndFotoIsNotNull(String foto);
-        abstract List<Producto>  findByDescripcionAndFotoIsNotNull(String descripcion);
-        abstract List<Producto>  findByDescripcionAndNombreAndFotoIsNotNull(String foto, String descripcion);*/
+    abstract List<Producto> findByCategoria(String categoria);
+
     abstract List<Producto> findWithFilter(ProductoBusqueda dto);
 
     abstract List<Producto> findByStock();

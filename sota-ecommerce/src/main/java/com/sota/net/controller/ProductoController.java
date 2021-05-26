@@ -34,12 +34,14 @@ public class ProductoController {
     @Autowired
     private IFotoService fotoService;
 
+    //Parte pública
     @GetMapping("/producto/stock")
     public List<Producto> getStock() {
         return this.productoService.findByStock();
 
     }
 
+    //Parte pública
     @PostMapping("/producto/busqueda")
     public ResponseEntity<?> busqueda(@RequestBody ProductoBusqueda pb, BindingResult bindingResult) {
 
@@ -51,7 +53,7 @@ public class ProductoController {
         return ResponseEntity.ok(this.productoService.findWithFilter(pb));
     }
 
-
+    //Parte pública
     @GetMapping("/producto/{id}")
     public ResponseEntity<Object> show(@PathVariable Long id) {
         Producto producto = null;
@@ -71,12 +73,26 @@ public class ProductoController {
         return ResponseEntity.ok(producto);
     }
 
-    @GetMapping("/producto")
+    //parte pública
+    @GetMapping("/producto/{categoria}")
+    public ResponseEntity<Object> showByCategoria(@PathVariable String categoria) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (categoria == null) {
+            response.put("mensaje", "El producto no existe");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(this.productoService.findByCategoria(categoria));
+    }
+
+    @GetMapping("/administracion/producto")
     public List<Producto> index() {
         return this.productoService.findAll();
     }
 
-    @PostMapping("/producto")
+    @PostMapping("/administracion/producto")
     public ResponseEntity<?> crearProducto(@RequestBody Producto producto, BindingResult result) {
         Producto newProducto = null;
 
@@ -100,7 +116,7 @@ public class ProductoController {
 
     }
 
-    @PutMapping("/producto/{id}")
+    @PutMapping("/administracion/producto/{id}")
     public ResponseEntity<?> update(@RequestBody Producto producto, BindingResult result, @PathVariable Long id) {
 
         Producto productoActual = this.productoService.findById(id);
@@ -149,7 +165,7 @@ public class ProductoController {
         return true;
     }
 
-    @DeleteMapping("/producto/{id}")
+    @DeleteMapping("/administracion/producto/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         Producto productoBorrar = this.productoService.findById(id);
@@ -176,7 +192,7 @@ public class ProductoController {
     }
 
 
-    @PostMapping("/productos/upload")
+    @PostMapping("/administracion//productos/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
         Map<String, Object> response = new HashMap<>();
         Producto producto = this.productoService.findById(id);
@@ -204,7 +220,7 @@ public class ProductoController {
 
     }
 
-    @GetMapping("/uploads/img/{nombreFoto:.+}")
+    @GetMapping("/administracion/uploads/img/{nombreFoto:.+}")
     public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
         Resource recurso = null;
 
@@ -219,6 +235,7 @@ public class ProductoController {
         return new ResponseEntity<>(recurso, cabecera, HttpStatus.OK);
     }
 
+    //Parte publicas
     @GetMapping("producto/categorias")
     public List<Categoria> listarCategorias() {
         return this.productoService.findAllCategoria();

@@ -1,5 +1,6 @@
-package com.sota.net.service;
+package com.sota.net.service.impl;
 
+import com.sota.net.service.IFotoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -24,17 +25,17 @@ public class FotoServiceImpl implements IFotoService {
 
     @Override
     public Resource cargar(String nombreFoto) throws MalformedURLException {
-        Path rutaArchivo = getPath(nombreFoto);
+        Path rutaArchivo = this.getPath(nombreFoto);
         Resource recurso = new UrlResource(rutaArchivo.toUri());
 
-        log.info(rutaArchivo.toString());
+        this.log.info(rutaArchivo.toString());
 
         if (!recurso.exists() && !recurso.isReadable()) {
             rutaArchivo = Paths.get("src/main/resources/static/images").resolve("notImagen.jpg").toAbsolutePath();
 
             recurso = new UrlResource(rutaArchivo.toUri());
 
-            log.error("Error, no se pudo cargar la imagen " + nombreFoto);
+            this.log.error("Error, no se pudo cargar la imagen " + nombreFoto);
 
         }
         return recurso;
@@ -44,8 +45,8 @@ public class FotoServiceImpl implements IFotoService {
     public String copiar(MultipartFile archivo) throws IOException {
 
         String nombreArchivo = UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace("", "");
-        Path rutaArchivo = getPath(nombreArchivo);
-        log.info(rutaArchivo.toString());
+        Path rutaArchivo = this.getPath(nombreArchivo);
+        this.log.info(rutaArchivo.toString());
         Files.copy(archivo.getInputStream(), rutaArchivo);
 
         return nombreArchivo;
