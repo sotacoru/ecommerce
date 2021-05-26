@@ -31,11 +31,16 @@ public class ProductoBusqueda {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
     public Boolean getFotoExist() {
         return fotoExist;
     }
 
     public void setFotoExist(Boolean fotoExist) {
         this.fotoExist = fotoExist;
+    }
+
+    public boolean isEmpty() {
+        return this.descripcion == null && this.nombre == null && this.fotoExist == null;
     }
 }

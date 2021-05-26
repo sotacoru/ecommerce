@@ -1,15 +1,14 @@
 package com.sota.net.repository;
 
-import java.util.List;
-
+import com.sota.net.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.sota.net.entity.Usuario;
+import java.util.List;
 
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
 
-	@Query("select u from Usuario u where u.email like ?1")
-	public Usuario findByEmail(String email);
+    @Query("select u from Usuario u where u.nombre like %?1%")
+    public List<Usuario> findByNombre(Usuario nombre);
 
 }
