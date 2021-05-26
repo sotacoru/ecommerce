@@ -33,6 +33,16 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "idpago")
     private Pago pago;
 
+    public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password,
+                   Perfil perfil, Pago pago) {
+        this.nombre = nombre;
+        this.primerapellido = primerapellido;
+        this.segundoapellido = segundoapellido;
+        this.email = email;
+        this.password = password;
+        this.perfil = perfil;
+        this.pago = pago;
+    }
 
     public Long getIdusuario() {
         return this.idUsuario;

@@ -15,31 +15,31 @@ public class UsuarioServiceImpl implements IUsuarioService {
     private IUsuarioRepository usuarioRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public Usuario findByNombre(Usuario nombre) {
-        return (Usuario) usuarioRepository.findByNombre(nombre);
-    }
-
-    @Override
     public Usuario save(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+        return this.usuarioRepository.save(usuario);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Usuario> findAll() {
-        return (List<Usuario>) usuarioRepository.findAll();
+        return (List<Usuario>) this.usuarioRepository.findAll();
     }
 
     @Override
     public void deleteUsuarioById(Long idUsuario) {
-        usuarioRepository.deleteById(idUsuario);
+        this.usuarioRepository.deleteById(idUsuario);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario findByEmail(String email) {
+        return null;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Usuario findById(Long idUsuario) {
-        return usuarioRepository.findById(idUsuario).orElse(null);
+        return this.usuarioRepository.findById(idUsuario).orElse(null);
     }
 
 }
