@@ -16,14 +16,12 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { VistaPerfilUsuarioComponent } from './vista-perfil-usuario/vista-perfil-usuario.component';
 
-import { DetalleProductosComponent } from './detalle-productos/detalle-productos.component';
 import { LoginRegisComponent } from './login-regis/login-regis.component';
-
 import { ProductosComponent } from './productos/productos.component';
 import { FormComponent } from './productos/form.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
@@ -31,8 +29,7 @@ import { FormComponent } from './productos/form.component';
     UsuariosComponent,
     CarritoComponent,
     VistaPerfilUsuarioComponent,
-    DetalleProductosComponent,
-    LoginRegisComponent
+    LoginRegisComponent,
     ProductosComponent,
     FormComponent,
    ],
