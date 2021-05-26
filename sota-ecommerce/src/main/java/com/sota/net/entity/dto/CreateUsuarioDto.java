@@ -10,8 +10,8 @@ public class CreateUsuarioDto {
 	private String primerApellido;
 	private String segundoApellido;
 	private String email;
-	private String contraseña;
-	private String contraseña2;
+	private String password;
+	private String password2;
 	private Perfil perfil;
 	private Pago pago;
 	
@@ -19,13 +19,13 @@ public class CreateUsuarioDto {
 	}
 	
 	public CreateUsuarioDto(String nombre, String primerApellido, String segundoApellido, String email,
-			String contraseña, String contraseña2, Pago pago) {
+			String password, String password2, Pago pago) {
 		this.nombre = nombre;
 		this.primerApellido = primerApellido;
 		this.segundoApellido = segundoApellido;
 		this.email = email;
-		this.contraseña = contraseña;
-		this.contraseña2 = contraseña2;
+		this.password = password;
+		this.password2 = password2;
 		this.pago = pago;
 	}
 
@@ -61,20 +61,20 @@ public class CreateUsuarioDto {
 		this.email = email;
 	}
 	
-	public String getContraseña() {
-		return contraseña;
+	public String getPassword() {
+		return password;
 	}
 	
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setPassword(String Password) {
+		this.password = Password;
 	}
 	
-	public String getContraseña2() {
-		return contraseña2;
+	public String getPassword2() {
+		return password2;
 	}
 	
-	public void setContraseña2(String contraseña2) {
-		this.contraseña2 = contraseña2;
+	public void setPassword2(String password2) {
+		this.password2 = password2;
 	}
 	
 	public Pago getPago() {

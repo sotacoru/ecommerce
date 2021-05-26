@@ -50,8 +50,8 @@ public class Usuario implements Serializable, UserDetails {
 	@Column(unique = true)
 	private String email;
 
-	@ApiModelProperty(value = "Contraseña del usuario", dataType = "String", example = "Contraseña123.", position = 6)
-	private String contraseña;
+	@ApiModelProperty(value = "password del usuario", dataType = "String", example = "password123.", position = 6)
+	private String password;
 
 	@ApiModelProperty(value = "Perfil asociado al usuario", dataType = "Perfil", example = "ADMINISTRADOR", position = 7)
 	@JsonSerialize
@@ -64,13 +64,13 @@ public class Usuario implements Serializable, UserDetails {
 	@JoinColumn(name = "idpago")
 	private Pago pago;
 
-	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String contraseña,
+	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password,
 			Perfil perfil, Pago pago) {
 		this.nombre = nombre;
 		this.primerapellido = primerapellido;
 		this.segundoapellido = segundoapellido;
 		this.email = email;
-		this.contraseña = contraseña;
+		this.password = password;
 		this.perfil = perfil;
 		this.pago = pago;
 	}
@@ -115,12 +115,12 @@ public class Usuario implements Serializable, UserDetails {
 		this.email = email;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Perfil getPerfil() {
@@ -150,11 +150,6 @@ public class Usuario implements Serializable, UserDetails {
 		return auths;
 		// @formatter:off
 		// @formatter:on
-	}
-
-	@Override
-	public String getPassword() {
-		return contraseña;
 	}
 
 	@Override

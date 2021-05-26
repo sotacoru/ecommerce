@@ -16,15 +16,15 @@ public class CustomUserDetailsService implements UserDetailsService{
 	private UsuarioServiceImpl usuarioService;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		Usuario u = usuarioService.findByEmail(username);
-		
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		System.out.println(email);
+		Usuario u = usuarioService.findByEmail(email);
+		System.out.println("fjdfkdfldfkdflk");
 		if(u!=null) {
 			return u;
 		}
 		
-		return (UserDetails) new UsernameNotFoundException(username + " no encontrado");
+		return (UserDetails) new UsernameNotFoundException(email + " no encontrado");
 	}
 	
 	public UserDetails loadUserById(Long id) throws UsernameNotFoundException{

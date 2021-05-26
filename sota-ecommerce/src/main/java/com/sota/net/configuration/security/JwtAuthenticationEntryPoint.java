@@ -27,7 +27,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint{
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException {
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.setContentType("application/json");
+		response.setContentType("oauth/token");
 		
 		/*
 		 * Cuando cree clase ApiError

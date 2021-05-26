@@ -18,7 +18,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	@Override
 	@Transactional(readOnly=true)
 	public Usuario findByEmail(String email) {
-		return (Usuario) usuarioRepository.findByEmail(email);
+		return usuarioRepository.findByEmail(email);
 	}
 
 	@Override

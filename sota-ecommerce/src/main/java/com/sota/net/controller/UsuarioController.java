@@ -100,7 +100,7 @@ public class UsuarioController {
 		}
 
 		try {
-			usuario.setContraseña(passwordEncoder.encode(usuario.getPassword()).toString());
+			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()).toString());
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert");
@@ -157,8 +157,11 @@ public class UsuarioController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/login/prueba")
+	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> loginPrueba(@RequestBody LoginRequest loginRequest) {
+		System.out.println("hola");
+		System.out.println(loginRequest.getEmail());
+		System.out.println(loginRequest.getContraseña());
 		Authentication authentication =
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 						loginRequest.getEmail(),
