@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "producto")
@@ -28,9 +30,13 @@ public class Producto implements Serializable {
 
 	@ApiModelProperty(value = "Cantidad disponible del producto", dataType = "Int", example = "10", position = 5)
     private int cantidad;
+    
 
 	@ApiModelProperty(value = "Ruta en donde se alamcena la imagen", dataType = "String", example = "ruta/foto.jpg", position = 6)
     private String foto;
+    
+	 @OneToMany( mappedBy = "producto")
+	 private List<PedidoProducto> pedidoProducto;
 
 
 	@ApiModelProperty(value = "Categoría a la que pertenece el producto", dataType = "Categoria", example = "BEBIDAS ALCOHÓLICAS", position = 7)
@@ -128,7 +134,21 @@ public class Producto implements Serializable {
         this.idcategoria = idcategoria;
     }
 
+    
+    
 
-    private static final long serialVersionUID = 1L;
+	public List<PedidoProducto> getPedidoProducto() {
+		return pedidoProducto;
+	}
+
+
+	public void setPedidoProducto(List<PedidoProducto> pedidoProducto) {
+		this.pedidoProducto = pedidoProducto;
+	}
+
+
+
+
+	private static final long serialVersionUID = 1L;
 
 }
