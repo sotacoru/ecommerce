@@ -1,18 +1,24 @@
 package com.sota.net.entity;
 
 import javax.persistence.*;
+
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 @Entity
 @Table(name = "categoria")
 public class Categoria implements Serializable {
 
+	@ApiModelProperty(value = "ID de la categoria", dataType = "Int", example = "1", position = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+	@ApiModelProperty(value = "Nombre de la categoría", dataType = "String", example = "BEBIDAS ALCOHÓLICAS", position = 2)
     private String nombrecategoria;
 
+	@ApiModelProperty(value = "Descripción de la categoría", dataType = "String", example = "Bebidas con porcentaje de alcohol superior al 0%", position = 3)
     private String descripcion;
 
 

@@ -1,6 +1,9 @@
 package com.sota.net.entity;
 
 import javax.persistence.*;
+
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 @Entity
@@ -9,14 +12,17 @@ public class Perfil implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "Id del perfil", dataType = "Int", example = "1", position = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idperfil")
     private Long idperfil;
 
+    @ApiModelProperty(value = "Nombre del perfil", dataType = "String", example = "CLIENTE", position = 2)
     @Column(name = "nombreperfil")
     private String nombreperfil;
 
+    @ApiModelProperty(value = "Descripción del perfil", dataType = "String", example = "Usuario que solo puede realizar compras", position = 3)
     @Column(name = "descripcion")
     private String descripcion;
 

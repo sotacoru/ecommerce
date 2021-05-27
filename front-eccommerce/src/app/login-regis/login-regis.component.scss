@@ -1,14 +1,14 @@
 .btn {
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
   color: white;
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  text-transform: uppercase; /* Mayúsculas */
+  text-transform: uppercase;
   margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
+  -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
   cursor: pointer;
 }
@@ -27,9 +27,13 @@
 }
 
 form{
-	width:300px;
-	padding:16px;
-	border-radius:10px;
-	margin:auto;
-	background-color:#ccc;
+    width:500px;
+    padding:16px;
+    border-radius:10px;
+    margin:auto;
+    background-color:#ccc;
+}
+
+input{
+  width:450px;
 }
