@@ -29,7 +29,7 @@ export class LoginRegisComponent implements OnInit {
 
   login(){
       console.log(this.usuario);
-      if(this.usuario.password == null || this.usuario.nombre == null){
+      if(this.usuario.password == null || this.usuario.email == null){
         swal.fire('Error login', '¡Username o password vacíos!', 'error');
         return;
       }
