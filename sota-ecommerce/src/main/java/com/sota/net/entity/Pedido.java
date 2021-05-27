@@ -1,7 +1,6 @@
 package com.sota.net.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -19,7 +18,6 @@ public class Pedido implements Serializable {
 	
 
 	@ApiModelProperty(value = "Precio total del pedido", dataType = "Double", example = "10000", position = 2)
-
 	private Double precioTotal;
 	
 	@ApiModelProperty(value = "Ver si el pedido fue realizado (0 no realizado; 1 realizado)", dataType = "Int", example = "0 (Está en la cesta)", position = 3)
@@ -28,7 +26,6 @@ public class Pedido implements Serializable {
 	@ApiModelProperty(value = "Id del usuario que realiza el pedido", dataType = "Int", example = "1", position = 4)
 	@JoinColumn(name = "idusuario")
 	@OneToOne
-
 	private Usuario idUsuario;
 
 	@ApiModelProperty(value = "Id del pago utilizado por el cliente", dataType = "Int", example = "1", position = 5)
