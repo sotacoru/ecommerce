@@ -43,27 +43,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
-		http.
-			csrf().disable()
-			.exceptionHandling()
-				.authenticationEntryPoint(authenticationEntryPoint)
-			.and()
-			.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		http.requestMatchers()
+			.antMatchers("/api/login","/ouath/authorize")
 			.and()
 			.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/api/usuario").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/producto/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/administracion/**").permitAll()
-				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
-				.antMatchers(HttpMethod.GET, "/administracion/uploads/img/**").permitAll()
-				.anyRequest().authenticated()
+			.antMatchers(HttpMethod.OPTIONS, "/oauth/**").permitAll()
+			.anyRequest().authenticated()
 			.and()
-				.formLogin().permitAll();
-		
-		//Filtro
-		http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+			.formLogin().permitAll();
 	}
 
 	@Override
