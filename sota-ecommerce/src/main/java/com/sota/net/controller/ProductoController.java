@@ -192,7 +192,7 @@ public class ProductoController {
     }
 
 
-    @PostMapping("/administracion//productos/upload")
+    @PostMapping("/administracion/productos/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
         Map<String, Object> response = new HashMap<>();
         Producto producto = this.productoService.findById(id);
@@ -220,7 +220,7 @@ public class ProductoController {
 
     }
 
-    @GetMapping("/administracion/uploads/img/{nombreFoto:.+}")
+    @GetMapping("/uploads/img/{nombreFoto:.+}")
     public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
         Resource recurso = null;
 

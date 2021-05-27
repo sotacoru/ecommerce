@@ -5,8 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 import {MenubarModule} from 'primeng/menubar';
-import {MenuItem} from 'primeng/api';
-
+import {DataViewModule} from 'primeng/dataview';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -38,7 +37,8 @@ import { FormComponent } from './productos/form.component';
     AppRoutingModule,
     MenubarModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DataViewModule
   ],
   providers: [],
   bootstrap: [AppComponent]
