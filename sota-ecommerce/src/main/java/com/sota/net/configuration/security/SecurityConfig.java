@@ -1,5 +1,6 @@
 package com.sota.net.configuration.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,8 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -54,9 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(HttpMethod.GET, "/api/usuario").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/producto/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/producto/categoria/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/administracion/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
 				.antMatchers(HttpMethod.GET, "/administracion/uploads/img/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/pedido/*").permitAll()
 				.anyRequest().authenticated();
 		
 		//Filtro
