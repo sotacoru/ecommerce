@@ -1,5 +1,6 @@
 package com.sota.net.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,7 +28,7 @@ public class Pedido implements Serializable {
 	@ApiModelProperty(value = "Id del usuario que realiza el pedido", dataType = "Int", example = "1", position = 4)
 	@JoinColumn(name = "idusuario")
 	@OneToOne
-	@JsonIgnoreProperties(value={"pedido","hibernateLazyInitializer", "handler"} , allowGetters = true)
+
 	private Usuario idUsuario;
 
 	@ApiModelProperty(value = "Id del pago utilizado por el cliente", dataType = "Int", example = "1", position = 5)
@@ -36,6 +37,7 @@ public class Pedido implements Serializable {
 	private Pago idPago;
 
 	 @OneToMany( mappedBy = "pedido")
+	 @JsonIgnore
 	 private List<PedidoProducto> pedidoProducto ;
 
 	public Pedido(long id, Double precioTotal, int realizado, Usuario idUsuario, Pago idPago) {

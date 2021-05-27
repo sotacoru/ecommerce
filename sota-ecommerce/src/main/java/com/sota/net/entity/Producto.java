@@ -3,6 +3,9 @@ package com.sota.net.entity;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -33,13 +36,13 @@ public class Producto implements Serializable {
     private String foto;
 
 	 @OneToMany( mappedBy = "producto")
+	 @JsonIgnore
 	 private List<PedidoProducto> pedidoProducto;
 
 
 	@ApiModelProperty(value = "Categoría a la que pertenece el producto", dataType = "Categoria", example = "BEBIDAS ALCOHÓLICAS", position = 7)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idcategoria")
-
     private Categoria idcategoria;
 
 
