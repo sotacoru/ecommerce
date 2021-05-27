@@ -1,4 +1,4 @@
-package com.sota.net.configuration.security;
+package com.sota.net.configuration.security.jwt;
 
 import java.util.Date;
 

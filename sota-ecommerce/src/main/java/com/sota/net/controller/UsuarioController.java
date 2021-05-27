@@ -1,5 +1,6 @@
 package com.sota.net.controller;
 
+import com.sota.net.configuration.security.jwt.JwtProvider;
 import com.sota.net.entity.Usuario;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
@@ -30,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sota.net.configuration.security.JwtProvider;
 import com.sota.net.entity.dto.GetUsuarioDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
 import com.sota.net.model.JwtUserResponse;
