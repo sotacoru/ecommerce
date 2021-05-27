@@ -69,3 +69,6 @@ INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) 
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Ghee Mantequilla Clarificada 100% natural Vegetalia ", 8.90, "Ghe Mantequilla Clarificada 100% Natural Vegetalia. Elaborado con leche de vaca.", 12, null, 8);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Queso vegano Vegancheese ahumado Grano vita 200 g", 2.88, "Delicioso 'queso vegano' de anacardo, ideal para tomar en crudo como para cocinar, con suave y cremosa textura.", 4, null, 8);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Queso vegano Veggieques lonchas BIO Natursoy, 150 g", 2.72, "Ingredientes: Agua, grasa de coco*(20%), almidón de patata*, harina de ALTRAMUZ*, sal marina, espesantes: goma xantana y agar-agar*, extracto de cúrcuma*, aromas naturales.", 10, null, 8);
+
+INSERT INTO pedido (id, precio_total, realizado, idpago, idusuario) VALUES (1, 1000, true, 1, 1);
+INSERT INTO pedido_producto (id_pedido, id_producto, cantidad) VALUES (1, 1, 21);
