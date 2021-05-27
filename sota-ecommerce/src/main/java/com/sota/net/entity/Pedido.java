@@ -1,10 +1,9 @@
 package com.sota.net.entity;
 
-import javax.persistence.*;
-
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,13 +27,14 @@ public class Pedido implements Serializable {
 	@ApiModelProperty(value = "Id del usuario que realiza el pedido", dataType = "Int", example = "1", position = 4)
 	@JoinColumn(name = "idusuario")
 	@OneToOne
+	@JsonIgnoreProperties(value={"pedido","hibernateLazyInitializer", "handler"} , allowGetters = true)
 	private Usuario idUsuario;
 
 	@ApiModelProperty(value = "Id del pago utilizado por el cliente", dataType = "Int", example = "1", position = 5)
 	@JoinColumn(name = "idpago")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Pago idPago;
-	
+
 	 @OneToMany( mappedBy = "pedido")
 	 private List<PedidoProducto> pedidoProducto ;
 

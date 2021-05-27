@@ -1,12 +1,9 @@
 package com.sota.net.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,7 +31,7 @@ public class Producto implements Serializable {
 
 	@ApiModelProperty(value = "Ruta en donde se alamcena la imagen", dataType = "String", example = "ruta/foto.jpg", position = 6)
     private String foto;
-    
+
 	 @OneToMany( mappedBy = "producto")
 	 private List<PedidoProducto> pedidoProducto;
 
@@ -42,7 +39,7 @@ public class Producto implements Serializable {
 	@ApiModelProperty(value = "Categoría a la que pertenece el producto", dataType = "Categoria", example = "BEBIDAS ALCOHÓLICAS", position = 7)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idcategoria")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
     private Categoria idcategoria;
 
 
@@ -135,7 +132,7 @@ public class Producto implements Serializable {
     }
 
     
-    
+
 
 	public List<PedidoProducto> getPedidoProducto() {
 		return pedidoProducto;

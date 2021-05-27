@@ -12,7 +12,7 @@ public class PedidoServiceImpl implements IPedidoService {
 
     @Override
     public Pedido findById(Long id) {
-        return this.rep.findById(id).orElse(null);
+        return this.rep.getPedidoById(id);
     }
 
 

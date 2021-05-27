@@ -1,13 +1,7 @@
 package com.sota.net.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "pedido_producto")
@@ -15,12 +9,13 @@ import javax.persistence.Table;
 public class PedidoProducto implements Serializable {
 
 	@Id
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id")
+
 	private Pedido pedido;
 	
 	@Id
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_producto", referencedColumnName = "idproducto")
 	private Producto producto;
 
