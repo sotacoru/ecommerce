@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -19,6 +19,8 @@ import { VistaPerfilUsuarioComponent } from './vista-perfil-usuario/vista-perfil
 import { LoginRegisComponent } from './login-regis/login-regis.component';
 import { ProductosComponent } from './productos/productos.component';
 import { FormComponent } from './productos/form.component';
+import { ThankyouPageComponent } from './thankyou-page/thankyou-page.component';
+import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { FormComponent } from './productos/form.component';
     LoginRegisComponent,
     ProductosComponent,
     FormComponent,
+    ThankyouPageComponent,
    ],
   imports: [
     BrowserModule,
@@ -40,7 +43,10 @@ import { FormComponent } from './productos/form.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+  ],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

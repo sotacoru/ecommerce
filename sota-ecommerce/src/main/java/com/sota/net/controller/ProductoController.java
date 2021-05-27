@@ -74,7 +74,7 @@ public class ProductoController {
     }
 
     //parte pública
-    @GetMapping("/producto/{categoria}")
+    @GetMapping("/producto/categoria/{categoria}")
     public ResponseEntity<Object> showByCategoria(@PathVariable String categoria) {
 
         Map<String, Object> response = new HashMap<>();
