@@ -22,8 +22,9 @@ export class HeaderComponent implements OnInit {
                 ],
                 routerLink: ['/pedidos']
             },
-            {label: 'Log In', icon: 'pi pi-fw pi-users', routerLink: ['/login']}
-        ];
+            {label: 'Log In', icon: 'pi pi-fw pi-users', routerLink: ['/login']},
+            {label: 'Thank You', routerLink: ['/thankyou']}
+              ];
   }
 
 }
