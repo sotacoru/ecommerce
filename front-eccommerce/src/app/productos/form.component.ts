@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PrimeNGConfig } from 'primeng/api';
+import { Producto } from './producto';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {InputTextModule} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-form',
@@ -7,9 +12,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormComponent implements OnInit {
 
-  constructor() { }
+  titulo: string = "Nuevo producto";
+  producto: Producto;
+  constructor(
+    private router: Router,
+    private primengConfig: PrimeNGConfig,
+    public pInputText: InputTextModule,
+    public pInputTextarea:InputTextareaModule,
+  ) { }
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
+
   }
 
+  
+
+  
 }

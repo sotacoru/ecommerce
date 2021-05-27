@@ -2,9 +2,11 @@ package com.sota.net.entity;
 
 import javax.persistence.*;
 
+
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "pedido")
@@ -15,7 +17,9 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+
 	@ApiModelProperty(value = "Precio total del pedido", dataType = "Double", example = "10000", position = 2)
+
 	private Double precioTotal;
 	
 	@ApiModelProperty(value = "Ver si el pedido fue realizado (0 no realizado; 1 realizado)", dataType = "Int", example = "0 (Está en la cesta)", position = 3)
@@ -30,6 +34,9 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "idpago")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Pago idPago;
+	
+	 @OneToMany( mappedBy = "pedido")
+	 private List<PedidoProducto> pedidoProducto ;
 
 	public Pedido(long id, Double precioTotal, int realizado, Usuario idUsuario, Pago idPago) {
 		this.id = id;
@@ -81,6 +88,22 @@ public class Pedido implements Serializable {
 	public void setIdPago(Pago idPago) {
 		this.idPago = idPago;
 	}
+
+	
+	
+
+
+	public List<PedidoProducto> getPedidoProducto() {
+		return pedidoProducto;
+	}
+
+	public void setPedidoProducto(List<PedidoProducto> pedidoProducto) {
+		this.pedidoProducto = pedidoProducto;
+	}
+
+
+
+
 
 	/**
 	 * 
