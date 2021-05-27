@@ -1,7 +1,10 @@
 package com.sota.net.entity;
 
 import javax.persistence.*;
+
+
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "pedido")
@@ -10,6 +13,7 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
 	private Double precioTotal;
 	private int realizado;
 
@@ -20,6 +24,9 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "idpago")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Pago idPago;
+	
+	 @OneToMany( mappedBy = "pedido")
+	 private List<PedidoProducto> pedidoProducto ;
 
 	public Pedido(long id, Double precioTotal, int realizado, Usuario idUsuario, Pago idPago) {
 		this.id = id;
@@ -71,6 +78,22 @@ public class Pedido implements Serializable {
 	public void setIdPago(Pago idPago) {
 		this.idPago = idPago;
 	}
+
+	
+	
+
+
+	public List<PedidoProducto> getPedidoProducto() {
+		return pedidoProducto;
+	}
+
+	public void setPedidoProducto(List<PedidoProducto> pedidoProducto) {
+		this.pedidoProducto = pedidoProducto;
+	}
+
+
+
+
 
 	/**
 	 * 

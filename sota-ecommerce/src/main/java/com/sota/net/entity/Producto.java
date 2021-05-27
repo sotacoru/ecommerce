@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "producto")
@@ -21,8 +23,12 @@ public class Producto implements Serializable {
     private String descripcion;
 
     private int cantidad;
+    
 
     private String foto;
+    
+	 @OneToMany( mappedBy = "producto")
+	 private List<PedidoProducto> pedidoProducto;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -119,7 +125,21 @@ public class Producto implements Serializable {
         this.idcategoria = idcategoria;
     }
 
+    
+    
 
-    private static final long serialVersionUID = 1L;
+	public List<PedidoProducto> getPedidoProducto() {
+		return pedidoProducto;
+	}
+
+
+	public void setPedidoProducto(List<PedidoProducto> pedidoProducto) {
+		this.pedidoProducto = pedidoProducto;
+	}
+
+
+
+
+	private static final long serialVersionUID = 1L;
 
 }
