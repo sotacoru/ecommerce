@@ -36,13 +36,13 @@ export class AuthUsuarioService {
   login(usuario: Usuario): Observable<any> {
     const urlEndPoint = 'http://localhost:8090/oauth/token';
 
-    const credenciales = btoa('AngularApp' + ':' + '1234.Abcd ');
+    //const credenciales = btoa('AngularApp' + ':' + '1234.Abcd ');
 
     const httpHeaders = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded',
-  'Authorization': 'Basic ' + credenciales});
+  'Authorization': 'Basic ' });
     let params = new URLSearchParams();
     params.set('grant_type', 'password');
-    params.set('username', usuario.nombre);
+    params.set('username', usuario.email);
     params.set('password', usuario.password);
     console.log(params.toString());
     return this.http.post<any>(urlEndPoint, params.toString(), {headers: httpHeaders});
