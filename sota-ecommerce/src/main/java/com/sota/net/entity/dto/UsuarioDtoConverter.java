@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class UsuarioDtoConverter {
 
 	private PasswordEncoder passEncoder;
-
+	
 	public GetUsuarioDto converUsuarioEntityToGetUserDto(Usuario usuario) {
 		System.out.println(usuario.getEmail() + " ");
 		GetUsuarioDto user = new GetUsuarioDto(

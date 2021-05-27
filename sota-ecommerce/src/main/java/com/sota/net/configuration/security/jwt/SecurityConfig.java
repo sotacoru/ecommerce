@@ -2,6 +2,7 @@ package com.sota.net.configuration.security.jwt;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -21,14 +22,12 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@Order(1)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final UserDetailsService userDetailsService;
 	private final PasswordEncoder passwordEncoder;
-	private final AuthenticationEntryPoint authenticationEntryPoint;
-	private final JwtAuthorizationFilter jwtAuthorizationFilter;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,14 +42,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.requestMatchers()
-			.antMatchers("/api/login","/ouath/authorize")
-			.and()
-			.authorizeRequests()
-			.antMatchers(HttpMethod.OPTIONS, "/oauth/**").permitAll()
-			.anyRequest().authenticated()
-			.and()
-			.formLogin().permitAll();
+		 http
+         .cors().and().csrf().disable()
+         .requestMatchers()
+         .antMatchers("/api/**", "/oauth/authorize")
+         .and()
+         .authorizeRequests()
+         .antMatchers(HttpMethod.OPTIONS, "/oauth/**").permitAll()
+         .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+         .anyRequest().authenticated()
+         .and()
+         .formLogin().permitAll();
+         
 	}
 
 	@Override

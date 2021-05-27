@@ -1,6 +1,8 @@
 package com.sota.net.configuration.security.oauth2;
 
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,7 +12,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import com.sota.net.configuration.security.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -21,6 +26,8 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 	private final PasswordEncoder passwordEncoder;
 	private final AuthenticationManager authenticationManager;
 	private final UserDetailsService userDetailsService;
+	private final DataSource dataSource;
+	private final JwtProvider jwtProvider;
 	
 	private static final String CODE_GRANT_TYPE = "authorization_code";
 	private static final String IMPLICIT_GRANT_TYPE = "implicit";
@@ -68,10 +75,15 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints
 			.authenticationManager(authenticationManager)
-			.userDetailsService(userDetailsService);
+			.userDetailsService(userDetailsService)
+			.accessTokenConverter(accessTokenConverter());
+			
 	}
 	
-	
+	@Bean
+	public AccessTokenConverter accessTokenConverter() {
+		return new JwtAccessTokenConverter();
+	}
 	
 	
 }

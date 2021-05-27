@@ -1,6 +1,7 @@
 package com.sota.net.configuration.security.oauth2;
 
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,14 +27,12 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter{
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 				.authorizeRequests()
-					.antMatchers(HttpMethod.GET, "/api/usuario").permitAll()
-					.antMatchers(HttpMethod.GET, "/api/producto/**").permitAll()
-					.antMatchers(HttpMethod.GET, "/api/administracion/**").permitAll()
-					.antMatchers(HttpMethod.POST, "/api/login").permitAll()
-					.antMatchers(HttpMethod.GET, "/administracion/uploads/img/**").permitAll()
+					.antMatchers(HttpMethod.PUT,"/api/*").permitAll()
+					.antMatchers(HttpMethod.POST,"/api/*").permitAll()
+					.antMatchers(HttpMethod.GET,"/api/*").permitAll()
+					.antMatchers(HttpMethod.DELETE,"/api/*").permitAll()
 				.anyRequest().authenticated();
+		
 	}
 
-	
-	
 }
