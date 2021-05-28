@@ -35,13 +35,13 @@ export class LoginRegisComponent implements OnInit {
       }
 
       this.authService.login(this.usuario).subscribe(response => {
-        console.log(response);
+
         this.authService.guardarUsuario(response.token);
         this.authService.guardarToken(response.token);
 
         let usuario = this.authService.usuario;
         this.router.navigate(['/productos']);
-        swal.fire('Login', `Hola ${this.usuario.email}, has iniciado sesion correctamente`, 'success');
+        swal.fire('Login', `Hola ${usuario.nombre}  has iniciado sesion correctamente`, 'success');
       }, err => {
         if (err.status == 400){
           swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
