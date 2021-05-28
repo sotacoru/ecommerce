@@ -30,6 +30,9 @@ export class ProductoService {
       })
     )
   }
+  getProductosCategoria(categoria: string): Observable<Producto[]>{
+    return  this.http.get<Producto[]>(`${this.url}/categoria/${categoria}`)
+  }
   getCategorias(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(this.url + '/categorias');
   }
