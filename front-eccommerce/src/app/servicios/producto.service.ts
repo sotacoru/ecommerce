@@ -23,7 +23,7 @@ export class ProductoService {
 
   }
   getProductosBusqueda(busqueda: ProductoBusqueda ):Observable<Producto[]>{
-    return this.http.post(this.url + '/producto/busqueda',busqueda,{headers:this.httpHeaders}).pipe(
+    return this.http.post(this.url + '/busqueda',busqueda,{headers:this.httpHeaders}).pipe(
       map((response:any)=>{
         return response;
       })
