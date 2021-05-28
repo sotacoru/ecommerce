@@ -21,41 +21,50 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 @Service("productoService")
 public class ProductoService extends QueryService implements IProductoService {
     @Autowired
     private IProductoRepository rep;
 
+    @Transactional
     @Override
     public List<Producto> findAll() {
         return this.rep.findAll();
     }
 
+    @Transactional
     @Override
     public Producto findById(Long id) {
         return this.rep.findById(id).orElse(null);
     }
 
+    @Transactional
     @Override
     public Producto save(Producto producto) {
         return this.rep.save(producto);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         this.rep.deleteById(id);
     }
 
+    @Transactional
     @Override
     public List<Categoria> findAllCategoria() {
         return this.rep.findAllCategoria();
     }
 
+    @Transactional
     @Override
     public List<Producto> findByCategoria(String categoria) {
         return this.rep.findByCategoria(categoria);
     }
 
+    @Transactional
     @Override
     public List<Producto> findWithFilter(ProductoBusqueda dto) {
         if (dto.isEmpty()) {
@@ -66,6 +75,7 @@ public class ProductoService extends QueryService implements IProductoService {
         return productos;
     }
 
+    @Transactional
     private Specification<Producto> createSpecification(ProductoCriteria criteria) {
         Specification<Producto> specification = Specification.where(null);
         if (criteria == null) {
@@ -86,6 +96,7 @@ public class ProductoService extends QueryService implements IProductoService {
         return specification;
     }
 
+    @Transactional
     private static ProductoCriteria createCriteria(ProductoBusqueda dto) {
         ProductoCriteria productoCriteria = new ProductoCriteria();
         if (dto != null) {
@@ -110,17 +121,19 @@ public class ProductoService extends QueryService implements IProductoService {
         return productoCriteria;
     }
 
+    @Transactional
     @Override
     public List<Producto> findByStock() {
         return this.rep.findByStock();
     }
 
-
+    @Transactional
     @Override
     public List<Producto> OrderByPricioMax(Double precio) {
         return this.rep.orderByPricioMax(precio);
     }
 
+    @Transactional
     @Override
     public List<Producto> OrderByPricioMin(Double precio) {
         return this.rep.orderByPricioMin(precio);
