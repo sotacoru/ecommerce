@@ -1,6 +1,9 @@
 package com.sota.net.entity;
 
 import javax.persistence.*;
+
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 @Entity
@@ -9,14 +12,17 @@ public class Pago implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "ID del pago", dataType = "Int", example = "1", position = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idpago")
     private Long idpago;
 
+    @ApiModelProperty(value = "Tipo de pago utilizado", dataType = "String", example = "TARJETA", position = 2)
     @Column(name = "tipopago")
     private String tipopago;
 
+    @ApiModelProperty(value = "Descripción del tipo de pago utilizado", dataType = "String", example = "Pago utilizando la tarjeta", position = 3)
     @Column(name = "descripcion")
     private String descripcion;
 

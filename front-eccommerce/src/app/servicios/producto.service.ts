@@ -1,11 +1,12 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import {catchError, map} from 'rxjs/operators'
 import {ProductoBusqueda} from "../productos/producto_busqueda";
 import {Producto} from "../productos/producto";
+import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { Categoria } from '../productos/categoria';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,4 +30,28 @@ export class ProductoService {
       })
     )
   }
+  getCategorias(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(this.url + '/categorias');
+  }
+
+  create(producto: Producto): Observable<any> {
+    console.log(producto)
+    return this.http.post<Producto>("http://localhost:8090/api/administracion/producto", producto).pipe(
+      catchError(e => {
+        if (e.status === 400) {
+          return throwError(e);
+        }
+        /* if(e.error.mensaje){
+
+        } */
+        return throwError(e);
+      })
+
+    )
+
+  }
 }
+
+
+
+
