@@ -1,1 +1,61 @@
-<p>form works!</p>
+<div class="card text-center p1">
+
+
+  <div class="formularios m-2 " height=80%>
+    <form>
+      <div class="card-header">{{titulo}}</div>
+      <div class="card-body">
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
+          </div>
+          <input type="text" class="form-control" name="name" pInputText [(ngModel)]="producto.nombre">
+        </div>
+
+
+        <div class="form-group mb-3">
+          <label class="input-group-text" for="descripcion">Descripción</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+           name="descripcion"  [(ngModel)]="producto.descripcion"></textarea>
+        </div>
+
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Precio</span>
+          </div>
+          <input type="number" class="form-control" name="precio" [(ngModel)]="producto.precio">
+        </div>
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Cantidad</span>
+          </div>
+          <input type="number" class="form-control" name="Cantidad" [(ngModel)]="producto.cantidad">
+        </div>
+
+        <!-- <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Foto</span>
+          </div>
+          <input type="file" class="form-control" name="foto" [(ngModel)]="producto.foto">
+        </div> -->
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Categoria</label>
+          </div>
+          <select name="categoria" [(ngModel)]="producto.idcategoria" class="custom-select" id="inputGroupSelect01">
+            <option [ngValue]="undefined" select>Selecionar una region</option>
+            <option *ngFor="let categoria of categorias" [ngValue]="  categoria">{{categoria.nombrecategoria}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <input type="submit" (click)="create()" class="btn btn-lg btn-primary btn-block" value="Enviar">
+      </div>
+    </form>
+
+  </div>
+</div>

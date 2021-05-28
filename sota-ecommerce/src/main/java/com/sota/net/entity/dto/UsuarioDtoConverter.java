@@ -2,9 +2,7 @@ package com.sota.net.entity.dto;
 
 
 import com.sota.net.entity.Usuario;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class UsuarioDtoConverter {
 
 	private PasswordEncoder passEncoder;
-
+	
 	public GetUsuarioDto converUsuarioEntityToGetUserDto(Usuario usuario) {
 		System.out.println(usuario.getEmail() + " ");
 		GetUsuarioDto user = new GetUsuarioDto(
@@ -45,6 +43,15 @@ public class UsuarioDtoConverter {
 		}
 
 		return u;
+	}
+	public GetUsuarioPedido usuarioPedido(Usuario u){
+		return  GetUsuarioPedido.builder().id(u.getIdusuario())
+				.nombre(u.getNombre())
+				.primerApellido(u.getPrimerapellido())
+				.segundoApellido(u.getSegundoapellido())
+				.email(u.getEmail())
+				.build();
+
 	}
 
 }

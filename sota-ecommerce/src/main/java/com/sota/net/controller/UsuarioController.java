@@ -1,5 +1,6 @@
 package com.sota.net.controller;
 
+import com.sota.net.configuration.security.jwt.JwtProvider;
 import com.sota.net.entity.Usuario;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
@@ -9,9 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +22,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,17 +32,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sota.net.configuration.security.JwtProvider;
-import com.sota.net.entity.Usuario;
 import com.sota.net.entity.dto.GetUsuarioDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
 import com.sota.net.model.JwtUserResponse;
 import com.sota.net.model.LoginRequest;
-import com.sota.net.repository.IUsuarioRepository;
-import com.sota.net.service.IUsuarioService;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -165,10 +160,11 @@ public class UsuarioController {
 
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> loginPrueba(@RequestBody LoginRequest loginRequest) {
+		System.out.println(loginRequest.getEmail());
 		Authentication authentication =
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 						loginRequest.getEmail(),
-						loginRequest.getContraseña()
+						loginRequest.getPassword()
 						));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -182,7 +178,7 @@ public class UsuarioController {
 
 
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/yo")
+	@GetMapping("/usuario/me")
 	public GetUsuarioDto yo(@AuthenticationPrincipal Usuario usuario) {
 		
 		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);

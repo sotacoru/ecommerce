@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
+@CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
 public class ProductoController {
@@ -74,7 +75,7 @@ public class ProductoController {
     }
 
     //parte pública
-    @GetMapping("/producto/{categoria}")
+    @GetMapping("/producto/categoria/{categoria}")
     public ResponseEntity<Object> showByCategoria(@PathVariable String categoria) {
 
         Map<String, Object> response = new HashMap<>();
@@ -192,7 +193,7 @@ public class ProductoController {
     }
 
 
-    @PostMapping("/administracion//productos/upload")
+    @PostMapping("/administracion/productos/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
         Map<String, Object> response = new HashMap<>();
         Producto producto = this.productoService.findById(id);
@@ -236,7 +237,7 @@ public class ProductoController {
     }
 
     //Parte publicas
-    @GetMapping("producto/categorias")
+    @GetMapping("/producto/categorias")
     public List<Categoria> listarCategorias() {
         return this.productoService.findAllCategoria();
     }

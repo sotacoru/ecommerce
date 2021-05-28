@@ -5,10 +5,10 @@ INSERT INTO perfil(nombrePerfil, descripcion) VALUES('CLIENTE','Cliente de la ti
 INSERT INTO	perfil(nombrePerfil, descripcion) VALUES('SECRETARIO','Secretario de la tienda. Puede dar de alta y baja productos');
 INSERT INTO perfil(nombrePerfil, descripcion) VALUES('ADMINISTRADOR','Administrador de la tienda. Puede dar de alta y baja secretarios');
 
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, idPago) VALUES ('Usuario 1','Apellido 1', 'Apellido 1.2', 'email1','contraseña',1,1);
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, idPago) VALUES ('Usuario 2','Apellido 2', 'Apellido 2.1', 'email2','contraseña',3,2);
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, idPago) VALUES ('Usuario 3','Apellido 3', 'Apellido 3.1', 'email3','contraseña',2,2);
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, idPago) VALUES ('Usuario 4','Apellido 4', 'Apellido 4.1', 'email4','contraseña',3,1);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, idPago) VALUES ('Usuario 1','Apellido 1', 'Apellido 1.2', 'email1','contrasena',1,1);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, idPago) VALUES ('Usuario 2','Apellido 2', 'Apellido 2.1', 'email2','contrasena',3,2);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, idPago) VALUES ('Usuario 3','Apellido 3', 'Apellido 3.1', 'email3','contrasena',2,2);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, idPago) VALUES ('Usuario 4','Apellido 4', 'Apellido 4.1', 'email4','contrasena',3,1);
 
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Frutas','Frutas');
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Verduras','Verduras que no contienen químicos ni son alteradas genéticamente');
@@ -69,3 +69,8 @@ INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) 
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Ghee Mantequilla Clarificada 100% natural Vegetalia ", 8.90, "Ghe Mantequilla Clarificada 100% Natural Vegetalia. Elaborado con leche de vaca.", 12, null, 8);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Queso vegano Vegancheese ahumado Grano vita 200 g", 2.88, "Delicioso 'queso vegano' de anacardo, ideal para tomar en crudo como para cocinar, con suave y cremosa textura.", 4, null, 8);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Queso vegano Veggieques lonchas BIO Natursoy, 150 g", 2.72, "Ingredientes: Agua, grasa de coco*(20%), almidón de patata*, harina de ALTRAMUZ*, sal marina, espesantes: goma xantana y agar-agar*, extracto de cúrcuma*, aromas naturales.", 10, null, 8);
+
+INSERT INTO pedido (id, precio_total, realizado, idpago, idusuario) VALUES (1, 1000, true, 1, 1);
+INSERT INTO pedido_producto (id_pedido, id_producto, cantidad) VALUES (1, 1, 21);
+
+

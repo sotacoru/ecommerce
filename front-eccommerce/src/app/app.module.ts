@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -20,6 +20,9 @@ import { LoginRegisComponent } from './login-regis/login-regis.component';
 import { ProductosComponent } from './productos/productos.component';
 import { FormComponent } from './productos/form.component';
 import { ModalService } from './modal-perfil-user/modal-perfil-user.component';
+import { ThankyouPageComponent } from './thankyou-page/thankyou-page.component';
+import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { ModalService } from './modal-perfil-user/modal-perfil-user.component';
     VistaPerfilUsuarioComponent,
     LoginRegisComponent,
     ProductosComponent,
-    FormComponent
+    FormComponent,
+    ThankyouPageComponent
    ],
   imports: [
     BrowserModule,
@@ -41,7 +45,12 @@ import { ModalService } from './modal-perfil-user/modal-perfil-user.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [ ModalService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
+     ModalService
+             ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AppModule { }

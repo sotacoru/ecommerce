@@ -8,5 +8,5 @@ export class Producto {
     descripcion: string;
     cantidad: number;
     foto: string;
-    categoria: Categoria;
+    idcategoria: Categoria;
 }
