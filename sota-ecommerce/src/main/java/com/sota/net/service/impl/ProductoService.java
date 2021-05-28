@@ -9,7 +9,6 @@ import com.sota.net.service.IProductoService;
 import com.sota.net.utils.busqueda.ProductoCriteria;
 import io.github.jhipster.service.QueryService;
 import io.github.jhipster.service.filter.StringFilter;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -54,7 +53,7 @@ public class ProductoService extends QueryService implements IProductoService {
         return this.rep.findAllCategoria();
     }
 
-    @Transactional
+
     @Override
     public List<Producto> findByCategoria(String categoria) {
         return this.rep.findByCategoria(categoria);
@@ -107,9 +106,10 @@ public class ProductoService extends QueryService implements IProductoService {
                 filter.setContains(dto.getDescripcion());
                 productoCriteria.setDescripcion(filter);
             }
-            if (BooleanUtils.isTrue(dto.getFotoExist())) {
+            if(dto.getFoto()!=null) {
                 StringFilter filter = new StringFilter();
-                filter.setNotEquals(null);
+
+                filter.setSpecified(dto.getFoto());
                 productoCriteria.setHaveFoto(filter);
             }
         }
