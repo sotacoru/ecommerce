@@ -1,6 +1,6 @@
 import { ProductoService } from './../servicios/producto.service';
 import { Component, OnInit } from '@angular/core';
-import{Producto} from './productos'
+import{Producto} from './producto'
 import { SelectItem } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
 import {ProductoBusqueda} from "./producto_busqueda";
