@@ -45,12 +45,10 @@ export class AuthUsuarioService {
   }
 
   guardarUsuario(accessToken: string): void{
-    let payload = accessToken.split[1];
-    const playLoadDecoded = atob(payload);
-    const values = JSON.parse(playLoadDecoded);
+    let payload = this.obtenerDatosToken(accessToken);
     this._usuario = new Usuario();
     this._usuario = payload.idUsuario;
-    this._usuario.email = payload.email;
+    this._usuario = payload.email;
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }
 
