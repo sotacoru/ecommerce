@@ -45,12 +45,11 @@ export class AuthUsuarioService {
   }
 
   guardarUsuario(accessToken: string): void{
-    let payload = accessToken.split[1];
-    const playLoadDecoded = atob(payload);
-    const values = JSON.parse(playLoadDecoded);
+    let payload = this.obtenerDatosToken(accessToken);
+
     this._usuario = new Usuario();
-    this._usuario = payload.idUsuario;
-    this._usuario.email = payload.email;
+    this._usuario=payload;
+
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }
 
@@ -69,7 +68,7 @@ export class AuthUsuarioService {
 
   isAuthenticated(): boolean{
     let payload = this.obtenerDatosToken(this.token);
-    if(payload != null && payload.user_name && payload.user_name.length>0){
+    if(payload != null && payload.nombre && payload.nombre.length>0){
       return true;
     }
     return false;

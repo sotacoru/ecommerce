@@ -49,6 +49,9 @@ public class JwtProvider {
 			.setIssuedAt(new Date())
 			.setExpiration(tokenExpirationDate)
 			.claim("email", usuario.getEmail())
+			.claim("nombre", usuario.getNombre())
+			.claim("primerapellido", usuario.getPrimerapellido())
+			.claim("segundoapellido", usuario.getSegundoapellido())
 			.claim("rol", usuario.getPerfil().getNombreperfil())
 			.compact();
 	}
