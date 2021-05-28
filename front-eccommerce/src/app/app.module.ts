@@ -19,6 +19,7 @@ import { VistaPerfilUsuarioComponent } from './vista-perfil-usuario/vista-perfil
 import { LoginRegisComponent } from './login-regis/login-regis.component';
 import { ProductosComponent } from './productos/productos.component';
 import { FormComponent } from './productos/form.component';
+import { ModalService } from './modal-perfil-user/modal-perfil-user.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { FormComponent } from './productos/form.component';
     VistaPerfilUsuarioComponent,
     LoginRegisComponent,
     ProductosComponent,
-    FormComponent,
+    FormComponent
    ],
   imports: [
     BrowserModule,
@@ -40,7 +41,7 @@ import { FormComponent } from './productos/form.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
