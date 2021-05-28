@@ -221,7 +221,7 @@ public class ProductoController {
 
     }
 
-    @GetMapping("/administracion/uploads/img/{nombreFoto:.+}")
+    @GetMapping("/uploads/img/{nombreFoto:.+}")
     public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
         Resource recurso = null;
 
