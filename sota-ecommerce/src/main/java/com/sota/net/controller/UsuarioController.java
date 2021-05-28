@@ -160,10 +160,11 @@ public class UsuarioController {
 
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> loginPrueba(@RequestBody LoginRequest loginRequest) {
+		System.out.println(loginRequest.getEmail());
 		Authentication authentication =
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 						loginRequest.getEmail(),
-						loginRequest.getContraseña()
+						loginRequest.getPassword()
 						));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 

@@ -41,9 +41,9 @@ public class JwtProvider {
 		Usuario usuario = (Usuario) authentication.getPrincipal();
 		
 		//Duracion token
-		Date tokenExpirationDate = new Date(System.currentTimeMillis() + (jwtDurationTokenEnSegundos)*1000);
+		Date tokenExpirationDate = new Date(System.currentTimeMillis() + (jwtDurationTokenEnSegundos)*100000);
 		
-		return Jwts.builder().signWith(Keys.hmacShaKeyFor(jwtSecreto.getBytes()), SignatureAlgorithm.HS512).
+		return Jwts.builder().signWith(Keys.hmacShaKeyFor(jwtSecreto.getBytes()), SignatureAlgorithm.HS256).
 			setHeaderParam("typ", TOKEN_TYPE)
 			.setSubject(Long.toString(usuario.getIdusuario()))
 			.setIssuedAt(new Date())
