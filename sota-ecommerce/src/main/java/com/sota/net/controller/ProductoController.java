@@ -236,7 +236,7 @@ public class ProductoController {
     }
 
     //Parte publicas
-    @GetMapping("producto/categorias")
+    @GetMapping("/producto/categorias")
     public List<Categoria> listarCategorias() {
         return this.productoService.findAllCategoria();
     }
