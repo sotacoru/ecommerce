@@ -23,10 +23,12 @@ import { VistaPerfilUsuarioComponent } from './vista-perfil-usuario/vista-perfil
 import { LoginRegisComponent } from './login-regis/login-regis.component';
 import { ProductosComponent } from './productos/productos.component';
 import { FormComponent } from './productos/form.component';
+import { ModalService } from './modal-perfil-user/modal-perfil-user.component';
 import { ThankyouPageComponent } from './thankyou-page/thankyou-page.component';
 import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CheckboxModule} from "primeng/checkbox";
+
 
 @NgModule({
   declarations: [
@@ -40,7 +42,7 @@ import {CheckboxModule} from "primeng/checkbox";
     LoginRegisComponent,
     ProductosComponent,
     FormComponent,
-    ThankyouPageComponent,
+    ThankyouPageComponent
    ],
   imports: [
     BrowserModule,
@@ -63,10 +65,12 @@ import {CheckboxModule} from "primeng/checkbox";
     CheckboxModule,
 
   ],
-  providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
-  ],
   bootstrap: [AppComponent],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
+     ModalService
+             ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AppModule { }
