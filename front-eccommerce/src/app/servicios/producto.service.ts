@@ -50,6 +50,29 @@ export class ProductoService {
     )
 
   }
+
+  getProducto(id): Observable<Producto> {
+    return this.http.get<Producto>(`${this.url}/${id}`).pipe(
+      
+    )
+  }
+
+  update(producto: Producto): Observable<any> {
+    return this.http.put<Producto>(`http://localhost:8090/api/administracion/producto/{id}/${producto.id}`, producto).pipe(
+      catchError(e => {
+
+
+        if (e.status === 400) {
+          return throwError(e);
+        }
+
+
+        return throwError(e);
+      })
+    )
+
+  }
+
 }
 
 

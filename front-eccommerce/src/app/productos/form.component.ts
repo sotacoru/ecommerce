@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { Producto } from './producto';
-import {InputTextareaModule} from 'primeng/inputtextarea';
-import {InputTextModule} from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
 import { ProductoService } from '../servicios/producto.service';
 import { Categoria } from './categoria';
 import Swal from 'sweetalert2';
@@ -28,33 +28,53 @@ export class FormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-   this.cargarProducto()
+    this.cargarProducto()
 
   }
 
-  
+
   cargarProducto(): void {
     this.activateRoute.params.subscribe(params => {
       let id = params['id']
       if (id) {
-        //this.productoService.getProductos(id).subscribe((producto) => this.producto = producto)
+        this.productoService.getProducto(id).subscribe((producto) => {this.producto = producto
+        console.log(this.producto)}
+        )
+        
       }
     })
     this.productoService.getCategorias().subscribe(categoria => { this.categorias = categoria })
     console.log(this.categorias)
   }
-  
+
   create(): void {
     this.productoService.create(this.producto).subscribe(
       response => {
         console.log(response.producto)
-       /*  this.router.navigate([''])
-        Swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con exito`, 'success') */
+        /*  this.router.navigate([''])
+         Swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con exito`, 'success') */
       },
       err => {
         this.errores = err.error.errors as string[];
       }
     );
+  }
+
+  update(): void {
+    this.productoService.update(this.producto).subscribe(response => {
+      this.router.navigate(['/clientes'])
+      Swal.fire('Cliente actualizado', `Cliente ${response.producto.nombre} actualizado con exito`, 'success')
+    })
+
+
+  }
+
+  compararCategoriaa(o1: Categoria, o2: Categoria): boolean {
+
+    if (o1 === undefined || o2 === undefined) {
+      return true;
+    }
+    return o1 == null || o2 == null || o1 == undefined || o2 == undefined ? false : o1.id === o2.id;
   }
 }
 

@@ -16,8 +16,8 @@
 
         <div class="form-group mb-3">
           <label class="input-group-text" for="descripcion">Descripción</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-           name="descripcion"  [(ngModel)]="producto.descripcion"></textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descripcion"
+            [(ngModel)]="producto.descripcion"></textarea>
         </div>
 
 
@@ -46,15 +46,24 @@
           <div class="input-group-prepend">
             <label class="input-group-text" for="inputGroupSelect01">Categoria</label>
           </div>
-          <select name="categoria" [(ngModel)]="producto.idcategoria" class="custom-select" id="inputGroupSelect01">
-            <option [ngValue]="undefined" select>Selecionar una region</option>
-            <option *ngFor="let categoria of categorias" [ngValue]="  categoria">{{categoria.nombrecategoria}}</option>
+          <select [compareWith]="compararCategoriaa" name="categoria" [(ngModel)]="producto.idcategoria"
+            class="custom-select" id="inputGroupSelect01">
+            <option [ngValue]="undefined" select>Selecionar una categoria</option>
+            <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{categoria.nombrecategoria}}</option>
           </select>
         </div>
       </div>
+      
       <div class="form-group col-sm-6">
-        <input type="submit" (click)="create()" class="btn btn-lg btn-primary btn-block" value="Enviar">
+        <input type="submit" (click)="create()" class="btn btn-lg btn-primary btn-block"
+          *ngIf="!producto.id else elseBlock " value="Enviar">
+
+        <ng-template #elseBlock><input type="submit" (click)="update()" class="btn btn-lg btn-primary btn-block"
+            value="Actualizar"></ng-template>
       </div>
+
+
+
     </form>
 
   </div>
