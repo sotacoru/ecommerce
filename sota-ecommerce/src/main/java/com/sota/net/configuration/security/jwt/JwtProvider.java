@@ -1,6 +1,7 @@
-package com.sota.net.configuration.security;
+package com.sota.net.configuration.security.jwt;
 
 import java.util.Date;
+
 
 
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,11 @@ public class JwtProvider {
 	@Value("${jwt.secret:Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus e}")
 	private String jwtSecreto;
 	
+	@SuppressWarnings("unused")
+	public String getSecreto() {
+		return jwtSecreto;
+	}
+	
 	@Value("${jwt.token-expiration:864000}")
 	private int jwtDurationTokenEnSegundos;
 	
@@ -35,9 +41,9 @@ public class JwtProvider {
 		Usuario usuario = (Usuario) authentication.getPrincipal();
 		
 		//Duracion token
-		Date tokenExpirationDate = new Date(System.currentTimeMillis() + (jwtDurationTokenEnSegundos)*1000);
+		Date tokenExpirationDate = new Date(System.currentTimeMillis() + (jwtDurationTokenEnSegundos)*100000);
 		
-		return Jwts.builder().signWith(Keys.hmacShaKeyFor(jwtSecreto.getBytes()), SignatureAlgorithm.HS512).
+		return Jwts.builder().signWith(Keys.hmacShaKeyFor(jwtSecreto.getBytes()), SignatureAlgorithm.HS256).
 			setHeaderParam("typ", TOKEN_TYPE)
 			.setSubject(Long.toString(usuario.getIdusuario()))
 			.setIssuedAt(new Date())

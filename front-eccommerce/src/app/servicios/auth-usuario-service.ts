@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../usuarios/usuario';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -34,27 +35,22 @@ export class AuthUsuarioService {
   }
 
   login(usuario: Usuario): Observable<any> {
-    const urlEndPoint = 'http://localhost:8090/login';
+    const urlEndPoint = 'http://localhost:8090/api/login';
 
-    // const credenciales = btoa('AngularApp' + ':' + '1234.Abcd ');
+    //const credenciales = btoa('AngularApp' + ':' + '1234.Abcd ');
 
-    const httpHeaders = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded',
-  'Authorization': 'Basic '});
-    let params = new URLSearchParams();
-    params.set('grant_type', 'password');
-    params.set('email', usuario.email);
-    params.set('password', usuario.password);
-    console.log(params.toString());
-    return this.http.post<any>(urlEndPoint, params.toString(), {headers: httpHeaders});
+    const httpHeaders = new HttpHeaders({'Content-Type': 'application/json',
+  'Authorization': 'Basic ' });
+    return this.http.post<any>(urlEndPoint,usuario, {headers: httpHeaders});
   }
 
   guardarUsuario(accessToken: string): void{
-    let payload = this.obtenerDatosToken(accessToken);
+    let payload = accessToken.split[1];
+    const playLoadDecoded = atob(payload);
+    const values = JSON.parse(playLoadDecoded);
     this._usuario = new Usuario();
-    this._usuario.nombre = payload.nombre;
+    this._usuario = payload.idUsuario;
     this._usuario.email = payload.email;
-    this._usuario.nombre = payload.user_name;
-    this._usuario.perfil = payload.authorities;
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }
 
