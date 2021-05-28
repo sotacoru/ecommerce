@@ -75,7 +75,7 @@ public class ProductoController {
     }
 
     //parte pública
-    @GetMapping("/producto/{categoria}")
+    @GetMapping("/producto/categoria/{categoria}")
     public ResponseEntity<Object> showByCategoria(@PathVariable String categoria) {
 
         Map<String, Object> response = new HashMap<>();
@@ -237,7 +237,7 @@ public class ProductoController {
     }
 
     //Parte publicas
-    @GetMapping("producto/categorias")
+    @GetMapping("/producto/categorias")
     public List<Categoria> listarCategorias() {
         return this.productoService.findAllCategoria();
     }

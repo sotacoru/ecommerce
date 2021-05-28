@@ -1,10 +1,11 @@
 package com.sota.net.entity;
 
-import javax.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "pedido")
@@ -15,6 +16,7 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+
 	@ApiModelProperty(value = "Precio total del pedido", dataType = "Double", example = "10000", position = 2)
 	private Double precioTotal;
 	
@@ -30,6 +32,10 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "idpago")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Pago idPago;
+
+	 @OneToMany( mappedBy = "pedido")
+	 @JsonIgnore
+	 private List<PedidoProducto> pedidoProducto ;
 
 	public Pedido(long id, Double precioTotal, int realizado, Usuario idUsuario, Pago idPago) {
 		this.id = id;
@@ -81,6 +87,22 @@ public class Pedido implements Serializable {
 	public void setIdPago(Pago idPago) {
 		this.idPago = idPago;
 	}
+
+	
+	
+
+
+	public List<PedidoProducto> getPedidoProducto() {
+		return pedidoProducto;
+	}
+
+	public void setPedidoProducto(List<PedidoProducto> pedidoProducto) {
+		this.pedidoProducto = pedidoProducto;
+	}
+
+
+
+
 
 	/**
 	 * 

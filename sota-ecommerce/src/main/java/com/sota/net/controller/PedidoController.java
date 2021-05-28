@@ -1,9 +1,10 @@
 package com.sota.net.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sota.net.entity.Pedido;
+import com.sota.net.entity.dto.PedidoDto;
+import com.sota.net.entity.dto.UsuarioDtoConverter;
+import com.sota.net.service.IPedidoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +14,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sota.net.entity.Pedido;
-import com.sota.net.service.IPedidoService;
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class PedidoController {
-	
-	 @Autowired
-	 private IPedidoService pedidoService;
+
+	 private final IPedidoService pedidoService;
+	 private final UsuarioDtoConverter usuarioDtoConverter;
 	 
 	 @GetMapping("/pedido/{id}")
 	    public ResponseEntity<Object> mostrarPedido(@PathVariable Long id) {
@@ -40,7 +42,12 @@ public class PedidoController {
 	            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	        }
 
-	        return ResponseEntity.ok(pedido);
+
+	        return ResponseEntity.ok(PedidoDto.builder()
+					.idUsuario(usuarioDtoConverter.usuarioPedido(pedido.getIdUsuario()))
+					.idPago(pedido.getIdPago()).precioTotal(pedido.getPrecioTotal())
+					.realizado(pedido.getRealizado())
+					.id(pedido.getId()).build());
 	    }
 
 }

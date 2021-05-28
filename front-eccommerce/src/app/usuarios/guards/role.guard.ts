@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -23,7 +22,7 @@ export class RoleGuard implements CanActivate {
           return false;
       }
 
-      let role = next.data['role'] as string;
+      let role = next.data['perfil'] as string;
       console.log(role);
       if( this.authService.hasRole(role)){
         return true;
