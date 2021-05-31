@@ -1,6 +1,7 @@
 package com.sota.net.controller;
 
 import com.sota.net.configuration.security.jwt.JwtProvider;
+import com.sota.net.entity.Perfil;
 import com.sota.net.entity.Usuario;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
@@ -87,11 +88,12 @@ public class UsuarioController {
 	}
 
 	// CREACION USUARIOS
-	@PostMapping("/usuario")
+	@PostMapping("/registro/usuario")
 	public ResponseEntity<?> create(@RequestBody Usuario usuario, BindingResult result) {
 		Usuario usuarioNew = null;
 		Map<String, Object> response = new HashMap<>();
-
+		Perfil p = new Perfil(Long.parseLong("1"));
+		usuario.setPerfil(p);
 		if (result.hasErrors()) {
 
 			List<String> errors = result.getFieldErrors().stream()
@@ -108,10 +110,18 @@ public class UsuarioController {
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
+		//Creación token
 
-		response.put("mensaje", "El usuario ha sido devuelto con exito!");
-		response.put("producto", usuarioNew);
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+		Authentication authentication = authUsuario(usuarioNew.getEmail(), usuarioNew.getPassword());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		usuarioNew = (Usuario) authentication.getPrincipal();
+		String jwtToken = jwtProvider.generateToken(authentication);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(convertUserEntityAndTokenToJwtUserResponse(usuarioNew, jwtToken));
+				
+				
 	}
 
 	// UPDATE USUARIOS
@@ -141,8 +151,6 @@ public class UsuarioController {
 			usuarioActual.setPrimerapellido(usuario.getPrimerapellido());
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
 			usuarioActual.setEmail(usuario.getEmail());
-			System.out.println("Estamos dentro del try");
-			System.out.println(usuario.getNombre());
 
 			usuarioUpdated = usuarioService.save(usuarioActual);
 		} catch (DataAccessException e) {
@@ -159,15 +167,9 @@ public class UsuarioController {
 
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> loginPrueba(@RequestBody LoginRequest loginRequest) {
-		System.out.println(loginRequest.getEmail());
-		Authentication authentication =
-				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-						loginRequest.getEmail(),
-						loginRequest.getPassword()
-						));
+		Authentication authentication = authUsuario(loginRequest.getEmail(), loginRequest.getPassword());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		System.out.println("dlnssd,mnds,mndsds,b");
 		Usuario nuevoUsuario = (Usuario) authentication.getPrincipal();
 		String jwtToken = jwtProvider.generateToken(authentication);
 
@@ -193,6 +195,17 @@ public class UsuarioController {
 				.token(jwtToken)
 				.build();
 
+	}
+	
+	private Authentication authUsuario(String email, String password) {
+		
+		Authentication authentication =
+				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+						email,
+						password
+						));
+		
+		return authentication;
 	}
 
 }

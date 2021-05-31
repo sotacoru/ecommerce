@@ -25,6 +25,10 @@ public class Perfil implements Serializable {
     @ApiModelProperty(value = "Descripción del perfil", dataType = "String", example = "Usuario que solo puede realizar compras", position = 3)
     @Column(name = "descripcion")
     private String descripcion;
+    
+    public Perfil(Long idperfil) {
+    	this.idperfil= idperfil;
+    }
 
     public Long getIdperfil() {
         return idperfil;

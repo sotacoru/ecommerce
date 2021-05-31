@@ -55,7 +55,11 @@ export class LoginRegisComponent implements OnInit {
 
   registrarse(){
     if(this.validarCamposVacios() && this.validarLongitudCampos() && this.validarFormatoCampos()){
-        
+
+        console.log(this.usuario.idPerfil)
+        this.authService.registro(this.usuario).subscribe(response => {
+          console.log(response);
+        })
     }
   }
 
