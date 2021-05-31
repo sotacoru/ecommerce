@@ -11,24 +11,41 @@ import { Categoria } from '../productos/categoria';
   providedIn: 'root'
 })
 export class ProductoService {
-  private url:string = 'http://localhost:8090/api/producto'
-  private httpHeaders = new HttpHeaders({'Content-Type':'application/json'});
-  constructor(private http:HttpClient, private router: Router) { }
-  getProductos():Observable<any>{
+  private url: string = 'http://localhost:8090/api/producto'
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  constructor(private http: HttpClient, private router: Router) { }
+
+  getProductos(): Observable<any> {
     return this.http.get(this.url + '/stock').pipe(
-      map((response:any)=>{
-       return response;
+      map((response: any) => {
+        return response;
       }),
 
     )
 
   }
-  getProductosBusqueda(busqueda: ProductoBusqueda ):Observable<Producto[]>{
-    return this.http.post(this.url + '/busqueda',busqueda,{headers:this.httpHeaders}).pipe(
-      map((response:any)=>{
+
+  getProductosId(id): Observable<Producto> {
+    return this.http.get<Producto>(`${this.url}/${id}`).pipe(
+      catchError(e => {
+        if (e.status != 401 && e.error.mensaje)
+          this.router.navigate(['/producto'])
+        /* console.log(e.error.mensaje) */
+
+        return throwError(e);
+      })
+    )
+  }
+
+  getProductosBusqueda(busqueda: ProductoBusqueda): Observable<Producto[]> {
+    return this.http.post(this.url + '/busqueda', busqueda, { headers: this.httpHeaders }).pipe(
+      map((response: any) => {
         return response;
       })
     )
+  }
+  getProductosCategoria(categoria: string): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.url}/categoria/${categoria}`)
   }
   getCategorias(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(this.url + '/categorias');
@@ -50,6 +67,7 @@ export class ProductoService {
     )
 
   }
+
 
   getProducto(id): Observable<Producto> {
     return this.http.get<Producto>(`${this.url}/${id}`).pipe(
@@ -73,6 +91,7 @@ export class ProductoService {
 
   }
 
+
   subirFoto(archivo: File, id): Observable<HttpEvent<{}>> {
     let formdata = new FormData();
     formdata.append('archivo', archivo);
@@ -91,8 +110,20 @@ export class ProductoService {
 
     return this.http.request(req);
 
+
   }
 
+
+  delete(id: number): Observable<Producto> {
+    return this.http.delete<Producto>(`http://localhost:8090/api/administracion/producto/${id}`).pipe(
+      catchError(e => {
+        /*         this.router.navigate(['/']) */
+        /* console.log(e.error.mensaje) */
+        return throwError(e);
+      })
+
+    )
+  }
 
 }
 

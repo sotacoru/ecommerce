@@ -1,10 +1,11 @@
 package com.sota.net.service.impl;
 
 import com.sota.net.entity.Categoria;
-
-
 import com.sota.net.entity.Producto;
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
 import com.sota.net.entity.Producto_;
 import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.repository.IProductoRepository;
@@ -18,10 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
-
-import javax.transaction.Transactional;
 
 @Service("productoService")
 public class ProductoService extends QueryService implements IProductoService {
@@ -75,14 +75,17 @@ public class ProductoService extends QueryService implements IProductoService {
         return productos;
     }
 
-    @Transactional
     private Specification<Producto> createSpecification(ProductoCriteria criteria) {
         Specification<Producto> specification = Specification.where(null);
         if (criteria == null) {
             return specification;
         }
         if (criteria.getNombre() != null) {
+<<<<<<< HEAD
         specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
+=======
+          specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
+>>>>>>> develop
         }
         if (criteria.getDescripcion() != null) {
             specification =
@@ -96,7 +99,7 @@ public class ProductoService extends QueryService implements IProductoService {
         return specification;
     }
 
-    @Transactional
+
     private static ProductoCriteria createCriteria(ProductoBusqueda dto) {
         ProductoCriteria productoCriteria = new ProductoCriteria();
         if (dto != null) {
@@ -112,7 +115,7 @@ public class ProductoService extends QueryService implements IProductoService {
                 filter.setContains(dto.getDescripcion());
                 productoCriteria.setDescripcion(filter);
             }
-            if (BooleanUtils.isTrue(dto.getFotoExist())) {
+            if (BooleanUtils.isTrue(dto.getFoto())) {
                 StringFilter filter = new StringFilter();
                 filter.setNotEquals(null);
                 productoCriteria.setHaveFoto(filter);

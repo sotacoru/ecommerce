@@ -44,6 +44,7 @@ export class FormComponent implements OnInit {
           console.log(this.producto)
         }
         )
+        this.productoService.getProductosId(id).subscribe((producto) => this.producto = producto)
 
       }
     })
@@ -55,8 +56,27 @@ export class FormComponent implements OnInit {
     this.productoService.create(this.producto).subscribe(
       response => {
         console.log(response.producto)
+
         /*  this.router.navigate([''])
          Swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con exito`, 'success') */
+
+        if(!this.fotoSeleccionada){
+          Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
+        }else{
+          this.productoService.subirFoto(this.fotoSeleccionada, response.producto.id).subscribe(
+            event => {
+              if (event.type === HttpEventType.UploadProgress) {
+              } else if (event.type === HttpEventType.Response) {
+                let response: any = event.body;
+                this.producto = response.cliente as Producto;
+                /* Swal.fire('La foto se ha subido correctamente', response.message, 'success'); */
+              }
+              /* this.cliente = cliente; */
+            }
+          )
+        }
+      Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success') 
+
       },
       err => {
         this.errores = err.error.errors as string[];
@@ -64,22 +84,6 @@ export class FormComponent implements OnInit {
     );
   }
 
-  update(): void {
-    this.productoService.update(this.producto).subscribe(response => {
-      this.router.navigate(['/clientes'])
-      Swal.fire('Cliente actualizado', `Cliente ${response.producto.nombre} actualizado con exito`, 'success')
-    })
-
-
-  }
-
-  compararCategoriaa(o1: Categoria, o2: Categoria): boolean {
-
-    if (o1 === undefined || o2 === undefined) {
-      return true;
-    }
-    return o1 == null || o2 == null || o1 == undefined || o2 == undefined ? false : o1.id === o2.id;
-  }
 
   seleccionarFoto(event) {
     this.fotoSeleccionada = event.target.files[0];
@@ -89,6 +93,41 @@ export class FormComponent implements OnInit {
       this.fotoSeleccionada = null;
     }
   }
+
+  update(): void {
+    this.productoService.update(this.producto).subscribe(response => {
+      if(!this.fotoSeleccionada){
+        Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
+      }else{
+        this.productoService.subirFoto(this.fotoSeleccionada, response.producto.id).subscribe(
+          event => {
+            if (event.type === HttpEventType.UploadProgress) {
+            } else if (event.type === HttpEventType.Response) {
+              let response: any = event.body;
+              this.producto = response.cliente as Producto;
+              /* Swal.fire('La foto se ha subido correctamente', response.message, 'success'); */
+            }
+            /* this.cliente = cliente; */
+          }
+        )
+      }
+      Swal.fire('Producto actualizado', `Prducto ${response.producto.nombre} actualizado con exito`, 'success')
+    })
+
+
+  }
+
+
+
+  compararCategoriaa(o1: Categoria, o2: Categoria): boolean {
+
+    if (o1 === undefined || o2 === undefined) {
+      return true;
+    }
+    return o1 == null || o2 == null || o1 == undefined || o2 == undefined ? false : o1.id === o2.id;
+  }
+
+
 
   subirFoto() {
     if (!this.fotoSeleccionada) {
