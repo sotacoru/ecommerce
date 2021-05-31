@@ -1,6 +1,6 @@
 export class ProductoBusqueda {
   nombre: string;
   descripcion:string;
-  foto:boolean;
+  foto:boolean=false;
 }
 

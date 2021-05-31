@@ -12,9 +12,9 @@ const routes: Routes = [
   {path: '', redirectTo:'/productos' , pathMatch:'full'},
   {path: 'pedidos', component: PedidosComponent},
   {path: 'login', component: LoginRegisComponent},
-  {path: 'productos', component: ProductosComponent},
+  {path: 'productos/:categoria', component: ProductosComponent},
   {path: 'thankyou', component: ThankyouPageComponent},
-  {path: 'productos', component: FormComponent}
+  {path: 'productos', component: ProductosComponent}
 ];
 
 @NgModule({
