@@ -141,7 +141,6 @@ public class UsuarioController {
 			usuarioActual.setPrimerapellido(usuario.getPrimerapellido());
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
 			usuarioActual.setEmail(usuario.getEmail());
-			usuarioActual.setPago(usuario.getPago());
 			System.out.println("Estamos dentro del try");
 			System.out.println(usuario.getNombre());
 
@@ -180,7 +179,6 @@ public class UsuarioController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/usuario/me")
 	public GetUsuarioDto yo(@AuthenticationPrincipal Usuario usuario) {
-		
 		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);
 	}
 
@@ -192,7 +190,6 @@ public class UsuarioController {
 				.segundoApellido(nuevoUsuario.getSegundoapellido())
 				.email(nuevoUsuario.getEmail())
 				.perfil(nuevoUsuario.getPerfil())
-				.pago(nuevoUsuario.getPago())
 				.token(jwtToken)
 				.build();
 
