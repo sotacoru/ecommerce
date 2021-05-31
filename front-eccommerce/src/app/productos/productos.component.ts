@@ -16,7 +16,7 @@ export class ProductosComponent implements OnInit {
   sortOptions: SelectItem[];
   sortOrder: number;
   sortField: string;
-
+  urlImg:string = "http://localhost:8080/api/uploads/img/"
 
   constructor(private ps: ProductoService,  private primengConfig: PrimeNGConfig, private route: ActivatedRoute) {
     this.busqueda= new ProductoBusqueda();
