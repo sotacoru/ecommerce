@@ -51,6 +51,10 @@ export class ProductoService {
     return this.http.get<Categoria[]>(this.url + '/categorias');
   }
 
+  getProducto(id):Observable<Producto>{
+    return this.http.get<Producto>(`${this.url}/${id}`)
+  }
+
   create(producto: Producto): Observable<any> {
     console.log(producto)
     return this.http.post<Producto>("http://localhost:8090/api/administracion/producto", producto).pipe(
@@ -69,11 +73,6 @@ export class ProductoService {
   }
 
 
-  getProducto(id): Observable<Producto> {
-    return this.http.get<Producto>(`${this.url}/${id}`).pipe(
-      
-    )
-  }
 
   update(producto: Producto): Observable<any> {
     return this.http.put<Producto>(`http://localhost:8090/api/administracion/producto/{id}/${producto.id}`, producto).pipe(

@@ -28,6 +28,7 @@ import { ThankyouPageComponent } from './thankyou-page/thankyou-page.component';
 import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CheckboxModule} from "primeng/checkbox";
+import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {CheckboxModule} from "primeng/checkbox";
     LoginRegisComponent,
     ProductosComponent,
     FormComponent,
-    ThankyouPageComponent
+    ThankyouPageComponent,
+    DetalleProductoComponent
    ],
   imports: [
     BrowserModule,
@@ -63,6 +65,7 @@ import {CheckboxModule} from "primeng/checkbox";
     BrowserAnimationsModule,
     ReactiveFormsModule,
     CheckboxModule,
+
 
   ],
   bootstrap: [AppComponent],
