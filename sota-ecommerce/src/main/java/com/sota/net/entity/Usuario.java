@@ -1,15 +1,15 @@
 package com.sota.net.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import com.sota.net.model.UserPerfil;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,19 +34,28 @@ public class Usuario implements Serializable, UserDetails {
 	private Long idUsuario;
 
 	@ApiModelProperty(value = "Nombre del usuario", dataType = "String", example = "Pepe", position = 2)
+	@NotNull
+	@Size(min=2, max=20)
 	private String nombre;
 
 	@ApiModelProperty(value = "Primer apellido del usuario", dataType = "String", example = "Rodríguez", position = 3)
+	@NotNull
+	@Size(min=2, max=20)
 	private String primerapellido;
 
 	@ApiModelProperty(value = "Segundo apellido del usuario", dataType = "String", example = "López", position = 4)
+	@NotNull
+	@Size(min=2, max=20)
 	private String segundoapellido;
 
 	@ApiModelProperty(value = "Email del usuario", dataType = "String", example = "email@email.com", position = 5)
 	@Column(unique = true)
+	@NotNull
+	@Size(min=10, max=320)
 	private String email;
 
 	@ApiModelProperty(value = "password del usuario", dataType = "String", example = "password123.", position = 6)
+	@Size(min=6, max=30)
 	private String password;
 
 	@ApiModelProperty(value = "Perfil asociado al usuario", dataType = "Perfil", example = "ADMINISTRADOR", position = 7)

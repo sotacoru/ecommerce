@@ -112,7 +112,7 @@ public class ProductoService extends QueryService implements IProductoService {
                 filter.setContains(dto.getDescripcion());
                 productoCriteria.setDescripcion(filter);
             }
-            if (BooleanUtils.isTrue(dto.getFotoExist())) {
+            if (BooleanUtils.isTrue(dto.getFoto())) {
                 StringFilter filter = new StringFilter();
                 filter.setNotEquals(null);
                 productoCriteria.setHaveFoto(filter);

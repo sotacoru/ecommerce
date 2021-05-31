@@ -28,9 +28,13 @@ export class LoginRegisComponent implements OnInit {
 
 
   login(){
-      console.log(this.usuario);
+      //Validacion formulario
+
       if(this.usuario.password == null || this.usuario.email == null){
         swal.fire('Error login', '¡Username o password vacíos!', 'error');
+        return;
+      }else if(!this.validarEmail()){
+        swal.fire('Error formato email','Formato de la dirección de email no válido','error');
         return;
       }
 
@@ -47,5 +51,13 @@ export class LoginRegisComponent implements OnInit {
           swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
         }
       });
+  }
+
+  validarEmail(): any {
+    if (/^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail)\.(?:|com|es)+$/.test(this.usuario.email)){
+      return true;
+    } else {
+   return false;
+    }
   }
 }

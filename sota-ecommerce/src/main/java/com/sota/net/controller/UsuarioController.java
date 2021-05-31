@@ -180,7 +180,6 @@ public class UsuarioController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/usuario/me")
 	public GetUsuarioDto yo(@AuthenticationPrincipal Usuario usuario) {
-		
 		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);
 	}
 

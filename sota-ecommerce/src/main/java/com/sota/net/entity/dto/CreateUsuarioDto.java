@@ -1,16 +1,31 @@
 package com.sota.net.entity.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.sota.net.entity.Pago;
 import com.sota.net.entity.Perfil;
 
 
 public class CreateUsuarioDto {
 
+	@NotNull
+	@Size(min=2, max=20)
     private String nombre;
+	@NotNull
+	@Size(min=2, max=20)
     private String primerApellido;
+	@NotNull
+	@Size(min=2, max=20)
     private String segundoApellido;
+	@NotNull
+	@Size(min=10, max=320)
     private String email;
+	@NotNull
+	@Size(min=6, max=30)
     private String password;
+	@NotNull
+	@Size(min=10, max=30)
     private String password2;
     private Perfil perfil;
     private Pago pago;
