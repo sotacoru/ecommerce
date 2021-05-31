@@ -17,7 +17,11 @@ const routes: Routes = [
   {path: 'productos/:categoria', component: ProductosComponent},
   {path:'producto/:id', component:DetalleProductoComponent },
   {path: 'thankyou', component: ThankyouPageComponent},
-  {path: 'productos', component: ProductosComponent}
+
+  {path: 'productos', component: ProductosComponent},
+  {path: 'formulario', component: FormComponent},
+  {path: 'formulario/:id', component: FormComponent}
+
 ];
 
 @NgModule({

@@ -208,7 +208,8 @@ public class ProductoController {
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
             String nombreFotoAntiguo = producto.getFoto();
-
+            
+            
             this.fotoService.eliminar(nombreFotoAntiguo);
 
             producto.setFoto(nombreArchivo);
