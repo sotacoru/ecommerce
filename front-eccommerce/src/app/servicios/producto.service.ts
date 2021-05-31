@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest, } from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators'
 import {ProductoBusqueda} from "../productos/producto_busqueda";
 import {Producto} from "../productos/producto";
@@ -72,6 +72,27 @@ export class ProductoService {
     )
 
   }
+
+  subirFoto(archivo: File, id): Observable<HttpEvent<{}>> {
+    let formdata = new FormData();
+    formdata.append('archivo', archivo);
+    formdata.append('id', id);
+
+    /*   let httpHeaders = new HttpHeaders();
+      let token = this.authservice.token;
+      if(token != null) {
+        httpHeaders  = httpHeaders.append('Authorization','Bearer ' + token)
+      } */
+
+    const req = new HttpRequest('POST', `http://localhost:8090/api/administracion/productos/upload`, formdata /* {
+      reportProgress: true,
+      headers: httpHeaders
+    } */)
+
+    return this.http.request(req);
+
+  }
+
 
 }
 

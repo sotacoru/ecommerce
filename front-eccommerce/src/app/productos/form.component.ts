@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ProductoService } from '../servicios/producto.service';
 import { Categoria } from './categoria';
 import Swal from 'sweetalert2';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-form',
@@ -18,6 +19,7 @@ export class FormComponent implements OnInit {
   titulo: string = "Nuevo producto";
   producto: Producto = new Producto;
   categorias: Categoria[];
+  public fotoSeleccionada: File;
   public errores: string[];
   constructor(
     private router: Router,
@@ -37,10 +39,12 @@ export class FormComponent implements OnInit {
     this.activateRoute.params.subscribe(params => {
       let id = params['id']
       if (id) {
-        this.productoService.getProducto(id).subscribe((producto) => {this.producto = producto
-        console.log(this.producto)}
+        this.productoService.getProducto(id).subscribe((producto) => {
+          this.producto = producto
+          console.log(this.producto)
+        }
         )
-        
+
       }
     })
     this.productoService.getCategorias().subscribe(categoria => { this.categorias = categoria })
@@ -76,5 +80,33 @@ export class FormComponent implements OnInit {
     }
     return o1 == null || o2 == null || o1 == undefined || o2 == undefined ? false : o1.id === o2.id;
   }
-}
 
+  seleccionarFoto(event) {
+    this.fotoSeleccionada = event.target.files[0];
+    console.log(this.fotoSeleccionada);
+    if (this.fotoSeleccionada.type.indexOf('image') < 0) {
+      Swal.fire('Error ', `El archivo debe ser tipo imagen`, 'error');
+      this.fotoSeleccionada = null;
+    }
+  }
+
+  subirFoto() {
+    if (!this.fotoSeleccionada) {
+      Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
+    } else {
+      this.productoService.subirFoto(this.fotoSeleccionada, this.producto.id).subscribe(
+        event => {
+          if (event.type === HttpEventType.UploadProgress) {
+
+          } else if (event.type === HttpEventType.Response) {
+            let response: any = event.body;
+            this.producto = response.cliente as Producto;
+
+            Swal.fire('La foto se ha subido correctamente', response.message, 'success');
+          }
+          /* this.cliente = cliente; */
+        }
+      );
+    }
+  }
+}
