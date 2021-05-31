@@ -64,10 +64,10 @@
   .product-grid-item {
     margin: .5em;
     border: 1px solid #dee2e6;
-
+    max-width: 500px;
     .product-grid-item-top,
     .product-grid-item-bottom {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: space-between;
     }
@@ -88,6 +88,7 @@
     }
     .product-description{
       font-size: 1rem;
+      min-height: 50px;
 
     }
   }
@@ -108,6 +109,13 @@
 }
 
 @media screen and (max-width: 1024px) {
+  .product-grid-item{
+    min-height: auto;
+
+  }
+  .product-grid-item-bottom{
+    display: inline-block;
+  }
   :host ::ng-deep .product-list-item{
     flex-direction: column;
     align-items: center;
@@ -137,6 +145,8 @@
       align-items: center;
       width: 100%;
     }
+
   }
+
 
 }
