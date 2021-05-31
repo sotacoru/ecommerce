@@ -7,6 +7,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import { ProductoService } from '../servicios/producto.service';
 import { Categoria } from './categoria';
 import Swal from 'sweetalert2';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-form',
@@ -19,6 +20,7 @@ export class FormComponent implements OnInit {
   producto: Producto = new Producto;
   categorias: Categoria[];
   public errores: string[];
+  public fotoSeleccionada: File;
   constructor(
     private router: Router,
     private productoService: ProductoService,
@@ -37,7 +39,7 @@ export class FormComponent implements OnInit {
     this.activateRoute.params.subscribe(params => {
       let id = params['id']
       if (id) {
-        //this.productoService.getProductos(id).subscribe((producto) => this.producto = producto)
+        this.productoService.getProductosId(id).subscribe((producto) => this.producto = producto)
       }
     })
     this.productoService.getCategorias().subscribe(categoria => { this.categorias = categoria })
@@ -48,13 +50,60 @@ export class FormComponent implements OnInit {
     this.productoService.create(this.producto).subscribe(
       response => {
         console.log(response.producto)
-       /*  this.router.navigate([''])
-        Swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con exito`, 'success') */
+        if(!this.fotoSeleccionada){
+          Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
+        }else{
+          this.productoService.subirFoto(this.fotoSeleccionada, response.producto.id).subscribe(
+            event => {
+              if (event.type === HttpEventType.UploadProgress) {
+              } else if (event.type === HttpEventType.Response) {
+                let response: any = event.body;
+                this.producto = response.cliente as Producto;
+                /* Swal.fire('La foto se ha subido correctamente', response.message, 'success'); */
+              }
+              /* this.cliente = cliente; */
+            }
+          )
+        }
+      Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success') 
       },
       err => {
         this.errores = err.error.errors as string[];
       }
     );
   }
+
+  seleccionarFoto(event) {
+    this.fotoSeleccionada = event.target.files[0];
+    console.log(this.fotoSeleccionada);
+    if (this.fotoSeleccionada.type.indexOf('image') < 0) {
+      Swal.fire('Error ', `El archivo debe ser tipo imagen`, 'error');
+      this.fotoSeleccionada = null;
+    }
+  }
+
+  update(): void {
+    this.productoService.update(this.producto).subscribe(response => {
+      if(!this.fotoSeleccionada){
+        Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
+      }else{
+        this.productoService.subirFoto(this.fotoSeleccionada, response.producto.id).subscribe(
+          event => {
+            if (event.type === HttpEventType.UploadProgress) {
+            } else if (event.type === HttpEventType.Response) {
+              let response: any = event.body;
+              this.producto = response.cliente as Producto;
+              /* Swal.fire('La foto se ha subido correctamente', response.message, 'success'); */
+            }
+            /* this.cliente = cliente; */
+          }
+        )
+      }
+      Swal.fire('Producto actualizado', `Prducto ${response.producto.nombre} actualizado con exito`, 'success')
+    })
+
+
+  }
+
 }
 

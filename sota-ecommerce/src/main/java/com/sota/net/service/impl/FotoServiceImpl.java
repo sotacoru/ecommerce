@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+
 @Service
 public class FotoServiceImpl implements IFotoService {
 
@@ -44,10 +45,10 @@ public class FotoServiceImpl implements IFotoService {
     @Override
     public String copiar(MultipartFile archivo) throws IOException {
 
-        String nombreArchivo = UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace("", "");
-        Path rutaArchivo = this.getPath(nombreArchivo);
-        this.log.info(rutaArchivo.toString());
-        Files.copy(archivo.getInputStream(), rutaArchivo);
+    	String nombreArchivo = UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace("", "");
+		Path rutaArchivo = getPath(nombreArchivo);
+		log.info(rutaArchivo.toString());
+		Files.copy(archivo.getInputStream(), rutaArchivo);
 
         return nombreArchivo;
     }
