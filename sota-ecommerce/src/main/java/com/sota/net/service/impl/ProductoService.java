@@ -1,7 +1,10 @@
 package com.sota.net.service.impl;
 
 import com.sota.net.entity.Categoria;
+
+
 import com.sota.net.entity.Producto;
+
 import com.sota.net.entity.Producto_;
 import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.repository.IProductoRepository;
@@ -9,14 +12,16 @@ import com.sota.net.service.IProductoService;
 import com.sota.net.utils.busqueda.ProductoCriteria;
 import io.github.jhipster.service.QueryService;
 import io.github.jhipster.service.filter.StringFilter;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 @Service("productoService")
 public class ProductoService extends QueryService implements IProductoService {
@@ -53,7 +58,7 @@ public class ProductoService extends QueryService implements IProductoService {
         return this.rep.findAllCategoria();
     }
 
-
+    @Transactional
     @Override
     public List<Producto> findByCategoria(String categoria) {
         return this.rep.findByCategoria(categoria);
@@ -70,6 +75,7 @@ public class ProductoService extends QueryService implements IProductoService {
         return productos;
     }
 
+    @Transactional
     private Specification<Producto> createSpecification(ProductoCriteria criteria) {
         Specification<Producto> specification = Specification.where(null);
         if (criteria == null) {
@@ -90,7 +96,7 @@ public class ProductoService extends QueryService implements IProductoService {
         return specification;
     }
 
-
+    @Transactional
     private static ProductoCriteria createCriteria(ProductoBusqueda dto) {
         ProductoCriteria productoCriteria = new ProductoCriteria();
         if (dto != null) {
@@ -106,10 +112,9 @@ public class ProductoService extends QueryService implements IProductoService {
                 filter.setContains(dto.getDescripcion());
                 productoCriteria.setDescripcion(filter);
             }
-            if(dto.getFoto()!=null) {
+            if (BooleanUtils.isTrue(dto.getFotoExist())) {
                 StringFilter filter = new StringFilter();
-
-                filter.setSpecified(dto.getFoto());
+                filter.setNotEquals(null);
                 productoCriteria.setHaveFoto(filter);
             }
         }
