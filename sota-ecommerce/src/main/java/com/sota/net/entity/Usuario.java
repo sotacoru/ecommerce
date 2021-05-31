@@ -64,20 +64,14 @@ public class Usuario implements Serializable, UserDetails {
 	@JoinColumn(name = "idperfil")
 	private Perfil perfil;
 
-	@ApiModelProperty(value = "Pago favorito elegido por el usuario", dataType = "Pago", example = "TARJETA", position = 8)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idpago")
-	private Pago pago;
-
 	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password,
-			Perfil perfil, Pago pago) {
+			Perfil perfil) {
 		this.nombre = nombre;
 		this.primerapellido = primerapellido;
 		this.segundoapellido = segundoapellido;
 		this.email = email;
 		this.password = password;
 		this.perfil = perfil;
-		this.pago = pago;
 	}
 
 	public Long getIdusuario() {
@@ -134,14 +128,6 @@ public class Usuario implements Serializable, UserDetails {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
-	}
-
-	public Pago getPago() {
-		return pago;
-	}
-
-	public void setPago(Pago pago) {
-		this.pago = pago;
 	}
 
 

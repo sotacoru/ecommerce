@@ -28,7 +28,6 @@ public class CreateUsuarioDto {
 	@Size(min=10, max=30)
     private String password2;
     private Perfil perfil;
-    private Pago pago;
 
 
     public CreateUsuarioDto() {
@@ -42,7 +41,6 @@ public class CreateUsuarioDto {
         this.email = email;
         this.password = password;
         this.password2 = password2;
-        this.pago = pago;
     }
 
     public String getNombre() {
@@ -91,14 +89,6 @@ public class CreateUsuarioDto {
 
     public void setPassword2(String password2) {
         this.password2 = password2;
-    }
-
-    public Pago getPago() {
-        return this.pago;
-    }
-
-    public void setPago(Pago pago) {
-        this.pago = pago;
     }
 
     public Perfil getPerfil() {

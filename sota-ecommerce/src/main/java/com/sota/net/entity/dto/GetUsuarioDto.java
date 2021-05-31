@@ -21,7 +21,6 @@ public class GetUsuarioDto {
 	private String segundoApellido;
 	private String email;
 	private Perfil perfil;
-	private Pago pago;
 	
 	
 	

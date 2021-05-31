@@ -19,14 +19,13 @@ public class UsuarioDtoConverter {
 				usuario.getPrimerapellido(),
 				usuario.getSegundoapellido(),
 				usuario.getEmail(),
-				usuario.getPerfil(),
-				usuario.getPago()
+				usuario.getPerfil()
 				);
 		return user;
 	}
 
 	public Usuario crearUsuario(CreateUsuarioDto nuevoUsuario) {
-		Usuario u = null;
+		Usuario u= null;
 		if(nuevoUsuario.getPassword().contentEquals(nuevoUsuario.getPassword2())) {
 			u = new Usuario(
 					nuevoUsuario.getNombre(),
@@ -34,9 +33,7 @@ public class UsuarioDtoConverter {
 					nuevoUsuario.getSegundoApellido(),
 					nuevoUsuario.getEmail(),
 					passEncoder.encode(nuevoUsuario.getPassword()).toString(),
-					nuevoUsuario.getPerfil(),
-					nuevoUsuario.getPago()
-					);
+					nuevoUsuario.getPerfil());
 
 		}else {
 
