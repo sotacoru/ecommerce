@@ -75,7 +75,7 @@ export class FormComponent implements OnInit {
             }
           )
         }
-      Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success') 
+      Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success')
 
       },
       err => {
@@ -104,12 +104,12 @@ export class FormComponent implements OnInit {
             } else if (event.type === HttpEventType.Response) {
               let response: any = event.body;
               this.producto = response.cliente as Producto;
-              /* Swal.fire('La foto se ha subido correctamente', response.message, 'success'); */
             }
-            /* this.cliente = cliente; */
-          
+          }
+
         )
       }
+
       Swal.fire('Producto actualizado', `Prducto ${response.producto.nombre} actualizado con exito`, 'success')
     })
 

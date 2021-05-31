@@ -10,6 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class DetalleProductoComponent implements OnInit {
   producto: Producto;
+  urlImg:string = "http://localhost:8080/api/uploads/img/"
   constructor(private ps: ProductoService, private activateRoute: ActivatedRoute, private router: Router) {
     this.producto= new Producto();
   }

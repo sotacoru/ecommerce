@@ -45,8 +45,7 @@ export class HeaderComponent implements OnInit {
 
             },
             {label: 'Log In', icon: 'pi pi-fw pi-users', routerLink: ['/login']},
-            {label: 'Thank You', routerLink: ['/thankyou']},
-            {label: 'Productos TEMPORAR', routerLink: ['/producto/enviar']}
+
 
         ];
 
