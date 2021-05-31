@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="card">
+    <div class="container-fliud">
+      <div class="wrapper row">
+        <div class="preview col-md-6">
+          <div class="preview-pic tab-content">
+            <div class="tab-pane active" id="pic-1"><img *ngIf="producto?.foto" [src]="urlImg +''+ producto.foto" [alt]="producto.nombre" />
+              <img class="img-thumbnail rounded" *ngIf="!producto?.foto" src="http://localhost:8090/images/notImagen.jpg" alt="sin foto" width="80%"></div>
+          </div>
+
+
+        </div>
+        <div class="details col-md-6">
+          <h3 class="product-title">{{producto.nombre}}</h3>
+          <p class="product-description">{{producto.descripcion}}</p>
+          <h4 class="price"><span>{{producto.precio}} €</span></h4>
+
+
+          <div class="categoria">
+            <h5> <i class="pi pi-tag product-category-icon"></i><span class="product-category"> {{producto.idcategoria.nombrecategoria}}</span></h5>
+          </div>
+
+          <div class="action">
+            <p-button icon="pi pi-shopping-cart" label="Añadir carrito" ></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

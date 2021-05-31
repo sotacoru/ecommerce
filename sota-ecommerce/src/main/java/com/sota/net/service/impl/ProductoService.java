@@ -1,8 +1,6 @@
 package com.sota.net.service.impl;
 
 import com.sota.net.entity.Categoria;
-
-
 import com.sota.net.entity.Producto;
 
 //import com.sota.net.entity.Producto_;
@@ -18,10 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
-
-import javax.transaction.Transactional;
 
 @Service("productoService")
 public class ProductoService extends QueryService implements IProductoService {
@@ -75,7 +72,6 @@ public class ProductoService extends QueryService implements IProductoService {
         return productos;
     }
 
-    @Transactional
     private Specification<Producto> createSpecification(ProductoCriteria criteria) {
         Specification<Producto> specification = Specification.where(null);
         if (criteria == null) {
@@ -83,6 +79,8 @@ public class ProductoService extends QueryService implements IProductoService {
         }
         if (criteria.getNombre() != null) {
           //specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
+
+
         }
         if (criteria.getDescripcion() != null) {
             //specification =
@@ -96,7 +94,7 @@ public class ProductoService extends QueryService implements IProductoService {
         return specification;
     }
 
-    @Transactional
+
     private static ProductoCriteria createCriteria(ProductoBusqueda dto) {
         ProductoCriteria productoCriteria = new ProductoCriteria();
         if (dto != null) {
