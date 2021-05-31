@@ -55,7 +55,7 @@ export class LoginRegisComponent implements OnInit {
 
   registrarse(){
     if(this.validarCamposVacios() && this.validarLongitudCampos() && this.validarFormatoCampos()){
-
+        
     }
   }
 
