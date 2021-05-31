@@ -1,6 +1,5 @@
 package com.sota.net.model;
 
-import com.sota.net.entity.Pago;
 import com.sota.net.entity.Perfil;
 import com.sota.net.entity.dto.GetUsuarioDto;
 
@@ -18,8 +17,8 @@ public class JwtUserResponse extends GetUsuarioDto{
 	
 	@Builder(builderMethodName = "jwtUserResponseBuilder")
 	public JwtUserResponse(String nombre, String primerApellido, String segundoApellido, 
-			String email, Perfil perfil, Pago pago, String token) {
-		super(nombre, primerApellido, segundoApellido, email, perfil, pago);
+			String email, Perfil perfil, String token) {
+		super(nombre, primerApellido, segundoApellido, email, perfil);
 		this.token = token;
 	}
 	
