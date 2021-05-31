@@ -6,6 +6,5 @@ export class Usuario {
   email: string;
   password: string;
   password2: string;
-  perfil: string[]=[];
-  pago: string[]=[];
+  perfil: string[]=[]
 }
