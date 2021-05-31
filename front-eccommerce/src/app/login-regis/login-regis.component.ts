@@ -43,7 +43,7 @@ export class LoginRegisComponent implements OnInit {
         this.router.navigate(['/productos']);
         swal.fire('Login', `Hola ${usuario.nombre}  has iniciado sesion correctamente`, 'success');
       }, err => {
-        if (err.status == 400){
+        if (err.status == 403){
           swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
         }
       });
