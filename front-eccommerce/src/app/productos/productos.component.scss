@@ -2,6 +2,7 @@
   .p-dropdown {
     width: 14rem;
     font-weight: normal;
+    margin-top:.5rem;
   }
 
   .product-name {
@@ -91,7 +92,14 @@
     }
   }
 }
+.formBusqueda{
+  .elementBusqueda{
+    margin-left:.5rem;
+    margin-top:.5rem;
+    display: inline-flex;
+  }
 
+}
 .card {
   padding: 2rem;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);

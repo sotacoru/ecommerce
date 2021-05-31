@@ -2,16 +2,16 @@
     <p-dataView #dv [value]="productos" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
       <ng-template pTemplate="header">
         <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-          <p-dropdown [options]="sortOptions" placeholder="Sort By Price" (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+          <p-dropdown [options]="sortOptions" placeholder="Ordenar" (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
           <span class="p-input-icon-left p-mb-2 p-mb-md-0">
 
-           <form>
-             <input type="text" name="nombre"  pInputText placeholder="Buscar por nombre"  [(ngModel)]="busqueda.nombre" >
-             <input type="text"  pInputText placeholder="Buscar por descripción" >
-              <p-button role="button"  (click)='buscar()' >
+           <form class="formBusqueda">
+             <input class="elementBusqueda" type="text" name="nombre"  pInputText placeholder="Buscar por nombre"  [(ngModel)]="busqueda.nombre" >
+             <input  class="elementBusqueda" type="text"  pInputText placeholder="Buscar por descripción" >
+              <p-button class="elementBusqueda" role="button"  (click)='buscar()' >
               <i class="pi pi-search"></i>
             </p-button>
-             <div class="p-field-checkbox">
+             <div class="p-field-checkbox elementBusqueda fotoCheck">
                <input type="checkbox" name="foto" [(ngModel)]="busqueda.foto"/>
                <label for="foto">Sólo productos con foto</label>
               </div>
@@ -42,8 +42,8 @@
             </div>
         </ng-template>
       <!--Panel Grid View-->
-        <ng-template let-producto pTemplate="gridItem">
-            <div class="p-col-12 p-sm-4">
+        <ng-template let-producto pTemplate="gridItem" class="row row-cols-lg-4">
+            <div class="">
                 <div class="product-grid-item card" >
                     <div class="product-grid-item-top">
                         <div>
