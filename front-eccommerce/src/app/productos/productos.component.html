@@ -28,7 +28,7 @@
         <ng-template let-producto pTemplate="listItem">
             <div class="p-col-12">
                 <div class="product-list-item">
-                    <img [src]="'../../assets/images/dango.jpg'" [alt]="producto.nombre" />
+                    <a  [routerLink]="['/producto/', producto.id]"><img [src]="'../../assets/images/dango.jpg'" [alt]="producto.nombre" /></a>
                     <div class="product-list-detail">
                         <div class="product-name">{{producto.nombre}}</div>
                         <div class="product-description">{{producto.descripcion}}</div>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="product-list-action">
                         <span class="product-price">{{producto.precio}}€</span>
-                      <p-button icon="pi pi-shopping-cart" label="Add to Cart" ></p-button>
+                      <p-button icon="pi pi-shopping-cart" label="Añadir al carrito" ></p-button>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
       <!--Panel Grid View-->
         <ng-template let-producto pTemplate="gridItem">
             <div class="p-col-12 p-sm-4">
-                <div class="product-grid-item card">
+                <div class="product-grid-item card" >
                     <div class="product-grid-item-top">
                         <div>
                             <i class="pi pi-tag product-category-icon"></i>
@@ -52,7 +52,7 @@
                         </div>
 
                     </div>
-                    <div class="product-grid-item-content">
+                    <div class="product-grid-item-content" [routerLink]="['/producto/', producto.id]">
                         <img [src]="'../../assets/images/dango.jpg'" [alt]="producto.nombre" />
                         <div class="product-name">{{producto.nombre}}</div>
                         <div class="product-description">{{producto.descripcion}}</div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="product-grid-item-bottom">
                         <span class="product-price">{{producto.precio}}€</span>
-                      <p-button icon="pi pi-shopping-cart" label="Add to Cart" ></p-button>
+                      <p-button icon="pi pi-shopping-cart" label="Añadir al carrito" ></p-button>
                     </div>
                 </div>
             </div>
