@@ -16,35 +16,28 @@
 
         <div class="form-group mb-3">
           <label class="input-group-text" for="descripcion">Descripción</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descripcion"
+          <textarea class="form-control"  rows="3" name="descripcion"
             [(ngModel)]="producto.descripcion"></textarea>
         </div>
 
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroup-sizing-default">Precio</span>
+            <span class="input-group-text" >Precio</span>
           </div>
           <input type="number" class="form-control" name="precio" [(ngModel)]="producto.precio">
         </div>
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroup-sizing-default">Cantidad</span>
+            <span class="input-group-text" >Cantidad</span>
           </div>
           <input type="number" class="form-control" name="Cantidad" [(ngModel)]="producto.cantidad">
         </div>
 
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroup-sizing-default">Foto</span>
-          </div>
-          <input (change)="seleccionarFoto($event)" type="file" class="form-control" name="foto" >
-          <button [disabled]="!fotoSeleccionada" (click)="subirFoto()" class="btn btn-outline-secondary"
-          type="button">Subir</button>
-        </div> 
 
-        
+
+
 
 
         <div class="input-group mb-3">
@@ -67,7 +60,7 @@
           </select>
         </div>
       </div>
-      
+
       <div class="form-group col-sm-6">
 
         <div class="col-sm-6">
