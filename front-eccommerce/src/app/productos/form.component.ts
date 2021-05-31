@@ -96,9 +96,8 @@ export class FormComponent implements OnInit {
 
   update(): void {
     this.productoService.update(this.producto).subscribe(response => {
-      if(!this.fotoSeleccionada){
-        Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
-      }else{
+      if(this.fotoSeleccionada){
+
         this.productoService.subirFoto(this.fotoSeleccionada, response.producto.id).subscribe(
           event => {
             if (event.type === HttpEventType.UploadProgress) {
@@ -108,7 +107,7 @@ export class FormComponent implements OnInit {
               /* Swal.fire('La foto se ha subido correctamente', response.message, 'success'); */
             }
             /* this.cliente = cliente; */
-          }
+          
         )
       }
       Swal.fire('Producto actualizado', `Prducto ${response.producto.nombre} actualizado con exito`, 'success')
