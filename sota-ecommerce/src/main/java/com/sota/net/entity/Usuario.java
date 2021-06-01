@@ -55,7 +55,6 @@ public class Usuario implements Serializable, UserDetails {
 	private String email;
 
 	@ApiModelProperty(value = "password del usuario", dataType = "String", example = "password123.", position = 6)
-	@Size(min=6, max=30)
 	private String password;
 
 	@ApiModelProperty(value = "Perfil asociado al usuario", dataType = "Perfil", example = "ADMINISTRADOR", position = 7)
