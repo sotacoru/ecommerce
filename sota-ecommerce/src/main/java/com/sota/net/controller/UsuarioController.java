@@ -14,11 +14,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
@@ -32,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sota.net.entity.dto.GetUsuarioDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
 import com.sota.net.model.JwtUserResponse;
 import com.sota.net.model.LoginRequest;
@@ -166,7 +163,6 @@ public class UsuarioController {
 
 	
 	private ResponseEntity<?> creacionTokenUsuario(String email, String password) {
-		System.out.println(passwordEncoder.encode(password));
 		Authentication authentication = authUsuario(email, password);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		Usuario usuarioNew = (Usuario) authentication.getPrincipal();
