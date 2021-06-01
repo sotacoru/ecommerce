@@ -39,11 +39,11 @@ public class PedidoProducto implements Serializable {
 		this.pedido = pedido;
 	}
 
-	public Producto getProdcuto() {
+	public Producto getProducto() {
 		return producto;
 	}
 
-	public void setProdcuto(Producto producto) {
+	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
 

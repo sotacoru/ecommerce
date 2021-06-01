@@ -97,16 +97,16 @@ public class PedidoController {
 			response.put("mensaje", "El pedido no existe");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
-		List<PedidoProducto> prodcutospedido = new ArrayList<>();
+		List<PedidoProducto> productospedido = new ArrayList<>();
 		for (PedidoProductoDto producto: productos) {
 			PedidoProducto pedidoProducto = new PedidoProducto();
 			pedidoProducto.setPedido(pedido);
 			pedidoProducto.setCantidad(producto.getCantidad());
-			pedidoProducto.setProdcuto(producto.getProducto());
-			prodcutospedido.add(pedidoProducto);
+			pedidoProducto.setProducto(producto.getProducto());
+			productospedido.add(pedidoProducto);
 			pedidoProductoService.save(pedidoProducto);
 		}
-		pedido.setPedidoProducto(prodcutospedido);
+		pedido.setPedidoProducto(productospedido);
 		this.pedidoService.save(pedido);
 		response.put("mensaje", "El producto se ha añadido con exito!");
 
