@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng/api';
 import {Categoria} from "../productos/categoria";
 import {ProductoService} from "../servicios/producto.service";
 import {tap} from "rxjs/operators";
+import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 
 @Component({
   selector: 'app-header',
@@ -14,9 +15,11 @@ export class HeaderComponent implements OnInit {
 
   items: MenuItem[] = [];
   subitems: MenuItem[] = [];
+  labelBoton: string = 'Log in';
 
   categorias:Categoria[]= [];
-  constructor(private ps: ProductoService) { }
+  constructor(private ps: ProductoService,
+  private authService: AuthUsuarioService) { }
 
   ngOnInit(){
     this.ps.getCategorias().subscribe(
@@ -27,8 +30,11 @@ export class HeaderComponent implements OnInit {
             console.log(categoria.nombrecategoria)
           }
         )
-        this.categorias=response
 
+        this.categorias=response;
+
+        //Cambiar el label del login
+        this.labelBoton = this.cambiarLabelLogin();
       }
 
     )
@@ -48,6 +54,13 @@ export class HeaderComponent implements OnInit {
 
         ];
 
+  }
+
+  cambiarLabelLogin(): string{
+    if(this.authService.isAuthenticated()){
+      return '';
+    }
+    return 'Log in';
   }
 
 

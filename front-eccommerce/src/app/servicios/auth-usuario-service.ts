@@ -27,7 +27,7 @@ export class AuthUsuarioService {
   public get token(): string{
     if(this._token != null){
       return this._token;
-    }else if( this._usuario = null && sessionStorage.getItem('token') != null){
+    }else if( this._usuario == null && sessionStorage.getItem('token') != null){
       this._token = sessionStorage.getItem('token');
       return this._token;
     }
