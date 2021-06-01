@@ -26,8 +26,13 @@ public class Perfil implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     
-    public Perfil(Long idperfil) {
+    public Perfil() {
+    	
+    }
+    
+    public Perfil(Long idperfil, String nombreperfil) {
     	this.idperfil= idperfil;
+    	this.nombreperfil=nombreperfil;
     }
 
     public Long getIdperfil() {

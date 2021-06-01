@@ -56,10 +56,22 @@ export class LoginRegisComponent implements OnInit {
   registrarse(){
     if(this.validarCamposVacios() && this.validarLongitudCampos() && this.validarFormatoCampos()){
 
-        console.log(this.usuario.idPerfil)
-        this.authService.registro(this.usuario).subscribe(response => {
-          console.log(response);
-        })
+        this.authService.registro(this.usuario).subscribe( response => {
+          console.log(response)
+          this.authService.guardarUsuario(response.token);
+          this.authService.guardarToken(response.token);
+
+          let usuario = this.authService.usuario;
+          this.router.navigate(['/productos']);
+          swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
+        }, err => {
+          if (err.status == 403){
+            swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
+          }
+          else if(err.status == 500){
+            swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
+          }
+        });
     }
   }
 

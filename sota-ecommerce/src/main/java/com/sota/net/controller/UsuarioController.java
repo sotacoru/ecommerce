@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -91,8 +90,11 @@ public class UsuarioController {
 	@PostMapping("/registro/usuario")
 	public ResponseEntity<?> create(@RequestBody Usuario usuario, BindingResult result) {
 		Usuario usuarioNew = null;
+		
 		Map<String, Object> response = new HashMap<>();
-		Perfil p = new Perfil(Long.parseLong("1"));
+		
+		Perfil p = new Perfil(Long.parseLong("1"),"CLIENTE");
+		
 		usuario.setPerfil(p);
 		if (result.hasErrors()) {
 
@@ -106,21 +108,12 @@ public class UsuarioController {
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()).toString());
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al realizar el insert");
+			response.put("mensaje", "El email introducido ya está registrado en nuestro comercio");
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		} 
 		
-		//Creación token
-
-		Authentication authentication = authUsuario(usuarioNew.getEmail(), usuarioNew.getPassword());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		usuarioNew = (Usuario) authentication.getPrincipal();
-		String jwtToken = jwtProvider.generateToken(authentication);
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(convertUserEntityAndTokenToJwtUserResponse(usuarioNew, jwtToken));
-				
+		return creacionTokenUsuario(usuarioNew.getEmail(),usuarioNew.getPassword());		
 				
 	}
 
@@ -165,16 +158,10 @@ public class UsuarioController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostMapping("/login")
-	public ResponseEntity<JwtUserResponse> loginPrueba(@RequestBody LoginRequest loginRequest) {
-		Authentication authentication = authUsuario(loginRequest.getEmail(), loginRequest.getPassword());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		Usuario nuevoUsuario = (Usuario) authentication.getPrincipal();
-		String jwtToken = jwtProvider.generateToken(authentication);
-
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(convertUserEntityAndTokenToJwtUserResponse(nuevoUsuario, jwtToken));
+	public ResponseEntity<JwtUserResponse> login(@RequestBody LoginRequest loginRequest) {
+		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
 	}
 
 
@@ -184,17 +171,14 @@ public class UsuarioController {
 		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);
 	}
 
-	private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario nuevoUsuario, String jwtToken) {
-		return JwtUserResponse
-				.jwtUserResponseBuilder()
-				.nombre(nuevoUsuario.getNombre())
-				.primerApellido(nuevoUsuario.getPrimerapellido())
-				.segundoApellido(nuevoUsuario.getSegundoapellido())
-				.email(nuevoUsuario.getEmail())
-				.perfil(nuevoUsuario.getPerfil())
-				.token(jwtToken)
-				.build();
-
+	
+	private ResponseEntity<?> creacionTokenUsuario(String email, String password) {
+		Authentication authentication = authUsuario(email, password);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Usuario usuarioNew = (Usuario) authentication.getPrincipal();
+		String jwtToken = jwtProvider.generateToken(authentication);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(convertUserEntityAndTokenToJwtUserResponse(usuarioNew, jwtToken));
 	}
 	
 	private Authentication authUsuario(String email, String password) {
@@ -206,6 +190,19 @@ public class UsuarioController {
 						));
 		
 		return authentication;
+	}
+	
+	private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario nuevoUsuario, String jwtToken) {;
+		return JwtUserResponse
+				.jwtUserResponseBuilder()
+				.nombre(nuevoUsuario.getNombre())
+				.primerApellido(nuevoUsuario.getPrimerapellido())
+				.segundoApellido(nuevoUsuario.getSegundoapellido())
+				.email(nuevoUsuario.getEmail())
+				.perfil(nuevoUsuario.getPerfil())
+				.token(jwtToken)
+				.build();
+
 	}
 
 }
