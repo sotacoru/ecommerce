@@ -1,9 +1,8 @@
 package com.sota.net.entity;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -14,7 +13,7 @@ public class PedidoProducto implements Serializable {
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id")
-	//@JsonIgnore
+	@JsonIgnore
 	private Pedido pedido;
 	
 	@Id

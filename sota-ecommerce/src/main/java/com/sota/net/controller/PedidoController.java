@@ -2,16 +2,17 @@ package com.sota.net.controller;
 
 import com.sota.net.entity.Pedido;
 import com.sota.net.entity.PedidoProducto;
-import com.sota.net.entity.Producto;
 import com.sota.net.entity.dto.PedidoCreadoDto;
 import com.sota.net.entity.dto.PedidoDto;
+import com.sota.net.entity.dto.PedidoProductoDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
+import com.sota.net.service.IPedidoProductoService;
 import com.sota.net.service.IPedidoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +26,11 @@ import java.util.Map;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PedidoController {
-
+	@Autowired
 	 private final IPedidoService pedidoService;
 	 private final UsuarioDtoConverter usuarioDtoConverter;
-	 
+	 @Autowired
+	 private  final IPedidoProductoService pedidoProductoService;
 	 @GetMapping("/pedido/{id}")
 	    public ResponseEntity<Object> mostrarPedido(@PathVariable Long id) {
 	        Pedido pedido = null;
@@ -83,7 +85,7 @@ public class PedidoController {
 
 	}
 	@PutMapping("/pedido/{id}")
-	public ResponseEntity<?> añadirProducto(@RequestBody List<PedidoProducto> productos, @PathVariable long id, BindingResult result) {
+	public ResponseEntity<?> añadirProducto(@RequestBody List<PedidoProductoDto> productos, @PathVariable long id, BindingResult result) {
 		Pedido pedido = this.pedidoService.findById(id);
 
 		Map<String, Object> response = new HashMap<>();
@@ -95,8 +97,16 @@ public class PedidoController {
 			response.put("mensaje", "El pedido no existe");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
-
-		pedido.setPedidoProducto(productos);
+		List<PedidoProducto> prodcutospedido = new ArrayList<>();
+		for (PedidoProductoDto producto: productos) {
+			PedidoProducto pedidoProducto = new PedidoProducto();
+			pedidoProducto.setPedido(pedido);
+			pedidoProducto.setCantidad(producto.getCantidad());
+			pedidoProducto.setProdcuto(producto.getProducto());
+			prodcutospedido.add(pedidoProducto);
+			pedidoProductoService.save(pedidoProducto);
+		}
+		pedido.setPedidoProducto(prodcutospedido);
 		this.pedidoService.save(pedido);
 		response.put("mensaje", "El producto se ha añadido con exito!");
 
