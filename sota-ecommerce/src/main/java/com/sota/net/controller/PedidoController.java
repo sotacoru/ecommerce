@@ -64,11 +64,7 @@ public class PedidoController {
 		if (result.hasErrors()) {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
-		Pedido pedido = new Pedido();
-		pedido.setIdUsuario(pedidoDto.getIdUsuario());
-		pedido.setPrecioTotal(pedidoDto.getPrecioTotal());
-		pedido.setIdPago(pedidoDto.getIdPago());
-		pedido.setPedidoProducto(new ArrayList<>());
+		Pedido pedido = getPedido(pedidoDto);
 		try {
 			pedidonuevo = this.pedidoService.save(pedido);
 
@@ -80,10 +76,20 @@ public class PedidoController {
 
 
 		response.put("mensaje", "El pedido ha sido creado con exito!");
-		response.put("producto", pedidonuevo);
+		response.put("pedido", pedidonuevo);
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 
 	}
+
+	private Pedido getPedido(PedidoCreadoDto pedidoDto) {
+		Pedido pedido = new Pedido();
+		pedido.setIdUsuario(pedidoDto.getIdUsuario());
+		pedido.setPrecioTotal(pedidoDto.getPrecioTotal());
+		pedido.setIdPago(pedidoDto.getIdPago());
+		pedido.setPedidoProducto(new ArrayList<>());
+		return pedido;
+	}
+
 	@PutMapping("/pedido/{id}")
 	public ResponseEntity<?> añadirProducto(@RequestBody List<PedidoProductoDto> productos, @PathVariable long id, BindingResult result) {
 		Pedido pedido = this.pedidoService.findById(id);
@@ -97,8 +103,18 @@ public class PedidoController {
 			response.put("mensaje", "El pedido no existe");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
+;
+
+		this.pedidoService.save(formarPedidos(productos, pedido));
+		response.put("mensaje", "El producto se ha añadido con exito!");
+
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+	}
+
+	private Pedido formarPedidos(List<PedidoProductoDto> productos, Pedido pedido) {
 		List<PedidoProducto> productospedido = new ArrayList<>();
-		for (PedidoProductoDto producto: productos) {
+	 	for (PedidoProductoDto producto: productos) {
 			PedidoProducto pedidoProducto = new PedidoProducto();
 			pedidoProducto.setPedido(pedido);
 			pedidoProducto.setCantidad(producto.getCantidad());
@@ -107,11 +123,7 @@ public class PedidoController {
 			pedidoProductoService.save(pedidoProducto);
 		}
 		pedido.setPedidoProducto(productospedido);
-		this.pedidoService.save(pedido);
-		response.put("mensaje", "El producto se ha añadido con exito!");
-
-		return new ResponseEntity<>(response, HttpStatus.CREATED);
-
+	 	return pedido;
 	}
 
 }
