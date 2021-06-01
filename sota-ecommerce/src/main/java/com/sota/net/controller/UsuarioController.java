@@ -164,15 +164,9 @@ public class UsuarioController {
 		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
 	}
 
-
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/usuario/me")
-	public GetUsuarioDto yo(@AuthenticationPrincipal Usuario usuario) {
-		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);
-	}
-
 	
 	private ResponseEntity<?> creacionTokenUsuario(String email, String password) {
+		System.out.println(passwordEncoder.encode(password));
 		Authentication authentication = authUsuario(email, password);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		Usuario usuarioNew = (Usuario) authentication.getPrincipal();

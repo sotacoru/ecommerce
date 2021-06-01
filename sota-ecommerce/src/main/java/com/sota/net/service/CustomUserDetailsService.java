@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class CustomUserDetailsService implements UserDetailsService{
 
 	private final UsuarioServiceImpl usuarioService;
-	private final PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
