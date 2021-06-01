@@ -75,7 +75,7 @@ export class ProductoService {
 
 
   update(producto: Producto): Observable<any> {
-    return this.http.put<Producto>(`http://localhost:8090/api/administracion/producto/{id}/${producto.id}`, producto).pipe(
+    return this.http.put<Producto>(`http://localhost:8090/api/administracion/producto/${producto.id}`, producto).pipe(
       catchError(e => {
 
 
@@ -113,15 +113,9 @@ export class ProductoService {
   }
 
 
-  delete(id: number): Observable<Producto> {
-    return this.http.delete<Producto>(`http://localhost:8090/api/administracion/producto/${id}`).pipe(
-      catchError(e => {
-        /*         this.router.navigate(['/']) */
-        /* console.log(e.error.mensaje) */
-        return throwError(e);
-      })
-
-    )
+  delete(id: number):Observable<Producto> {
+    return this.http.delete<Producto>(`http://localhost:8090/api/administracion/producto/${id}`, {headers:this.httpHeaders}).pipe(
+      )
   }
 
 }
