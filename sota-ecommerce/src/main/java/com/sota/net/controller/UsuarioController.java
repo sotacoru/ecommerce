@@ -1,6 +1,7 @@
 package com.sota.net.controller;
 
 import com.sota.net.configuration.security.jwt.JwtProvider;
+import com.sota.net.entity.Perfil;
 import com.sota.net.entity.Usuario;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
@@ -9,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -87,11 +87,15 @@ public class UsuarioController {
 	}
 
 	// CREACION USUARIOS
-	@PostMapping("/usuario")
+	@PostMapping("/registro/usuario")
 	public ResponseEntity<?> create(@RequestBody Usuario usuario, BindingResult result) {
 		Usuario usuarioNew = null;
+		
 		Map<String, Object> response = new HashMap<>();
-
+		
+		Perfil p = new Perfil(Long.parseLong("1"),"CLIENTE");
+		
+		usuario.setPerfil(p);
 		if (result.hasErrors()) {
 
 			List<String> errors = result.getFieldErrors().stream()
@@ -104,14 +108,13 @@ public class UsuarioController {
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()).toString());
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al realizar el insert");
+			response.put("mensaje", "El email introducido ya está registrado en nuestro comercio");
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		response.put("mensaje", "El usuario ha sido devuelto con exito!");
-		response.put("producto", usuarioNew);
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+		} 
+		
+		return creacionTokenUsuario(usuarioNew.getEmail(),usuarioNew.getPassword());		
+				
 	}
 
 	// UPDATE USUARIOS
@@ -141,8 +144,6 @@ public class UsuarioController {
 			usuarioActual.setPrimerapellido(usuario.getPrimerapellido());
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
 			usuarioActual.setEmail(usuario.getEmail());
-			System.out.println("Estamos dentro del try");
-			System.out.println(usuario.getNombre());
 
 			usuarioUpdated = usuarioService.save(usuarioActual);
 		} catch (DataAccessException e) {
@@ -157,32 +158,35 @@ public class UsuarioController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostMapping("/login")
-	public ResponseEntity<JwtUserResponse> loginPrueba(@RequestBody LoginRequest loginRequest) {
-		System.out.println(loginRequest.getEmail());
+	public ResponseEntity<JwtUserResponse> login(@RequestBody LoginRequest loginRequest) {
+		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
+	}
+
+	
+	private ResponseEntity<?> creacionTokenUsuario(String email, String password) {
+		System.out.println(passwordEncoder.encode(password));
+		Authentication authentication = authUsuario(email, password);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Usuario usuarioNew = (Usuario) authentication.getPrincipal();
+		String jwtToken = jwtProvider.generateToken(authentication);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(convertUserEntityAndTokenToJwtUserResponse(usuarioNew, jwtToken));
+	}
+	
+	private Authentication authUsuario(String email, String password) {
+		
 		Authentication authentication =
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-						loginRequest.getEmail(),
-						loginRequest.getPassword()
+						email,
+						password
 						));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		System.out.println("dlnssd,mnds,mndsds,b");
-		Usuario nuevoUsuario = (Usuario) authentication.getPrincipal();
-		String jwtToken = jwtProvider.generateToken(authentication);
-
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(convertUserEntityAndTokenToJwtUserResponse(nuevoUsuario, jwtToken));
+		
+		return authentication;
 	}
-
-
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/usuario/me")
-	public GetUsuarioDto yo(@AuthenticationPrincipal Usuario usuario) {
-		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario);
-	}
-
-	private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario nuevoUsuario, String jwtToken) {
+	
+	private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario nuevoUsuario, String jwtToken) {;
 		return JwtUserResponse
 				.jwtUserResponseBuilder()
 				.nombre(nuevoUsuario.getNombre())

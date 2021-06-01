@@ -34,6 +34,15 @@ export class AuthUsuarioService {
     return null;
   }
 
+  registro(usuario: Usuario): Observable<any>{
+    const urlEndPoint = 'http://localhost:8090/api/registro/usuario';
+
+    const httpHeaders = new HttpHeaders({'Content-Type': 'application/json',
+      'Authorization': 'Basic ' });
+
+    return this.http.post<any>(urlEndPoint,usuario, {headers: httpHeaders});
+  }
+
   login(usuario: Usuario): Observable<any> {
     const urlEndPoint = 'http://localhost:8090/api/login';
 
@@ -75,7 +84,7 @@ export class AuthUsuarioService {
   }
 
   hasRole(role: string): boolean{
-    if(this.usuario.perfil.includes(role)){
+    if(this.usuario.idPerfil.nombrePerfil.includes(role)){
       return true;
     }
     return false;
