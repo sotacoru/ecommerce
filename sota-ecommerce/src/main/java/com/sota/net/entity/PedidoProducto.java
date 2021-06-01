@@ -14,6 +14,7 @@ public class PedidoProducto implements Serializable {
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id")
+	//@JsonIgnore
 	private Pedido pedido;
 	
 	@Id
@@ -24,16 +25,12 @@ public class PedidoProducto implements Serializable {
 	private int cantidad;
 
 	public PedidoProducto(Pedido pedido, Producto producto, int cantidad) {
-		super();
 		this.pedido = pedido;
 		this.producto = producto;
 		this.cantidad = cantidad;
 	}
 
-	public PedidoProducto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public PedidoProducto() { }
 
 	public Pedido getPedido() {
 		return pedido;
