@@ -15,5 +15,10 @@ public class PedidoServiceImpl implements IPedidoService {
         return this.rep.getPedidoById(id);
     }
 
+    @Override
+    public Pedido save(Pedido pedido) {
+        return rep.save(pedido);
+    }
+
 
 }

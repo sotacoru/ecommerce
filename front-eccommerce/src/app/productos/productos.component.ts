@@ -17,7 +17,7 @@ export class ProductosComponent implements OnInit {
   sortOptions: SelectItem[];
   sortOrder: number;
   sortField: string;
-  urlImg:string = "http://localhost:8080/api/uploads/img/"
+  urlImg:string = "http://localhost:8090/api/uploads/img/"
   imgDefecto:string="http://localhost:8090/images/notImagen.jpg"
   isAdmin: boolean = true;
   constructor(private ps: ProductoService,  private primengConfig: PrimeNGConfig, private route: ActivatedRoute) {

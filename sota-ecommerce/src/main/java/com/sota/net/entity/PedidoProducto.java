@@ -1,9 +1,8 @@
 package com.sota.net.entity;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -14,6 +13,7 @@ public class PedidoProducto implements Serializable {
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id")
+	@JsonIgnore
 	private Pedido pedido;
 	
 	@Id
@@ -24,16 +24,12 @@ public class PedidoProducto implements Serializable {
 	private int cantidad;
 
 	public PedidoProducto(Pedido pedido, Producto producto, int cantidad) {
-		super();
 		this.pedido = pedido;
 		this.producto = producto;
 		this.cantidad = cantidad;
 	}
 
-	public PedidoProducto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public PedidoProducto() { }
 
 	public Pedido getPedido() {
 		return pedido;
@@ -43,11 +39,11 @@ public class PedidoProducto implements Serializable {
 		this.pedido = pedido;
 	}
 
-	public Producto getProdcuto() {
+	public Producto getProducto() {
 		return producto;
 	}
 
-	public void setProdcuto(Producto producto) {
+	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
 
