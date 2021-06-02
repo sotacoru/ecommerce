@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalUsuarioService } from '../modal-usuario/modal-usuario.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsuariosComponent implements OnInit {
 
-  constructor() { }
+  abierto: boolean = false;
 
-  ngOnInit(): void {
+  constructor(private modalService: ModalUsuarioService) { }
+
+  ngOnInit() {
+  }
+
+  abrirModal2(){
+    this.modalService.abrirModal();
+    this.abierto = true;
   }
 
 }
