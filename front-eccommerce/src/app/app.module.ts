@@ -18,6 +18,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { CarritoComponent } from './carrito/carrito.component';
 import { VistaPerfilUsuarioComponent } from './vista-perfil-usuario/vista-perfil-usuario.component';
 import { LoginRegisComponent } from './login-regis/login-regis.component';
 import { ProductosComponent } from './productos/productos.component';
@@ -28,6 +29,7 @@ import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CheckboxModule} from "primeng/checkbox";
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
+import {SplitButtonModule} from 'primeng/splitbutton';
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-pro
     FooterComponent,
     PedidosComponent,
     UsuariosComponent,
+    CarritoComponent,
     VistaPerfilUsuarioComponent,
     LoginRegisComponent,
     ProductosComponent,
@@ -62,9 +65,8 @@ import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-pro
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    CheckboxModule
-
-
+    CheckboxModule,
+    SplitButtonModule
   ],
   bootstrap: [AppComponent],
   providers: [

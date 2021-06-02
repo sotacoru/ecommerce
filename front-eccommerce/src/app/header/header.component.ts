@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng/api';
 import {Categoria} from "../entity/categoria";
 import {ProductoService} from "../servicios/producto.service";
 import {tap} from "rxjs/operators";
+import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 
 @Component({
   selector: 'app-header',
@@ -12,11 +13,15 @@ import {tap} from "rxjs/operators";
 })
 export class HeaderComponent implements OnInit {
 
+  itemsButton: MenuItem[] = [];
   items: MenuItem[] = [];
   subitems: MenuItem[] = [];
+  labelBoton: string = 'Log in';
+  labelBoolean:boolean = false;
 
   categorias:Categoria[]= [];
-  constructor(private ps: ProductoService) { }
+  constructor(private ps: ProductoService,
+  private authService: AuthUsuarioService) { }
 
   ngOnInit(){
     this.ps.getCategorias().subscribe(
@@ -27,8 +32,7 @@ export class HeaderComponent implements OnInit {
             console.log(categoria.nombrecategoria)
           }
         )
-        this.categorias=response
-
+        this.categorias=response;
       }
 
     )
@@ -44,11 +48,28 @@ export class HeaderComponent implements OnInit {
                 ],
 
             },
-            {label: 'Log In', icon: 'pi pi-fw pi-users', routerLink: ['/login']},
 
 
         ];
 
+    this.itemsButton = [
+
+          {label: 'Información perfil'},
+          {label: 'Administrar perfiles'}
+
+    ]
+
+  }
+
+  isLogged(): boolean{
+    if(this.authService.isAuthenticated()){
+      return true;
+    }
+    return false;
+  }
+
+  nombreUsuario(): string{
+    return this.authService.usuario.nombre;
   }
 
 
