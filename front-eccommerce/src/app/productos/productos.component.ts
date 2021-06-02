@@ -11,6 +11,8 @@ import {PedidosService} from "../servicios/pedidos.service";
 import {UsuarioPedidoDto} from "../entity/dto/usuarioPedidoDto";
 import {Usuario} from "../entity/usuario";
 import {AuthUsuarioService} from "../servicios/auth-usuario-service";
+import {ProductoPedido} from "../entity/dto/productopedido";
+import {Pedido} from "../entity/pedido";
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -103,9 +105,11 @@ export class ProductosComponent implements OnInit {
 
   }
 
-  addProductoCarrito() {
-      if (this.pedido != undefined){
-       //añadir a la array del local storage
+  addProductoCarrito(producto: Producto) {
+
+
+    if (this.pedido != undefined){
+      this.pedidoService.setProductosPedido(this.productoPedidoAdapter(producto))
       }else{
         this.pedido = new PedidoDto();
         this.pedido.precioTotal=0;
@@ -113,6 +117,7 @@ export class ProductosComponent implements OnInit {
         this.pedidoService.postPedido(this.pedido).subscribe(
           response=> this.pedido=response
         );
+        this.pedidoService.setProductosPedido(this.productoPedidoAdapter(producto))
         console.log("añadiendo producto a carrito")
       }
   }
@@ -124,5 +129,11 @@ export class ProductosComponent implements OnInit {
     up.primerApellido= u.primerapellido;
     up.segundoApellido = u.segundoapellido;
     return up;
+  }
+  productoPedidoAdapter(p:Producto): ProductoPedido {
+    let pp:ProductoPedido = new ProductoPedido();
+    pp.producto=p;
+    pp.cantidad =pp.cantidad+1;
+    return pp;
   }
 }

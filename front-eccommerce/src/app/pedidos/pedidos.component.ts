@@ -27,9 +27,9 @@ export class PedidosComponent implements OnInit {
       response=>{
         console.log(response)
         this.pedido=response
-        this.productos = response.productos
       }
     )
+    this.productos = this.ps.getProductosPedido()
     console.log(this.pedido)
 
   }
