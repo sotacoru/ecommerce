@@ -1,6 +1,7 @@
 package com.sota.net.service.impl;
 
 import com.sota.net.entity.Categoria;
+
 import com.sota.net.entity.Producto;
 
 import com.sota.net.entity.Producto_;

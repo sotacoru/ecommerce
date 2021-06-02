@@ -29,6 +29,7 @@ import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CheckboxModule} from "primeng/checkbox";
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
+import {SplitButtonModule} from 'primeng/splitbutton';
 
 
 @NgModule({
@@ -65,8 +66,7 @@ import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-pro
     BrowserAnimationsModule,
     ReactiveFormsModule,
     CheckboxModule,
-
-
+    SplitButtonModule
   ],
   bootstrap: [AppComponent],
   providers: [
