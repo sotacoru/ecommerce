@@ -1,5 +1,5 @@
 export class Perfil{
   idPerfil: number;
-  nombrePerfil: string;
-  primerapellido: string;
+  nombreperfil: string;
+  descripcion: string;
 }

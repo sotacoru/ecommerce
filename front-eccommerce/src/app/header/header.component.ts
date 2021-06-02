@@ -55,9 +55,9 @@ export class HeaderComponent implements OnInit {
     this.itemsButton = [
 
           {label: 'Información perfil'},
-          {label: 'Administrar perfiles'}
+          {label: 'Administrar perfiles', routerLink:['/administrar-usuarios']}
 
-    ]
+    ];
 
   }
 

@@ -9,7 +9,7 @@ import { FormComponent } from './productos/form.component';
 import {DetalleComponent} from "./modal-perfil-user/detalle.component";
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
 import { CarritoComponent } from './carrito/carrito.component';
-
+import {AdministrarUsuariosComponent } from './administrar-usuarios/administrar-usuarios.component';
 
 const routes: Routes = [
   {path: '', redirectTo:'/productos' , pathMatch:'full'},
@@ -21,7 +21,8 @@ const routes: Routes = [
   {path: 'productos', component: ProductosComponent},
   {path: 'formulario/:id', component: FormComponent},
   {path: 'formulario', component: FormComponent},
-  {path: 'carrito', component: CarritoComponent}
+  {path: 'carrito', component: CarritoComponent},
+  {path: 'administrar-usuarios', component:AdministrarUsuariosComponent}
 ];
 @NgModule({
   imports: [

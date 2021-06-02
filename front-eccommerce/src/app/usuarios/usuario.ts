@@ -8,5 +8,5 @@ export class Usuario {
   email: string;
   password: string;
   password2: string;
-  idPerfil: Perfil;
+  perfil: Perfil;
 }

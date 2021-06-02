@@ -84,7 +84,7 @@ export class AuthUsuarioService {
   }
 
   hasRole(role: string): boolean{
-    if(this.usuario.idPerfil.nombrePerfil.includes(role)){
+    if(this.usuario.perfil.nombreperfil.includes(role)){
       return true;
     }
     return false;

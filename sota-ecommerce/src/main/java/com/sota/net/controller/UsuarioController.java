@@ -59,7 +59,12 @@ public class UsuarioController {
 	// MOSTRAR TODOS LOS USUARIOS
 	@GetMapping("/usuario")
 	public List<Usuario> index() {
-		return usuarioService.findAll();
+		List<Usuario> usuario= usuarioService.findAll();
+		
+		Usuario u = usuario.get(0);
+		System.out.println(u.getPerfil().getNombreperfil());
+		
+		return usuario;
 	}
 
 	// MOSTRAR USUARIO POR ID
