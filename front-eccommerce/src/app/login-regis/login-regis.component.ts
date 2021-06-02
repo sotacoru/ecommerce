@@ -166,7 +166,7 @@ export class LoginRegisComponent implements OnInit {
 
   validarEmail(email: any): boolean{
 
-    return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail)\.(?:|com|es)+$/.test(email);
+    return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es)+$/.test(email);
 
   }
 
