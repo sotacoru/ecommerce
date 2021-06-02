@@ -32,9 +32,7 @@ export class HeaderComponent implements OnInit {
             console.log(categoria.nombrecategoria)
           }
         )
-
         this.categorias=response;
-
       }
 
     )
@@ -55,7 +53,7 @@ export class HeaderComponent implements OnInit {
         ];
 
     this.itemsButton = [
-      
+
           {label: 'Información perfil'},
           {label: 'Administrar perfiles'}
 
