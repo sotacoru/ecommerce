@@ -8,9 +8,5 @@ export class Usuario {
   email: string;
   password: string;
   password2: string;
-<<<<<<< HEAD
-  perfil: string[]=[];
-=======
   idPerfil: Perfil;
->>>>>>> develop
 }

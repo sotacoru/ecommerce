@@ -6,14 +6,9 @@ import { LoginRegisComponent } from './login-regis/login-regis.component';
 import { ProductosComponent } from './productos/productos.component';
 import { ThankyouPageComponent } from './thankyou-page/thankyou-page.component';
 import { FormComponent } from './productos/form.component';
-<<<<<<< HEAD
 import { DetalleComponent } from './modal-perfil-user/detalle.component';
-=======
-import {DetalleComponent} from "./modal-perfil-user/detalle.component";
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
 import { CarritoComponent } from './carrito/carrito.component';
->>>>>>> develop
-
 
 const routes: Routes = [
   {path: '', redirectTo:'/productos' , pathMatch:'full'},
@@ -22,15 +17,11 @@ const routes: Routes = [
   {path: 'productos/:categoria', component: ProductosComponent},
   {path:'producto/:id', component:DetalleProductoComponent },
   {path: 'thankyou', component: ThankyouPageComponent},
-<<<<<<< HEAD
-  {path: 'productos', component: FormComponent},
-  {path: 'infouser', component: DetalleComponent}
-=======
+  {path: 'infouser', component: DetalleComponent},
   {path: 'productos', component: ProductosComponent},
   {path: 'formulario/:id', component: FormComponent},
   {path: 'formulario', component: FormComponent},
   {path: 'carrito', component: CarritoComponent}
->>>>>>> develop
 ];
 @NgModule({
   imports: [

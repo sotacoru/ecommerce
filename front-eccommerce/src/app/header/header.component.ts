@@ -46,30 +46,12 @@ export class HeaderComponent implements OnInit {
                   items :  this.subitems
                   }
                 ],
-
             },
-<<<<<<< HEAD
-            {label: '', icon: 'pi pi-fw pi-users', routerLink: ['/login']},
-            {label: 'Thank You', routerLink: ['/thankyou']},
-            {label: 'Productos TEMPORAR', routerLink: ['/productos']},
-            {label: 'Configuración',
-              items: [
-                {label: 'Añadir usuario', icon: 'pi pi-fw pi-user-plus'},
-                {label: 'Eliminar usuario', icon: 'pi pi-fw pi-user-minus'},
-                {label: 'Editar usuario', icon: 'pi pi-fw pi-user-edit'}
-              ]},
-            {label: 'infoUser', routerLink: ['/infouser']}
-=======
-
-
->>>>>>> develop
         ];
 
     this.itemsButton = [
-
           {label: 'Información perfil'},
           {label: 'Administrar perfiles'}
-
     ]
 
   }
