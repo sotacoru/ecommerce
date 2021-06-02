@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../usuarios/usuario';
 import jwt_decode from 'jwt-decode';
 
+import swal from 'sweetalert2';
+
 
 @Injectable({
   providedIn: 'root'
@@ -94,11 +96,13 @@ export class AuthUsuarioService {
   }
 
   logout(): void{
+    swal.fire('Logout', `${this._usuario.nombre}, has cerrado sesión con éxito`, 'success');
     this._token = null;
     this._usuario = null;
     sessionStorage.clear();
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('usuario');
+
   }
 
   getUsuario():Observable<Usuario>{

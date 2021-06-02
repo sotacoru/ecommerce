@@ -5,6 +5,8 @@ import {Categoria} from "../productos/categoria";
 import {ProductoService} from "../servicios/producto.service";
 import {tap} from "rxjs/operators";
 import { AuthUsuarioService } from '../servicios/auth-usuario-service';
+import { ModalUsuarioService } from '../modal-usuario/modal-usuario.service';
+
 
 @Component({
   selector: 'app-header',
@@ -18,10 +20,12 @@ export class HeaderComponent implements OnInit {
   subitems: MenuItem[] = [];
   labelBoton: string = 'Log in';
   labelBoolean:boolean = false;
+  abierto:boolean = false;
 
   categorias:Categoria[]= [];
   constructor(private ps: ProductoService,
-  private authService: AuthUsuarioService) { }
+  private authService: AuthUsuarioService,
+  private modalService: ModalUsuarioService) { }
 
   ngOnInit(){
     this.ps.getCategorias().subscribe(
@@ -50,8 +54,9 @@ export class HeaderComponent implements OnInit {
         ];
 
     this.itemsButton = [
-          {label: 'Información perfil'},
-          {label: 'Administrar perfiles'}
+          {label: 'Información perfil', command: () => {this.abrirModal2()}},
+          {label: 'Administrar perfiles'},
+          {label: 'Cerrar sesión', command: () => {this.authService.logout()}}
     ]
 
   }
@@ -67,5 +72,9 @@ export class HeaderComponent implements OnInit {
     return this.authService.usuario.nombre;
   }
 
+  abrirModal2(){
+    this.modalService.abrirModal();
+    this.abierto = true;
+  }
 
 }

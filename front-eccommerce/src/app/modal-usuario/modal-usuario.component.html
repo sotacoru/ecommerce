@@ -1,9 +1,9 @@
-<div class="abrirmodal animacion fadeIn" ngIf="modalService.modal">
+<div class="abrirmodal animacion fadeIn" *ngIf="modalService.modal">
     <div style="display:block;" tabindex="-1" class="modal" role="dialog">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">{{titulo}}</h5>
+            <h5 class="modal-title justify-content-center" id="staticBackdropLabel">{{titulo}}</h5>
             <button (click)='cerrarModal()' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -12,17 +12,17 @@
               <div class="row">
                 <div class="col-sm">
                   <ul class="list-group text-dark mb-3">
-                    <li class="list-group-item active">{{usuario.nombre}}</li>
-                    <li class="list-group-item">{{usuario.primerapellido}}</li>
-                    <li class="list-group-item">{{usuario.segundoapellido}}</li>
-                    <li class="list-group-item">{{usuario.email}}</li>
+                    <li class="list-group-item"><strong>Nombre:</strong> {{usuario.nombre}}</li>
+                    <li class="list-group-item"><strong>Primer apellido:</strong> {{usuario.primerapellido}}</li>
+                    <li class="list-group-item"><strong>Segundo apellido:</strong> {{usuario.segundoapellido}}</li>
+                    <li class="list-group-item"><strong>Correo electrónico:</strong> {{usuario.email}}</li>
                   </ul>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" (click)='cerrarModal()' class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
-        </div>
       </div>
     </div>
-    </div>
+  </div>
+</div>
