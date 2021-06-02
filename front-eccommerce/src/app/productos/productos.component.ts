@@ -1,4 +1,4 @@
-import { ProductoService } from './../servicios/producto.service';
+import { ProductoService } from '../servicios/producto.service';
 import { Component, OnInit } from '@angular/core';
 import{Producto} from './producto'
 import { SelectItem } from 'primeng/api';
