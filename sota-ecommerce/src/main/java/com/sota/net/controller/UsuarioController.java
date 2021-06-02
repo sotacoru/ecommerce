@@ -91,6 +91,7 @@ public class UsuarioController {
 	// CREACION USUARIOS
 	@PostMapping("/registro/usuario")
 	public ResponseEntity<?> create(@RequestBody Usuario usuario, BindingResult result) {
+		String passwordUsuario=usuario.getPassword();
 		Usuario usuarioNew = null;
 		
 		Map<String, Object> response = new HashMap<>();
@@ -99,7 +100,7 @@ public class UsuarioController {
 		
 		usuario.setPerfil(p);
 		if (result.hasErrors()) {
-
+			System.out.println("Error 1");
 			List<String> errors = result.getFieldErrors().stream()
 					.map(err -> "El campo " + err.getField() + err.getDefaultMessage()).collect(Collectors.toList());
 			response.put("errors", errors);
@@ -110,12 +111,14 @@ public class UsuarioController {
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()).toString());
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
+			System.out.println("Error 2");
 			response.put("mensaje", "El email introducido ya está registrado en nuestro comercio");
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
+		System.out.println("entré2");
 		
-		return creacionTokenUsuario(usuarioNew.getEmail(),usuarioNew.getPassword());		
+		return creacionTokenUsuario(usuarioNew.getEmail(),passwordUsuario);		
 				
 	}
 
@@ -169,9 +172,13 @@ public class UsuarioController {
 	
 	private ResponseEntity<?> creacionTokenUsuario(String email, String password) {
 		Authentication authentication = authUsuario(email, password);
+		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
 		Usuario usuarioNew = (Usuario) authentication.getPrincipal();
+		
 		String jwtToken = jwtProvider.generateToken(authentication);
+		
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(convertUserEntityAndTokenToJwtUserResponse(usuarioNew, jwtToken));
 	}

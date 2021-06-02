@@ -60,15 +60,12 @@ export class LoginRegisComponent implements OnInit {
           console.log(response)
           this.authService.guardarUsuario(response.token);
           this.authService.guardarToken(response.token);
-
+          console.log("ajssjsajkasasnkaslknaslk")
           let usuario = this.authService.usuario;
           this.router.navigate(['/productos']);
           swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
         }, err => {
-          if (err.status == 403){
-            swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
-          }
-          else if(err.status == 500){
+          if(err.status == 500){
             swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
           }
         });

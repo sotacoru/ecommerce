@@ -1,7 +1,7 @@
 <div class="card border-primary mb-3">
-  <div class="card-header">Empleados</div>
+  <div class="card-header">Usuarios</div>
   <div class="card-body text-primary">
-    <h5 class="card-title">Listado empleados</h5>
+    <h5 class="card-title">Listado de usuarios</h5>
 
     <div class="my-2 text-left">
     </div>
@@ -18,18 +18,22 @@
       </thead>
       <tbody>
         <tr *ngFor="let usuario of usuarios ">
-          <td>{{ usuario.email}}</td>
-          <td>{{ usuario.nombre }}</td>
-          <td>{{ usuario.primerapellido }}</td>
-          <td>{{ usuario.segundoapellido }}</td>
-          <td>{{ usuario.perfil.nombreperfil }}</td>
-          <td>
+            <td>{{ usuario.email}}</td>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.primerapellido }}</td>
+            <td>{{ usuario.segundoapellido }}</td>
+            <td>{{ usuario.perfil.nombreperfil }}</td>
+            <td align="center">
             <button type="button" name="editar"
               class="btn btn-primary">
               editar
           </button>
           </td>
-          <td>
+          <td *ngIf="usuario.email==nombreUsuario || rolUsuario!='ADMINISTRADOR'">
+            <button type="button" name="eliminar"  class="btn btn-danger" disabled="disabled">
+              Eliminar
+          </button>
+          <td *ngIf="usuario.email!=nombreUsuario && rolUsuario=='ADMINISTRADOR'">
             <button type="button" name="eliminar"  class="btn btn-danger">
               Eliminar
           </button>
