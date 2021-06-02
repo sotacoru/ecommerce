@@ -25,7 +25,7 @@ public class Pedido implements Serializable {
 
 	@ApiModelProperty(value = "Id del usuario que realiza el pedido", dataType = "Int", example = "1", position = 4)
 	@JoinColumn(name = "idusuario")
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Usuario idUsuario;
 
 	@ApiModelProperty(value = "Id del pago utilizado por el cliente", dataType = "Int", example = "1", position = 5)
