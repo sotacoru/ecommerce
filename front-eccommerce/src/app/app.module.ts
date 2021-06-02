@@ -64,9 +64,7 @@ import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-pro
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    CheckboxModule,
-
-
+    CheckboxModule
   ],
   bootstrap: [AppComponent],
   providers: [

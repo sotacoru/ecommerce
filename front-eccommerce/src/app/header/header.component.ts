@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   items: MenuItem[] = [];
   subitems: MenuItem[] = [];
   labelBoton: string = 'Log in';
+  labelBoolean:boolean = false;
 
   categorias:Categoria[]= [];
   constructor(private ps: ProductoService,
@@ -33,8 +34,6 @@ export class HeaderComponent implements OnInit {
 
         this.categorias=response;
 
-        //Cambiar el label del login
-        this.labelBoton = this.cambiarLabelLogin();
       }
 
     )
