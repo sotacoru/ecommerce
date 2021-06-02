@@ -1,9 +1,9 @@
-import { ProductoService } from './../servicios/producto.service';
+import { ProductoService } from '../servicios/producto.service';
 import { Component, OnInit } from '@angular/core';
-import{Producto} from './producto'
+import{Producto} from '../entity/producto'
 import { SelectItem } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
-import {ProductoBusqueda} from "./producto_busqueda";
+import {ProductoBusqueda} from "../entity/dto/producto_busqueda";
 import {ActivatedRoute} from "@angular/router";
 import Swal from "sweetalert2";
 @Component({

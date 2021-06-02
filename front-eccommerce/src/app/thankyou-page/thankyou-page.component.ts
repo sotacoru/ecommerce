@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Producto } from '../productos/producto';
-import { Categoria } from '../productos/categoria';
+import { Producto } from '../entity/producto';
+import { Categoria } from '../entity/categoria';
 import { LoginRegisComponent } from '../login-regis/login-regis.component';
-import { Usuario } from '../usuarios/usuario';
+import { Usuario } from '../entity/usuario';
 
 @Component({
   selector: 'app-thankyou-page',

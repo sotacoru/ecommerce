@@ -1,6 +1,6 @@
-import {Usuario} from "../usuarios/usuario";
-import {Pago} from "../usuarios/pago";
-import {ProductoPedido} from "../productos/productopedido";
+import {Usuario} from "./usuario";
+import {Pago} from "./pago";
+import {ProductoPedido} from "./dto/productopedido";
 
 
 export class Pedido {

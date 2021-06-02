@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
-import {Categoria} from "../productos/categoria";
+import {Categoria} from "../entity/categoria";
 import {ProductoService} from "../servicios/producto.service";
 import {tap} from "rxjs/operators";
 

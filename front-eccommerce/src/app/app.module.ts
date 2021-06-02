@@ -18,7 +18,6 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { CarritoComponent } from './carrito/carrito.component';
 import { VistaPerfilUsuarioComponent } from './vista-perfil-usuario/vista-perfil-usuario.component';
 import { LoginRegisComponent } from './login-regis/login-regis.component';
 import { ProductosComponent } from './productos/productos.component';
@@ -38,7 +37,6 @@ import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-pro
     FooterComponent,
     PedidosComponent,
     UsuariosComponent,
-    CarritoComponent,
     VistaPerfilUsuarioComponent,
     LoginRegisComponent,
     ProductosComponent,
@@ -64,7 +62,7 @@ import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-pro
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    CheckboxModule,
+    CheckboxModule
 
 
   ],

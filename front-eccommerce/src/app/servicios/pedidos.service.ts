@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Pedido} from "../pedidos/pedido";
+import {Pedido} from "../entity/pedido";
 import {ActivatedRoute} from "@angular/router";
 
 @Injectable({

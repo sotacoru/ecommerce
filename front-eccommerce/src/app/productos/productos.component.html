@@ -35,10 +35,15 @@
                         <div class="product-description">{{producto.descripcion}}</div>
                         <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
                     </div>
-                    <div class="product-list-action">
+                    <div class="product-list-action" ngIf="!isAdmin">
                         <span class="product-price">{{producto.precio}}€</span>
                       <p-button icon="pi pi-shopping-cart" label="Añadir al carrito" ></p-button>
                     </div>
+                  <div class="product-list-action" ngIf="isAdmin">
+                    <span class="product-price">{{producto.precio}}€</span>
+                    <button (click)="eliminar(producto)" pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"></button>
+                    <button [routerLink]="['/formulario', producto.id]" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-warning"></button>
+                  </div>
                 </div>
             </div>
         </ng-template>

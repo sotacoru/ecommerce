@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 
-import { Usuario } from '../usuarios/usuario';
+import { Usuario } from '../entity/usuario';
 import { ModalService } from './modal-perfil-user.component';
 
 import swal from 'sweetalert2';

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Pedido} from "./pedido";
+import {Pedido} from "../entity/pedido";
 import {PedidosService} from "../servicios/pedidos.service";
+import {PrimeNGConfig, SelectItem} from "primeng/api";
+import {Producto} from "../entity/producto";
+import {ProductoPedido} from "../entity/dto/productopedido";
 
 @Component({
   selector: 'app-pedidos',
@@ -9,15 +12,23 @@ import {PedidosService} from "../servicios/pedidos.service";
 })
 export class PedidosComponent implements OnInit {
   pedido: Pedido;
-  constructor(private ps: PedidosService) {
+  productos: ProductoPedido[]=[];
+  urlImg:string = "http://localhost:8090/api/uploads/img/"
+  imgDefecto:string="http://localhost:8090/images/notImagen.jpg"
+
+  constructor(private ps: PedidosService,private primengConfig: PrimeNGConfig) {
     this.pedido= new Pedido();
+
   }
 
   ngOnInit(): void {
     this.ps.getPedido(1).subscribe(
-      response=> this.pedido=response
+      response=>{
+        this.pedido=response
+        this.productos = response.productos
+      }
     )
-    console.log(this.pedido)
+
   }
 
 }
