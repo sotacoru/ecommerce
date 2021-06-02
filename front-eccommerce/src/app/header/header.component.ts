@@ -22,9 +22,16 @@ export class HeaderComponent implements OnInit {
                 ],
                 routerLink: ['/pedidos']
             },
-            {label: 'Log In', icon: 'pi pi-fw pi-users', routerLink: ['/login']},
+            {label: '', icon: 'pi pi-fw pi-users', routerLink: ['/login']},
             {label: 'Thank You', routerLink: ['/thankyou']},
-            {label: 'Productos TEMPORAR', routerLink: ['/productos']}
+            {label: 'Productos TEMPORAR', routerLink: ['/productos']},
+            {label: 'Configuración',
+              items: [
+                {label: 'Añadir usuario', icon: 'pi pi-fw pi-user-plus'},
+                {label: 'Eliminar usuario', icon: 'pi pi-fw pi-user-minus'},
+                {label: 'Editar usuario', icon: 'pi pi-fw pi-user-edit'}
+              ]},
+            {label: 'infoUser', routerLink: ['/infouser']}
         ];
 
   }

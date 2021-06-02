@@ -3,6 +3,7 @@ import { HttpEventType } from '@angular/common/http';
 
 import { Usuario } from '../usuarios/usuario';
 import { ModalService } from './modal-perfil-user.component';
+import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 
 import swal from 'sweetalert2';
 
@@ -19,9 +20,14 @@ export class DetalleComponent implements OnInit {
   progreso: number = 0;
 
   constructor(
+     private authService: AuthUsuarioService,
      public modalService: ModalService) { }
 
   ngOnInit() {
+    this.authService.getUsuario().subscribe(usuarios => {
+      this.usuario = usuarios;
+      console.log(this.usuario.nombre);
+    })
   }
 
     cerrarModal(){
@@ -29,4 +35,5 @@ export class DetalleComponent implements OnInit {
       this.progreso = 0;
     }
 
+    
 }

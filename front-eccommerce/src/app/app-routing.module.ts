@@ -6,6 +6,7 @@ import { LoginRegisComponent } from './login-regis/login-regis.component';
 import { ProductosComponent } from './productos/productos.component';
 import { ThankyouPageComponent } from './thankyou-page/thankyou-page.component';
 import { FormComponent } from './productos/form.component';
+import { DetalleComponent } from './modal-perfil-user/detalle.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: 'login', component: LoginRegisComponent},
   {path: 'productos', component: ProductosComponent},
   {path: 'thankyou', component: ThankyouPageComponent},
-  {path: 'productos', component: FormComponent}
+  {path: 'productos', component: FormComponent},
+  {path: 'infouser', component: DetalleComponent}
 ];
 
 @NgModule({

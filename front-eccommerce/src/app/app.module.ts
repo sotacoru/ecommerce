@@ -25,9 +25,10 @@ import { ProductosComponent } from './productos/productos.component';
 import { FormComponent } from './productos/form.component';
 import { ModalService } from './modal-perfil-user/modal-perfil-user.component';
 import { ThankyouPageComponent } from './thankyou-page/thankyou-page.component';
-import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
+import { TokenInterceptor } from './usuarios/interceptor/tokenInterceptor';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CheckboxModule} from "primeng/checkbox";
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import {CheckboxModule} from "primeng/checkbox";
     BrowserAnimationsModule,
     ReactiveFormsModule,
     CheckboxModule,
+    CommonModule
 
   ],
   bootstrap: [AppComponent],
