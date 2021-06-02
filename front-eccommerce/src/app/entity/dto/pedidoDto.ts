@@ -1,11 +1,10 @@
 
-
-import {Usuario} from "../usuario";
 import {Pago} from "../pago";
+import {UsuarioPedidoDto} from "./usuarioPedidoDto";
 
 
 export class PedidoDto {
   precioTotal: number;
-  idUsuario: Usuario;
+  idUsuario: UsuarioPedidoDto;
   pago:Pago ;
 }

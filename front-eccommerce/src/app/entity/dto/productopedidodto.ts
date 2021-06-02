@@ -1,4 +1,5 @@
-import {Producto} from "./producto";
+import {Producto} from "../producto";
+
 
 export class ProductoPedidoDto {
   producto:Producto;

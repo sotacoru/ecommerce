@@ -67,7 +67,7 @@
                     </div>
                     <div class="product-grid-item-bottom row-cols-2 justify-content-sm-center" *ngIf="!isAdmin">
                       <span class="product-price">{{producto.precio}}€</span>
-                      <p-button icon="pi pi-shopping-cart" (click)="addProducto()" label="Añadir al carrito" ></p-button>
+                      <p-button icon="pi pi-shopping-cart" (click)="addProductoCarrito()" label="Añadir al carrito" ></p-button>
                     </div>
                   <!--Solo se mostrará para administrador-->
                   <div class="product-grid-item-bottom row-cols-2 justify-content-sm-center" *ngIf="isAdmin">

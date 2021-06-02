@@ -4,6 +4,9 @@ import {catchError} from "rxjs/operators";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Pedido} from "../entity/pedido";
 import {ActivatedRoute} from "@angular/router";
+import {PedidoDto} from "../entity/dto/pedidoDto";
+import {ProductoPedidoDto} from "../entity/dto/productopedidodto";
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +23,8 @@ export class PedidosService {
     return this.http.get<Pedido>(`${this.url}/${id}`).pipe()
   }
 
-  postPedido(pedido: PedidoDto): Observable<any> {
-    return this.http.post<any>(this.url, pedido).pipe()
+  postPedido(pedido: PedidoDto): Observable<Pedido> {
+    return this.http.post<Pedido>(this.url, pedido).pipe()
 
   }
 

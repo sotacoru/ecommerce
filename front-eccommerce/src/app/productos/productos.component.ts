@@ -8,6 +8,9 @@ import {ActivatedRoute} from "@angular/router";
 import Swal from "sweetalert2";
 import {PedidoDto} from "../entity/dto/pedidoDto";
 import {PedidosService} from "../servicios/pedidos.service";
+import {UsuarioPedidoDto} from "../entity/dto/usuarioPedidoDto";
+import {Usuario} from "../entity/usuario";
+import {AuthUsuarioService} from "../servicios/auth-usuario-service";
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -22,8 +25,10 @@ export class ProductosComponent implements OnInit {
   sortField: string;
   urlImg:string = "http://localhost:8090/api/uploads/img/"
   imgDefecto:string="http://localhost:8090/images/notImagen.jpg"
-  isAdmin: boolean = true;
-  constructor(private ps: ProductoService, private pedidoService: PedidosService, private primengConfig: PrimeNGConfig, private route: ActivatedRoute) {
+  isAdmin: boolean = false;
+  constructor(private ps: ProductoService, private pedidoService: PedidosService,
+              private primengConfig: PrimeNGConfig, private route: ActivatedRoute,
+              private as: AuthUsuarioService) {
     this.busqueda= new ProductoBusqueda();
   }
 
@@ -98,9 +103,26 @@ export class ProductosComponent implements OnInit {
 
   }
 
-  addProducto() {
-      if (this.pedido){
-       // this.pedidoService.
+  addProductoCarrito() {
+      if (this.pedido != undefined){
+       //añadir a la array del local storage
+      }else{
+        this.pedido = new PedidoDto();
+        this.pedido.precioTotal=0;
+        this.pedido.idUsuario =this.usuarioPedidoAdapter(this.as.usuario);
+        this.pedidoService.postPedido(this.pedido).subscribe(
+          response=> this.pedido=response
+        );
+        console.log("añadiendo producto a carrito")
       }
+  }
+  usuarioPedidoAdapter(u:Usuario): UsuarioPedidoDto{
+    let up: UsuarioPedidoDto = new UsuarioPedidoDto();
+    up.id = u.idUsuario;
+    up.email= u.email;
+    up.nombre= u.nombre;
+    up.primerApellido= u.primerapellido;
+    up.segundoApellido = u.segundoapellido;
+    return up;
   }
 }

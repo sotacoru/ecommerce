@@ -23,7 +23,7 @@ export class PedidosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.ps.getPedido(1).subscribe(
+    this.ps.getPedido(3).subscribe(
       response=>{
         console.log(response)
         this.pedido=response
