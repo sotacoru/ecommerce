@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
+import {Categoria} from "../productos/categoria";
+import {ProductoService} from "../servicios/producto.service";
+import {tap} from "rxjs/operators";
+import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 
 @Component({
   selector: 'app-header',
@@ -9,19 +13,42 @@ import { MenuItem } from 'primeng/api';
 })
 export class HeaderComponent implements OnInit {
 
+  itemsButton: MenuItem[] = [];
   items: MenuItem[] = [];
+  subitems: MenuItem[] = [];
+  labelBoton: string = 'Log in';
+  labelBoolean:boolean = false;
 
-  constructor() { }
+  categorias:Categoria[]= [];
+  constructor(private ps: ProductoService,
+  private authService: AuthUsuarioService) { }
 
   ngOnInit(){
+    this.ps.getCategorias().subscribe(
+      response =>{
+        response.forEach(
+          categoria=> {
+            this.subitems.push({label: categoria.nombrecategoria, routerLink: ['/productos/', categoria.nombrecategoria]})
+            console.log(categoria.nombrecategoria)
+          }
+        )
+        this.categorias=response;
+      }
+
+    )
+
     this.items = [
             {
                 label: 'Productos',
                 items: [
-                  {label: 'Categorias'}
+                  {label: 'Todos los productos',   routerLink: ['/productos']},
+                  {label: 'Categorias',
+                  items :  this.subitems
+                  }
                 ],
-                routerLink: ['/pedidos']
+
             },
+<<<<<<< HEAD
             {label: '', icon: 'pi pi-fw pi-users', routerLink: ['/login']},
             {label: 'Thank You', routerLink: ['/thankyou']},
             {label: 'Productos TEMPORAR', routerLink: ['/productos']},
@@ -32,8 +59,31 @@ export class HeaderComponent implements OnInit {
                 {label: 'Editar usuario', icon: 'pi pi-fw pi-user-edit'}
               ]},
             {label: 'infoUser', routerLink: ['/infouser']}
+=======
+
+
+>>>>>>> develop
         ];
 
+    this.itemsButton = [
+
+          {label: 'Información perfil'},
+          {label: 'Administrar perfiles'}
+
+    ]
+
   }
+
+  isLogged(): boolean{
+    if(this.authService.isAuthenticated()){
+      return true;
+    }
+    return false;
+  }
+
+  nombreUsuario(): string{
+    return this.authService.usuario.nombre;
+  }
+
 
 }

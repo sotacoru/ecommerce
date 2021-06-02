@@ -1,19 +1,33 @@
 package com.sota.net.entity.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.sota.net.entity.Pago;
 import com.sota.net.entity.Perfil;
 
 
 public class CreateUsuarioDto {
 
+	@NotNull
+	@Size(min=2, max=20)
     private String nombre;
+	@NotNull
+	@Size(min=2, max=20)
     private String primerApellido;
+	@NotNull
+	@Size(min=2, max=20)
     private String segundoApellido;
+	@NotNull
+	@Size(min=10, max=320)
     private String email;
+	@NotNull
+	@Size(min=6, max=30)
     private String password;
+	@NotNull
+	@Size(min=10, max=30)
     private String password2;
     private Perfil perfil;
-    private Pago pago;
 
 
     public CreateUsuarioDto() {
@@ -27,7 +41,6 @@ public class CreateUsuarioDto {
         this.email = email;
         this.password = password;
         this.password2 = password2;
-        this.pago = pago;
     }
 
     public String getNombre() {
@@ -76,14 +89,6 @@ public class CreateUsuarioDto {
 
     public void setPassword2(String password2) {
         this.password2 = password2;
-    }
-
-    public Pago getPago() {
-        return this.pago;
-    }
-
-    public void setPago(Pago pago) {
-        this.pago = pago;
     }
 
     public Perfil getPerfil() {

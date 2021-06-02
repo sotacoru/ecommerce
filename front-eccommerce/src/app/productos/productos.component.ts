@@ -4,6 +4,8 @@ import{Producto} from './producto'
 import { SelectItem } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
 import {ProductoBusqueda} from "./producto_busqueda";
+import {ActivatedRoute} from "@angular/router";
+import Swal from "sweetalert2";
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -11,23 +13,38 @@ import {ProductoBusqueda} from "./producto_busqueda";
 })
 export class ProductosComponent implements OnInit {
   productos: Producto[];
-  busqueda: ProductoBusqueda = new ProductoBusqueda();
+  busqueda: ProductoBusqueda;
   sortOptions: SelectItem[];
   sortOrder: number;
   sortField: string;
-
-
-  constructor(private ps: ProductoService,  private primengConfig: PrimeNGConfig) {
+  urlImg:string = "http://localhost:8090/api/uploads/img/"
+  imgDefecto:string="http://localhost:8090/images/notImagen.jpg"
+  isAdmin: boolean = true;
+  constructor(private ps: ProductoService,  private primengConfig: PrimeNGConfig, private route: ActivatedRoute) {
+    this.busqueda= new ProductoBusqueda();
   }
 
   ngOnInit() {
-    this.ps.getProductos().subscribe(
-      response => this.productos=response
-     );
+    this.route.params.subscribe(
+      params=>{
+          let categoria:string = params.categoria;
+          if (categoria===undefined){
+            this.ps.getProductos().subscribe(
+              response => this.productos=response
+            );
+          }else{
+            this.ps.getProductosCategoria(categoria).subscribe(
+              response => {this.productos=response
+                this.productos.forEach(producto=>console.log(producto.idcategoria.nombrecategoria))
+              }
+            )
+          }
+      })
+
      this.sortOptions = [
       {label: 'Más caros primero', value: '!precio'},
       {label: 'Más baratos primero', value: 'precio'}
-  ];
+    ];
     this.primengConfig.ripple = true;
   }
   onSortChange(event) {
@@ -47,8 +64,34 @@ export class ProductosComponent implements OnInit {
     this.ps.getProductosBusqueda(this.busqueda).subscribe(
       response => this.productos=response
     );
-      console.log(this.busqueda.nombre + ' ' + this.busqueda.foto)
   }
 
 
+  eliminar(producto: Producto) {
+    Swal.fire({
+      title: 'Está seguro',
+      text: `¿Seguro que desea eliminar el producto?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ps.delete(producto.id).subscribe(
+          response =>{
+            this.productos = this.productos.filter(pro=> pro !== producto)
+
+            Swal.fire(
+              'borrado',
+              `El producto se ha eliminado`,
+              'success'
+            )
+          }
+        )
+
+      }
+    })
+
+  }
 }

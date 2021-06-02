@@ -28,7 +28,12 @@ import { ThankyouPageComponent } from './thankyou-page/thankyou-page.component';
 import { TokenInterceptor } from './usuarios/interceptor/tokenInterceptor';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CheckboxModule} from "primeng/checkbox";
+<<<<<<< HEAD
 import { CommonModule } from '@angular/common';
+=======
+import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
+import {SplitButtonModule} from 'primeng/splitbutton';
+>>>>>>> develop
 
 
 @NgModule({
@@ -43,7 +48,8 @@ import { CommonModule } from '@angular/common';
     LoginRegisComponent,
     ProductosComponent,
     FormComponent,
-    ThankyouPageComponent
+    ThankyouPageComponent,
+    DetalleProductoComponent
    ],
   imports: [
     BrowserModule,
@@ -64,8 +70,12 @@ import { CommonModule } from '@angular/common';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     CheckboxModule,
+<<<<<<< HEAD
     CommonModule
 
+=======
+    SplitButtonModule
+>>>>>>> develop
   ],
   bootstrap: [AppComponent],
   providers: [

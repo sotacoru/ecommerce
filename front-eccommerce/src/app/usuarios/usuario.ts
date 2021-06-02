@@ -1,3 +1,5 @@
+import {Perfil} from './perfil';
+
 export class Usuario {
   idUsuario: number;
   nombre: string;
@@ -6,5 +8,9 @@ export class Usuario {
   email: string;
   password: string;
   password2: string;
+<<<<<<< HEAD
   perfil: string[]=[];
+=======
+  idPerfil: Perfil;
+>>>>>>> develop
 }

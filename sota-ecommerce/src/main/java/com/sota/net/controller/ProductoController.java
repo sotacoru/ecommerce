@@ -81,7 +81,7 @@ public class ProductoController {
         Map<String, Object> response = new HashMap<>();
 
         if (categoria == null) {
-            response.put("mensaje", "El producto no existe");
+            response.put("mensaje", "La categoria no existe");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
@@ -208,7 +208,8 @@ public class ProductoController {
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
             String nombreFotoAntiguo = producto.getFoto();
-
+            
+            
             this.fotoService.eliminar(nombreFotoAntiguo);
 
             producto.setFoto(nombreArchivo);

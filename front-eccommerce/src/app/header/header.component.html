@@ -1,5 +1,22 @@
 <p-menubar [model]="items">
-  <li pInputTest class="p-menuItem">
+  <!--<li pInputTest class="p-menuItem">
     <i class="pi pi-fw pi-book"></i>
-  </li>
+  </li>-->
+  <div>
+
+    <span *ngIf="!isLogged()">
+      <button pButton pRipple type="button" icon="pi pi-fw pi-users" class=" p-button-success mx-2 my-1" label="Accede"
+        [routerLink]="['/login']">
+      </button>
+    </span>
+
+    <span class="dropdown" *ngIf="isLogged()">
+      <p-splitButton label="{{nombreUsuario()}}" icon="pi pi-fw pi-users" [model]="itemsButton" styleClass="p-button-success mx-2 my-1"></p-splitButton>
+    </span>
+
+
+    <button  pButton pRipple type="button" icon="pi pi-shopping-cart" class=" p-button-success mx-2 my-1"
+      label ="carrito">
+    </button>
+  </div>
 </p-menubar>
