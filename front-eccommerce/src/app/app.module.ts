@@ -30,6 +30,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CheckboxModule} from "primeng/checkbox";
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
 import {SplitButtonModule} from 'primeng/splitbutton';
+import { AdministrarUsuariosComponent } from './administrar-usuarios/administrar-usuarios.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import {SplitButtonModule} from 'primeng/splitbutton';
     ProductosComponent,
     FormComponent,
     ThankyouPageComponent,
-    DetalleProductoComponent
+    DetalleProductoComponent,
+    AdministrarUsuariosComponent
    ],
   imports: [
     BrowserModule,
