@@ -6,6 +6,8 @@ import { PrimeNGConfig } from 'primeng/api';
 import {ProductoBusqueda} from "../entity/dto/producto_busqueda";
 import {ActivatedRoute} from "@angular/router";
 import Swal from "sweetalert2";
+import {PedidoDto} from "../entity/dto/pedidoDto";
+import {PedidosService} from "../servicios/pedidos.service";
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -14,13 +16,14 @@ import Swal from "sweetalert2";
 export class ProductosComponent implements OnInit {
   productos: Producto[];
   busqueda: ProductoBusqueda;
+  pedido:PedidoDto;
   sortOptions: SelectItem[];
   sortOrder: number;
   sortField: string;
   urlImg:string = "http://localhost:8090/api/uploads/img/"
   imgDefecto:string="http://localhost:8090/images/notImagen.jpg"
   isAdmin: boolean = true;
-  constructor(private ps: ProductoService,  private primengConfig: PrimeNGConfig, private route: ActivatedRoute) {
+  constructor(private ps: ProductoService, private pedidoService: PedidosService, private primengConfig: PrimeNGConfig, private route: ActivatedRoute) {
     this.busqueda= new ProductoBusqueda();
   }
 
@@ -93,5 +96,11 @@ export class ProductosComponent implements OnInit {
       }
     })
 
+  }
+
+  addProducto() {
+      if (this.pedido){
+       // this.pedidoService.
+      }
   }
 }

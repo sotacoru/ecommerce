@@ -3,7 +3,7 @@ import {Pedido} from "../pedido";
 import {Producto} from "../producto";
 
 export class ProductoPedido {
-  pedido:Pedido;
+ // pedido:Pedido;
   producto:Producto;
   cantidad:number;
 }

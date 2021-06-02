@@ -1,52 +1,53 @@
-<!--<h2 class="text-center">Carrito </h2>
-<div class="d-flex flex-row card carritoCard">
-  <div class="cardImg">
-    <img class="img-thumbnail rounded" src="http://localhost:8090/images/notImagen.jpg" alt="sin foto">
+<div class="card">
+  <div class="card-header h3">
+    Carrito
   </div>
-  <div class="text-center detallesCard ">
-    <h2>Nombre</h2>
-    <div class=" d-flex align-items-end justify-content-around " width="100%">
-      <p>Precio: </p>
-      <p>Cantidad: </p>
-      <p>Total: </p>
-    </div>
+
+  <div class="card-body">
+
+    <blockquote class="blockquote mb-0">
+      <div *ngIf="productos?.length==0" class="alert alert-info">
+        No hay productos en el carrito
+      </div>
+      <table class=" table align-middle table-bordered table-striped" *ngIf="productos?.length>0">
+        <thead>
+        <tr>
+          <th scope="imagen"> Imagen</th>
+          <th scope="nombre">Nombre producto</th>
+          <th scope="descripcion">Descripcion</th>
+
+          <th scope="precio">Precio/ud</th>
+          <th scope="cantidad">Cantidad</th>
+          <th scope="precio">Precio total</th>
+
+          <th scope="eliminar"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let producto of productos" class="align-content-center">
+          <td width="5%">
+            <img class="img-thumbnail rounded-circle"  *ngIf="producto.producto?.foto" [src]="urlImg +''+ producto.producto.foto" [alt]="producto.producto.nombre"  />
+            <img class="img-thumbnail rounded-circle" *ngIf="!producto.producto?.foto" [src]="imgDefecto" >
+          <td>{{producto.producto.nombre}}</td>
+          <td>{{producto.producto.descripcion}}</td>
+          <td>{{producto.producto.precio}}€</td>
+          <td>{{producto.cantidad}}</td>
+          <td>{{producto.producto.precio*producto.cantidad}}€</td>
+          <td ><button  pButton  type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-sm"></button></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="5"></td>
+
+          <td colspan="2" >Total: {{pedido.precioTotal}} €</td>
+
+
+        </tr>
+
+        </tfoot>
+      </table>
+
+    </blockquote>
   </div>
-</div>
-
-<div class="carritoCard2 card mt-3 d-flex flex-row-reverse ">
-  <p class="mt-1">Total: </p>
-</div>-->
-<div class="card ">
-<p-dataView #dv [value]="productos" layout="grid">
-  <ng-template pTemplate="header">
-    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-      <h2>Carrito</h2>
-
-    </div>
-  </ng-template>
-  <!--Panel List View-->
-  <ng-template let-producto pTemplate="listItem" >
-    <div class="p-col-12">
-      <div class="product-list-item">
-        <div class="product-list-detail">
-          <div class="product-name">Nombre del producto</div>
-          <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
-          <span class="product-price">Precio/unidad</span>
-        </div>
-      </div>
-      <div class="product-list-item">
-        <img *ngIf="producto?.foto" [src]="urlImg +''+ producto.foto" [alt]="producto.nombre" />
-        <img class="img-thumbnail rounded" *ngIf="!producto?.foto" [src]="imgDefecto" alt="sin foto" >
-        <div class="product-list-detail">
-          <div class="product-name">{{producto.nombre}}</div>
-          <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
-        </div>
-        <div class="product-list-action">
-          <span class="product-price">{{producto.precio}}€</span>
-          <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"></button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-</p-dataView>
 </div>

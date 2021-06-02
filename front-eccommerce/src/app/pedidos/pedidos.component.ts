@@ -16,6 +16,7 @@ export class PedidosComponent implements OnInit {
   urlImg:string = "http://localhost:8090/api/uploads/img/"
   imgDefecto:string="http://localhost:8090/images/notImagen.jpg"
 
+
   constructor(private ps: PedidosService,private primengConfig: PrimeNGConfig) {
     this.pedido= new Pedido();
 
@@ -24,10 +25,12 @@ export class PedidosComponent implements OnInit {
   ngOnInit(): void {
     this.ps.getPedido(1).subscribe(
       response=>{
+        console.log(response)
         this.pedido=response
         this.productos = response.productos
       }
     )
+    console.log(this.pedido)
 
   }
 
