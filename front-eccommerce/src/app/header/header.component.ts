@@ -13,6 +13,7 @@ import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 })
 export class HeaderComponent implements OnInit {
 
+  itemsButton: MenuItem[] = [];
   items: MenuItem[] = [];
   subitems: MenuItem[] = [];
   labelBoton: string = 'Log in';
@@ -53,13 +54,24 @@ export class HeaderComponent implements OnInit {
 
         ];
 
+    this.itemsButton = [
+      
+          {label: 'Información perfil'},
+          {label: 'Administrar perfiles'}
+
+    ]
+
   }
 
-  cambiarLabelLogin(): string{
+  isLogged(): boolean{
     if(this.authService.isAuthenticated()){
-      return '';
+      return true;
     }
-    return 'Log in';
+    return false;
+  }
+
+  nombreUsuario(): string{
+    return this.authService.usuario.nombre;
   }
 
 
