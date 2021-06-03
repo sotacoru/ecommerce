@@ -4,6 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../entity/usuario';
 import jwt_decode from 'jwt-decode';
 
+import swal from 'sweetalert2';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,6 +14,8 @@ export class AuthUsuarioService {
 
   private _usuario: Usuario;
   private _token: string;
+  private  urlEndPoint: string = 'http://localhost:8090/api/usuario';
+  private id:number;
 
   constructor(private http: HttpClient) { }
 
@@ -91,10 +96,35 @@ export class AuthUsuarioService {
   }
 
   logout(): void{
+    swal.fire('Logout', `${this._usuario.nombre}, has cerrado sesión con éxito`, 'success');
     this._token = null;
     this._usuario = null;
     sessionStorage.clear();
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('usuario');
+
   }
+
+  getUsuario():Observable<Usuario>{
+    return this.http.get<Usuario>(`${this.urlEndPoint}/${this.getSub()}`);
+  }
+
+  guardarSubToken(accessToken: string): void{
+    let payload = this.obtenerDatosToken(accessToken);
+    this.id = payload
+
+    sessionStorage.setItem('sub', JSON.stringify(this.id));
+  }
+
+  public getSub(): number {
+    if(!this.token){
+      return null;
+    }
+    const token = this.token;
+    const payload = token.split('.')[1];
+    const playloadDecoded = atob(payload);
+    const values= JSON.parse(playloadDecoded);
+    return values.sub;
+  }
+
 }

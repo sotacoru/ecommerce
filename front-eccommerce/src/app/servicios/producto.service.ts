@@ -25,6 +25,14 @@ export class ProductoService {
 
   }
 
+  getTodosLosProductos(): Observable<any>{
+    return this.http.get(this.url + '/all').pipe(
+      map((response: any) => {
+        return response;
+      })
+    )
+  }
+
   getProductosId(id): Observable<Producto> {
     return this.http.get<Producto>(`${this.url}/${id}`).pipe(
       catchError(e => {

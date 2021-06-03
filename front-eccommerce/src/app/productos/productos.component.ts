@@ -28,9 +28,11 @@ export class ProductosComponent implements OnInit {
   imgDefecto: string = "http://localhost:8090/images/notImagen.jpg"
   isAdmin: boolean = false;
 
-  constructor(private ps: ProductoService, private pedidoService: PedidosService,
-              private primengConfig: PrimeNGConfig, private route: ActivatedRoute,
-              private as: AuthUsuarioService) {
+  constructor(private ps: ProductoService,
+              private pedidoService: PedidosService,
+              private primengConfig: PrimeNGConfig,
+              private route: ActivatedRoute,
+              private authService: AuthUsuarioService) {
     this.busqueda = new ProductoBusqueda();
   }
 
@@ -52,12 +54,27 @@ export class ProductosComponent implements OnInit {
         }
       })
 
-
     this.sortOptions = [
-      {label: 'Más caros primero', value: '!precio'},
-      {label: 'Más baratos primero', value: 'precio'}
+      { label: 'Más caros primero', value: '!precio' },
+      { label: 'Más baratos primero', value: 'precio' }
     ];
     this.primengConfig.ripple = true;
+  }
+
+
+  isLogged(): boolean {
+    if (this.authService.isAuthenticated()) {
+      return true;
+    }
+    return false;
+  }
+
+  perfil(): any {
+
+    let user = JSON.parse(window.sessionStorage.getItem("usuario"));
+    if (user) {
+      return user.rol
+    }
   }
 
   onSortChange(event) {
@@ -66,7 +83,8 @@ export class ProductosComponent implements OnInit {
     if (value.indexOf('!') === 0) {
       this.sortOrder = -1;
       this.sortField = value.substring(1, value.length);
-    } else {
+    }
+    else {
       this.sortOrder = 1;
       this.sortField = value;
     }
@@ -74,7 +92,7 @@ export class ProductosComponent implements OnInit {
 
   buscar() {
     this.ps.getProductosBusqueda(this.busqueda).subscribe(
-      response => this.productos = response
+      response => this.productos=response
     );
   }
 
@@ -114,7 +132,7 @@ export class ProductosComponent implements OnInit {
     } else {
       this.pedido = new PedidoDto();
       this.pedido.precioTotal = 0;
-      this.pedido.idUsuario = this.usuarioPedidoAdapter(this.as.usuario);
+      this.pedido.idUsuario = this.usuarioPedidoAdapter(this.authService.usuario);
       this.pedidoService.postPedido(this.pedido).subscribe(
         response => this.pedido = response
       );

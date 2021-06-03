@@ -15,11 +15,13 @@ const routes: Routes = [
   {path: 'pedido', component: PedidosComponent},
   {path: 'login', component: LoginRegisComponent},
   {path: 'productos/:categoria', component: ProductosComponent},
-  {path:'producto/:id', component:DetalleProductoComponent },
+  {path: 'producto/:id', component:DetalleProductoComponent },
   {path: 'thankyou', component: ThankyouPageComponent},
   {path: 'productos', component: ProductosComponent},
   {path: 'formulario/:id', component: FormComponent},
   {path: 'formulario', component: FormComponent}
+  {path: 'formulario', component: FormComponent},
+  {path: 'administrador', component: ProductosComponent}
 ];
 @NgModule({
   imports: [

@@ -1,83 +1,85 @@
 <div class="card ">
-    <p-dataView #dv [value]="productos" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
-      <ng-template pTemplate="header">
-        <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-          <p-dropdown [options]="sortOptions" placeholder="Ordenar" (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
-          <span class="p-input-icon-left p-mb-2 p-mb-md-0">
 
-           <form class="formBusqueda">
-             <input class="elementBusqueda" type="text" name="nombre"  pInputText placeholder="Buscar por nombre"  [(ngModel)]="busqueda.nombre" >
-             <input  class="elementBusqueda" type="text"  pInputText placeholder="Buscar por descripción" >
-              <p-button class="elementBusqueda" role="button"  (click)='buscar()' >
+  <p-dataView #dv [value]="productos" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+    <ng-template pTemplate="header">
+      <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+        <p-dropdown [options]="sortOptions" placeholder="Ordenar" (onChange)="onSortChange($event)"
+          styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+        <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+
+          <form class="formBusqueda">
+            <input class="elementBusqueda" type="text" name="nombre" pInputText placeholder="Buscar por nombre"
+              [(ngModel)]="busqueda.nombre">
+            <input class="elementBusqueda" type="text" pInputText placeholder="Buscar por descripción">
+            <p-button class="elementBusqueda" role="button" (click)='buscar()'>
               <i class="pi pi-search"></i>
             </p-button>
-             <div class="p-field-checkbox elementBusqueda fotoCheck">
-               <input type="checkbox" name="foto" [(ngModel)]="busqueda.foto"/>
-               <label for="foto">Sólo productos con foto</label>
-              </div>
+            <div class="p-field-checkbox elementBusqueda fotoCheck">
+              <input type="checkbox" name="foto" [(ngModel)]="busqueda.foto" />
+              <label for="foto">Sólo productos con foto</label>
+              <p-button class="mx-2" icon="pi pi-shopping-cart mr-2" [routerLink]="['/formulario']" label="Añadir Producto" *ngIf="perfil() === 'SECRETARIO'|| perfil() === 'ADMINISTRADOR' "></p-button>
+            </div>
 
 
-           </form>
-          </span>
+          </form>
+        </span>
 
 
         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+      </div>
+    </ng-template>
+    <!--Panel List View-->
+    <ng-template let-producto pTemplate="listItem">
+      <div class="p-col-12">
+        <div class="product-list-item">
+          <img *ngIf="producto?.foto" [src]="urlImg +''+ producto.foto" [alt]="producto.nombre" />
+          <img class="img-thumbnail rounded" *ngIf="!producto?.foto" src="http://localhost:8090/images/notImagen.jpg"
+            alt="sin foto">
+          <div class="product-list-detail">
+            <div class="product-name">{{producto.nombre}}</div>
+            <div class="product-description">{{producto.descripcion}}</div>
+            <i class="pi pi-tag product-category-icon"></i><span
+              class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
+          </div>
+          <div class="product-list-action">
+            <span class="product-price">{{producto.precio}}€</span>
+            <p-button icon="pi pi-shopping-cart" label="Añadir al carrito"></p-button>
+          </div>
         </div>
-      </ng-template>
-      <!--Panel List View-->
-        <ng-template let-producto pTemplate="listItem" >
-            <div class="p-col-12">
-                <div class="product-list-item">
-                  <img *ngIf="producto?.foto" [src]="urlImg +''+ producto.foto" [alt]="producto.nombre" />
-                  <img class="img-thumbnail rounded" *ngIf="!producto?.foto" src="http://localhost:8090/images/notImagen.jpg" alt="sin foto" >
-                    <div class="product-list-detail">
-                        <div class="product-name">{{producto.nombre}}</div>
-                        <div class="product-description">{{producto.descripcion}}</div>
-                        <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
-                    </div>
-                    <div class="product-list-action" ngIf="!isAdmin">
-                        <span class="product-price">{{producto.precio}}€</span>
-                      <p-button icon="pi pi-shopping-cart" label="Añadir al carrito" ></p-button>
-                    </div>
-                  <div class="product-list-action" ngIf="isAdmin">
-                    <span class="product-price">{{producto.precio}}€</span>
-                    <button (click)="eliminar(producto)" pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"></button>
-                    <button [routerLink]="['/formulario', producto.id]" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-warning"></button>
-                  </div>
-                </div>
-            </div>
-        </ng-template>
-      <!--Panel Grid View-->
-        <ng-template let-producto pTemplate="gridItem" class="row row-cols-lg-3" >
+      </div>
+    </ng-template>
+    <!--Panel Grid View-->
+    <ng-template let-producto pTemplate="gridItem" class="row row-cols-lg-3">
+      <div>
+        <div class="product-grid-item card">
+          <div class="product-grid-item-top">
             <div>
-                <div class="product-grid-item card" >
-                    <div class="product-grid-item-top">
-                        <div>
-                            <i class="pi pi-tag product-category-icon"></i>
-                            <span class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
-                        </div>
-
-                    </div>
-                    <div class="product-grid-item-content" [routerLink]="['/producto/', producto.id]" width="70%">
-                      <img *ngIf="producto?.foto" [src]="urlImg +''+ producto.foto" [alt]="producto.nombre" />
-                      <img class="img-thumbnail rounded" *ngIf="!producto?.foto" [src]="imgDefecto" alt="sin foto" >
-                        <div class="product-name">{{producto.nombre}}</div>
-                        <div class="product-description">{{producto.descripcion}}</div>
-
-                    </div>
-                    <div class="product-grid-item-bottom row-cols-2 justify-content-sm-center" *ngIf="!isAdmin">
-                      <span class="product-price">{{producto.precio}}€</span>
-                      <p-button icon="pi pi-shopping-cart" (click)="addProductoCarrito(producto)" label="Añadir al carrito" ></p-button>
-                    </div>
-                  <!--Solo se mostrará para administrador-->
-                  <div class="product-grid-item-bottom row-cols-2 justify-content-sm-center" *ngIf="isAdmin">
-                    <span class="product-price">{{producto.precio}}€</span>
-                     <button (click)="eliminar(producto)" pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"></button>
-                     <button [routerLink]="['/formulario', producto.id]" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-warning"></button>
-                  </div>
-                </div>
+              <i class="pi pi-tag product-category-icon"></i>
+              <span class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
             </div>
-        </ng-template>
-    </p-dataView>
-</div>
 
+          </div>
+          <div class="product-grid-item-content" [routerLink]="['/producto/', producto.id]" width="70%">
+            <img *ngIf="producto?.foto" [src]="urlImg +''+ producto.foto" [alt]="producto.nombre" />
+            <img class="img-thumbnail rounded" *ngIf="!producto?.foto" [src]="imgDefecto" alt="sin foto">
+            <div class="product-name">{{producto.nombre}}</div>
+            <div class="product-description">{{producto.descripcion}}</div>
+
+          </div>
+          <div class="product-grid-item-bottom row-cols-2 justify-content-sm-center" *ngIf="perfil() === 'CLIENTE' || perfil() === undefined">
+            <span class="product-price">{{producto.precio}}€</span>
+            <p-button icon="pi pi-shopping-cart" label="Añadir al carrito"></p-button>
+          </div>
+          <!--Solo se mostrará para administrador-->
+          <div class="product-grid-item-bottom row-cols-2 justify-content-sm-center" *ngIf="perfil() === 'SECRETARIO'|| perfil() === 'ADMINISTRADOR' ">
+            <span class="product-price">{{producto.precio}}€</span>
+            <button (click)="eliminar(producto)" pButton pRipple type="button" icon="pi pi-times"
+              class="p-button-rounded p-button-danger"></button>
+            <button [routerLink]="['/formulario', producto.id]" pButton pRipple type="button" icon="pi pi-pencil"
+              class="p-button-rounded p-button-warning"></button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
