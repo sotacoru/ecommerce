@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Pedido} from "../entity/pedido";
 import {PedidoDto} from "../entity/dto/pedidoDto";
-import {ProductoPedidoDto} from "../entity/dto/productopedidodto";
 import {ProductoPedido} from "../entity/dto/productopedido";
 
 
@@ -14,34 +13,34 @@ export class PedidosService {
   private url: string = 'http://localhost:8090/api/pedido'
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   private productos: ProductoPedido[] = [];
+  private pedido = new BehaviorSubject<Pedido>(null);
 
   constructor(private http: HttpClient) {
 
   }
 
-  getPedido(id: number): Observable<Pedido> {
-    return this.http.get<Pedido>(`${this.url}/${id}`).pipe()
+  getPedido(): Observable<Pedido> {
+    return this.pedido.asObservable();
   }
 
-  postPedido(pedido: PedidoDto): Observable<Pedido> {
-    return this.http.post<Pedido>(this.url, pedido).pipe()
+  postPedido(pedido: PedidoDto) {
+    return this.http.post<any>(this.url, pedido).pipe().subscribe(
+      response => {
+        this.pedido.next(response.pedido)
+      }
+    )
 
   }
 
   setProductosPedido(p: ProductoPedido) {
 
-    this.productos.forEach(
-      values => {
-        if (values.producto.id === p.producto.id) {
-          this.productos.splice(this.productos.indexOf(p))
-          console.log("desde el servicio pedidos: update")
-          values.cantidad = values.cantidad + 1;
-          p = values
-        }
+    const productoArray = this.contains(p.producto.id);
 
-      }
-    );
-    this.productos.push(p);
+    if (productoArray === null) {
+      this.productos.push(p);
+    } else {
+      productoArray.cantidad++;
+    }
     window.localStorage.setItem('productos', JSON.stringify(this.productos));
   }
 
@@ -49,8 +48,22 @@ export class PedidosService {
     return JSON.parse(window.localStorage.getItem('productos'));
   }
 
+  actualizarPedido(producto: PedidoDto, id: number): Observable<any> {
+    return this.http.put<any>(`${this.url}/${id}`, producto).pipe();
+  }
 
-  actualizarPedido(productos: ProductoPedidoDto, id: number): Observable<any> {
-    return this.http.put<any>(`${this.url}/${id}`, productos).pipe();
+
+  confirmarPedido(id: number): Observable<any> {
+    return this.http.put<any>(`${this.url}/add/${id}`, this.getProductosPedido()).pipe();
+  }
+
+  contains(id: number): ProductoPedido {
+    for (const p of this.productos) {
+      if (p.producto.id === id) {
+        return p;
+      }
+    }
+
+    return null;
   }
 }

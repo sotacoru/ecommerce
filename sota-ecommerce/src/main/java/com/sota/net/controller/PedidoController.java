@@ -92,8 +92,29 @@ public class PedidoController {
 		pedido.setPedidoProducto(new ArrayList<>());
 		return pedido;
 	}
-
 	@PutMapping("/pedido/{id}")
+	public ResponseEntity<?> actualizarPedido(@RequestBody PedidoDto pedidoDto, @PathVariable long id, BindingResult result) {
+		Pedido pedidoActual = this.pedidoService.findById(id);
+
+		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+		if (pedidoActual == null) {
+			response.put("mensaje", "El pedido no existe");
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}
+		pedidoActual.setPrecioTotal(pedidoDto.getPrecioTotal());
+		pedidoActual.setIdPago(pedidoDto.getIdPago());
+
+		this.pedidoService.save(pedidoActual);
+		response.put("mensaje", "El pedido se ha modificado con exito!");
+
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+	}
+	@PutMapping("/pedido/add/{id}")
 	public ResponseEntity<?> añadirProducto(@RequestBody List<PedidoProductoDto> productos, @PathVariable long id, BindingResult result) {
 		Pedido pedido = this.pedidoService.findById(id);
 
@@ -106,7 +127,6 @@ public class PedidoController {
 			response.put("mensaje", "El pedido no existe");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
-;
 
 		this.pedidoService.save(formarPedidos(productos, pedido));
 		response.put("mensaje", "El producto se ha añadido con exito!");

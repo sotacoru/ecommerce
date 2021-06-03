@@ -167,7 +167,6 @@ public class ProductoController {
         List<String> errors = result.getFieldErrors().stream()
                 .map(err -> "El campo:'" + err.getField() + "' " + err.getDefaultMessage())
                 .collect(Collectors.toList());
-
         response.put("errors", errors);
         return true;
     }

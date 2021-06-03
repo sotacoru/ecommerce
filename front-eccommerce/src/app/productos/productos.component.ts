@@ -55,19 +55,12 @@ export class ProductosComponent implements OnInit {
       })
 
     this.sortOptions = [
-      { label: 'Más caros primero', value: '!precio' },
-      { label: 'Más baratos primero', value: 'precio' }
+      {label: 'Más caros primero', value: '!precio'},
+      {label: 'Más baratos primero', value: 'precio'}
     ];
     this.primengConfig.ripple = true;
   }
 
-
-  isLogged(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    }
-    return false;
-  }
 
   perfil(): any {
 
@@ -83,8 +76,7 @@ export class ProductosComponent implements OnInit {
     if (value.indexOf('!') === 0) {
       this.sortOrder = -1;
       this.sortField = value.substring(1, value.length);
-    }
-    else {
+    } else {
       this.sortOrder = 1;
       this.sortField = value;
     }
@@ -92,7 +84,7 @@ export class ProductosComponent implements OnInit {
 
   buscar() {
     this.ps.getProductosBusqueda(this.busqueda).subscribe(
-      response => this.productos=response
+      response => this.productos = response
     );
   }
 
@@ -133,9 +125,7 @@ export class ProductosComponent implements OnInit {
       this.pedido = new PedidoDto();
       this.pedido.precioTotal = 0;
       this.pedido.idUsuario = this.usuarioPedidoAdapter(this.authService.usuario);
-      this.pedidoService.postPedido(this.pedido).subscribe(
-        response => this.pedido = response
-      );
+      this.pedidoService.postPedido(this.pedido)
       this.pedido.precioTotal = producto.precio
       this.pedidoService.setProductosPedido(this.productoPedidoAdapter(producto))
 
