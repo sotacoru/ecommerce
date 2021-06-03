@@ -46,7 +46,6 @@ public class UsuarioController {
 
 	private final IUsuarioRepository usuarioRepository;
 	private final UsuarioDtoConverter usuarioDtoConverter;
-	private GetUsuarioDto getUsuarioDto;
 
 	private final IUsuarioService usuarioService;
 	private final PasswordEncoder passwordEncoder;
