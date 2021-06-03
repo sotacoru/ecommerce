@@ -62,10 +62,7 @@ export class HeaderComponent implements OnInit {
   }
 
   isLogged(): boolean{
-    if(this.authService.isAuthenticated()){
-      return true;
-    }
-    return false;
+    return this.authService.isAuthenticated();
   }
 
   nombreUsuario(): string{

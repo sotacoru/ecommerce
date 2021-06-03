@@ -56,11 +56,12 @@ export class LoginRegisComponent implements OnInit {
   registrarse(){
     if(this.validarCamposVacios() && this.validarLongitudCampos() && this.validarFormatoCampos()){
 
+      if(this.isLogged){
+
+      }else{
         this.authService.registro(this.usuario).subscribe( response => {
-          console.log(response)
           this.authService.guardarUsuario(response.token);
           this.authService.guardarToken(response.token);
-          console.log("ajssjsajkasasnkaslknaslk")
           let usuario = this.authService.usuario;
           this.router.navigate(['/productos']);
           swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
@@ -69,7 +70,12 @@ export class LoginRegisComponent implements OnInit {
             swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
           }
         });
+      }
     }
+  }
+
+  isLogged(): boolean{
+    return this.authService.isAuthenticated();
   }
 
   validarCamposVacios(): boolean{
