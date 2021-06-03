@@ -26,21 +26,28 @@
         <tbody>
         <tr *ngFor="let producto of productos" class="align-content-center">
           <td width="5%">
-            <img class="img-thumbnail rounded-circle"  *ngIf="producto.producto?.foto" [src]="urlImg +''+ producto.producto.foto" [alt]="producto.producto.nombre"  />
-            <img class="img-thumbnail rounded-circle" *ngIf="!producto.producto?.foto" [src]="imgDefecto" >
+            <img class="img-thumbnail rounded-circle" *ngIf="producto.producto?.foto"
+                 [src]="urlImg +''+ producto.producto.foto" [alt]="producto.producto.nombre"/>
+            <img class="img-thumbnail rounded-circle" *ngIf="!producto.producto?.foto" [src]="imgDefecto">
           <td>{{producto.producto.nombre}}</td>
           <td>{{producto.producto.descripcion}}</td>
-          <td>{{producto.producto.precio}}€</td>
+          <td>{{producto.producto.precio.toFixed(2)}}€</td>
           <td>{{producto.cantidad}}</td>
-          <td>{{producto.producto.precio*producto.cantidad}}€</td>
-          <td ><button  pButton  type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-sm"></button></td>
+          <td>{{(producto.producto.precio * producto.cantidad).toFixed(2)}}€</td>
+          <td>
+            <button pButton type="button" icon="pi pi-times"
+                    class="p-button-rounded p-button-danger p-button-sm"></button>
+          </td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
-          <td colspan="5"></td>
+          <td colspan="4"></td>
 
-          <td colspan="2" >Total: {{pedido.precioTotal}} €</td>
+          <td colspan="2">Total: {{pedido.precioTotal.toFixed(2)}} €</td>
+          <td>
+            <p-button icon="pi pi-money-bill" (click)="confirmarPedido()" label="Realizar el pago"></p-button>
+          </td>
 
 
         </tr>

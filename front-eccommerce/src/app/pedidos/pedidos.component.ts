@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Pedido} from "../entity/pedido";
 import {PedidosService} from "../servicios/pedidos.service";
-import {PrimeNGConfig, SelectItem} from "primeng/api";
-import {Producto} from "../entity/producto";
+import {PrimeNGConfig} from "primeng/api";
 import {ProductoPedido} from "../entity/dto/productopedido";
 
 @Component({
@@ -12,26 +11,37 @@ import {ProductoPedido} from "../entity/dto/productopedido";
 })
 export class PedidosComponent implements OnInit {
   pedido: Pedido;
-  productos: ProductoPedido[]=[];
-  urlImg:string = "http://localhost:8090/api/uploads/img/"
-  imgDefecto:string="http://localhost:8090/images/notImagen.jpg"
+  productos: ProductoPedido[] = [];
+  urlImg: string = "http://localhost:8090/api/uploads/img/"
+  imgDefecto: string = "http://localhost:8090/images/notImagen.jpg"
 
 
-  constructor(private ps: PedidosService,private primengConfig: PrimeNGConfig) {
-    this.pedido= new Pedido();
+  constructor(private ps: PedidosService, private primengConfig: PrimeNGConfig) {
+    this.pedido = new Pedido();
 
   }
 
   ngOnInit(): void {
-    this.ps.getPedido(3).subscribe(
-      response=>{
-        console.log(response)
-        this.pedido=response
-      }
-    )
-    this.productos = this.ps.getProductosPedido()
+
+    this.productos = this.ps.getProductosPedido();
+
+
+    this.pedido.precioTotal = this.calcularTotal();
     console.log(this.pedido)
 
   }
 
+  calcularTotal(): number {
+    let total: number = 0
+    this.productos.forEach(
+      values => {
+        total = total + (values.cantidad * values.producto.precio)
+      }
+    )
+    return total;
+  }
+
+  confirmarPedido() {
+
+  }
 }
