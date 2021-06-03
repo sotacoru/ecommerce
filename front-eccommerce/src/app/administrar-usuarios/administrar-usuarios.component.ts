@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Usuario} from '../usuarios/usuario';
 import { AdministrarUsuariosService } from './administrar-usuarios.service';
 import { AuthUsuarioService } from '../servicios/auth-usuario-service';
+import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-administrar-usuarios',
@@ -15,7 +16,9 @@ export class AdministrarUsuariosComponent implements OnInit {
   rolUsuario: string= this.authService.usuario.perfil.toString();
 
   constructor(private administrarUsuarioService: AdministrarUsuariosService,
-  private authService: AuthUsuarioService) { }
+  private authService: AuthUsuarioService,
+  private router: Router,
+  private activateRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.administrarUsuarioService.getUsuario().subscribe( usuarios =>{
@@ -31,4 +34,12 @@ export class AdministrarUsuariosComponent implements OnInit {
     );
   }
 
+  update(usuario: Usuario): void{
+    console.log(usuario)
+    this.administrarUsuarioService.update(usuario).subscribe(
+      usuario => {
+        this.router.navigate(['/administrador/actualizar']);
+      }
+    );
+  }
 }

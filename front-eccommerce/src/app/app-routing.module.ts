@@ -21,7 +21,8 @@ const routes: Routes = [
   {path: 'formulario/:id', component: FormComponent},
   {path: 'formulario', component: FormComponent},
   {path: 'carrito', component: CarritoComponent},
-  {path: 'administrar-usuarios', component:AdministrarUsuariosComponent}
+  {path: 'administrador/lista', component:AdministrarUsuariosComponent},
+  {path: 'administrador/actualizar/:idusuario', component: LoginRegisComponent}
 ];
 @NgModule({
   imports: [

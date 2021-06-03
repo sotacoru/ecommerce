@@ -22,6 +22,8 @@ public class PerfilController {
 	
 	@GetMapping("/perfil")
 	public List<Perfil> mostrarPerfil(){
+		List<Perfil> p = perfilService.findAll();
+		
 		return perfilService.findAll();
 	}
 }

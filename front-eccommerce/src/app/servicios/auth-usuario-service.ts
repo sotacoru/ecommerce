@@ -15,7 +15,7 @@ export class AuthUsuarioService {
   private _usuario: Usuario;
   private _token: string;
   private  urlEndPoint: string = 'http://localhost:8090/api/usuario';
-  private id:number;
+  private idusuario:number;
 
   constructor(private http: HttpClient) { }
 
@@ -111,9 +111,9 @@ export class AuthUsuarioService {
 
   guardarSubToken(accessToken: string): void{
     let payload = this.obtenerDatosToken(accessToken);
-    this.id = payload;
+    this.idusuario = payload;
 
-    sessionStorage.setItem('sub', JSON.stringify(this.id));
+    sessionStorage.setItem('sub', JSON.stringify(this.idusuario));
   }
 
   public getSub(): number {

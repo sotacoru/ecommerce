@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-
+import { Router, ActivatedRoute } from '@angular/router';
+import { Perfil } from '../usuarios/perfil';
+import { PerfilService} from '../usuarios/perfil.service';
 import { Usuario } from '../usuarios/usuario';
 import { AuthUsuarioService } from '../servicios/auth-usuario-service';
+import {AdministrarUsuariosService} from '../administrar-usuarios/administrar-usuarios.service';
 
 import swal from 'sweetalert2';
 
@@ -15,15 +17,44 @@ export class LoginRegisComponent implements OnInit {
 
   titulo: string = 'Por favor, sign in';
   titulo2: string = 'Por favor, registrese';
+  perfiles: Perfil[]=[];
   usuario: Usuario;
   isLogin: boolean;
 
   constructor(private authService: AuthUsuarioService,
-    private router: Router) {
+    private router: Router,
+    private activateRoute: ActivatedRoute,
+    private perfilService: PerfilService,
+    private administrarUsuarioService: AdministrarUsuariosService) {
       this.usuario = new Usuario();
      }
 
-  ngOnInit() {
+  ngOnInit(): void {
+
+    this.cargarPerfiles();
+    this.cargarUsuario();
+
+  }
+
+  cargarPerfiles(): void{
+    this.perfilService.getPerfil().subscribe(
+      perfiles => {
+        this.perfiles = perfiles;}
+    );
+  }
+
+  cargarUsuario(): void{
+    console.log('entre');
+    this.activateRoute.params.subscribe(params =>{
+        let id = params['idusuario']
+        console.log(id);
+        if(id){
+          this.administrarUsuarioService.getUsuarioId(id).subscribe(
+            (usuario) => this.usuario = usuario
+          );
+        }
+      }
+    );
   }
 
 
@@ -83,6 +114,7 @@ export class LoginRegisComponent implements OnInit {
     if(this.usuario.nombre==null){
 
         swal.fire('Campo nombre vacío','El campo nombre está vacío','error');
+        console.log(this.perfiles);
         return false;
 
     }else if(this.usuario.primerapellido==null){
@@ -232,5 +264,9 @@ export class LoginRegisComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  compararPerfil(perfil: Perfil, perfil2: Perfil){
+    return perfil==perfil2;
   }
 }

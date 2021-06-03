@@ -175,7 +175,7 @@ public class UsuarioController {
 			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put("exito", "El empleado ha sido eliminado con éxito");
+		response.put("exito", "El usuario ha sido eliminado con éxito");
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		

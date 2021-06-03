@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
 
     this.itemsButton = [
           {label: 'Información perfil', command: () => {this.abrirModal2()}},
-          {label: 'Administrar perfiles', routerLink:['/administrar-usuarios']},
+          {label: 'Administrar perfiles', routerLink:['/administrador/lista']},
           {label: 'Cerrar sesión', command: () => {this.authService.logout()}}
     ]
 

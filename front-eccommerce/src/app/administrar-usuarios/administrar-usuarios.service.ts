@@ -13,6 +13,10 @@ export class AdministrarUsuariosService {
 
   constructor(private http: HttpClient) { }
 
+  getUsuarioId(id: number): Observable<Usuario>{
+    return this.http.get<Usuario>('http://localhost:8090/api/usuario/'+id).pipe();
+  }
+
   getUsuario(): Observable<Usuario[]>{
     return this.http.get('http://localhost:8090/api/usuario').pipe(
       map( response => response as Usuario[])
@@ -24,4 +28,8 @@ export class AdministrarUsuariosService {
       {headers: this.httpHeaders}).pipe();
   }
 
+  update(usuario: Usuario): Observable<Usuario>{
+    return this.http.put<Usuario>('http://localhost:8090/api/usuario/'+usuario.idusuario
+        ,usuario,{headers: this.httpHeaders}).pipe();
+  }
 }

@@ -1,7 +1,7 @@
 <div class="card text-center p1" >
 
   <div class="botones">
-    <span *ngIf="!isLogged();">
+    <span *ngIf="!isLogged()">
       <input type="submit" (click)='isLogin = true' class="btn btn-lg btn-primary btn-block" value="Login">
       <input type="submit" (click)='isLogin = false' class="btn btn-lg btn-primary btn-block" value="Registrarse">
     </span>
@@ -71,6 +71,9 @@
       <br>
 
       <div *ngIf="isLogged()"class="form-group col-sm-6">
+        <select [compareWith]="compararPerfil" class="form-select form-select-sm" [(ngModel)]="usuario.perfil" name="perfil" >
+          <option *ngFor="let perfil of perfiles"  [ngValue]="perfil">{{perfil.nombreperfil}}</option>
+        </select>
         <br>
       </div>
 

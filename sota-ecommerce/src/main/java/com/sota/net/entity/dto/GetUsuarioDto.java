@@ -16,7 +16,7 @@ import lombok.Setter;
 @Builder
 public class GetUsuarioDto {
 
-	private Long id;
+	private Long idusuario;
 	private String nombre;
 	private String primerapellido;
 	private String segundoapellido;
