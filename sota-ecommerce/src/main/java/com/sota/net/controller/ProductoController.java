@@ -41,6 +41,12 @@ public class ProductoController {
         return this.productoService.findByStock();
 
     }
+    
+    @GetMapping("/producto/all")
+    public List<Producto> getAllProducts() {
+        return this.productoService.findAll();
+
+    }
 
     //Parte pública
     @PostMapping("/producto/busqueda")
