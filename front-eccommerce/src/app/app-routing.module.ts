@@ -20,6 +20,7 @@ const routes: Routes = [
   {path: 'formulario/:id', component: FormComponent},
   {path: 'formulario', component: FormComponent},
   {path: 'carrito', component: CarritoComponent},
+  {path: 'administrador', component: ProductosComponent}
 ];
 @NgModule({
   imports: [
