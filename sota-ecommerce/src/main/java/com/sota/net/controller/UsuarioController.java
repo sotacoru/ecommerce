@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sota.net.entity.dto.GetUsuarioDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
 import com.sota.net.model.JwtUserResponse;
 import com.sota.net.model.LoginRequest;
@@ -44,6 +46,7 @@ public class UsuarioController {
 
 	private final IUsuarioRepository usuarioRepository;
 	private final UsuarioDtoConverter usuarioDtoConverter;
+	private GetUsuarioDto getUsuarioDto;
 
 	private final IUsuarioService usuarioService;
 	private final PasswordEncoder passwordEncoder;
@@ -58,13 +61,10 @@ public class UsuarioController {
 
 	// MOSTRAR TODOS LOS USUARIOS
 	@GetMapping("/usuario")
-	public List<Usuario> index() {
+	public List<GetUsuarioDto> index() {
 		List<Usuario> usuario= usuarioService.findAll();
 		
-		Usuario u = usuario.get(0);
-		System.out.println(u.getPerfil().getNombreperfil());
-		
-		return usuario;
+		return usuarioDtoConverter.convertListUsuarioEntityToGetUserDto1(usuario);
 	}
 
 	// MOSTRAR USUARIO POR ID
@@ -161,6 +161,25 @@ public class UsuarioController {
 		response.put("usuario", usuarioUpdated);
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	
+	@DeleteMapping("/usuario/{id}")
+	private ResponseEntity<?> delete(@PathVariable Long id) {
+		System.out.println(id);
+		
+		Map<String, Object> response = new HashMap<>();
+		try {
+			usuarioService.deleteUsuarioById(id);
+		}catch(DataAccessException ex) {
+			response.put("mensaje", "Error al eliminar un usuario en la base de datos");
+			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("exito", "El empleado ha sido eliminado con éxito");
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+		
 	}
 
 	@SuppressWarnings("unchecked")

@@ -16,9 +16,10 @@ import lombok.Setter;
 @Builder
 public class GetUsuarioDto {
 
+	private Long id;
 	private String nombre;
-	private String primerApellido;
-	private String segundoApellido;
+	private String primerapellido;
+	private String segundoapellido;
 	private String email;
 	private Perfil perfil;
 	

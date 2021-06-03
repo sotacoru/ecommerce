@@ -111,7 +111,7 @@ export class AuthUsuarioService {
 
   guardarSubToken(accessToken: string): void{
     let payload = this.obtenerDatosToken(accessToken);
-    this.id = payload
+    this.id = payload;
 
     sessionStorage.setItem('sub', JSON.stringify(this.id));
   }

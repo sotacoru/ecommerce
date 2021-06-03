@@ -12,16 +12,23 @@ export class AdministrarUsuariosComponent implements OnInit {
 
   usuarios: Usuario[];
   nombreUsuario: string = this.authService.usuario.email;
-  rolUsuario: string= this.authService.usuario.perfil.nombreperfil;
+  rolUsuario: string= this.authService.usuario.perfil.toString();
 
   constructor(private administrarUsuarioService: AdministrarUsuariosService,
   private authService: AuthUsuarioService) { }
 
   ngOnInit(): void {
-    console.log(this.authService.usuario.perfil);
     this.administrarUsuarioService.getUsuario().subscribe( usuarios =>{
       this.usuarios = usuarios
     });
+  }
+
+  delete(usuario: Usuario): void{
+    this.administrarUsuarioService.deleteUsuario(usuario.idusuario).subscribe(
+      response => {
+        this.usuarios = this.usuarios.filter(user => user !== usuario);
+      }
+    );
   }
 
 }
