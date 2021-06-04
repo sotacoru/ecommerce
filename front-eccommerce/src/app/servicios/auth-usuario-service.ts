@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario } from '../usuarios/usuario';
+import { Usuario } from '../entity/usuario';
 import jwt_decode from 'jwt-decode';
 
 import swal from 'sweetalert2';

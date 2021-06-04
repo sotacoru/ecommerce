@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
-import { Categoria } from "../productos/categoria";
-import { ProductoService } from "../servicios/producto.service";
-import { tap } from "rxjs/operators";
+import {Categoria} from "../entity/categoria";
+import {ProductoService} from "../servicios/producto.service";
+import {tap} from "rxjs/operators";
 import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 import { ModalUsuarioService } from '../modal-usuario/modal-usuario.service';
 
@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit {
     }
     return false;
   }
- 
+
 
   nombreUsuario(): string {
     return this.authService.usuario.nombre;

@@ -1,12 +1,17 @@
-import { ProductoService } from '../servicios/producto.service';
-import { Component, OnInit } from '@angular/core';
-import { Producto } from './producto'
-import { SelectItem } from 'primeng/api';
-import { PrimeNGConfig } from 'primeng/api';
-import { ProductoBusqueda } from "./producto_busqueda";
-import { ActivatedRoute } from "@angular/router";
+import {ProductoService} from '../servicios/producto.service';
+import {Component, OnInit} from '@angular/core';
+import {Producto} from '../entity/producto'
+import {PrimeNGConfig, SelectItem} from 'primeng/api';
+import {ProductoBusqueda} from "../entity/dto/producto_busqueda";
+import {ActivatedRoute} from "@angular/router";
 import Swal from "sweetalert2";
-import { AuthUsuarioService } from '../servicios/auth-usuario-service';
+import {PedidoDto} from "../entity/dto/pedidoDto";
+import {PedidosService} from "../servicios/pedidos.service";
+import {UsuarioPedidoDto} from "../entity/dto/usuarioPedidoDto";
+import {Usuario} from "../entity/usuario";
+import {AuthUsuarioService} from "../servicios/auth-usuario-service";
+import {ProductoPedido} from "../entity/dto/productopedido";
+
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -15,17 +20,19 @@ import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 export class ProductosComponent implements OnInit {
   productos: Producto[];
   busqueda: ProductoBusqueda;
+  pedido: PedidoDto;
   sortOptions: SelectItem[];
   sortOrder: number;
   sortField: string;
   urlImg: string = "http://localhost:8090/api/uploads/img/"
   imgDefecto: string = "http://localhost:8090/images/notImagen.jpg"
-  isAdmin: boolean = true;
-  constructor(
-    private ps: ProductoService,
-    private primengConfig: PrimeNGConfig,
-    private route: ActivatedRoute,
-    private authService: AuthUsuarioService) {
+  isAdmin: boolean = false;
+
+  constructor(private ps: ProductoService,
+              private pedidoService: PedidosService,
+              private primengConfig: PrimeNGConfig,
+              private route: ActivatedRoute,
+              private authService: AuthUsuarioService) {
     this.busqueda = new ProductoBusqueda();
   }
 
@@ -48,20 +55,12 @@ export class ProductosComponent implements OnInit {
       })
 
     this.sortOptions = [
-      { label: 'Más caros primero', value: '!precio' },
-      { label: 'Más baratos primero', value: 'precio' }
+      {label: 'Más caros primero', value: '!precio'},
+      {label: 'Más baratos primero', value: 'precio'}
     ];
     this.primengConfig.ripple = true;
-
   }
 
-
-  isLogged(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    }
-    return false;
-  }
 
   perfil(): any {
 
@@ -77,8 +76,7 @@ export class ProductosComponent implements OnInit {
     if (value.indexOf('!') === 0) {
       this.sortOrder = -1;
       this.sortField = value.substring(1, value.length);
-    }
-    else {
+    } else {
       this.sortOrder = 1;
       this.sortField = value;
     }
@@ -117,5 +115,38 @@ export class ProductosComponent implements OnInit {
       }
     })
 
+  }
+
+  addProductoCarrito(producto: Producto) {
+    if (this.pedido != undefined) {
+      this.pedidoService.setProductosPedido(this.productoPedidoAdapter(producto))
+
+    } else {
+      this.pedido = new PedidoDto();
+      this.pedido.precioTotal = 0;
+      this.pedido.idUsuario = this.usuarioPedidoAdapter(this.authService.usuario);
+      this.pedidoService.postPedido(this.pedido)
+      this.pedido.precioTotal = producto.precio
+      this.pedidoService.setProductosPedido(this.productoPedidoAdapter(producto))
+
+    }
+  }
+
+  usuarioPedidoAdapter(u: Usuario): UsuarioPedidoDto {
+    let up: UsuarioPedidoDto = new UsuarioPedidoDto();
+    up.id = u.idUsuario;
+    up.email = u.email;
+    up.nombre = u.nombre;
+    up.primerApellido = u.primerapellido;
+    up.segundoApellido = u.segundoapellido;
+    return up;
+  }
+
+  productoPedidoAdapter(p: Producto): ProductoPedido {
+    let pp: ProductoPedido = new ProductoPedido();
+    pp.producto = p;
+    if (pp.cantidad == undefined)
+      pp.cantidad = 1
+    return pp;
   }
 }

@@ -1,9 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Usuario } from '../usuarios/usuario';
-import { ModalUsuarioService } from './modal-usuario.service';
-import { AuthUsuarioService } from '../servicios/auth-usuario-service';
-
-import swal from 'sweetalert2';
+import {Component, Input, OnInit} from '@angular/core';
+import {ModalUsuarioService} from './modal-usuario.service';
+import {AuthUsuarioService} from '../servicios/auth-usuario-service';
+import {Usuario} from "../entity/usuario";
 
 
 @Component({
@@ -17,14 +15,15 @@ export class ModalUsuarioComponent implements OnInit {
   titulo: string = "Perfil de usuario";
 
   constructor(
-     private authService: AuthUsuarioService,
-     public modalService: ModalUsuarioService) { }
+    private authService: AuthUsuarioService,
+    public modalService: ModalUsuarioService) {
+  }
 
   ngOnInit() {
     this.usuario = this.authService.usuario;
   }
 
-    cerrarModal(){
-      this.modalService.cerrarModal();
-    }
+  cerrarModal() {
+    this.modalService.cerrarModal();
+  }
 }

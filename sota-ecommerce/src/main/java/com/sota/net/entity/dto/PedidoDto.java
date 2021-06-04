@@ -17,7 +17,7 @@ public class PedidoDto {
     private Double precioTotal;
     private int realizado;
     private GetUsuarioPedido idUsuario;
-    private List<PedidoProducto> productos;
+   private List<PedidoProducto> productos;
     private Pago idPago;
 
 }
