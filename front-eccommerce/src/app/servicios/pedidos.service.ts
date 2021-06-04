@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Pedido} from "../entity/pedido";
 import {PedidoDto} from "../entity/dto/pedidoDto";
 import {ProductoPedido} from "../entity/dto/productopedido";
+import {Pago} from "../entity/pago";
 
 
 @Injectable({
@@ -48,13 +49,13 @@ export class PedidosService {
     return JSON.parse(window.localStorage.getItem('productos'));
   }
 
-  actualizarPedido(producto: PedidoDto, id: number): Observable<any> {
-    return this.http.put<any>(`${this.url}/${id}`, producto).pipe();
+  getPagos(): Observable<Pago[]> {
+    return this.http.get<Pago[]>(this.url + '/pagos');
   }
 
-
-  confirmarPedido(id: number): Observable<any> {
-    return this.http.put<any>(`${this.url}/add/${id}`, this.getProductosPedido()).pipe();
+  actualizarPedido(pedido: PedidoDto, id: number): Observable<any> {
+    pedido.productos = this.getProductosPedido()
+    return this.http.put<any>(`${this.url}/${id}`, pedido).pipe();
   }
 
   contains(id: number): ProductoPedido {

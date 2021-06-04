@@ -19,7 +19,6 @@ const routes: Routes = [
   {path: 'productos', component: ProductosComponent},
   {path: 'formulario/:id', component: FormComponent},
   {path: 'formulario', component: FormComponent},
-  {path: 'formulario', component: FormComponent},
   {path: 'administrador', component: ProductosComponent},
 ];
 
