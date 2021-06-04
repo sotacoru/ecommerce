@@ -52,7 +52,10 @@ export class LoginRegisComponent implements OnInit {
         this.passwordDisabled = params ['condicion'];
         if(id){
           this.administrarUsuarioService.getUsuarioId(id).subscribe(
-            (usuario) => this.usuario = usuario
+            (usuario) => {
+              this.usuario = usuario;
+              this.usuario.password2=usuario.password;
+            }
           );
         }
       }
@@ -88,7 +91,7 @@ export class LoginRegisComponent implements OnInit {
   }
 
   registrarse(){
-    if(this.validarCamposVacios() && this.validarLongitudCampos() && this.validarFormatoCampos()){
+    if(this.validarFormatoCampos()){
       console.log(this.passwordDisabled);
         if(this.isLogged()){
 
@@ -105,77 +108,11 @@ export class LoginRegisComponent implements OnInit {
             }
           });
         }
-
-
-
     }
   }
 
   isLogged(): boolean{
     return this.authService.isAuthenticated();
-  }
-
-  validarCamposVacios(): boolean{
-    console.log(this.usuario.password2);
-    if(this.usuario.nombre==null){
-
-        swal.fire('Campo nombre vacío','El campo nombre está vacío','error');
-        console.log(this.perfiles);
-        return false;
-
-    }else if(this.usuario.primerapellido==null){
-
-      swal.fire('Campo Primer apellido vacío','El campo primer apellido está vacío','error');
-      return false;
-
-    }else if(this.usuario.segundoapellido==null){
-
-      swal.fire('Campo segundo apellido vacío','El campo segundo apellido está vacío','error');
-      return false;
-
-    }else if(this.usuario.email==null){
-
-      swal.fire('Campo email vacío','El campo primer apellido está vacío','error');
-      return false;
-
-    }else if(this.usuario.password==null){
-
-      swal.fire('Campo contraseña vacío','El campo contraseña está vacío','error');
-      return false;
-
-    }
-
-    return true;
-  }
-
-  validarLongitudCampos(): boolean{
-
-    if(!this.comprobarLongitudCamposNombreAps(this.usuario.nombre)){
-
-      swal.fire('Longitud campo nombre inválida','La longitud mínima para el primer apellido es de 2 y la máxima de 20','error');
-      return false;
-
-    }else if(!this.comprobarLongitudCamposNombreAps(this.usuario.primerapellido)){
-
-      swal.fire('Longitud campo primer apellido inválida','La longitud mínima para el campo primer apellido es de 2 y la máxima de 20','error');
-      return false;
-
-    }else if(!this.comprobarLongitudCamposNombreAps(this.usuario.segundoapellido)){
-
-      swal.fire('Longitud campo segundo apellido inválida','La longitud mínima para el campo segundo apellido es de 2 y la máxima de 20','error');
-      return false;
-
-    }else if(!this.comprobarLongitudCampoEmail(this.usuario.email)){
-      swal.fire('Longitud campo correo electrónico inválida','La longitud mínima para el campo correo electrónico es de 10 y la máxima de 320','error');
-
-    }else if(!this.comprobarLongitudCampoPassword(this.usuario.password) && !this.passwordEditable()){
-
-      swal.fire('Longitud campo contraseña inválida','La longitud mínima para el campo contraseña es de 6 y la máxima de 30','error');
-      return false;
-
-    }
-
-    return true;
   }
 
   validarFormatoCampos(): boolean{
@@ -190,7 +127,7 @@ export class LoginRegisComponent implements OnInit {
       swal.fire('Error en el formato de la contraseña','La contraseña indicada debe contener minúsculas, mayúsculas y caracteres especiales de tipo:"." "," "/" "-" "_"','error');
       return false;
 
-    }else if(!this.compararPassword(this.usuario.password, this.usuario.password2) && !this.passwordEditable()){
+    }else if(!this.compararPassword(this.usuario.password, this.usuario.password2)){
 
       swal.fire('Error al comparar las contraseñas','Las contraseñas deben ser iguales','error');
       return false;
@@ -202,7 +139,7 @@ export class LoginRegisComponent implements OnInit {
 
   validarEmail(email: any): boolean{
 
-    return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es)+$/.test(email);
+    return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es|gal|net|org)+$/.test(email);
 
   }
 
@@ -234,19 +171,6 @@ export class LoginRegisComponent implements OnInit {
 
   compararPassword(password1: String, password2:String): any{
     return password1==password2;
-  }
-
-  //Campos nombre, primer apellido, segundo apellido
-  comprobarLongitudCamposNombreAps(cadena: String): boolean{
-    return cadena.length>=2 && cadena.length<=20;
-  }
-
-  comprobarLongitudCampoEmail(cadena: String){
-    return cadena.length>=10 && cadena.length<=320;
-  }
-
-  comprobarLongitudCampoPassword(cadena: String){
-    return cadena.length>=6 && cadena.length<=30;
   }
 
   esMayuscula(letra: String): boolean{
