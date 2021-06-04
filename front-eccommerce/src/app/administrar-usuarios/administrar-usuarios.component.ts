@@ -3,6 +3,7 @@ import {Usuario} from '../usuarios/usuario';
 import { AdministrarUsuariosService } from './administrar-usuarios.service';
 import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 import {Router, ActivatedRoute} from '@angular/router';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-administrar-usuarios',
@@ -41,5 +42,28 @@ export class AdministrarUsuariosComponent implements OnInit {
         this.router.navigate(['/administrador/actualizar']);
       }
     );
+  }
+
+  preguntaEditar(usuario: Usuario): void{
+    if(usuario.perfil.nombreperfil=='CLIENTE'){
+      this.router.navigate(['/administrador/actualizar/',usuario.idusuario,true]);
+    }else{
+      Swal.fire({
+        title: 'Tipo de edición',
+        text: `Como desea editar el usuario ¿con o sin contraseña?`,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#69F129',
+        confirmButtonText: 'Sin contraseña',
+        cancelButtonText: 'Con contraseña',
+        showDenyButton: true,
+        denyButtonText: 'Cancelar'
+      }).then((result) => {
+        if(!result.isDenied){
+          this.router.navigate(['/administrador/actualizar/',usuario.idusuario,result.isConfirmed]);
+        }
+      })
+    }
   }
 }

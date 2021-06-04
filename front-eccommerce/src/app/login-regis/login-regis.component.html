@@ -58,17 +58,19 @@
       </div>
       <br>
 
-      <div class="form-group col-sm-6">
-        <input type="password" [(ngModel)]="usuario.password" class="form-control"
-        placeholder="Contraseña" name="password" id="password" required>
-      </div>
-      <br>
+        <div class="form-group col-sm-6">
+          <input type="password" [(ngModel)]="usuario.password" class="form-control"
+          placeholder="Contraseña" name="password" id="password" required [disabled]="passwordEditable()">
 
-      <div class="form-group col-sm-6">
-        <input type="password" [(ngModel)]="usuario.password2" class="form-control"
-        placeholder="Confirmar contraseña" name="password" id="password" required>
-      </div>
-      <br>
+        </div>
+        <br>
+
+        <div class="form-group col-sm-6">
+          <input type="password" [(ngModel)]="usuario.password2" class="form-check-input"
+          placeholder="Confirmar contraseña" name="password2" id="password2" required [disabled]="passwordEditable()">
+        </div>
+        <br>
+
 
       <div *ngIf="isLogged()"class="form-group col-sm-6">
         <select [compareWith]="compararPerfil" class="form-select form-select-sm" [(ngModel)]="usuario.perfil" name="perfil" >

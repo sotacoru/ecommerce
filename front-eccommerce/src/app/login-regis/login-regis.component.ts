@@ -20,6 +20,7 @@ export class LoginRegisComponent implements OnInit {
   perfiles: Perfil[]=[];
   usuario: Usuario;
   isLogin: boolean;
+  passwordDisabled: boolean = false;
 
   constructor(private authService: AuthUsuarioService,
     private router: Router,
@@ -46,8 +47,9 @@ export class LoginRegisComponent implements OnInit {
   cargarUsuario(): void{
     console.log('entre');
     this.activateRoute.params.subscribe(params =>{
-        let id = params['idusuario']
-        console.log(id);
+        let id = params['idusuario'];
+        //Mirar si quiere cambiar la password
+        this.passwordDisabled = params ['condicion'];
         if(id){
           this.administrarUsuarioService.getUsuarioId(id).subscribe(
             (usuario) => this.usuario = usuario
@@ -56,6 +58,7 @@ export class LoginRegisComponent implements OnInit {
       }
     );
   }
+
 
 
   login(){
@@ -86,22 +89,25 @@ export class LoginRegisComponent implements OnInit {
 
   registrarse(){
     if(this.validarCamposVacios() && this.validarLongitudCampos() && this.validarFormatoCampos()){
+      console.log(this.passwordDisabled);
+        if(this.isLogged()){
 
-      if(this.isLogged){
+        }else{
+          this.authService.registro(this.usuario).subscribe( response => {
+            this.authService.guardarUsuario(response.token);
+            this.authService.guardarToken(response.token);
+            let usuario = this.authService.usuario;
+            this.router.navigate(['/productos']);
+            swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
+          }, err => {
+            if(err.status == 500){
+              swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
+            }
+          });
+        }
 
-      }else{
-        this.authService.registro(this.usuario).subscribe( response => {
-          this.authService.guardarUsuario(response.token);
-          this.authService.guardarToken(response.token);
-          let usuario = this.authService.usuario;
-          this.router.navigate(['/productos']);
-          swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
-        }, err => {
-          if(err.status == 500){
-            swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
-          }
-        });
-      }
+
+
     }
   }
 
@@ -110,7 +116,7 @@ export class LoginRegisComponent implements OnInit {
   }
 
   validarCamposVacios(): boolean{
-
+    console.log(this.usuario.password2);
     if(this.usuario.nombre==null){
 
         swal.fire('Campo nombre vacío','El campo nombre está vacío','error');
@@ -135,11 +141,6 @@ export class LoginRegisComponent implements OnInit {
     }else if(this.usuario.password==null){
 
       swal.fire('Campo contraseña vacío','El campo contraseña está vacío','error');
-      return false;
-
-    }else if(this.usuario.password2==null){
-
-      swal.fire('Campo confirmar contraseña vacío','El campo confirmar contraseña está vacío','error');
       return false;
 
     }
@@ -167,7 +168,7 @@ export class LoginRegisComponent implements OnInit {
     }else if(!this.comprobarLongitudCampoEmail(this.usuario.email)){
       swal.fire('Longitud campo correo electrónico inválida','La longitud mínima para el campo correo electrónico es de 10 y la máxima de 320','error');
 
-    }else if(!this.comprobarLongitudCampoPassword(this.usuario.password)){
+    }else if(!this.comprobarLongitudCampoPassword(this.usuario.password) && !this.passwordEditable()){
 
       swal.fire('Longitud campo contraseña inválida','La longitud mínima para el campo contraseña es de 6 y la máxima de 30','error');
       return false;
@@ -189,7 +190,7 @@ export class LoginRegisComponent implements OnInit {
       swal.fire('Error en el formato de la contraseña','La contraseña indicada debe contener minúsculas, mayúsculas y caracteres especiales de tipo:"." "," "/" "-" "_"','error');
       return false;
 
-    }else if(!this.compararPassword(this.usuario.password, this.usuario.password2)){
+    }else if(!this.compararPassword(this.usuario.password, this.usuario.password2) && !this.passwordEditable()){
 
       swal.fire('Error al comparar las contraseñas','Las contraseñas deben ser iguales','error');
       return false;
@@ -269,4 +270,9 @@ export class LoginRegisComponent implements OnInit {
   compararPerfil(perfil: Perfil, perfil2: Perfil){
     return perfil==perfil2;
   }
+
+  //SI es true no se puede editar
+    passwordEditable(): boolean{
+      return this.passwordDisabled;
+    }
 }
