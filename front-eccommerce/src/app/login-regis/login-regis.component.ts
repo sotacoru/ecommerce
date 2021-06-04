@@ -92,9 +92,11 @@ export class LoginRegisComponent implements OnInit {
 
   registrarse(){
     if(this.validarFormatoCampos()){
-      console.log(this.passwordDisabled);
         if(this.isLogged()){
+            this.administrarUsuarioService.update(this.usuario).subscribe(
+              usuario => {
 
+              });
         }else{
           this.authService.registro(this.usuario).subscribe( response => {
             this.authService.guardarUsuario(response.token);

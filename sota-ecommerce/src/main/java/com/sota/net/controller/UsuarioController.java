@@ -70,7 +70,7 @@ public class UsuarioController {
 	@RequestMapping(value = "/usuario/{idUsuario}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> show(@PathVariable Long idUsuario) {
 		Usuario usuario = usuarioService.findById(idUsuario);
-
+		
 		Map<String, Object> response = new HashMap<>();
 
 		try {
@@ -84,7 +84,7 @@ public class UsuarioController {
 			response.put("mensaje", "El usuario ID: ".concat(idUsuario.toString().concat(" no existe en la BBDD")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+		return new ResponseEntity<>(usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario), HttpStatus.OK);
 	}
 
 	// CREACION USUARIOS
