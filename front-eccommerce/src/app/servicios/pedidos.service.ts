@@ -25,8 +25,10 @@ export class PedidosService {
   }
 
   postPedido(pedido: PedidoDto) {
+    console.log(pedido)
     return this.http.post<any>(this.url, pedido).pipe().subscribe(
       response => {
+        console.log(response)
         this.pedido.next(response.pedido)
       }
     )
@@ -45,6 +47,10 @@ export class PedidosService {
     window.localStorage.setItem('productos', JSON.stringify(this.productos));
   }
 
+  deleteProductosPedido() {
+    window.localStorage.removeItem("productos")
+  }
+
   getProductosPedido() {
     return JSON.parse(window.localStorage.getItem('productos'));
   }
@@ -53,8 +59,9 @@ export class PedidosService {
     return this.http.get<Pago[]>(this.url + '/pagos');
   }
 
-  actualizarPedido(pedido: PedidoDto, id: number): Observable<any> {
+  confirmarPedido(pedido: PedidoDto, id: number): Observable<any> {
     pedido.productos = this.getProductosPedido()
+    this.deleteProductosPedido()
     return this.http.put<any>(`${this.url}/${id}`, pedido).pipe();
   }
 
