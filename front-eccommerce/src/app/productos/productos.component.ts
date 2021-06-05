@@ -125,16 +125,18 @@ export class ProductosComponent implements OnInit {
       this.pedido = new PedidoDto();
       this.pedido.precioTotal = 0;
       this.pedido.idUsuario = this.usuarioPedidoAdapter(this.authService.usuario);
+      this.pedido.idUsuario.idUsuario = this.authService.getSub()
       this.pedidoService.postPedido(this.pedido)
       this.pedido.precioTotal = producto.precio
       this.pedidoService.setProductosPedido(this.productoPedidoAdapter(producto))
+      console.log(this.pedido)
 
     }
   }
 
   usuarioPedidoAdapter(u: Usuario): UsuarioPedidoDto {
     let up: UsuarioPedidoDto = new UsuarioPedidoDto();
-    up.id = u.idUsuario;
+    up.idUsuario = u.idUsuario;
     up.email = u.email;
     up.nombre = u.nombre;
     up.primerApellido = u.primerapellido;

@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class GetUsuarioPedido {
-    private Long id;
+    private Long idUsuario;
     private String nombre;
     private String primerApellido;
     private String segundoApellido;
