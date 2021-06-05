@@ -50,8 +50,8 @@
               <p-splitButton label="Selecciona método pago" icon="pi pi-fw pi-users" [model]="itemsPago"
                              styleClass="p-button-success mx-2 my-1"></p-splitButton>
             </span>
-            <span class="dropdown" *ngIf="isLogged()">
-            <p-button icon="pi pi-sign-in" label="Login"></p-button>
+            <span class="dropdown" *ngIf="!isLogged()">
+            <p-button icon="pi pi-sign-in" label="Login" [routerLink]="'/login'"></p-button>
             </span>
           </td>
 
