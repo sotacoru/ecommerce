@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
   labelBoton: string = 'Log in';
   labelBoolean: boolean = false;
   abierto: boolean = false;
+  nombre: string = '';
 
   categorias: Categoria[] = [];
   constructor(private ps: ProductoService,
@@ -31,9 +32,8 @@ export class HeaderComponent implements OnInit {
     this.ps.getCategorias().subscribe(
       response => {
         response.forEach(
-          categoria => {
-            this.subitems.push({ label: categoria.nombrecategoria, routerLink: ['/productos/', categoria.nombrecategoria] })
-            console.log(categoria.nombrecategoria)
+          categoria=> {
+            this.subitems.push({label: categoria.nombrecategoria, routerLink: ['/productos/', categoria.nombrecategoria]})
           }
         )
         this.categorias = response;
@@ -55,24 +55,28 @@ export class HeaderComponent implements OnInit {
     ];
 
     this.itemsButton = [
-      { label: 'Información perfil', command: () => { this.abrirModal2() } },
-      { label: 'Administrar perfiles' },
-      { label: 'Cerrar sesión', command: () => { this.authService.logout() } }
+          {label: 'Información perfil', command: () => {this.abrirModal2()}},
+          {label: 'Administrar perfiles', routerLink:['/administrador/lista']},
+          {label: 'Cerrar sesión', command: () => {this.authService.logout()}}
     ]
 
-  }
-
-  isLogged(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
+    
+    if(this.nombre==''){
+      this.authService.getUsuario().subscribe( usuario =>{
+        this.nombre=usuario.nombre;
+      }
+      )
     }
-    return false;
   }
 
-
-  nombreUsuario(): string {
-    return this.authService.usuario.nombre;
+  nombreUsuario(): String{
+    return this.nombre;
   }
+
+  isLogged(): boolean{
+    return this.authService.isAuthenticated();
+  }
+
 
   abrirModal2() {
     this.modalService.abrirModal();

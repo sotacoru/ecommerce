@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-
+import { Router, ActivatedRoute } from '@angular/router';
+import { Perfil } from '../entity/perfil';
+import { PerfilService} from '../usuarios/perfil.service';
 import { Usuario } from '../entity/usuario';
 import { AuthUsuarioService } from '../servicios/auth-usuario-service';
+import {AdministrarUsuariosService} from '../administrar-usuarios/administrar-usuarios.service';
 
 import swal from 'sweetalert2';
 
@@ -15,16 +17,52 @@ export class LoginRegisComponent implements OnInit {
 
   titulo: string = 'Por favor, sign in';
   titulo2: string = 'Por favor, registrese';
+  perfiles: Perfil[]=[];
   usuario: Usuario;
   isLogin: boolean;
+  passwordDisabled: boolean = false;
 
   constructor(private authService: AuthUsuarioService,
-    private router: Router) {
+    private router: Router,
+    private activateRoute: ActivatedRoute,
+    private perfilService: PerfilService,
+    private administrarUsuarioService: AdministrarUsuariosService) {
       this.usuario = new Usuario();
      }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    console.log(this.passwordEditable());
+    console.log(this.isLogged());
+    this.cargarPerfiles();
+    this.cargarUsuario();
+
   }
+
+  cargarPerfiles(): void{
+    this.perfilService.getPerfil().subscribe(
+      perfiles => {
+        this.perfiles = perfiles;
+      }
+    );
+  }
+
+  cargarUsuario(): void{
+    console.log('entre');
+    this.activateRoute.params.subscribe(params =>{
+        let id = params['idusuario'];
+        //Mirar si quiere cambiar la password
+        this.passwordDisabled = params ['condicion'];
+        if(id){
+          this.administrarUsuarioService.getUsuarioId(id).subscribe(
+            (usuario) => {
+              this.usuario = usuario;
+            }
+          );
+        }
+      }
+    );
+  }
+
 
 
   login(){
@@ -54,92 +92,47 @@ export class LoginRegisComponent implements OnInit {
   }
 
   registrarse(){
-    if(this.validarCamposVacios() && this.validarLongitudCampos() && this.validarFormatoCampos()){
+    if(this.validarFormatoCampos()){
+      console.log(this.isLogged());
+      console.log(this.passwordEditable());
+      //Si editable = undefined significa que entró a añadir un usuario;
+        if(this.isLogged() && this.passwordEditable()!=undefined){
 
+            this.administrarUsuarioService.update(this.usuario).subscribe(
+              usuario => {
+                  console.log(usuario.nombre);
+                  this.router.navigate(['/administrador/lista']);
+                  swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
+              });
+        //Si está logueado y editable = undefined significa que es un admin añadiendo a un usuario
+      }else if(this.isLogged() && this.passwordEditable()==undefined){
         this.authService.registro(this.usuario).subscribe( response => {
-          console.log(response)
-          this.authService.guardarUsuario(response.token);
-          this.authService.guardarToken(response.token);
 
-          let usuario = this.authService.usuario;
-          this.router.navigate(['/productos']);
-          swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
+          this.router.navigate(['/administrador/lista']);
+          swal.fire('Usuario añadido', `¡Usuario ${response.nombre} añadido!`, 'success');
         }, err => {
-          if (err.status == 403){
-            swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
-          }
-          else if(err.status == 500){
+          if(err.status == 500){
             swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
           }
         });
+      }else{
+          this.authService.registro(this.usuario).subscribe( response => {
+            this.authService.guardarUsuario(response.token);
+            this.authService.guardarToken(response.token);
+            let usuario = this.authService.usuario;
+            this.router.navigate(['/productos']);
+            swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
+          }, err => {
+            if(err.status == 500){
+              swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
+            }
+          });
+        }
     }
   }
 
-  validarCamposVacios(): boolean{
-
-    if(this.usuario.nombre==null){
-
-        swal.fire('Campo nombre vacío','El campo nombre está vacío','error');
-        return false;
-
-    }else if(this.usuario.primerapellido==null){
-
-      swal.fire('Campo Primer apellido vacío','El campo primer apellido está vacío','error');
-      return false;
-
-    }else if(this.usuario.segundoapellido==null){
-
-      swal.fire('Campo segundo apellido vacío','El campo segundo apellido está vacío','error');
-      return false;
-
-    }else if(this.usuario.email==null){
-
-      swal.fire('Campo email vacío','El campo primer apellido está vacío','error');
-      return false;
-
-    }else if(this.usuario.password==null){
-
-      swal.fire('Campo contraseña vacío','El campo contraseña está vacío','error');
-      return false;
-
-    }else if(this.usuario.password2==null){
-
-      swal.fire('Campo confirmar contraseña vacío','El campo confirmar contraseña está vacío','error');
-      return false;
-
-    }
-
-    return true;
-  }
-
-  validarLongitudCampos(): boolean{
-
-    if(!this.comprobarLongitudCamposNombreAps(this.usuario.nombre)){
-
-      swal.fire('Longitud campo nombre inválida','La longitud mínima para el primer apellido es de 2 y la máxima de 20','error');
-      return false;
-
-    }else if(!this.comprobarLongitudCamposNombreAps(this.usuario.primerapellido)){
-
-      swal.fire('Longitud campo primer apellido inválida','La longitud mínima para el campo primer apellido es de 2 y la máxima de 20','error');
-      return false;
-
-    }else if(!this.comprobarLongitudCamposNombreAps(this.usuario.segundoapellido)){
-
-      swal.fire('Longitud campo segundo apellido inválida','La longitud mínima para el campo segundo apellido es de 2 y la máxima de 20','error');
-      return false;
-
-    }else if(!this.comprobarLongitudCampoEmail(this.usuario.email)){
-      swal.fire('Longitud campo correo electrónico inválida','La longitud mínima para el campo correo electrónico es de 10 y la máxima de 320','error');
-
-    }else if(!this.comprobarLongitudCampoPassword(this.usuario.password)){
-
-      swal.fire('Longitud campo contraseña inválida','La longitud mínima para el campo contraseña es de 6 y la máxima de 30','error');
-      return false;
-
-    }
-
-    return true;
+  isLogged(): boolean{
+    return this.authService.isAuthenticated();
   }
 
   validarFormatoCampos(): boolean{
@@ -166,51 +159,43 @@ export class LoginRegisComponent implements OnInit {
 
   validarEmail(email: any): boolean{
 
-    return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es)+$/.test(email);
+    return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es|gal|net|org)+$/.test(email);
 
   }
 
   validarPassword(password1: String): boolean{
+    if((!this.passwordEditable() && this.isLogged()==undefined) || (!this.passwordEditable() && this.isLogged())){
+      let minuscula: boolean=false;
+      let mayuscula: boolean=false;
+      let caracterEspecial: boolean = false;
 
-    let minuscula: boolean=false;
-    let mayuscula: boolean=false;
-    let caracterEspecial: boolean = false;
+      for(let i=0;i<password1.length;i++){
+        if(this.esMayuscula(password1.charAt(i))&& !mayuscula){
+          mayuscula=true;
+        }
 
-    for(let i=0;i<password1.length;i++){
-      if(this.esMayuscula(password1.charAt(i))&& !mayuscula){
-        mayuscula=true;
+        if(this.esMinuscula(password1.charAt(i)) && !minuscula){
+          minuscula=true;
+        }
+
+        if(this.esCaracterEspecial(password1.charAt(i)) && !caracterEspecial){
+          caracterEspecial=true;
+        }
+
+        if(minuscula && mayuscula && caracterEspecial){
+          return true;
+        }
       }
-
-      if(this.esMinuscula(password1.charAt(i)) && !minuscula){
-        minuscula=true;
-      }
-
-      if(this.esCaracterEspecial(password1.charAt(i)) && !caracterEspecial){
-        caracterEspecial=true;
-      }
-
-      if(minuscula && mayuscula && caracterEspecial){
-        return true;
-      }
+    }else{
+      return true;
     }
     return false;
   }
 
+
+
   compararPassword(password1: String, password2:String): any{
     return password1==password2;
-  }
-
-  //Campos nombre, primer apellido, segundo apellido
-  comprobarLongitudCamposNombreAps(cadena: String): boolean{
-    return cadena.length>=2 && cadena.length<=20;
-  }
-
-  comprobarLongitudCampoEmail(cadena: String){
-    return cadena.length>=10 && cadena.length<=320;
-  }
-
-  comprobarLongitudCampoPassword(cadena: String){
-    return cadena.length>=6 && cadena.length<=30;
   }
 
   esMayuscula(letra: String): boolean{
@@ -230,4 +215,27 @@ export class LoginRegisComponent implements OnInit {
     }
     return false;
   }
+
+  compararPerfil(perfil: Perfil, perfil2: Perfil){
+    if(perfil===undefined && perfil2===undefined){
+      return true;
+    }
+      return perfil ===null || perfil2===null||perfil ===undefined || perfil2===undefined?
+        false: perfil.idperfil === perfil2.idperfil
+  }
+
+  //SI es true no se puede editar
+    passwordEditable(): boolean{
+      return this.passwordDisabled;
+    }
+
+    deshabilitarSelect(perfil: Perfil): boolean{
+      console.log(perfil);
+      console.log(this.isLogged());
+      if(perfil===undefined && this.isLogged()){
+        return true;
+      }
+        return perfil ===null || perfil ===undefined?
+          true: perfil.idperfil === 1 && this.isLogged();
+    }
 }

@@ -1,9 +1,8 @@
 
 export class UsuarioPedidoDto {
-  id: number;
+  idusuario: number;
   nombre: string;
   primerApellido: string;
   segundoApellido: string;
   email: string;
 };
-

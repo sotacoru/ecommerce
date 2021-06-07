@@ -25,13 +25,11 @@ public class CustomUserDetailsService implements UserDetailsService{
 		if(u!=null) {
 			return u;
 		}
-
 		return (UserDetails) new UsernameNotFoundException(email + " no encontrado");
 	}
 
 	public UserDetails loadUserById(Long id) throws UsernameNotFoundException{
 		Usuario u = usuarioService.findById(id);
-
 		if(u!=null) {
 			return u;
 		}

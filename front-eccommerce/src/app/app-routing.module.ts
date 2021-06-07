@@ -7,7 +7,7 @@ import {ProductosComponent} from './productos/productos.component';
 import {ThankyouPageComponent} from './thankyou-page/thankyou-page.component';
 import {FormComponent} from './productos/form.component';
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
-
+import {AdministrarUsuariosComponent } from './administrar-usuarios/administrar-usuarios.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/productos', pathMatch: 'full'},
@@ -19,7 +19,9 @@ const routes: Routes = [
   {path: 'productos', component: ProductosComponent},
   {path: 'formulario/:id', component: FormComponent},
   {path: 'formulario', component: FormComponent},
-  {path: 'administrador', component: ProductosComponent},
+  {path: 'administrador/lista', component:AdministrarUsuariosComponent},
+  {path: 'administrador/actualizar/:idusuario/:condicion', component: LoginRegisComponent},
+  {path: 'administrador/añadir', component: LoginRegisComponent}
 ];
 
 @NgModule({

@@ -81,7 +81,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
 
   usuarioAdapter(u: Usuario): UsuarioPedidoDto {
     let usuarioDto: UsuarioPedidoDto = new UsuarioPedidoDto();
-    usuarioDto.id = u.idUsuario;
+    usuarioDto.idusuario = u.idusuario;
     usuarioDto.nombre = u.nombre;
     usuarioDto.email = u.email;
     usuarioDto.primerApellido = u.primerapellido;
@@ -91,7 +91,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
 
   pedidoAdapter(): PedidoDto {
     let p: PedidoDto = new PedidoDto();
-    p.id = this.pedido.idUsuario.id = this.as.getSub();
+    p.id = this.pedido.idUsuario.idusuario = this.as.getSub();
     p.realizado = this.pedido.realizado
     p.precioTotal = this.pedido.precioTotal;
     p.idUsuario = this.pedido.idUsuario;

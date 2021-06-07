@@ -1,11 +1,13 @@
 <div class="card text-center p1" >
 
   <div class="botones">
+    <span *ngIf="!isLogged()">
       <input type="submit" (click)='isLogin = true' class="btn btn-lg btn-primary btn-block" value="Login">
       <input type="submit" (click)='isLogin = false' class="btn btn-lg btn-primary btn-block" value="Registrarse">
+    </span>
   </div>
 
-<div class="formularios" height=80%>
+  <div class="formularios" height=80%>
   <div *ngIf="isLogin">
   <div class="card-body">
     <form method="post">
@@ -28,53 +30,72 @@
     </form>
   </div>
 </div>
-
 <div *ngIf="!isLogin">
-  <div class="card-body">
-    <form method="post">
-      <div class="form-group col-sm-6">
-        <input type="text" [(ngModel)]="usuario.nombre" class="form-control"
-        placeholder="Nombre" name="nombre" id="nombre" autofocus required>
+  <div class="formularios m-2 ">
+      <form #usuarioForm='ngForm'>
+        <div class="card-header">{{titulo}}</div>
+        <div class="card-body">
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            </div>
+            <input required type="text" placeholder="Nombre" class="form-control" name="nombre" pInputText [(ngModel)]="usuario.nombre" >
+            <div class="invalid-feedback">
+              Please choose a username.
+            </div>
+          </div>
+
+
+          <div class="input-group mb-6">
+            <div class="input-group-prepend">
+            </div>
+            <input required type="text" placeholder="Primer apellido" class="form-control" name="primerapellido" pInputText [(ngModel)]="usuario.primerapellido" >
+            <div class="invalid-feedback">
+              Please choose a username.
+            </div>
+          </div>
+
+          <div class="input-group mb-6">
+            <div class="input-group-prepend">
+            </div>
+            <input required type="text" placeholder="Segundo apellido" class="form-control" name="segundoapellido" pInputText [(ngModel)]="usuario.segundoapellido" >
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            </div>
+            <input required type="text" placeholder="Email" class="form-control" name="email" pInputText [(ngModel)]="usuario.email" >
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            </div>
+            <input required type="password" placeholder="Contraseña" class="form-control" name="password" pInputText [(ngModel)]="usuario.password" [disabled]="passwordEditable()" autocomplete="on">
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            </div>
+            <input required type="password" placeholder="Repetir contraseña" class="form-control" name="password2" pInputText [(ngModel)]="usuario.password2" [disabled]="passwordEditable()" autocomplete="on">
+          </div>
+
+          <div class="input-group mb-3" *ngIf="!deshabilitarSelect(usuario.perfil)">
+            <div class="input-group-prepend">
+            </div>
+            <select [compareWith]="compararPerfil" class="custom-select mr-sm-2" [(ngModel)]="usuario.perfil" name="perfil">
+              <option *ngFor="let perfil of perfiles"  [ngValue]="perfil">{{perfil.nombreperfil}}</option>
+            </select>
+          </div>
+
+
+        </div>
+
+        <div class="form-group col-sm-6">
+        <input type="submit" [disabled]="!usuarioForm.form.valid" (click)='registrarse()' class="btn btn-lg btn-primary btn-block" value="Login">
       </div>
-      <br>
-
-      <div class="form-group col-sm-6">
-        <input type="text" [(ngModel)]="usuario.primerapellido" class="form-control"
-        placeholder="Primer apellido" name="primerapellido" id="primerapellido" autofocus required>
-      </div>
-      <br>
-
-      <div class="form-group col-sm-6">
-        <input type="text" [(ngModel)]="usuario.segundoapellido" class="form-control"
-        placeholder="Segundo apellido" name="segundoapellido" id="segundoapellido" autofocus required>
-      </div>
-      <br>
-
-      <div class="form-group col-sm-6">
-        <input type="email" [(ngModel)]="usuario.email" class="form-control"
-        placeholder="Correo electrónico" name="email" id="email" autofocus required>
-      </div>
-      <br>
-
-      <div class="form-group col-sm-6">
-        <input type="password" [(ngModel)]="usuario.password" class="form-control"
-        placeholder="Contraseña" name="password" id="password" required>
-      </div>
-      <br>
-
-      <div class="form-group col-sm-6">
-        <input type="password" [(ngModel)]="usuario.password2" class="form-control"
-        placeholder="Confirmar contraseña" name="password" id="password" required>
-      </div>
-      <br>
 
 
-      <div class="form-group col-sm-6">
-        <input type="submit" (click)='registrarse()' class="btn btn-lg btn-primary btn-block" value="Login">
-      </div>
-
-    </form>
-  </div>
+      </form>
 </div>
-
-<div>
+    </div>
+</div>
