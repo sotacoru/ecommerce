@@ -32,6 +32,7 @@ import {CommonModule} from '@angular/common';
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {ModalUsuarioComponent} from './modal-usuario/modal-usuario.component';
+import { AddCarritoComponent } from './add-carrito/add-carrito.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import {ModalUsuarioComponent} from './modal-usuario/modal-usuario.component';
     ThankyouPageComponent,
     DetalleProductoComponent,
     ModalUsuarioComponent,
+    AddCarritoComponent,
 
   ],
   imports: [
