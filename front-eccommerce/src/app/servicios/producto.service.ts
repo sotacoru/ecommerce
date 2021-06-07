@@ -1,31 +1,32 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHeaders, HttpRequest, } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpEvent, HttpHeaders, HttpRequest,} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators'
 import {ProductoBusqueda} from "../entity/dto/producto_busqueda";
 import {Producto} from "../entity/producto";
-import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
-import { Categoria } from '../entity/categoria';
+import {Router} from '@angular/router';
+import {Observable, throwError} from 'rxjs';
+import {Categoria} from '../entity/categoria';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
   private url: string = 'http://localhost:8090/api/producto'
-  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-  constructor(private http: HttpClient, private router: Router) { }
+  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   getProductos(): Observable<any> {
-    return this.http.get(this.url + '/stock').pipe(
+    return this.http.get(this.url + '/all').pipe(
       map((response: any) => {
         return response;
       }),
-
     )
 
   }
 
-  getTodosLosProductos(): Observable<any>{
+  getTodosLosProductos(): Observable<any> {
     return this.http.get(this.url + '/all').pipe(
       map((response: any) => {
         return response;
@@ -46,20 +47,22 @@ export class ProductoService {
   }
 
   getProductosBusqueda(busqueda: ProductoBusqueda): Observable<Producto[]> {
-    return this.http.post(this.url + '/busqueda', busqueda, { headers: this.httpHeaders }).pipe(
+    return this.http.post(this.url + '/busqueda', busqueda, {headers: this.httpHeaders}).pipe(
       map((response: any) => {
         return response;
       })
     )
   }
+
   getProductosCategoria(categoria: string): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${this.url}/categoria/${categoria}`)
   }
+
   getCategorias(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(this.url + '/categorias');
   }
 
-  getProducto(id):Observable<Producto>{
+  getProducto(id): Observable<Producto> {
     return this.http.get<Producto>(`${this.url}/${id}`)
   }
 
@@ -75,11 +78,9 @@ export class ProductoService {
         } */
         return throwError(e);
       })
-
     )
 
   }
-
 
 
   update(producto: Producto): Observable<any> {
@@ -121,9 +122,9 @@ export class ProductoService {
   }
 
 
-  delete(id: number):Observable<Producto> {
-    return this.http.delete<Producto>(`http://localhost:8090/api/administracion/producto/${id}`, {headers:this.httpHeaders}).pipe(
-      )
+  delete(id: number): Observable<Producto> {
+    return this.http.delete<Producto>(`http://localhost:8090/api/administracion/producto/${id}`, {headers: this.httpHeaders}).pipe(
+    )
   }
 
 }

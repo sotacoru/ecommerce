@@ -43,8 +43,19 @@ export class ProductosComponent implements OnInit {
         let categoria: string = params.categoria;
         if (categoria === undefined) {
           this.ps.getProductos().subscribe(
-            response => this.productos = response
-          );
+            response => {
+              console.log(this.perfil())
+              if (this.perfil() && this.perfil() != 'CLIENTE') {
+                this.productos = response
+              } else {
+                this.productos = response.filter(
+                  e => {
+                    return e.cantidad > 0
+                  }
+                )
+                console.log(this.productos)
+              }
+            })
         } else {
           this.ps.getProductosCategoria(categoria).subscribe(
             response => {
@@ -66,7 +77,7 @@ export class ProductosComponent implements OnInit {
 
     let user = JSON.parse(window.sessionStorage.getItem("usuario"));
     if (user) {
-      return user.rol
+      return user.perfil.nombreperfil
     }
   }
 
