@@ -91,7 +91,9 @@ public class PedidoController {
 
 	private Pedido getPedido(PedidoCreadoDto pedidoDto) {
 		Pedido pedido = new Pedido();
-		pedido.setIdUsuario(usuarioDtoConverter.usuarioPedidoToUsuario(pedidoDto.getIdUsuario()));
+		if (pedidoDto.getIdUsuario().getIdUsuario()!=null){
+			pedido.setIdUsuario(usuarioDtoConverter.usuarioPedidoToUsuario(pedidoDto.getIdUsuario()));
+		}
 		pedido.setPrecioTotal(pedidoDto.getPrecioTotal());
 		pedido.setIdPago(pedidoDto.getIdPago());
 		pedido.setPedidoProducto(new ArrayList<>());

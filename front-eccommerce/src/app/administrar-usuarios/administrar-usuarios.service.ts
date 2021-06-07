@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Usuario } from '../entity/usuario';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Usuario} from '../entity/usuario';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 
 @Injectable({
@@ -9,28 +9,29 @@ import {map} from 'rxjs/operators';
 })
 export class AdministrarUsuariosService {
 
-  private httpHeaders = new HttpHeaders({'Content-Type':'application/json'});
+  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
-  constructor(private http: HttpClient) { }
-
-  getUsuarioId(id: number): Observable<Usuario>{
-    return this.http.get<Usuario>('http://localhost:8090/api/usuario/'+id).pipe();
+  constructor(private http: HttpClient) {
   }
 
-  getUsuario(): Observable<Usuario[]>{
+  getUsuarioId(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>('http://localhost:8090/api/usuario/' + id).pipe();
+  }
+
+  getUsuario(): Observable<Usuario[]> {
     return this.http.get('http://localhost:8090/api/usuario').pipe(
-      map( response => response as Usuario[])
+      map(response => response as Usuario[])
     );
   }
 
-  deleteUsuario(id: number): Observable<Usuario>{
-    return this.http.delete<Usuario>('http://localhost:8090/api/usuario/'+id,
+  deleteUsuario(id: number): Observable<Usuario> {
+    return this.http.delete<Usuario>('http://localhost:8090/api/usuario/' + id,
       {headers: this.httpHeaders}).pipe();
   }
 
-  update(usuario: Usuario): Observable<Usuario>{
+  update(usuario: Usuario): Observable<Usuario> {
     console.log(usuario);
-    return this.http.put<Usuario>('http://localhost:8090/api/usuario/'+usuario.idusuario
-        ,usuario,{headers: this.httpHeaders}).pipe();
+    return this.http.put<Usuario>('http://localhost:8090/api/usuario/' + usuario.idUsuario
+      , usuario, {headers: this.httpHeaders}).pipe();
   }
 }

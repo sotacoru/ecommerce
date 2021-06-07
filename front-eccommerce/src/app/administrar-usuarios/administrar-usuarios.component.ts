@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Usuario} from '../entity/usuario';
-import { AdministrarUsuariosService } from './administrar-usuarios.service';
-import { AuthUsuarioService } from '../servicios/auth-usuario-service';
-import {Router, ActivatedRoute} from '@angular/router';
+import {AdministrarUsuariosService} from './administrar-usuarios.service';
+import {AuthUsuarioService} from '../servicios/auth-usuario-service';
+import {ActivatedRoute, Router} from '@angular/router';
 import Swal from "sweetalert2";
 
 @Component({
@@ -14,20 +14,21 @@ export class AdministrarUsuariosComponent implements OnInit {
 
   usuarios: Usuario[];
   nombreUsuario: string = this.authService.usuario.email;
-  rolUsuario: string= this.authService.usuario.perfil.toString();
+  rolUsuario: string = this.authService.usuario.perfil.toString();
 
   constructor(private administrarUsuarioService: AdministrarUsuariosService,
-  private authService: AuthUsuarioService,
-  private router: Router,
-  private activateRoute: ActivatedRoute) { }
+              private authService: AuthUsuarioService,
+              private router: Router,
+              private activateRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
-    this.administrarUsuarioService.getUsuario().subscribe( usuarios =>{
+    this.administrarUsuarioService.getUsuario().subscribe(usuarios => {
       this.usuarios = usuarios
     });
   }
 
-  delete(usuario: Usuario): void{
+  delete(usuario: Usuario): void {
     Swal.fire({
       title: 'Eliminar',
       text: `¿Estás seguro de que quieres eliminar a ${usuario.nombre}?`,
@@ -39,20 +40,20 @@ export class AdministrarUsuariosComponent implements OnInit {
       cancelButtonText: 'No',
     }).then((result) => {
       console.log(result.isConfirmed);
-      if(result.isConfirmed){
-        this.administrarUsuarioService.deleteUsuario(usuario.idusuario).subscribe(
+      if (result.isConfirmed) {
+        this.administrarUsuarioService.deleteUsuario(usuario.idUsuario).subscribe(
           response => {
             this.usuarios = this.usuarios.filter(user => user !== usuario);
           }
         );
 
-      Swal.fire('Eliminado', `¡Usuario ${usuario.nombre} eliminado!`, 'success');
+        Swal.fire('Eliminado', `¡Usuario ${usuario.nombre} eliminado!`, 'success');
       }
     })
 
   }
 
-  update(usuario: Usuario): void{
+  update(usuario: Usuario): void {
     console.log(usuario)
     this.administrarUsuarioService.update(usuario).subscribe(
       usuario => {
@@ -61,10 +62,10 @@ export class AdministrarUsuariosComponent implements OnInit {
     );
   }
 
-  preguntaEditar(usuario: Usuario): void{
-    if(usuario.perfil.nombreperfil=='CLIENTE'){
-      this.router.navigate(['/administrador/actualizar/',usuario.idusuario,true]);
-    }else{
+  preguntaEditar(usuario: Usuario): void {
+    if (usuario.perfil.nombreperfil == 'CLIENTE') {
+      this.router.navigate(['/administrador/actualizar/', usuario.idUsuario, true]);
+    } else {
       Swal.fire({
         title: 'Tipo de edición',
         text: `Como desea editar el usuario ¿con o sin contraseña?`,
@@ -77,14 +78,14 @@ export class AdministrarUsuariosComponent implements OnInit {
         showDenyButton: true,
         denyButtonText: 'Cancelar'
       }).then((result) => {
-        if(!result.isDenied){
-          this.router.navigate(['/administrador/actualizar/',usuario.idusuario,result.isConfirmed]);
+        if (!result.isDenied) {
+          this.router.navigate(['/administrador/actualizar/', usuario.idUsuario, result.isConfirmed]);
         }
       })
     }
   }
 
-  addSecretarioAdmin(): void{
+  addSecretarioAdmin(): void {
     this.router.navigate(['/administrador/añadir']);
   }
 }
