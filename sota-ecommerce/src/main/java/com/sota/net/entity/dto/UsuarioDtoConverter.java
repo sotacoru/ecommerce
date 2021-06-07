@@ -3,6 +3,10 @@ package com.sota.net.entity.dto;
 
 import com.sota.net.entity.Usuario;
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +16,17 @@ public class UsuarioDtoConverter {
 
 	private PasswordEncoder passEncoder;
 	
+	public List<GetUsuarioDto> convertListUsuarioEntityToGetUserDto1(List<Usuario> usuario) {
+		List<GetUsuarioDto> user = new ArrayList<>();
+		for (Usuario newUser : usuario) {
+			user.add(converUsuarioEntityToGetUserDto(newUser));
+		}
+		return user;
+	}
+	
 	public GetUsuarioDto converUsuarioEntityToGetUserDto(Usuario usuario) {
-		System.out.println(usuario.getEmail() + " ");
 		GetUsuarioDto user = new GetUsuarioDto(
+				usuario.getIdusuario(),
 				usuario.getNombre(),
 				usuario.getPrimerapellido(),
 				usuario.getSegundoapellido(),
@@ -33,6 +45,8 @@ public class UsuarioDtoConverter {
 					nuevoUsuario.getSegundoApellido(),
 					nuevoUsuario.getEmail(),
 					passEncoder.encode(nuevoUsuario.getPassword()).toString(),
+					0,
+					false,
 					nuevoUsuario.getPerfil());
 
 		}else {

@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Usuario} from '../entity/usuario';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Usuario } from '../entity/usuario';
+import jwt_decode from 'jwt-decode';
 
 import swal from 'sweetalert2';
 
@@ -13,8 +14,8 @@ export class AuthUsuarioService {
 
   private _usuario: Usuario;
   private _token: string;
-  private urlEndPoint: string = 'http://localhost:8090/api/usuario';
-  private id: number;
+  private  urlEndPoint: string = 'http://localhost:8090/api/usuario';
+  private idusuario:number;
 
   constructor(private http: HttpClient) {
   }
@@ -24,7 +25,6 @@ export class AuthUsuarioService {
       return this._usuario;
     } else if (this._usuario == null && sessionStorage.getItem('usuario') != null) {
       this._usuario = JSON.parse(sessionStorage.getItem('usuario')) as Usuario;
-      this._usuario.idUsuario = this.getSub()
       return this._usuario;
     }
     return new Usuario();
@@ -93,8 +93,8 @@ export class AuthUsuarioService {
     return false;
   }
 
-  hasRole(role: string): boolean {
-    if (this.usuario.idPerfil.nombrePerfil.includes(role)) {
+  hasRole(role: string): boolean{
+    if(this.usuario.perfil.nombreperfil.includes(role)){
       return true;
     }
     return false;
@@ -116,9 +116,9 @@ export class AuthUsuarioService {
 
   guardarSubToken(accessToken: string): void {
     let payload = this.obtenerDatosToken(accessToken);
-    this.id = payload
+    this.idusuario = payload
 
-    sessionStorage.setItem('sub', JSON.stringify(this.id));
+    sessionStorage.setItem('sub', JSON.stringify(this.idusuario));
   }
 
   public getSub(): number {

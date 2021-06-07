@@ -28,11 +28,10 @@ import java.util.Map;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PedidoController {
-	@Autowired
+
 	 private final IPedidoService pedidoService;
 	 private final UsuarioDtoConverter usuarioDtoConverter;
 	private final IUsuarioService usuarioService;
-	 @Autowired
 	 private  final IPedidoProductoService pedidoProductoService;
 	 @GetMapping("/pedido/{id}")
 	    public ResponseEntity<Object> mostrarPedido(@PathVariable Long id) {
@@ -160,7 +159,7 @@ public class PedidoController {
 		return this.pedidoService.findAllPagos();
 	}
 
-	
+
 
 
 }

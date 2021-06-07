@@ -31,8 +31,8 @@ import {CommonModule} from '@angular/common';
 
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
 import {SplitButtonModule} from 'primeng/splitbutton';
-import {ModalUsuarioComponent} from './modal-usuario/modal-usuario.component';
-import { AddCarritoComponent } from './add-carrito/add-carrito.component';
+import { AdministrarUsuariosComponent } from './administrar-usuarios/administrar-usuarios.component';
+import { ModalUsuarioComponent } from './modal-usuario/modal-usuario.component';
 
 
 @NgModule({
@@ -48,10 +48,9 @@ import { AddCarritoComponent } from './add-carrito/add-carrito.component';
     FormComponent,
     ThankyouPageComponent,
     DetalleProductoComponent,
-    ModalUsuarioComponent,
-    AddCarritoComponent,
-
-  ],
+    AdministrarUsuariosComponent,
+    ModalUsuarioComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
