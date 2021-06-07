@@ -79,7 +79,7 @@
             <input required type="password" placeholder="Repetir contraseña" class="form-control" name="password2" pInputText [(ngModel)]="usuario.password2" [disabled]="passwordEditable()">
           </div>
 
-          <div class="input-group mb-3" *ngIf="isLogged()">
+          <div class="input-group mb-3" *ngIf="!deshabilitarSelect(usuario.perfil)">
             <div class="input-group-prepend">
             </div>
             <select [compareWith]="compararPerfil" class="custom-select mr-sm-2" [(ngModel)]="usuario.perfil" name="perfil">

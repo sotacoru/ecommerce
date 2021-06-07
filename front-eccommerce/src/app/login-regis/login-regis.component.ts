@@ -40,7 +40,8 @@ export class LoginRegisComponent implements OnInit {
   cargarPerfiles(): void{
     this.perfilService.getPerfil().subscribe(
       perfiles => {
-        this.perfiles = perfiles;}
+        this.perfiles = perfiles;
+      }
     );
   }
 
@@ -225,5 +226,13 @@ export class LoginRegisComponent implements OnInit {
   //SI es true no se puede editar
     passwordEditable(): boolean{
       return this.passwordDisabled;
+    }
+
+    deshabilitarSelect(perfil: Perfil): boolean{
+      if(perfil===undefined){
+        return false;
+      }
+        return perfil ===null || perfil ===undefined?
+          true: perfil.idperfil === 1 && this.isLogged();
     }
 }
