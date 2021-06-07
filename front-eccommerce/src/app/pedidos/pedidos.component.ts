@@ -76,13 +76,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
   }
 
   calcularTotal(): number {
-    let total: number = 0
-    this.productos.forEach(
-      values => {
-        total = total + (values.cantidad * values.producto.precio)
-      }
-    )
-    return total;
+    return this.ps.getTotalPedido()
   }
 
 

@@ -48,7 +48,7 @@
         <tr>
           <td colspan="4"></td>
 
-          <td colspan="2">Total: {{pedido.precioTotal.toFixed(2)}} €</td>
+          <td colspan="2">Total: {{calcularTotal().toFixed(2)}} €</td>
           <td>
             <span class="dropdown" *ngIf="isLogged()">
               <p-splitButton label="Selecciona método pago" icon="pi pi-fw pi-money-bill" [model]="itemsPago"

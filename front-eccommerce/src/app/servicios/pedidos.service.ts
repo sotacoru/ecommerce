@@ -28,7 +28,6 @@ export class PedidosService {
   }
 
   postPedido(pedido: PedidoDto) {
-    console.log(pedido)
     return this.http.post<any>(this.url, pedido).pipe().subscribe(
       response => {
         console.log(response)
@@ -50,6 +49,14 @@ export class PedidosService {
     window.localStorage.setItem('productos', JSON.stringify(this.productos));
     this.productos.next(this.productos.value);
 
+  }
+
+  getTotalPedido(): number {
+    let total: number = 0;
+    this.productos.value.forEach(
+      p => total = total + (p.producto.precio * p.cantidad)
+    )
+    return total
   }
 
   restarCantidadProducto(p: ProductoPedido) {
