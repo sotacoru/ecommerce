@@ -32,12 +32,14 @@
           <td>{{producto.producto.nombre}}</td>
           <td>{{producto.producto.descripcion}}</td>
           <td>{{producto.producto.precio.toFixed(2)}}€</td>
-          <td>{{producto.cantidad}}
+          <td>
+            <a (click)="sumarCantidad(producto)"> <i class="pi pi-plus"></i> </a>
+            {{producto.cantidad}}
             <a (click)="restarCantidad(producto)"> <i class="pi pi-minus"></i> </a>
           </td>
           <td>{{(producto.producto.precio * producto.cantidad).toFixed(2)}}€</td>
           <td>
-            <button pButton type="button" icon="pi pi-times"
+            <button pButton type="button" icon="pi pi-trash"
                     class="p-button-rounded p-button-danger p-button-sm" (click)="eliminarProducto(producto)"></button>
           </td>
         </tr>
@@ -49,7 +51,7 @@
           <td colspan="2">Total: {{pedido.precioTotal.toFixed(2)}} €</td>
           <td>
             <span class="dropdown" *ngIf="isLogged()">
-              <p-splitButton label="Selecciona método pago" icon="pi pi-fw pi-users" [model]="itemsPago"
+              <p-splitButton label="Selecciona método pago" icon="pi pi-fw pi-money-bill" [model]="itemsPago"
                              styleClass="p-button-success mx-2 my-1"></p-splitButton>
             </span>
             <span class="dropdown" *ngIf="!isLogged()">

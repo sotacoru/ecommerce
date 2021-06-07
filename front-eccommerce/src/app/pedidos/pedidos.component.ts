@@ -40,7 +40,9 @@ export class PedidosComponent implements OnInit, OnDestroy {
         console.log(response)
       }
     )
-    this.productos = this.ps.getProductosPedido();
+    this.ps.getProductosPedido().subscribe(
+      res => this.productos = res
+    );
     this.ps.getPagos().subscribe(
       r => {
         r.forEach(
@@ -127,6 +129,9 @@ export class PedidosComponent implements OnInit, OnDestroy {
 
   restarCantidad(p: ProductoPedido) {
     this.ps.restarCantidadProducto(p)
-    console.log("quiero eliminar un producto solo")
+  }
+
+  sumarCantidad(p: ProductoPedido) {
+    this.ps.sumarCantidadProducto(p)
   }
 }

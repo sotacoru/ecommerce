@@ -12,7 +12,7 @@ import {Pago} from "../entity/pago";
 })
 export class PedidosService {
   private url: string = 'http://localhost:8090/api/pedido'
-  private productos: ProductoPedido[] = [];
+  private productos = new BehaviorSubject<ProductoPedido[]>([]);
   private pedido = new BehaviorSubject<Pedido>(null);
 
   constructor(private http: HttpClient) {
@@ -21,6 +21,10 @@ export class PedidosService {
 
   getPedido(): Observable<Pedido> {
     return this.pedido.asObservable();
+  }
+
+  getProductosPedido(): Observable<ProductoPedido[]> {
+    return this.productos.asObservable();
   }
 
   postPedido(pedido: PedidoDto) {
@@ -39,11 +43,13 @@ export class PedidosService {
     const productoArray = this.contains(p.producto.id);
 
     if (productoArray === null) {
-      this.productos.push(p);
+      this.productos.value.push(p);
     } else {
       productoArray.cantidad++;
     }
     window.localStorage.setItem('productos', JSON.stringify(this.productos));
+    this.productos.next(this.productos.value);
+
   }
 
   restarCantidadProducto(p: ProductoPedido) {
@@ -62,11 +68,20 @@ export class PedidosService {
     const productoArray = this.contains(p.producto.id);
 
     if (productoArray !== null) {
-      var i = this.productos.indexOf(p);
-      this.productos.splice(i, 1);
+      let i = this.productos.value.indexOf(p);
+      this.productos.value.splice(i, 1);
     }
     window.localStorage.setItem('productos', JSON.stringify(this.productos));
-    console.log("estoy borrando cosas")
+
+  }
+
+  sumarCantidadProducto(p: ProductoPedido) {
+    const productoArray = this.contains(p.producto.id);
+
+    if (productoArray !== null) {
+      productoArray.cantidad++;
+    }
+    window.localStorage.setItem('productos', JSON.stringify(this.productos));
 
   }
 
@@ -74,22 +89,22 @@ export class PedidosService {
     window.localStorage.removeItem("productos")
   }
 
-  getProductosPedido() {
+  /*getProductosPedido() {
     return JSON.parse(window.localStorage.getItem('productos'));
-  }
+  }*/
 
   getPagos(): Observable<Pago[]> {
     return this.http.get<Pago[]>(this.url + '/pagos');
   }
 
   confirmarPedido(pedido: PedidoDto, id: number): Observable<any> {
-    pedido.productos = this.getProductosPedido()
+    pedido.productos = this.productos.value
     this.deleteProductosPedido()
     return this.http.put<any>(`${this.url}/${id}`, pedido).pipe();
   }
 
   contains(id: number): ProductoPedido {
-    for (const p of this.productos) {
+    for (const p of this.productos.value) {
       if (p.producto.id === id) {
         return p;
       }
@@ -97,4 +112,6 @@ export class PedidosService {
 
     return null;
   }
+
+
 }
