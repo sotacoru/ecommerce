@@ -33,7 +33,6 @@ export class HeaderComponent implements OnInit {
         response.forEach(
           categoria=> {
             this.subitems.push({label: categoria.nombrecategoria, routerLink: ['/productos/', categoria.nombrecategoria]})
-            console.log(categoria.nombrecategoria)
           }
         )
         this.categorias=response;

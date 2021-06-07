@@ -153,8 +153,8 @@ public class UsuarioController {
 			usuarioActual.setEmail(usuario.getEmail());
 			usuarioActual.setPerfil(usuario.getPerfil());
 			
-			if(usuario.getPassword()==null) {
-				usuarioActual.setPassword(usuario.getPassword());
+			if(usuario.getPassword()!=null) {
+				usuarioActual.setPassword(passwordEncoder.encode(usuario.getPassword()));
 			}
 			
 			usuarioUpdated = usuarioService.save(usuarioActual);
@@ -164,10 +164,10 @@ public class UsuarioController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		response.put("mensaje", "El usuario ha sido actualizado con exito");
 		response.put("usuario", usuarioUpdated);
 
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+		System.out.println(usuarioUpdated);
+		return new ResponseEntity<>(usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuarioUpdated), HttpStatus.CREATED);
 	}
 	
 	

@@ -54,7 +54,6 @@ export class LoginRegisComponent implements OnInit {
           this.administrarUsuarioService.getUsuarioId(id).subscribe(
             (usuario) => {
               this.usuario = usuario;
-              this.usuario.password2=usuario.password;
             }
           );
         }
@@ -93,11 +92,15 @@ export class LoginRegisComponent implements OnInit {
   registrarse(){
     if(this.validarFormatoCampos()){
         if(this.isLogged()){
+
             this.administrarUsuarioService.update(this.usuario).subscribe(
               usuario => {
-
+                  console.log(usuario.nombre);
+                  this.router.navigate(['/administrador/lista']);
+                  swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
               });
         }else{
+
           this.authService.registro(this.usuario).subscribe( response => {
             this.authService.guardarUsuario(response.token);
             this.authService.guardarToken(response.token);
@@ -146,7 +149,7 @@ export class LoginRegisComponent implements OnInit {
   }
 
   validarPassword(password1: String): boolean{
-    if(!this.passwordEditable() || !this.isLogged()){
+    if((!this.passwordEditable() && this.isLogged()==undefined) || (!this.passwordEditable() && this.isLogged())){
       let minuscula: boolean=false;
       let mayuscula: boolean=false;
       let caracterEspecial: boolean = false;
