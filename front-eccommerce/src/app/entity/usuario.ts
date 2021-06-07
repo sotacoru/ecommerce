@@ -1,7 +1,7 @@
 import {Perfil} from './perfil';
 
 export class Usuario {
-  idusuario: number;
+  idUsuario: number;
   nombre: string;
   primerapellido: string;
   segundoapellido: string;

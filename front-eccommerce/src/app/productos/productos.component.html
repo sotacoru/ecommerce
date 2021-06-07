@@ -17,7 +17,7 @@
             <div class="p-field-checkbox elementBusqueda fotoCheck">
               <input type="checkbox" id="foto" name="foto" [(ngModel)]="busqueda.foto"/>
               <label for="foto">Sólo productos con foto</label>
-              <p-button class="mx-2" icon="pi pi-shopping-cart mr-2" [routerLink]="['/formulario']"
+              <p-button class="mx-2" icon="pi pi-plus mr-2" [routerLink]="['/formulario']"
                         label="Añadir Producto"
                         *ngIf="perfil() === 'SECRETARIO'|| perfil() === 'ADMINISTRADOR' "></p-button>
             </div>
