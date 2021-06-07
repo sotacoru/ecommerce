@@ -1,5 +1,6 @@
 package com.sota.net.controller;
 
+import com.sota.net.entity.Pago;
 import com.sota.net.entity.Pedido;
 import com.sota.net.entity.PedidoProducto;
 import com.sota.net.entity.dto.PedidoCreadoDto;
@@ -8,6 +9,7 @@ import com.sota.net.entity.dto.PedidoProductoDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
 import com.sota.net.service.IPedidoProductoService;
 import com.sota.net.service.IPedidoService;
+import com.sota.net.service.IUsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -26,10 +28,10 @@ import java.util.Map;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PedidoController {
-	@Autowired
+
 	 private final IPedidoService pedidoService;
 	 private final UsuarioDtoConverter usuarioDtoConverter;
-	 @Autowired
+	private final IUsuarioService usuarioService;
 	 private  final IPedidoProductoService pedidoProductoService;
 	 @GetMapping("/pedido/{id}")
 	    public ResponseEntity<Object> mostrarPedido(@PathVariable Long id) {
@@ -47,14 +49,20 @@ public class PedidoController {
 	            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	        }
 
-
-	        return ResponseEntity.ok(PedidoDto.builder()
-					.idUsuario(usuarioDtoConverter.usuarioPedido(pedido.getIdUsuario()))
-					.idPago(pedido.getIdPago()).precioTotal(pedido.getPrecioTotal())
-					.realizado(pedido.getRealizado())
-					.id(pedido.getId())
-					.productos(pedido.getPedidoProducto()).build());
-	    }
+			if (pedido.getIdUsuario()!=null){
+				return ResponseEntity.ok(PedidoDto.builder()
+						.idUsuario(usuarioDtoConverter.usuarioPedido(pedido.getIdUsuario()))
+						.idPago(pedido.getIdPago()).precioTotal(pedido.getPrecioTotal())
+						.realizado(pedido.getRealizado())
+						.id(pedido.getId())
+						.productos(adapterPedidoProductoDtoLista(pedido.getPedidoProducto())).build());
+			}
+				 return ResponseEntity.ok(PedidoDto.builder()
+						 .idPago(pedido.getIdPago()).precioTotal(pedido.getPrecioTotal())
+						 .realizado(pedido.getRealizado())
+						 .id(pedido.getId())
+						 .productos(adapterPedidoProductoDtoLista(pedido.getPedidoProducto())).build());
+	 }
 	@PostMapping("/pedido")
 	public ResponseEntity<?> crearPedido(@RequestBody PedidoCreadoDto pedidoDto, BindingResult result) {
 		Pedido pedidonuevo = null;
@@ -83,47 +91,73 @@ public class PedidoController {
 
 	private Pedido getPedido(PedidoCreadoDto pedidoDto) {
 		Pedido pedido = new Pedido();
-		pedido.setIdUsuario(pedidoDto.getIdUsuario());
+		pedido.setIdUsuario(usuarioDtoConverter.usuarioPedidoToUsuario(pedidoDto.getIdUsuario()));
 		pedido.setPrecioTotal(pedidoDto.getPrecioTotal());
 		pedido.setIdPago(pedidoDto.getIdPago());
 		pedido.setPedidoProducto(new ArrayList<>());
 		return pedido;
 	}
-
 	@PutMapping("/pedido/{id}")
-	public ResponseEntity<?> añadirProducto(@RequestBody List<PedidoProductoDto> productos, @PathVariable long id, BindingResult result) {
-		Pedido pedido = this.pedidoService.findById(id);
+	public ResponseEntity<?> actualizarPedido(@RequestBody PedidoDto pedidoDto, @PathVariable long id, BindingResult result) {
+		Pedido pedidoActual = this.pedidoService.findById(id);
 
 		Map<String, Object> response = new HashMap<>();
 
 		if (result.hasErrors()) {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
-		if (pedido == null) {
+		if (pedidoActual == null) {
 			response.put("mensaje", "El pedido no existe");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
-;
+		pedidoActual.setPrecioTotal(pedidoDto.getPrecioTotal());
+		pedidoActual.setIdPago(pedidoDto.getIdPago());
+		pedidoActual.setIdUsuario(this.usuarioDtoConverter.usuarioPedidoToUsuario(pedidoDto.getIdUsuario()));
+		pedidoActual.setRealizado(pedidoDto.getRealizado());
 
-		this.pedidoService.save(formarPedidos(productos, pedido));
-		response.put("mensaje", "El producto se ha añadido con exito!");
+		pedidoActual.setPedidoProducto(adapterPedidoProductoLista(pedidoDto.getProductos()));
+
+		for (PedidoProducto pp: pedidoActual.getPedidoProducto() ){
+			pp.setPedido(pedidoActual);
+			this.pedidoProductoService.save(pp);
+
+		}
+		this.pedidoService.save(pedidoActual);
+		response.put("mensaje", "El pedido se ha modificado con exito!");
 
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 
 	}
 
-	private Pedido formarPedidos(List<PedidoProductoDto> productos, Pedido pedido) {
+
+	private List<PedidoProducto> adapterPedidoProductoLista(List<PedidoProductoDto> productos) {
 		List<PedidoProducto> productospedido = new ArrayList<>();
 	 	for (PedidoProductoDto producto: productos) {
 			PedidoProducto pedidoProducto = new PedidoProducto();
-			pedidoProducto.setPedido(pedido);
 			pedidoProducto.setCantidad(producto.getCantidad());
 			pedidoProducto.setProducto(producto.getProducto());
 			productospedido.add(pedidoProducto);
-			pedidoProductoService.save(pedidoProducto);
+
 		}
-		pedido.setPedidoProducto(productospedido);
-	 	return pedido;
+	 	return productospedido;
 	}
+	private List<PedidoProductoDto> adapterPedidoProductoDtoLista(List<PedidoProducto> productos) {
+		List<PedidoProductoDto> productospedido = new ArrayList<>();
+		for (PedidoProducto producto: productos) {
+			PedidoProductoDto pedidoProducto = new PedidoProductoDto();
+			pedidoProducto.setCantidad(producto.getCantidad());
+			pedidoProducto.setProducto(producto.getProducto());
+			productospedido.add(pedidoProducto);
+
+		}
+		return productospedido;
+	}
+	@GetMapping("/pedido/pagos")
+	public List<Pago> listarCategorias() {
+		return this.pedidoService.findAllPagos();
+	}
+
+
+
 
 }

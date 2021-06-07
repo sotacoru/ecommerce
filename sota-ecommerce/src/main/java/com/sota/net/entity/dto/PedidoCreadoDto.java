@@ -1,7 +1,6 @@
 package com.sota.net.entity.dto;
 
 import com.sota.net.entity.Pago;
-import com.sota.net.entity.Usuario;
 import lombok.*;
 
 @Getter
@@ -11,6 +10,6 @@ import lombok.*;
 @Builder
 public class PedidoCreadoDto {
     private Double precioTotal;
-    private Usuario idUsuario;
+    private GetUsuarioPedido idUsuario;
     private Pago idPago;
 }

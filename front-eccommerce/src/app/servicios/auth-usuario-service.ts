@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario } from '../usuarios/usuario';
+import { Usuario } from '../entity/usuario';
 import jwt_decode from 'jwt-decode';
 
 import swal from 'sweetalert2';
@@ -15,7 +15,7 @@ export class AuthUsuarioService {
   private _usuario: Usuario;
   private _token: string;
   private  urlEndPoint: string = 'http://localhost:8090/api/usuario';
-  private id:number;
+  private idusuario:number;
 
   constructor(private http: HttpClient) { }
 
@@ -86,7 +86,7 @@ export class AuthUsuarioService {
   }
 
   hasRole(role: string): boolean{
-    if(this.usuario.idPerfil.nombrePerfil.includes(role)){
+    if(this.usuario.perfil.nombreperfil.includes(role)){
       return true;
     }
     return false;

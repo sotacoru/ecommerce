@@ -41,6 +41,12 @@ public class ProductoController {
         return this.productoService.findByStock();
 
     }
+    
+    @GetMapping("/producto/all")
+    public List<Producto> getAllProducts() {
+        return this.productoService.findAll();
+
+    }
 
     //Parte pública
     @PostMapping("/producto/busqueda")
@@ -161,7 +167,6 @@ public class ProductoController {
         List<String> errors = result.getFieldErrors().stream()
                 .map(err -> "El campo:'" + err.getField() + "' " + err.getDefaultMessage())
                 .collect(Collectors.toList());
-
         response.put("errors", errors);
         return true;
     }

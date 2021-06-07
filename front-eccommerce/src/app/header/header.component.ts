@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
-import {Categoria} from "../productos/categoria";
+import {Categoria} from "../entity/categoria";
 import {ProductoService} from "../servicios/producto.service";
 import {tap} from "rxjs/operators";
 import { AuthUsuarioService } from '../servicios/auth-usuario-service';
@@ -19,60 +19,66 @@ export class HeaderComponent implements OnInit {
   items: MenuItem[] = [];
   subitems: MenuItem[] = [];
   labelBoton: string = 'Log in';
-  labelBoolean:boolean = false;
-  abierto:boolean = false;
+  labelBoolean: boolean = false;
+  abierto: boolean = false;
+  nombre: string = '';
 
-  categorias:Categoria[]= [];
+  categorias: Categoria[] = [];
   constructor(private ps: ProductoService,
-  private authService: AuthUsuarioService,
-  private modalService: ModalUsuarioService) { }
+    private authService: AuthUsuarioService,
+    private modalService: ModalUsuarioService) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.ps.getCategorias().subscribe(
-      response =>{
+      response => {
         response.forEach(
           categoria=> {
             this.subitems.push({label: categoria.nombrecategoria, routerLink: ['/productos/', categoria.nombrecategoria]})
-            console.log(categoria.nombrecategoria)
           }
         )
-        this.categorias=response;
+        this.categorias = response;
       }
 
     )
 
     this.items = [
-            {
-                label: 'Productos',
-                items: [
-                  {label: 'Todos los productos',   routerLink: ['/productos']},
-                  {label: 'Categorias',
-                  items :  this.subitems
-                  }
-                ],
-            },
-        ];
+      {
+        label: 'Productos',
+        items: [
+          { label: 'Todos los productos', routerLink: ['/productos'] },
+          {
+            label: 'Categorias',
+            items: this.subitems
+          }
+        ],
+      },
+    ];
 
     this.itemsButton = [
           {label: 'Información perfil', command: () => {this.abrirModal2()}},
-          {label: 'Administrar perfiles'},
+          {label: 'Administrar perfiles', routerLink:['/administrador/lista']},
           {label: 'Cerrar sesión', command: () => {this.authService.logout()}}
     ]
 
+    
+    if(this.nombre==''){
+      this.authService.getUsuario().subscribe( usuario =>{
+        this.nombre=usuario.nombre;
+      }
+      )
+    }
+  }
+
+  nombreUsuario(): String{
+    return this.nombre;
   }
 
   isLogged(): boolean{
-    if(this.authService.isAuthenticated()){
-      return true;
-    }
-    return false;
+    return this.authService.isAuthenticated();
   }
 
-  nombreUsuario(): string{
-    return this.authService.usuario.nombre;
-  }
 
-  abrirModal2(){
+  abrirModal2() {
     this.modalService.abrirModal();
     this.abierto = true;
   }

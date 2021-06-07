@@ -10,12 +10,12 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
           </div>
-          <input type="text" class="form-control" name="name" pInputText [(ngModel)]="producto.nombre">
+          <input required type="text" class="form-control" name="name" pInputText [(ngModel)]="producto.nombre">
         </div>
 
 
         <div class="form-group mb-3">
-          <label class="input-group-text" for="descripcion">Descripción</label>
+          <label required class="input-group-text" for="descripcion">Descripción</label>
           <textarea class="form-control"  rows="3" name="descripcion"
             [(ngModel)]="producto.descripcion"></textarea>
         </div>
@@ -25,14 +25,14 @@
           <div class="input-group-prepend">
             <span class="input-group-text" >Precio</span>
           </div>
-          <input type="number" class="form-control" name="precio" [(ngModel)]="producto.precio">
+          <input required type="number" class="form-control" name="precio" [(ngModel)]="producto.precio">
         </div>
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text" >Cantidad</span>
           </div>
-          <input type="number" class="form-control" name="Cantidad" [(ngModel)]="producto.cantidad">
+          <input required type="number" class="form-control" name="Cantidad" [(ngModel)]="producto.cantidad">
         </div>
 
 
@@ -42,7 +42,7 @@
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <input (change)="seleccionarFoto($event)" type="file" class="form-control" id="inputGroupFile04">
+            <input  required (change)="seleccionarFoto($event)" type="file" class="form-control" id="inputGroupFile04">
           </div>
         </div>
 
@@ -53,7 +53,7 @@
           </div>
 
           <select name="categoria" [(ngModel)]="producto.idcategoria" class="custom-select" id="inputGroupSelect01">
-            <option [ngValue]="undefined" select>Selecionar una region</option>
+            <option [ngValue]="undefined" select>Selecionar una Categoria</option>
             <option *ngFor="let categoria of categorias" [ngValue]="  categoria">{{categoria.nombrecategoria}}
             </option>
 

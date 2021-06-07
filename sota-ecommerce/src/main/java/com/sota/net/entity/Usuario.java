@@ -1,21 +1,15 @@
 package com.sota.net.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import com.sota.net.model.UserPerfil;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -73,7 +67,15 @@ public class Usuario implements Serializable, UserDetails {
 		this.perfil = perfil;
 	}
 
-	public Long getIdusuario() {
+	public Usuario(Long id, String nombre, String primerApellido, String segundoApellido, String email) {
+		this.idUsuario=id;
+		this.nombre=nombre;
+		this.primerapellido=primerApellido;
+		this.segundoapellido=segundoApellido;
+		this.email=email;
+	}
+
+    public Long getIdusuario() {
 		return idUsuario;
 	}
 
