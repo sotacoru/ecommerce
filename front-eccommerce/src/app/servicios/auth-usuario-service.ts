@@ -24,7 +24,7 @@ export class AuthUsuarioService {
       return this._usuario;
     } else if (this._usuario == null && sessionStorage.getItem('usuario') != null) {
       this._usuario = JSON.parse(sessionStorage.getItem('usuario')) as Usuario;
-
+      this._usuario.idUsuario = this.getSub()
       return this._usuario;
     }
     return new Usuario();

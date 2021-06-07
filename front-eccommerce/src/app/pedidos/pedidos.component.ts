@@ -2,15 +2,14 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Pedido} from "../entity/pedido";
 import {PedidosService} from "../servicios/pedidos.service";
 import {ProductoPedido} from "../entity/dto/productopedido";
-import {PedidoDto} from "../entity/dto/pedidoDto";
 import {Subscription} from "rxjs";
 import {AuthUsuarioService} from "../servicios/auth-usuario-service";
-import {UsuarioPedidoDto} from "../entity/dto/usuarioPedidoDto";
-import {Usuario} from "../entity/usuario";
 import {Pago} from "../entity/pago";
 import {MenuItem} from "primeng/api";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
+import {UsuarioAdapter} from "../adpaters/usuarioAdapter";
+import {PedidoAdapter} from "../adpaters/pedidoAdapter";
 
 @Component({
   selector: 'app-pedidos',
@@ -25,6 +24,8 @@ export class PedidosComponent implements OnInit, OnDestroy {
   sus: Subscription
   metodosdePago: Pago[]
   itemsPago: MenuItem[] = [];
+  ua: UsuarioAdapter = new UsuarioAdapter();
+  pa: PedidoAdapter = new PedidoAdapter();
 
   constructor(private ps: PedidosService, private as: AuthUsuarioService, private route: Router) {
     this.pedido = new Pedido();
@@ -48,7 +49,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
                 this.pedido.idPago = p
                 this.pedido.realizado = 1;
                 this.confirmarPedido()
-              }, routerLink: ['/thankyou']
+              }
             })
           }
         )
@@ -56,7 +57,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
       }
     )
     if (this.as.usuario) {
-      this.pedido.idUsuario = this.usuarioAdapter(this.as.usuario)
+      this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.as.usuario)
     } else {
       this.pedido.idUsuario = null
     }
@@ -81,25 +82,6 @@ export class PedidosComponent implements OnInit, OnDestroy {
     return total;
   }
 
-  usuarioAdapter(u: Usuario): UsuarioPedidoDto {
-    let usuarioDto: UsuarioPedidoDto = new UsuarioPedidoDto();
-    usuarioDto.idUsuario = u.idUsuario;
-    usuarioDto.nombre = u.nombre;
-    usuarioDto.email = u.email;
-    usuarioDto.primerApellido = u.primerapellido;
-    usuarioDto.segundoApellido = u.segundoapellido;
-    return usuarioDto;
-  }
-
-  pedidoAdapter(): PedidoDto {
-    let p: PedidoDto = new PedidoDto();
-    p.id = this.pedido.idUsuario.idUsuario = this.as.getSub();
-    p.realizado = this.pedido.realizado
-    p.precioTotal = this.pedido.precioTotal;
-    p.idUsuario = this.pedido.idUsuario;
-    p.idPago = this.pedido.idPago;
-    return p;
-  }
 
   confirmarPedido() {
     Swal.fire({
@@ -113,14 +95,14 @@ export class PedidosComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        this.ps.confirmarPedido(this.pedidoAdapter(), this.pedido.id).subscribe(
+        this.ps.confirmarPedido(this.pa.pedidoAdapter(this.pedido), this.pedido.id).subscribe(
           response => {
             Swal.fire(
               'Realizado',
               `El pedido se ha realizado con exito`,
               'success',
             )
-
+            this.route.navigate(['/thankyou'])
 
           }
         )

@@ -7,10 +7,9 @@ import {ActivatedRoute} from "@angular/router";
 import Swal from "sweetalert2";
 import {PedidoDto} from "../entity/dto/pedidoDto";
 import {PedidosService} from "../servicios/pedidos.service";
-import {UsuarioPedidoDto} from "../entity/dto/usuarioPedidoDto";
-import {Usuario} from "../entity/usuario";
 import {AuthUsuarioService} from "../servicios/auth-usuario-service";
-import {ProductoPedido} from "../entity/dto/productopedido";
+import {UsuarioAdapter} from "../adpaters/usuarioAdapter";
+import {ProductoAdapter} from "../adpaters/productoAdapter";
 
 @Component({
   selector: 'app-productos',
@@ -27,6 +26,8 @@ export class ProductosComponent implements OnInit {
   urlImg: string = "http://localhost:8090/api/uploads/img/"
   imgDefecto: string = "http://localhost:8090/images/notImagen.jpg"
   isAdmin: boolean = false;
+  private ua: UsuarioAdapter = new UsuarioAdapter();
+  private pa: ProductoAdapter = new ProductoAdapter()
 
   constructor(private ps: ProductoService,
               private pedidoService: PedidosService,
@@ -118,36 +119,20 @@ export class ProductosComponent implements OnInit {
 
   addProductoCarrito(producto: Producto) {
     if (this.pedido != undefined) {
-      this.pedidoService.setProductosPedido(this.productoPedidoAdapter(producto))
+      this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
 
     } else {
       this.pedido = new PedidoDto();
       this.pedido.precioTotal = 0;
-      this.pedido.idUsuario = this.usuarioPedidoAdapter(this.authService.usuario);
+      this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.authService.usuario);
       this.pedido.idUsuario.idUsuario = this.authService.getSub()
       this.pedidoService.postPedido(this.pedido)
       this.pedido.precioTotal = producto.precio
-      this.pedidoService.setProductosPedido(this.productoPedidoAdapter(producto))
+      this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
       console.log(this.pedido)
 
     }
   }
 
-  usuarioPedidoAdapter(u: Usuario): UsuarioPedidoDto {
-    let up: UsuarioPedidoDto = new UsuarioPedidoDto();
-    up.idUsuario = u.idUsuario;
-    up.email = u.email;
-    up.nombre = u.nombre;
-    up.primerApellido = u.primerapellido;
-    up.segundoApellido = u.segundoapellido;
-    return up;
-  }
 
-  productoPedidoAdapter(p: Producto): ProductoPedido {
-    let pp: ProductoPedido = new ProductoPedido();
-    pp.producto = p;
-    if (pp.cantidad == undefined)
-      pp.cantidad = 1
-    return pp;
-  }
 }
