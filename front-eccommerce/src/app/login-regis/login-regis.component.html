@@ -70,13 +70,13 @@
           <div class="input-group mb-3">
             <div class="input-group-prepend">
             </div>
-            <input required type="password" placeholder="Contraseña" class="form-control" name="password" pInputText [(ngModel)]="usuario.password" [disabled]="passwordEditable()">
+            <input required type="password" placeholder="Contraseña" class="form-control" name="password" pInputText [(ngModel)]="usuario.password" [disabled]="passwordEditable()" autocomplete="on">
           </div>
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
             </div>
-            <input required type="password" placeholder="Repetir contraseña" class="form-control" name="password2" pInputText [(ngModel)]="usuario.password2" [disabled]="passwordEditable()">
+            <input required type="password" placeholder="Repetir contraseña" class="form-control" name="password2" pInputText [(ngModel)]="usuario.password2" [disabled]="passwordEditable()" autocomplete="on">
           </div>
 
           <div class="input-group mb-3" *ngIf="!deshabilitarSelect(usuario.perfil)">
