@@ -47,6 +47,7 @@ public class JwtProvider {
 			setHeaderParam("typ", TOKEN_TYPE)
 			.setIssuedAt(new Date())
 			.setExpiration(tokenExpirationDate)
+			.claim("sub", usuario.getIdusuario())
 			.claim("idusuario",usuario.getIdusuario())
 			.claim("email", usuario.getEmail())
 			.claim("nombre", usuario.getNombre())
