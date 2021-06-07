@@ -3,13 +3,13 @@ package com.sota.net.controller;
 import com.sota.net.configuration.security.jwt.JwtProvider;
 import com.sota.net.entity.Perfil;
 import com.sota.net.entity.Usuario;
+import com.sota.net.entity.dto.UsuarioBusqueda;
+import com.sota.net.entity.dto.UsuarioDtoConverter;
+import com.sota.net.model.JwtUserResponse;
+import com.sota.net.model.LoginRequest;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,21 +20,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.sota.net.entity.dto.UsuarioDtoConverter;
-import com.sota.net.model.JwtUserResponse;
-import com.sota.net.model.LoginRequest;
-
-import lombok.RequiredArgsConstructor;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
@@ -60,6 +51,17 @@ public class UsuarioController {
 	@GetMapping("/usuario")
 	public List<Usuario> index() {
 		return usuarioService.findAll();
+	}
+	@PostMapping("usuario/busqueda")
+	public ResponseEntity<?> buscarUsuario(@RequestBody UsuarioBusqueda ub, BindingResult result){
+		Map<String, Object> response = new HashMap<>();
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo " + err.getField() + err.getDefaultMessage()).collect(Collectors.toList());
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		return ResponseEntity.ok(this.usuarioService.findWithFilter(ub));
 	}
 
 	// MOSTRAR USUARIO POR ID

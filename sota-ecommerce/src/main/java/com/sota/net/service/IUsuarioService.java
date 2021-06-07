@@ -1,6 +1,7 @@
 package com.sota.net.service;
 
 import com.sota.net.entity.Usuario;
+import com.sota.net.entity.dto.UsuarioBusqueda;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface IUsuarioService {
     public List<Usuario> findAll();
 
     public void deleteUsuarioById(Long idUsuario);
+    List<Usuario> findWithFilter(UsuarioBusqueda dto);
 }
