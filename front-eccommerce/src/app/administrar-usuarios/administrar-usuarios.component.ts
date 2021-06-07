@@ -4,6 +4,7 @@ import {AdministrarUsuariosService} from './administrar-usuarios.service';
 import {AuthUsuarioService} from '../servicios/auth-usuario-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import Swal from "sweetalert2";
+import {UsuarioBusqueda} from "../entity/dto/usuario_busqueda";
 
 @Component({
   selector: 'app-administrar-usuarios',
@@ -15,6 +16,7 @@ export class AdministrarUsuariosComponent implements OnInit {
   usuarios: Usuario[];
   nombreUsuario: string = this.authService.usuario.email;
   rolUsuario: string = this.authService.usuario.perfil.toString();
+  busqueda: UsuarioBusqueda = new UsuarioBusqueda();
 
   constructor(private administrarUsuarioService: AdministrarUsuariosService,
               private authService: AuthUsuarioService,
@@ -87,5 +89,11 @@ export class AdministrarUsuariosComponent implements OnInit {
 
   addSecretarioAdmin(): void {
     this.router.navigate(['/administrador/añadir']);
+  }
+
+  buscar() {
+    this.authService.getUsuariosBusqueda(this.busqueda).subscribe(
+      res => this.usuarios = res
+    )
   }
 }
