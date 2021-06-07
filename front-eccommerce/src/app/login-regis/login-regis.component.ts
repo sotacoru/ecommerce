@@ -215,7 +215,11 @@ export class LoginRegisComponent implements OnInit {
   }
 
   compararPerfil(perfil: Perfil, perfil2: Perfil){
-    return perfil==perfil2;
+    if(perfil===undefined && perfil2===undefined){
+      return true;
+    }
+      return perfil ===null || perfil2===null||perfil ===undefined || perfil2===undefined?
+        false: perfil.idperfil === perfil2.idperfil
   }
 
   //SI es true no se puede editar
