@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Perfil } from './perfil';
+import { Perfil } from '../entity/perfil';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {map} from 'rxjs/operators';

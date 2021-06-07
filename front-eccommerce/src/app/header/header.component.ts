@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
   labelBoton: string = 'Log in';
   labelBoolean: boolean = false;
   abierto: boolean = false;
+  nombre: string = '';
 
   categorias: Categoria[] = [];
   constructor(private ps: ProductoService,
@@ -59,16 +60,23 @@ export class HeaderComponent implements OnInit {
           {label: 'Cerrar sesión', command: () => {this.authService.logout()}}
     ]
 
+    
+    if(this.nombre==''){
+      this.authService.getUsuario().subscribe( usuario =>{
+        this.nombre=usuario.nombre;
+      }
+      )
+    }
+  }
+
+  nombreUsuario(): String{
+    return this.nombre;
   }
 
   isLogged(): boolean{
     return this.authService.isAuthenticated();
   }
 
-
-  nombreUsuario(): string {
-    return this.authService.usuario.nombre;
-  }
 
   abrirModal2() {
     this.modalService.abrirModal();

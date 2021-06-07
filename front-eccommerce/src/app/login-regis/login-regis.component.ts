@@ -31,7 +31,8 @@ export class LoginRegisComponent implements OnInit {
      }
 
   ngOnInit(): void {
-
+    console.log(this.passwordEditable());
+    console.log(this.isLogged());
     this.cargarPerfiles();
     this.cargarUsuario();
 
@@ -229,8 +230,10 @@ export class LoginRegisComponent implements OnInit {
     }
 
     deshabilitarSelect(perfil: Perfil): boolean{
-      if(perfil===undefined){
-        return false;
+      console.log(perfil);
+      console.log(this.isLogged());
+      if(perfil===undefined && this.isLogged()){
+        return true;
       }
         return perfil ===null || perfil ===undefined?
           true: perfil.idperfil === 1 && this.isLogged();

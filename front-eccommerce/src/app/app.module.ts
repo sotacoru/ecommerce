@@ -31,13 +31,9 @@ import {CommonModule} from '@angular/common';
 
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
 import {SplitButtonModule} from 'primeng/splitbutton';
-<<<<<<< HEAD
 import { AdministrarUsuariosComponent } from './administrar-usuarios/administrar-usuarios.component';
 import { ModalUsuarioComponent } from './modal-usuario/modal-usuario.component';
 
-=======
-import {ModalUsuarioComponent} from './modal-usuario/modal-usuario.component';
->>>>>>> origin/develop
 
 @NgModule({
   declarations: [
@@ -52,15 +48,9 @@ import {ModalUsuarioComponent} from './modal-usuario/modal-usuario.component';
     FormComponent,
     ThankyouPageComponent,
     DetalleProductoComponent,
-<<<<<<< HEAD
     AdministrarUsuariosComponent,
     ModalUsuarioComponent
    ],
-=======
-    ModalUsuarioComponent,
-
-  ],
->>>>>>> origin/develop
   imports: [
     BrowserModule,
     AppRoutingModule,
