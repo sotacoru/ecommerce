@@ -9,6 +9,8 @@ import {UsuarioPedidoDto} from "../entity/dto/usuarioPedidoDto";
 import {Usuario} from "../entity/usuario";
 import {Pago} from "../entity/pago";
 import {MenuItem} from "primeng/api";
+import Swal from "sweetalert2";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-pedidos',
@@ -24,7 +26,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
   metodosdePago: Pago[]
   itemsPago: MenuItem[] = [];
 
-  constructor(private ps: PedidosService, private as: AuthUsuarioService) {
+  constructor(private ps: PedidosService, private as: AuthUsuarioService, private route: Router) {
     this.pedido = new Pedido();
 
   }
@@ -100,9 +102,32 @@ export class PedidosComponent implements OnInit, OnDestroy {
   }
 
   confirmarPedido() {
-    this.ps.confirmarPedido(this.pedidoAdapter(), this.pedido.id).subscribe(
+    Swal.fire({
+      title: 'Está seguro',
+      text: `¿Seguro que desea realizar el pedido?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, realizar'
+    }).then((result) => {
+      if (result.isConfirmed) {
 
-    )
+        this.ps.confirmarPedido(this.pedidoAdapter(), this.pedido.id).subscribe(
+          response => {
+            Swal.fire(
+              'Realizado',
+              `El pedido se ha realizado con exito`,
+              'success',
+            )
+
+
+          }
+        )
+
+      }
+
+    })
   }
 
   isLogged(): boolean {

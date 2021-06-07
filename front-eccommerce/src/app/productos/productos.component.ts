@@ -48,7 +48,6 @@ export class ProductosComponent implements OnInit {
           this.ps.getProductosCategoria(categoria).subscribe(
             response => {
               this.productos = response
-              this.productos.forEach(producto => console.log(producto.idcategoria.nombrecategoria))
             }
           )
         }
