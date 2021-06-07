@@ -45,6 +45,8 @@ public class UsuarioDtoConverter {
 					nuevoUsuario.getSegundoApellido(),
 					nuevoUsuario.getEmail(),
 					passEncoder.encode(nuevoUsuario.getPassword()).toString(),
+					0,
+					false,
 					nuevoUsuario.getPerfil());
 
 		}else {
