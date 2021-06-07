@@ -28,11 +28,28 @@ export class AdministrarUsuariosComponent implements OnInit {
   }
 
   delete(usuario: Usuario): void{
-    this.administrarUsuarioService.deleteUsuario(usuario.idusuario).subscribe(
-      response => {
-        this.usuarios = this.usuarios.filter(user => user !== usuario);
+    Swal.fire({
+      title: 'Eliminar',
+      text: `¿Estás seguro de que quieres eliminar a ${usuario.nombre}?`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#69F129',
+      confirmButtonText: 'Sí, estoy seguro',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      console.log(result.isConfirmed);
+      if(result.isConfirmed){
+        this.administrarUsuarioService.deleteUsuario(usuario.idusuario).subscribe(
+          response => {
+            this.usuarios = this.usuarios.filter(user => user !== usuario);
+          }
+        );
+
+      Swal.fire('Eliminado', `¡Usuario ${usuario.nombre} eliminado!`, 'success');
       }
-    );
+    })
+
   }
 
   update(usuario: Usuario): void{
@@ -65,5 +82,9 @@ export class AdministrarUsuariosComponent implements OnInit {
         }
       })
     }
+  }
+
+  addSecretarioAdmin(): void{
+    this.router.navigate(['/administrador/añadir']);
   }
 }

@@ -91,7 +91,10 @@ export class LoginRegisComponent implements OnInit {
 
   registrarse(){
     if(this.validarFormatoCampos()){
-        if(this.isLogged()){
+      console.log(this.isLogged());
+      console.log(this.passwordEditable());
+      //Si editable = undefined significa que entró a añadir un usuario;
+        if(this.isLogged() && this.passwordEditable()!=undefined){
 
             this.administrarUsuarioService.update(this.usuario).subscribe(
               usuario => {
@@ -99,8 +102,18 @@ export class LoginRegisComponent implements OnInit {
                   this.router.navigate(['/administrador/lista']);
                   swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
               });
-        }else{
+        //Si está logueado y editable = undefined significa que es un admin añadiendo a un usuario
+      }else if(this.isLogged() && this.passwordEditable()==undefined){
+        this.authService.registro(this.usuario).subscribe( response => {
 
+          this.router.navigate(['/administrador/lista']);
+          swal.fire('Usuario añadido', `¡Usuario ${response.nombre} añadido!`, 'success');
+        }, err => {
+          if(err.status == 500){
+            swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
+          }
+        });
+      }else{
           this.authService.registro(this.usuario).subscribe( response => {
             this.authService.guardarUsuario(response.token);
             this.authService.guardarToken(response.token);
