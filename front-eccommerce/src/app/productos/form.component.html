@@ -52,7 +52,7 @@
             <label class="input-group-text" for="inputGroupSelect01">Categoria</label>
           </div>
 
-          <select name="categoria" [(ngModel)]="producto.idcategoria" class="custom-select" id="inputGroupSelect01">
+          <select name="categoria"    [compareWith]="compararCategoria" [(ngModel)]="producto.idcategoria" class="custom-select" id="inputGroupSelect01">
             <option [ngValue]="undefined" select>Selecionar una Categoria</option>
             <option *ngFor="let categoria of categorias" [ngValue]="  categoria">{{categoria.nombrecategoria}}
             </option>

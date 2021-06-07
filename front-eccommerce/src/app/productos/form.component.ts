@@ -118,7 +118,7 @@ export class FormComponent implements OnInit {
 
 
 
-  compararCategoriaa(o1: Categoria, o2: Categoria): boolean {
+  compararCategoria(o1: Categoria, o2: Categoria): boolean {
 
     if (o1 === undefined || o2 === undefined) {
       return true;

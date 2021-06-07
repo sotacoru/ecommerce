@@ -21,40 +21,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins= {"http://localhost:4200"})
+@CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PedidoController {
+
 	@Autowired
-	 private final IPedidoService pedidoService;
-	 private final UsuarioDtoConverter usuarioDtoConverter;
-	 @Autowired
-	 private  final IPedidoProductoService pedidoProductoService;
-	 @GetMapping("/pedido/{id}")
-	    public ResponseEntity<Object> mostrarPedido(@PathVariable Long id) {
-	        Pedido pedido = null;
-	        Map<String, Object> response = new HashMap<>();
-	        try {
-	        	pedido = this.pedidoService.findById(id);
-	        } catch (DataAccessException e) {
-	            response.put("error", "No se ha podido acceder al recurso");
-	            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-	        }
+	private final IPedidoService pedidoService;
+	private final UsuarioDtoConverter usuarioDtoConverter;
+	@Autowired
+	private final IPedidoProductoService pedidoProductoService;
 
-	        if (pedido == null) {
-	            response.put("mensaje", "El pedido no existe");
-	            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-	        }
+	@GetMapping("/pedido/{id}")
+	public ResponseEntity<Object> mostrarPedido(@PathVariable Long id) {
+		Pedido pedido = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			pedido = this.pedidoService.findById(id);
+		} catch (DataAccessException e) {
+			response.put("error", "No se ha podido acceder al recurso");
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
+		if (pedido == null) {
+			response.put("mensaje", "El pedido no existe");
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		}
 
-	        return ResponseEntity.ok(PedidoDto.builder()
-					.idUsuario(usuarioDtoConverter.usuarioPedido(pedido.getIdUsuario()))
-					.idPago(pedido.getIdPago()).precioTotal(pedido.getPrecioTotal())
-					.realizado(pedido.getRealizado())
-					.id(pedido.getId())
-					.productos(pedido.getPedidoProducto()).build());
-	    }
+		return ResponseEntity.ok(PedidoDto.builder().idUsuario(usuarioDtoConverter.usuarioPedido(pedido.getIdUsuario()))
+				.idPago(pedido.getIdPago()).precioTotal(pedido.getPrecioTotal()).realizado(pedido.getRealizado())
+				.id(pedido.getId()).productos(pedido.getPedidoProducto()).build());
+	}
+
 	@PostMapping("/pedido")
 	public ResponseEntity<?> crearPedido(@RequestBody PedidoCreadoDto pedidoDto, BindingResult result) {
 		Pedido pedidonuevo = null;
@@ -74,7 +73,6 @@ public class PedidoController {
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-
 		response.put("mensaje", "El pedido ha sido creado con exito!");
 		response.put("pedido", pedidonuevo);
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -91,7 +89,8 @@ public class PedidoController {
 	}
 
 	@PutMapping("/pedido/{id}")
-	public ResponseEntity<?> añadirProducto(@RequestBody List<PedidoProductoDto> productos, @PathVariable long id, BindingResult result) {
+	public ResponseEntity<?> añadirProducto(@RequestBody List<PedidoProductoDto> productos, @PathVariable long id,
+			BindingResult result) {
 		Pedido pedido = this.pedidoService.findById(id);
 
 		Map<String, Object> response = new HashMap<>();
@@ -103,7 +102,7 @@ public class PedidoController {
 			response.put("mensaje", "El pedido no existe");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
-;
+		;
 
 		this.pedidoService.save(formarPedidos(productos, pedido));
 		response.put("mensaje", "El producto se ha añadido con exito!");
@@ -114,7 +113,7 @@ public class PedidoController {
 
 	private Pedido formarPedidos(List<PedidoProductoDto> productos, Pedido pedido) {
 		List<PedidoProducto> productospedido = new ArrayList<>();
-	 	for (PedidoProductoDto producto: productos) {
+		for (PedidoProductoDto producto : productos) {
 			PedidoProducto pedidoProducto = new PedidoProducto();
 			pedidoProducto.setPedido(pedido);
 			pedidoProducto.setCantidad(producto.getCantidad());
@@ -123,7 +122,7 @@ public class PedidoController {
 			pedidoProductoService.save(pedidoProducto);
 		}
 		pedido.setPedidoProducto(productospedido);
-	 	return pedido;
+		return pedido;
 	}
 
 }
