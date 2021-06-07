@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
-import { Producto } from './producto';
+import { Producto } from '../entity/producto';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProductoService } from '../servicios/producto.service';
-import { Categoria } from './categoria';
+import { Categoria } from '../entity/categoria';
 import Swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Perfil } from '../usuarios/perfil';
+import { Perfil } from '../entity/perfil';
 import { PerfilService} from '../usuarios/perfil.service';
-import { Usuario } from '../usuarios/usuario';
+import { Usuario } from '../entity/usuario';
 import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 import {AdministrarUsuariosService} from '../administrar-usuarios/administrar-usuarios.service';
 

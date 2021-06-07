@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario } from '../usuarios/usuario';
+import { Usuario } from '../entity/usuario';
 import jwt_decode from 'jwt-decode';
 
 import swal from 'sweetalert2';
@@ -50,9 +50,7 @@ export class AuthUsuarioService {
 
   login(usuario: Usuario): Observable<any> {
     const urlEndPoint = 'http://localhost:8090/api/login';
-
     //const credenciales = btoa('AngularApp' + ':' + '1234.Abcd ');
-
     const httpHeaders = new HttpHeaders({'Content-Type': 'application/json',
   'Authorization': 'Basic ' });
     return this.http.post<any>(urlEndPoint,usuario, {headers: httpHeaders});
@@ -76,7 +74,6 @@ export class AuthUsuarioService {
     if(accessToken != null){
       return JSON.parse(atob(accessToken.split(".")[1]));
     }
-
     return null;
   }
 
@@ -107,13 +104,6 @@ export class AuthUsuarioService {
 
   getUsuario():Observable<Usuario>{
     return this.http.get<Usuario>(`${this.urlEndPoint}/${this.getSub()}`);
-  }
-
-  guardarSubToken(accessToken: string): void{
-    let payload = this.obtenerDatosToken(accessToken);
-    this.idusuario = payload;
-
-    sessionStorage.setItem('sub', JSON.stringify(this.idusuario));
   }
 
   public getSub(): number {

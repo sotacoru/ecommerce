@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHeaders, HttpRequest, } from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators'
-import {ProductoBusqueda} from "../productos/producto_busqueda";
-import {Producto} from "../productos/producto";
+import {ProductoBusqueda} from "../entity/dto/producto_busqueda";
+import {Producto} from "../entity/producto";
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
-import { Categoria } from '../productos/categoria';
+import { Categoria } from '../entity/categoria';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,14 @@ export class ProductoService {
 
     )
 
+  }
+
+  getTodosLosProductos(): Observable<any>{
+    return this.http.get(this.url + '/all').pipe(
+      map((response: any) => {
+        return response;
+      })
+    )
   }
 
   getProductosId(id): Observable<Producto> {

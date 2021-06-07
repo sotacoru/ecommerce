@@ -54,12 +54,20 @@ public class UsuarioDtoConverter {
 		return u;
 	}
 	public GetUsuarioPedido usuarioPedido(Usuario u){
-		return  GetUsuarioPedido.builder().id(u.getIdusuario())
-				.nombre(u.getNombre())
-				.primerApellido(u.getPrimerapellido())
-				.segundoApellido(u.getSegundoapellido())
-				.email(u.getEmail())
-				.build();
+		return  new GetUsuarioPedido(u.getIdusuario(),
+			u.getNombre(),
+			u.getPrimerapellido(),
+				u.getSegundoapellido(),
+			u.getEmail());
+
+	}
+	public Usuario usuarioPedidoToUsuario(GetUsuarioPedido usuarioPedido){
+		return new Usuario(
+				usuarioPedido.getIdUsuario(),
+				usuarioPedido.getNombre(),
+				usuarioPedido.getPrimerApellido(),
+				usuarioPedido.getSegundoApellido(),
+				usuarioPedido.getEmail());
 
 	}
 
