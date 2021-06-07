@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario } from '../entity/usuario';
-import jwt_decode from 'jwt-decode';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Usuario} from '../entity/usuario';
 
 import swal from 'sweetalert2';
+import {map} from "rxjs/operators";
+import {UsuarioBusqueda} from "../entity/dto/usuario_busqueda";
 
 
 @Injectable({
@@ -14,8 +15,8 @@ export class AuthUsuarioService {
 
   private _usuario: Usuario;
   private _token: string;
-  private  urlEndPoint: string = 'http://localhost:8090/api/usuario';
-  private idusuario:number;
+  private urlEndPoint: string = 'http://localhost:8090/api/usuario';
+  private idusuario: number;
 
   constructor(private http: HttpClient) {
   }
@@ -93,8 +94,8 @@ export class AuthUsuarioService {
     return false;
   }
 
-  hasRole(role: string): boolean{
-    if(this.usuario.perfil.nombreperfil.includes(role)){
+  hasRole(role: string): boolean {
+    if (this.usuario.perfil.nombreperfil.includes(role)) {
       return true;
     }
     return false;
@@ -112,6 +113,14 @@ export class AuthUsuarioService {
 
   getUsuario(): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.urlEndPoint}/${this.getSub()}`);
+  }
+
+  getUsuariosBusqueda(busqueda: UsuarioBusqueda): Observable<Usuario[]> {
+    return this.http.post(this.urlEndPoint + '/busqueda', busqueda).pipe(
+      map((response: any) => {
+        return response;
+      })
+    )
   }
 
   guardarSubToken(accessToken: string): void {
