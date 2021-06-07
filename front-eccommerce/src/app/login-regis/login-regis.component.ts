@@ -146,30 +146,35 @@ export class LoginRegisComponent implements OnInit {
   }
 
   validarPassword(password1: String): boolean{
+    if(!this.passwordEditable() || !this.isLogged()){
+      let minuscula: boolean=false;
+      let mayuscula: boolean=false;
+      let caracterEspecial: boolean = false;
 
-    let minuscula: boolean=false;
-    let mayuscula: boolean=false;
-    let caracterEspecial: boolean = false;
+      for(let i=0;i<password1.length;i++){
+        if(this.esMayuscula(password1.charAt(i))&& !mayuscula){
+          mayuscula=true;
+        }
 
-    for(let i=0;i<password1.length;i++){
-      if(this.esMayuscula(password1.charAt(i))&& !mayuscula){
-        mayuscula=true;
+        if(this.esMinuscula(password1.charAt(i)) && !minuscula){
+          minuscula=true;
+        }
+
+        if(this.esCaracterEspecial(password1.charAt(i)) && !caracterEspecial){
+          caracterEspecial=true;
+        }
+
+        if(minuscula && mayuscula && caracterEspecial){
+          return true;
+        }
       }
-
-      if(this.esMinuscula(password1.charAt(i)) && !minuscula){
-        minuscula=true;
-      }
-
-      if(this.esCaracterEspecial(password1.charAt(i)) && !caracterEspecial){
-        caracterEspecial=true;
-      }
-
-      if(minuscula && mayuscula && caracterEspecial){
-        return true;
-      }
+    }else{
+      return true;
     }
     return false;
   }
+
+
 
   compararPassword(password1: String, password2:String): any{
     return password1==password2;

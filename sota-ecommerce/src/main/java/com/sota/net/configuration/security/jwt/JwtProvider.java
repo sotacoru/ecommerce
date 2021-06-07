@@ -45,9 +45,9 @@ public class JwtProvider {
 		
 		return Jwts.builder().signWith(Keys.hmacShaKeyFor(jwtSecreto.getBytes()), SignatureAlgorithm.HS256).
 			setHeaderParam("typ", TOKEN_TYPE)
-			.setSubject(Long.toString(usuario.getIdusuario()))
 			.setIssuedAt(new Date())
 			.setExpiration(tokenExpirationDate)
+			.claim("idusuario",usuario.getIdusuario())
 			.claim("email", usuario.getEmail())
 			.claim("nombre", usuario.getNombre())
 			.claim("primerapellido", usuario.getPrimerapellido())

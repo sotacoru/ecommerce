@@ -95,9 +95,12 @@ public class UsuarioController {
 		
 		Map<String, Object> response = new HashMap<>();
 		
-		Perfil p = new Perfil(Long.parseLong("1"),"CLIENTE");
+		if(usuario.getPerfil()==null) {
+			Perfil p = new Perfil(Long.parseLong("1"),"CLIENTE");
+			
+			usuario.setPerfil(p);
+		}
 		
-		usuario.setPerfil(p);
 		if (result.hasErrors()) {
 			System.out.println("Error 1");
 			List<String> errors = result.getFieldErrors().stream()
@@ -148,7 +151,12 @@ public class UsuarioController {
 			usuarioActual.setPrimerapellido(usuario.getPrimerapellido());
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
 			usuarioActual.setEmail(usuario.getEmail());
-
+			usuarioActual.setPerfil(usuario.getPerfil());
+			
+			if(usuario.getPassword()==null) {
+				usuarioActual.setPassword(usuario.getPassword());
+			}
+			
 			usuarioUpdated = usuarioService.save(usuarioActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert");
