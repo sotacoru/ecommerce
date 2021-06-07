@@ -164,7 +164,8 @@ export class LoginRegisComponent implements OnInit {
   }
 
   validarPassword(password1: String): boolean{
-    if((!this.passwordEditable() && this.isLogged()==undefined) || (!this.passwordEditable() && this.isLogged())){
+    console.log(this.passwordEditable());
+    if(this.passwordEditable()==undefined || this.passwordEditable()){
       let minuscula: boolean=false;
       let mayuscula: boolean=false;
       let caracterEspecial: boolean = false;

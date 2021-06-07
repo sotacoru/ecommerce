@@ -53,7 +53,8 @@ public class JwtProvider {
 			.claim("nombre", usuario.getNombre())
 			.claim("primerapellido", usuario.getPrimerapellido())
 			.claim("segundoapellido", usuario.getSegundoapellido())
-			.claim("perfil", usuario.getPerfil().getNombreperfil())
+			.claim("perfil", usuario.getPerfil()
+)
 			.compact();
 	}
 	

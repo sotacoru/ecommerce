@@ -10,6 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,8 +47,12 @@ public class Usuario implements Serializable, UserDetails {
 	@ApiModelProperty(value = "Email del usuario", dataType = "String", example = "email@email.com", position = 5)
 	@Column(unique = true)
 	//@NotNull
-//	@Size(min=10, max=320)
+	//@Size(min=10, max=320)
 	private String email;
+	
+	private int intentos;
+	
+	private boolean bloqueada;
 
 	@ApiModelProperty(value = "password del usuario", dataType = "String", example = "password123.", position = 6)
 	private String password;
@@ -56,24 +62,19 @@ public class Usuario implements Serializable, UserDetails {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idperfil")
 	private Perfil perfil;
-
+	
 	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password,
-			Perfil perfil) {
+			int intentos, boolean bloqueada, Perfil perfil) {
 		this.nombre = nombre;
 		this.primerapellido = primerapellido;
 		this.segundoapellido = segundoapellido;
 		this.email = email;
 		this.password = password;
+		this.intentos = intentos;
+		this.bloqueada = bloqueada;
 		this.perfil = perfil;
 	}
-
-	public Usuario(Long id, String nombre, String primerApellido, String segundoApellido, String email) {
-		this.idUsuario=id;
-		this.nombre=nombre;
-		this.primerapellido=primerApellido;
-		this.segundoapellido=segundoApellido;
-		this.email=email;
-	}
+	
 
     public Long getIdusuario() {
 		return idUsuario;
@@ -130,6 +131,22 @@ public class Usuario implements Serializable, UserDetails {
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
+	
+	public int getIntentos() {
+		return intentos;
+	}
+	
+	public void setIntentos(int intentos) {
+		this.intentos = intentos;
+	}
+	
+	public boolean getBloqueada() {
+		return bloqueada;
+	}
+	
+	public void setBloqueada(boolean bloqueada) {
+		this.bloqueada = bloqueada;
+	}
 
 
 	@Override
@@ -172,5 +189,15 @@ public class Usuario implements Serializable, UserDetails {
 	public Usuario() {
 	}
 
-    private static final long serialVersionUID = 1L;
+
+	public Usuario(Long idUsuario, String nombre, String primerApellido, String segundoApellido, String email) {
+		this.idUsuario=idUsuario;
+		this.nombre=nombre;
+		this.primerapellido=primerApellido;
+		this.segundoapellido=segundoApellido;
+		this.email=email;
+	}
+
+
+	private static final long serialVersionUID = 1L;
 }
