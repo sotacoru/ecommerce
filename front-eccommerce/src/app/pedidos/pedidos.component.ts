@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import {Router} from "@angular/router";
 import {UsuarioAdapter} from "../adpaters/usuarioAdapter";
 import {PedidoAdapter} from "../adpaters/pedidoAdapter";
+import {ProductoPedidoDto} from "../entity/dto/productopedidodto";
 
 @Component({
   selector: 'app-pedidos',
@@ -120,4 +121,12 @@ export class PedidosComponent implements OnInit, OnDestroy {
   }
 
 
+  eliminarProducto(p: ProductoPedidoDto) {
+    this.ps.deleteProductoCarrito(p);
+  }
+
+  restarCantidad(p: ProductoPedido) {
+    this.ps.restarCantidadProducto(p)
+    console.log("quiero eliminar un producto solo")
+  }
 }

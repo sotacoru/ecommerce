@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Pedido} from "../entity/pedido";
 import {PedidoDto} from "../entity/dto/pedidoDto";
 import {ProductoPedido} from "../entity/dto/productopedido";
@@ -12,7 +12,6 @@ import {Pago} from "../entity/pago";
 })
 export class PedidosService {
   private url: string = 'http://localhost:8090/api/pedido'
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   private productos: ProductoPedido[] = [];
   private pedido = new BehaviorSubject<Pedido>(null);
 
@@ -45,6 +44,30 @@ export class PedidosService {
       productoArray.cantidad++;
     }
     window.localStorage.setItem('productos', JSON.stringify(this.productos));
+  }
+
+  restarCantidadProducto(p: ProductoPedido) {
+    const productoArray = this.contains(p.producto.id);
+
+    if (productoArray !== null && productoArray.cantidad > 0) {
+      productoArray.cantidad--;
+    }
+    if (productoArray.cantidad == 0) {
+      this.deleteProductoCarrito(p)
+    }
+    window.localStorage.setItem('productos', JSON.stringify(this.productos));
+  }
+
+  deleteProductoCarrito(p: ProductoPedido) {
+    const productoArray = this.contains(p.producto.id);
+
+    if (productoArray !== null) {
+      var i = this.productos.indexOf(p);
+      this.productos.splice(i, 1);
+    }
+    window.localStorage.setItem('productos', JSON.stringify(this.productos));
+    console.log("estoy borrando cosas")
+
   }
 
   deleteProductosPedido() {

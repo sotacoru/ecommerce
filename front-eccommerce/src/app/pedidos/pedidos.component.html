@@ -32,11 +32,13 @@
           <td>{{producto.producto.nombre}}</td>
           <td>{{producto.producto.descripcion}}</td>
           <td>{{producto.producto.precio.toFixed(2)}}€</td>
-          <td>{{producto.cantidad}}</td>
+          <td>{{producto.cantidad}}
+            <a (click)="restarCantidad(producto)"> <i class="pi pi-minus"></i> </a>
+          </td>
           <td>{{(producto.producto.precio * producto.cantidad).toFixed(2)}}€</td>
           <td>
             <button pButton type="button" icon="pi pi-times"
-                    class="p-button-rounded p-button-danger p-button-sm"></button>
+                    class="p-button-rounded p-button-danger p-button-sm" (click)="eliminarProducto(producto)"></button>
           </td>
         </tr>
         </tbody>
