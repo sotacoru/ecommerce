@@ -1,10 +1,8 @@
 package com.sota.net.service.impl;
 
 import com.sota.net.entity.Categoria;
-
 import com.sota.net.entity.Producto;
-
-//import com.sota.net.entity.Producto_;
+import com.sota.net.entity.Producto_;
 import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.repository.IProductoRepository;
 import com.sota.net.service.IProductoService;
@@ -20,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service("productoService")
 public class ProductoService extends QueryService implements IProductoService {
@@ -34,8 +33,9 @@ public class ProductoService extends QueryService implements IProductoService {
 
     @Transactional
     @Override
-    public Producto findById(Long id) {
-        return this.rep.findById(id).orElse(null);
+    public Optional<Producto> findById(Long id) {
+
+        return this.rep.findById(id);
     }
 
     @Transactional
@@ -62,7 +62,7 @@ public class ProductoService extends QueryService implements IProductoService {
         return this.rep.findByCategoria(categoria);
     }
 
-    @Transactional
+
     @Override
     public List<Producto> findWithFilter(ProductoBusqueda dto) {
         if (dto.isEmpty()) {
@@ -79,16 +79,15 @@ public class ProductoService extends QueryService implements IProductoService {
             return specification;
         }
         if (criteria.getNombre() != null) {
-        // specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
+        specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
 
 
         }
         if (criteria.getDescripcion() != null) {
-           // specification =
-          //      specification.and(this.buildStringSpecification(criteria.getDescripcion(), Producto_.descripcion));
+           specification = specification.and(this.buildStringSpecification(criteria.getDescripcion(), Producto_.descripcion));
         }
         if (criteria.getHaveFoto() != null) {
-        // specification = specification.and(this.buildSpecification(criteria.getHaveFoto(), Producto_.foto));
+            specification = specification.and(this.buildSpecification(criteria.getHaveFoto(), Producto_.foto));
         }
 
 
@@ -126,17 +125,6 @@ public class ProductoService extends QueryService implements IProductoService {
         return this.rep.findByStock();
     }
 
-    @Transactional
-    @Override
-    public List<Producto> OrderByPricioMax(Double precio) {
-        return this.rep.orderByPricioMax(precio);
-    }
-
-    @Transactional
-    @Override
-    public List<Producto> OrderByPricioMin(Double precio) {
-        return this.rep.orderByPricioMin(precio);
-    }
 
 
 }

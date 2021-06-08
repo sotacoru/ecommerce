@@ -5,11 +5,12 @@ import com.sota.net.entity.Producto;
 import com.sota.net.entity.dto.ProductoBusqueda;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProductoService {
     abstract List<Producto> findAll();
 
-    abstract Producto findById(Long id);
+    abstract Optional<Producto> findById(Long id);
 
     abstract Producto save(Producto producto);
 
@@ -23,8 +24,5 @@ public interface IProductoService {
 
     abstract List<Producto> findByStock();
 
-    abstract List<Producto> OrderByPricioMax(Double precio);
-
-    abstract List<Producto> OrderByPricioMin(Double precio);
 
 }

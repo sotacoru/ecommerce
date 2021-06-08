@@ -12,6 +12,7 @@ import {Categoria} from '../entity/categoria';
 })
 export class ProductoService {
   private url: string = 'http://localhost:8090/api/producto'
+  private adminurl: string = 'http://localhost:8090/api/administracion/producto'
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient, private router: Router) {
@@ -26,13 +27,6 @@ export class ProductoService {
 
   }
 
-  getTodosLosProductos(): Observable<any> {
-    return this.http.get(this.url + '/all').pipe(
-      map((response: any) => {
-        return response;
-      })
-    )
-  }
 
   getProductosId(id): Observable<Producto> {
     return this.http.get<Producto>(`${this.url}/${id}`).pipe(
@@ -68,14 +62,11 @@ export class ProductoService {
 
   create(producto: Producto): Observable<any> {
     console.log(producto)
-    return this.http.post<Producto>("http://localhost:8090/api/administracion/producto", producto).pipe(
+    return this.http.post<Producto>(this.adminurl, producto).pipe(
       catchError(e => {
         if (e.status === 400) {
           return throwError(e);
         }
-        /* if(e.error.mensaje){
-
-        } */
         return throwError(e);
       })
     )
@@ -84,7 +75,7 @@ export class ProductoService {
 
 
   update(producto: Producto): Observable<any> {
-    return this.http.put<Producto>(`http://localhost:8090/api/administracion/producto/${producto.id}`, producto).pipe(
+    return this.http.put<Producto>(`${this.adminurl}/${producto.id}`, producto).pipe(
       catchError(e => {
 
 
