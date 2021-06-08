@@ -11,4 +11,5 @@ export class Usuario {
   password2: string;
   perfil: Perfil;
   bloqueada: boolean;
+  intentos: number;
 }

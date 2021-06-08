@@ -170,6 +170,7 @@ public class UsuarioController {
 			usuarioActual.setEmail(usuario.getEmail());
 			usuarioActual.setPerfil(usuario.getPerfil());
 			usuarioActual.setBloqueada(usuario.getBloqueada());
+			usuarioActual.setIntentos(usuario.getIntentos());
 			
 			if(usuario.getPassword()!=null) {
 				usuarioActual.setPassword(passwordEncoder.encode(usuario.getPassword()));
@@ -230,6 +231,8 @@ public class UsuarioController {
 		Usuario usuarioNew = (Usuario) authentication.getPrincipal();
 
 		String jwtToken = jwtProvider.generateToken(authentication);
+		
+		System.out.println(usuarioNew.getBloqueada());
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(convertUserEntityAndTokenToJwtUserResponse(usuarioNew, jwtToken));
@@ -253,6 +256,8 @@ public class UsuarioController {
 				.segundoApellido(nuevoUsuario.getSegundoapellido())
 				.email(nuevoUsuario.getEmail())
 				.perfil(nuevoUsuario.getPerfil())
+				.bloqueada(nuevoUsuario.getBloqueada())
+				.intentos(nuevoUsuario.getIntentos())
 				.token(jwtToken)
 				.build();
 

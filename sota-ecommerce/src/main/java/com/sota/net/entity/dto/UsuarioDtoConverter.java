@@ -31,7 +31,9 @@ public class UsuarioDtoConverter {
 				usuario.getPrimerapellido(),
 				usuario.getSegundoapellido(),
 				usuario.getEmail(),
-				usuario.getPerfil()
+				usuario.getPerfil(),
+				usuario.getBloqueada(),
+				usuario.getIntentos()
 				);
 		return user;
 	}
@@ -45,6 +47,7 @@ public class UsuarioDtoConverter {
 					nuevoUsuario.getSegundoApellido(),
 					nuevoUsuario.getEmail(),
 					passEncoder.encode(nuevoUsuario.getPassword()).toString(),
+					3,
 					false,
 					nuevoUsuario.getPerfil());
 

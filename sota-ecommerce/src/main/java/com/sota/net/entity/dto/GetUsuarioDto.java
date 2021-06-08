@@ -1,6 +1,5 @@
 package com.sota.net.entity.dto;
 
-import com.sota.net.entity.Pago;
 import com.sota.net.entity.Perfil;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +21,8 @@ public class GetUsuarioDto {
 	private String segundoapellido;
 	private String email;
 	private Perfil perfil;
-	
+	private boolean bloqueada;
+	private int intentos;
 	
 	
 }

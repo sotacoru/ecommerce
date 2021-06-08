@@ -35,7 +35,6 @@ export class LoginRegisComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    this.intentos=2;
     this.cargarPerfiles();
     this.cargarUsuario();
 
@@ -81,6 +80,11 @@ export class LoginRegisComponent implements OnInit {
 
       this.authService.login(this.usuario).subscribe(response => {
 
+        if(response.bloqueada){
+          swal.fire('Error', `El usuario está bloqueado`, 'error');
+          return;
+        }
+
         this.authService.guardarUsuario(response.token);
         this.authService.guardarToken(response.token);
         let usuario = this.authService.usuario;
@@ -93,21 +97,23 @@ export class LoginRegisComponent implements OnInit {
         swal.fire('Login', `Hola ${usuario.nombre}  has iniciado sesion correctamente`, 'success');
       }, err => {
         if (err.status == 403){
-          if(this.intentos>0){
-            swal.fire('Contraseña',`Contraseña incorrecta. Número de intentos restantes: ${this.intentos}` ,'error');
-            this.intentos--;
-          }else{
-            swal.fire('Cuenta bloqueada',`Cuenta bloqueada debido a que superó el número máximo de intentos` ,'error');
-            console.log(this.usuario.email);
+            //Mensaje intentos
+            //swal.fire('Contraseña',`Contraseña incorrecta. Número de intentos restantes: ${this.intentos}` ,'error');
+
             this.administrarUsuarioService.getIdUsuarioByEmail(this.usuario.email).subscribe( response =>
             {
+              if(response.intentos>1){
+                response.intentos--;
+                this.administrarUsuarioService.update(response).subscribe();
+              }else{
+                response.intentos--;
                 response.bloqueada = true;
                 this.administrarUsuarioService.update(response).subscribe(response =>{
-                  console.log('bien');
+                  swal.fire('Contraseña',`Usuario bloqueado` ,'error');
                 });
-            });
-          }
+              }
 
+            });
         }else if(err.status == 500){
           swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
         }

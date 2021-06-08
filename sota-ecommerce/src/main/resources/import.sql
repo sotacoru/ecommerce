@@ -5,10 +5,10 @@ INSERT INTO perfil(nombrePerfil, descripcion) VALUES('CLIENTE','Cliente de la ti
 INSERT INTO	perfil(nombrePerfil, descripcion) VALUES('SECRETARIO','Secretario de la tienda. Puede dar de alta y baja productos');
 INSERT INTO perfil(nombrePerfil, descripcion) VALUES('ADMINISTRADOR','Administrador de la tienda. Puede dar de alta y baja secretarios');
 
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, bloqueada) VALUES ('Usuario 1','Apellido 1', 'Apellido 1.2', 'email1@gmail.com','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',1, false);
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, bloqueada) VALUES ('Usuario 2','Apellido 2', 'Apellido 2.1', 'email2@yahoo.es','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',3, false);
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, bloqueada) VALUES ('Usuario 3','Apellido 3', 'Apellido 3.1', 'email3@yahoo.es','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',2, false);
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, bloqueada) VALUES ('Usuario 4','Apellido 4', 'Apellido 4.1', 'email4@gmail.com','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',3, false);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos, bloqueada) VALUES ('Usuario 1','Apellido 1', 'Apellido 1.2', 'email1@gmail.com','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',1, 3,false);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos, bloqueada) VALUES ('Usuario 2','Apellido 2', 'Apellido 2.1', 'email2@yahoo.es','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',3, 3,false);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos, bloqueada) VALUES ('Usuario 3','Apellido 3', 'Apellido 3.1', 'email3@yahoo.es','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',2, 3,false);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos, bloqueada) VALUES ('Usuario 4','Apellido 4', 'Apellido 4.1', 'email4@gmail.com','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',3, 3, false);
 
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Frutas','Frutas');
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Verduras','Verduras que no contienen químicos ni son alteradas genéticamente');
