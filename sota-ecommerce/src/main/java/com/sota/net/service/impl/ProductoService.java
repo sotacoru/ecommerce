@@ -73,6 +73,17 @@ public class ProductoService extends QueryService implements IProductoService {
         return productos;
     }
 
+    @Override
+    public void updateStock(Producto producto, int cantidad) {
+        List<Producto> productos = this.rep.findAll();
+        for (Producto p: productos){
+            if (p.getId().equals(producto.getId())){
+                p.setCantidad( p.getCantidad()- cantidad) ;
+                this.rep.save(p);
+            }
+        }
+    }
+
     private Specification<Producto> createSpecification(ProductoCriteria criteria) {
         Specification<Producto> specification = Specification.where(null);
         if (criteria == null) {
@@ -119,11 +130,6 @@ public class ProductoService extends QueryService implements IProductoService {
         return productoCriteria;
     }
 
-    @Transactional
-    @Override
-    public List<Producto> findByStock() {
-        return this.rep.findByStock();
-    }
 
 
 

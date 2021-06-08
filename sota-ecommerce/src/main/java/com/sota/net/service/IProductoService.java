@@ -22,7 +22,7 @@ public interface IProductoService {
 
     abstract List<Producto> findWithFilter(ProductoBusqueda dto);
 
-    abstract List<Producto> findByStock();
+    abstract void updateStock(Producto p, int cantidad);
 
 
 }

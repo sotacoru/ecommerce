@@ -1,17 +1,16 @@
 package com.sota.net.controller;
 
+import com.sota.net.adapters.PedidoProductoAdapter;
 import com.sota.net.entity.Pago;
 import com.sota.net.entity.Pedido;
 import com.sota.net.entity.PedidoProducto;
 import com.sota.net.entity.dto.PedidoCreadoDto;
 import com.sota.net.entity.dto.PedidoDto;
-import com.sota.net.entity.dto.PedidoProductoDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
 import com.sota.net.service.IPedidoProductoService;
 import com.sota.net.service.IPedidoService;
-import com.sota.net.service.IUsuarioService;
+import com.sota.net.service.IProductoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +30,9 @@ public class PedidoController {
 
 	 private final IPedidoService pedidoService;
 	 private final UsuarioDtoConverter usuarioDtoConverter;
-	private final IUsuarioService usuarioService;
 	 private  final IPedidoProductoService pedidoProductoService;
+	 private final IProductoService productoService;
+
 	 @GetMapping("/pedido/{id}")
 	    public ResponseEntity<Object> mostrarPedido(@PathVariable Long id) {
 	        Pedido pedido = null;
@@ -55,13 +55,13 @@ public class PedidoController {
 						.idPago(pedido.getIdPago()).precioTotal(pedido.getPrecioTotal())
 						.realizado(pedido.getRealizado())
 						.id(pedido.getId())
-						.productos(adapterPedidoProductoDtoLista(pedido.getPedidoProducto())).build());
+						.productos(PedidoProductoAdapter.adapterPedidoProductoDtoLista(pedido.getPedidoProducto())).build());
 			}
 				 return ResponseEntity.ok(PedidoDto.builder()
 						 .idPago(pedido.getIdPago()).precioTotal(pedido.getPrecioTotal())
 						 .realizado(pedido.getRealizado())
 						 .id(pedido.getId())
-						 .productos(adapterPedidoProductoDtoLista(pedido.getPedidoProducto())).build());
+						 .productos(PedidoProductoAdapter.adapterPedidoProductoDtoLista(pedido.getPedidoProducto())).build());
 	 }
 	@PostMapping("/pedido")
 	public ResponseEntity<?> crearPedido(@RequestBody PedidoCreadoDto pedidoDto, BindingResult result) {
@@ -117,11 +117,12 @@ public class PedidoController {
 		pedidoActual.setIdUsuario(this.usuarioDtoConverter.usuarioPedidoToUsuario(pedidoDto.getIdUsuario()));
 		pedidoActual.setRealizado(pedidoDto.getRealizado());
 
-		pedidoActual.setPedidoProducto(adapterPedidoProductoLista(pedidoDto.getProductos()));
+		pedidoActual.setPedidoProducto(PedidoProductoAdapter.adapterPedidoProductoLista(pedidoDto.getProductos()));
 
 		for (PedidoProducto pp: pedidoActual.getPedidoProducto() ){
 			pp.setPedido(pedidoActual);
 			this.pedidoProductoService.save(pp);
+			this.productoService.updateStock(pp.getProducto(), pp.getCantidad());
 
 		}
 		this.pedidoService.save(pedidoActual);
@@ -132,28 +133,6 @@ public class PedidoController {
 	}
 
 
-	private List<PedidoProducto> adapterPedidoProductoLista(List<PedidoProductoDto> productos) {
-		List<PedidoProducto> productospedido = new ArrayList<>();
-	 	for (PedidoProductoDto producto: productos) {
-			PedidoProducto pedidoProducto = new PedidoProducto();
-			pedidoProducto.setCantidad(producto.getCantidad());
-			pedidoProducto.setProducto(producto.getProducto());
-			productospedido.add(pedidoProducto);
-
-		}
-	 	return productospedido;
-	}
-	private List<PedidoProductoDto> adapterPedidoProductoDtoLista(List<PedidoProducto> productos) {
-		List<PedidoProductoDto> productospedido = new ArrayList<>();
-		for (PedidoProducto producto: productos) {
-			PedidoProductoDto pedidoProducto = new PedidoProductoDto();
-			pedidoProducto.setCantidad(producto.getCantidad());
-			pedidoProducto.setProducto(producto.getProducto());
-			productospedido.add(pedidoProducto);
-
-		}
-		return productospedido;
-	}
 	@GetMapping("/pedido/pagos")
 	public List<Pago> listarCategorias() {
 		return this.pedidoService.findAllPagos();
