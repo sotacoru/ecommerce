@@ -94,7 +94,7 @@ export class ProductosComponent implements OnInit {
   buscar() {
     this.ps.getProductosBusqueda(this.busqueda).subscribe(
       response => {
-
+        console.log(this.busqueda)
         this.filtrarProductosStock(response)
       }
     );
