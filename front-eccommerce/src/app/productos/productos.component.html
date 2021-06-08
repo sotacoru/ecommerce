@@ -15,13 +15,13 @@
               <i class="pi pi-search"></i>
             </p-button>
             <div class="p-field-checkbox elementBusqueda fotoCheck">
-              <input type="checkbox" name="foto" [(ngModel)]="busqueda.foto"/>
+              <input type="checkbox" id="foto" name="foto" [(ngModel)]="busqueda.foto"/>
               <label for="foto">Sólo productos con foto</label>
+
+            </div>
               <p-button class="mx-2" icon="pi pi-shopping-cart mr-2" [routerLink]="['/formulario']"
                         label="Añadir Producto"
-                        *ngIf="perfil() === 'SECRETARIO'|| perfil() === 'ADMINISTRADOR' "></p-button>
-            </div>
-
+                        *ngIf="!this.isCliente()"></p-button>
 
           </form>
         </span>
@@ -70,14 +70,14 @@
 
           </div>
           <div class="product-grid-item-bottom row-cols-2 justify-content-sm-center"
-               *ngIf="perfil() === 'CLIENTE' || perfil() === undefined">
+               *ngIf="!this.isCliente()">
             <span class="product-price">{{producto.precio}}€</span>
             <p-button (click)="addProductoCarrito(producto)" icon="pi pi-shopping-cart"
                       label="Añadir al carrito"></p-button>
           </div>
           <!--Solo se mostrará para administrador-->
           <div class="product-grid-item-bottom row-cols-2 justify-content-sm-center"
-               *ngIf="perfil() === 'SECRETARIO'|| perfil() === 'ADMINISTRADOR' ">
+               *ngIf="!this.isCliente() ">
             <span class="product-price">{{producto.precio}}€</span>
             <button (click)="eliminar(producto)" pButton pRipple type="button" icon="pi pi-times"
                     class="p-button-rounded p-button-danger"></button>

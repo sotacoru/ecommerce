@@ -2,10 +2,9 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Usuario} from '../entity/usuario';
-
-import swal from 'sweetalert2';
 import {map} from "rxjs/operators";
 import {UsuarioBusqueda} from "../entity/dto/usuario_busqueda";
+import swal from "sweetalert2";
 
 
 @Injectable({
@@ -87,11 +86,9 @@ export class AuthUsuarioService {
   }
 
   isAuthenticated(): boolean {
-    let payload = this.obtenerDatosToken(this.token);
-    if (payload != null && payload.nombre && payload.nombre.length > 0) {
-      return true;
-    }
-    return false;
+
+    return !!this._token;
+
   }
 
   hasRole(role: string): boolean {
@@ -102,7 +99,7 @@ export class AuthUsuarioService {
   }
 
   logout(): void {
-    swal.fire('Logout', `${this._usuario.nombre}, has cerrado sesión con éxito`, 'success');
+    swal.fire('Logout', 'Has cerrado sesión con éxito', 'success');
     this._token = null;
     this._usuario = null;
     sessionStorage.clear();
@@ -123,13 +120,6 @@ export class AuthUsuarioService {
     )
   }
 
-  guardarSubToken(accessToken: string): void {
-    let payload = this.obtenerDatosToken(accessToken);
-    this.idusuario = payload
-
-    sessionStorage.setItem('sub', JSON.stringify(this.idusuario));
-  }
-
   public getSub(): number {
     if (!this.token) {
       return null;
@@ -139,6 +129,14 @@ export class AuthUsuarioService {
     const playloadDecoded = atob(payload);
     const values = JSON.parse(playloadDecoded);
     return values.sub;
+  }
+
+  public getPerfil(): any {
+
+    let user = JSON.parse(window.sessionStorage.getItem("usuario"));
+    if (user) {
+      return user.perfil.nombreperfil
+    }
   }
 
 }

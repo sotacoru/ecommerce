@@ -44,8 +44,7 @@ export class ProductosComponent implements OnInit {
         if (categoria === undefined) {
           this.ps.getProductos().subscribe(
             response => {
-              console.log(this.perfil())
-              if (this.perfil() && this.perfil() != 'CLIENTE') {
+              if (!this.isCliente()) {
                 this.productos = response
               } else {
                 this.productos = response.filter(
@@ -72,13 +71,9 @@ export class ProductosComponent implements OnInit {
     this.primengConfig.ripple = true;
   }
 
+  isCliente(): boolean {
+    return !this.authService.isAuthenticated() || this.authService.getPerfil() === 'CLIENTE';
 
-  perfil(): any {
-
-    let user = JSON.parse(window.sessionStorage.getItem("usuario"));
-    if (user) {
-      return user.perfil.nombreperfil
-    }
   }
 
   onSortChange(event) {
