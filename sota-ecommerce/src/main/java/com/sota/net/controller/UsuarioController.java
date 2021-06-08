@@ -9,6 +9,7 @@ import com.sota.net.model.JwtUserResponse;
 import com.sota.net.model.LoginRequest;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
+import com.sota.net.utils.errores.UtilsCommonErrores;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -73,19 +74,15 @@ public class UsuarioController {
 	@PostMapping("usuario/busqueda")
 	public ResponseEntity<?> buscarUsuario(@RequestBody UsuarioBusqueda ub, BindingResult result){
 		Map<String, Object> response = new HashMap<>();
-		if (result.hasErrors()) {
-			List<String> errors = result.getFieldErrors().stream()
-					.map(err -> "El campo " + err.getField() + err.getDefaultMessage()).collect(Collectors.toList());
-			response.put("errors", errors);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-		}
+		if (UtilsCommonErrores.comporbarBindingResult(result, response))
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		return ResponseEntity.ok(this.usuarioService.findWithFilter(ub));
 	}
 
 	// MOSTRAR USUARIO POR ID
 	@RequestMapping(value = "/usuario/{idUsuario}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> show(@PathVariable Long idUsuario) {
-		Usuario usuario = usuarioService.findById(idUsuario);
+		Usuario usuario = null;
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -94,11 +91,11 @@ public class UsuarioController {
 		} catch (DataAccessException e) {
 			response.put("mensaje", "El usuario ID no existe en la BBDD");
 			response.put("error", e.getMessage().concat(" : ".concat(e.getMostSpecificCause().getMessage())));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if (usuario == null) {
 			response.put("mensaje", "El usuario ID: ".concat(idUsuario.toString().concat(" no existe en la BBDD")));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario), HttpStatus.OK);
 	}
@@ -117,13 +114,8 @@ public class UsuarioController {
 			usuario.setPerfil(p);
 		}
 
-		if (result.hasErrors()) {
-			System.out.println("Error 1");
-			List<String> errors = result.getFieldErrors().stream()
-					.map(err -> "El campo " + err.getField() + err.getDefaultMessage()).collect(Collectors.toList());
-			response.put("errors", errors);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-		}
+		if (UtilsCommonErrores.comporbarBindingResult(result, response))
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
 		try {
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()).toString());
@@ -148,18 +140,13 @@ public class UsuarioController {
 
 		Map<String, Object> response = new HashMap<>();
 
-		if (result.hasErrors()) {
-
-			List<String> errors = result.getFieldErrors().stream()
-					.map(err -> "El campo " + err.getField() + err.getDefaultMessage()).collect(Collectors.toList());
-			response.put("errors", errors);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-		}
+		if (UtilsCommonErrores.comporbarBindingResult(result, response))
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
 		if (usuarioActual == null) {
 			response.put("mensaje",
 					"Error, no se puede editar: ".concat(idUsuario.toString().concat(" no existe en la BBDD")));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
 
 		try {
@@ -177,7 +164,7 @@ public class UsuarioController {
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert");
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		response.put("mensaje", "El usuario ha sido actualizado con exito");
@@ -198,11 +185,11 @@ public class UsuarioController {
 		}catch(DataAccessException ex) {
 			response.put("mensaje", "Error al eliminar un usuario en la base de datos");
 			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("exito", "El usuario ha sido eliminado con éxito");
 
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -226,14 +213,11 @@ public class UsuarioController {
 	}
 	
 	private Authentication authUsuario(String email, String password) {
-		
-		Authentication authentication =
-				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-						email,
-						password
-						));
-		
-		return authentication;
+
+		return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+				email,
+				password
+				));
 	}
 	
 	private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario nuevoUsuario, String jwtToken) {;
