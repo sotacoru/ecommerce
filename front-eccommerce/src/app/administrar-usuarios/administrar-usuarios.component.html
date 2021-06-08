@@ -14,7 +14,7 @@
           <th>Primer apellido</th>
           <th>Segundo apellido</th>
           <th>Tipo perfil</th>
-          <th colspan="2">
+          <th colspan="3">
             <button type="button" name="edssdds" class="btn btn-primary" (click)="addSecretarioAdmin()">
               Añadir usuario
           </button>
@@ -40,6 +40,11 @@
           <td *ngIf="usuario.email!=nombreUsuario && rolUsuario=='ADMINISTRADOR'">
             <button type="button" name="eliminar" (click)="delete(usuario)" class="btn btn-danger">
               Eliminar
+            </button>
+          </td>
+          <td>
+            <button type="button" name="Desbloquear" (click)="preguntaDesbloquear(usuario)" class="btn btn-danger" [disabled]="!usuario.bloqueada">
+              Desbloquear
             </button>
           </td>
         </tr>

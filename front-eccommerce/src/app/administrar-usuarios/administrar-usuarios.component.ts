@@ -75,14 +75,36 @@ export class AdministrarUsuariosComponent implements OnInit {
         cancelButtonColor: '#69F129',
         confirmButtonText: 'Sin contraseña',
         cancelButtonText: 'Con contraseña',
-        showDenyButton: true,
-        denyButtonText: 'Cancelar'
       }).then((result) => {
-        if(!result.isDenied){
+        if(!result.isDismissed){
           this.router.navigate(['/administrador/actualizar/',usuario.idUsuario,result.isConfirmed]);
         }
       })
     }
+  }
+
+  preguntaDesbloquear(usuario: Usuario): void{
+      Swal.fire({
+        title: 'Desbloqueo',
+        text: `¿Desea desbloquear a este usuario?`,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#69F129',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if(!result.isDismissed){
+          this.administrarUsuarioService.getIdUsuarioByEmail(usuario.email).subscribe( response =>
+          {
+              response.intentos=3
+              response.bloqueada = false;
+              this.administrarUsuarioService.update(response).subscribe(response =>{
+                Swal.fire('Desbloqueo',`Usuario ${usuario.nombre} desbloqueado` ,'success');
+              });
+          });
+        }
+      });
   }
 
   addSecretarioAdmin(): void{
