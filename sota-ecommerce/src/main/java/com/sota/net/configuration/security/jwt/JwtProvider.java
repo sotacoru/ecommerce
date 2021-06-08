@@ -1,23 +1,14 @@
 package com.sota.net.configuration.security.jwt;
 
-import java.util.Date;
-
-
-
+import com.sota.net.entity.Usuario;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.sota.net.entity.Usuario;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
+import java.util.Date;
 
 @Component
 public class JwtProvider {
@@ -48,7 +39,7 @@ public class JwtProvider {
 			.setIssuedAt(new Date())
 			.setExpiration(tokenExpirationDate)
 			.claim("sub", usuario.getIdusuario())
-			.claim("idusuario",usuario.getIdusuario())
+			.claim("idUsuario",usuario.getIdusuario())
 			.claim("email", usuario.getEmail())
 			.claim("nombre", usuario.getNombre())
 			.claim("primerapellido", usuario.getPrimerapellido())

@@ -37,7 +37,6 @@ export class PedidosComponent implements OnInit, OnDestroy {
     this.sus = this.ps.getPedido().subscribe(
       response => {
         this.pedido = response
-        console.log(response)
       }
     )
     this.ps.getProductosPedido().subscribe(
@@ -52,7 +51,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
                 this.pedido.idPago = p
                 this.pedido.realizado = 1;
                 this.confirmarPedido()
-              }
+              }, routerLink: ['/thankyou']
             })
           }
         )
@@ -81,33 +80,23 @@ export class PedidosComponent implements OnInit, OnDestroy {
 
 
   confirmarPedido() {
-    Swal.fire({
-      title: 'Está seguro',
-      text: `¿Seguro que desea realizar el pedido?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, realizar'
-    }).then((result) => {
-      if (result.isConfirmed) {
 
-        this.ps.confirmarPedido(this.pa.pedidoAdapter(this.pedido), this.pedido.id).subscribe(
-          response => {
-            Swal.fire(
-              'Realizado',
-              `El pedido se ha realizado con exito`,
-              'success',
-            )
-            this.route.navigate(['/thankyou'])
 
-          }
+    this.ps.confirmarPedido(this.pa.pedidoAdapter(this.pedido), this.pedido.id).subscribe(
+      response => {
+        Swal.fire(
+          'Realizado',
+          `El pedido se ha realizado con exito`,
+          'success',
         )
 
-      }
 
-    })
+      }
+    )
+
+
   }
+
 
   isLogged(): boolean {
     if (this.as.isAuthenticated()) {
