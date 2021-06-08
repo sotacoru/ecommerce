@@ -3,12 +3,14 @@
   <div class="card-body text-primary">
     <h5 class="card-title">Listado de usuarios</h5>
     <form class="formBusqueda">
+      <input class=" elementBusqueda" type="text" name="email" pInputText placeholder="Buscar por email"
+             [(ngModel)]="busqueda.email">
       <input class="elementBusqueda" type="text" name="nombre" pInputText placeholder="Buscar por nombre"
              [(ngModel)]="busqueda.nombre">
-      <input class="elementBusqueda" type="text" pInputText placeholder="Buscar por email" [(ngModel)]="busqueda.email">
-      <input class="elementBusqueda" type="text" pInputText placeholder="Buscar por 1º apellido"
+
+      <input class="elementBusqueda" type="text" name="primerapellido" pInputText placeholder="Buscar por 1º apellido"
              [(ngModel)]="busqueda.primerapellido">
-      <input class="elementBusqueda" type="text" pInputText placeholder="Buscar por 2º apellido"
+      <input class="elementBusqueda" type="text" name="segundoapellido" pInputText placeholder="Buscar por 2º apellido"
              [(ngModel)]="busqueda.segundoapellido">
       <p-button class="elementBusqueda boton" role="button" (click)='buscar()'>
         <i class="pi pi-search"></i>
