@@ -59,8 +59,7 @@ export class FormComponent implements OnInit {
       response => {
         console.log(response.producto)
 
-        /*  this.router.navigate([''])
-         Swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con exito`, 'success') */
+        // Swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con exito`, 'success') */
 
         if (!this.fotoSeleccionada) {
           Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
@@ -70,8 +69,9 @@ export class FormComponent implements OnInit {
               if (event.type === HttpEventType.UploadProgress) {
               } else if (event.type === HttpEventType.Response) {
                 let response: any = event.body;
-                this.producto = response.cliente as Producto;
-                /* Swal.fire('La foto se ha subido correctamente', response.message, 'success'); */
+                this.producto = response.producto as Producto;
+                Swal.fire('La foto se ha subido correctamente', response.message, 'success');
+              
               }
               /* this.cliente = cliente; */
             }
@@ -84,6 +84,7 @@ export class FormComponent implements OnInit {
         this.errores = err.error.errors as string[];
       }
     );
+
   }
 
 
