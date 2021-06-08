@@ -34,12 +34,7 @@ public class ProductoController {
     private IFotoService fotoService;
     @Autowired
     private IPedidoProductoService ppservices;
-    //Parte pública
-    @GetMapping("/producto/stock")
-    public List<Producto> getStock() {
-        return this.productoService.findByStock();
 
-    }
     
     @GetMapping("/producto/all")
     public List<Producto> getAllProducts() {
