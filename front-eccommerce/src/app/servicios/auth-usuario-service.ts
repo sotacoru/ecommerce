@@ -68,7 +68,6 @@ export class AuthUsuarioService {
     this._usuario = new Usuario();
     this._usuario = payload;
 
-    sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }
 
   guardarToken(accessToken: string): void {

@@ -5,6 +5,7 @@ import { PerfilService} from '../usuarios/perfil.service';
 import { Usuario } from '../entity/usuario';
 import { AuthUsuarioService } from '../servicios/auth-usuario-service';
 import {AdministrarUsuariosService} from '../administrar-usuarios/administrar-usuarios.service';
+import {ValidarRegis} from './validar-regis';
 
 import swal from 'sweetalert2';
 
@@ -21,12 +22,14 @@ export class LoginRegisComponent implements OnInit {
   usuario: Usuario;
   isLogin: boolean;
   passwordDisabled: boolean = false;
+  id: number;
 
   constructor(private authService: AuthUsuarioService,
     private router: Router,
     private activateRoute: ActivatedRoute,
     private perfilService: PerfilService,
-    private administrarUsuarioService: AdministrarUsuariosService) {
+    private administrarUsuarioService: AdministrarUsuariosService,
+    private validarRegis: ValidarRegis) {
       this.usuario = new Usuario();
      }
 
@@ -45,8 +48,8 @@ export class LoginRegisComponent implements OnInit {
   }
 
   cargarUsuario(): void{
-    console.log('entre');
     this.activateRoute.params.subscribe(params =>{
+      //Id global para comprobar
         let id = params['idUsuario'];
         //Mirar si quiere cambiar la password
         this.passwordDisabled = params ['condicion'];
@@ -67,10 +70,10 @@ export class LoginRegisComponent implements OnInit {
       //Validacion formulario
 
       if(this.usuario.password == null || this.usuario.email == null){
-        swal.fire('Error login', '¡Username o password vacíos!', 'error');
+        //swal.fire('Error login', '¡Username o password vacíos!', 'error');
         return;
-      }else if(!this.validarEmail(this.usuario.email)){
-        swal.fire('Error formato email','Formato de la dirección de email no válido','error');
+      }else if(!this.validarRegis.validarEmail(this.usuario.email)){
+        //swal.fire('Error formato email','Formato de la dirección de email no válido','error');
         return;
       }
 
@@ -90,126 +93,58 @@ export class LoginRegisComponent implements OnInit {
   }
 
   registrarse(){
-    if(this.validarFormatoCampos()){
-      //Si editable = undefined significa que entró a añadir un usuario;
-        if(this.isLogged() && this.passwordEditable()!=undefined){
-            this.administrarUsuarioService.update(this.usuario).subscribe(
-              usuario => {
-                  console.log(usuario.nombre);
-                  this.router.navigate(['/administrador/lista']);
-                  swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
-              });
-        //Si está logueado y editable = undefined significa que es un admin añadiendo a un usuario
-      }else if(this.isLogged() && this.passwordEditable()==undefined){
-        this.authService.registro(this.usuario).subscribe( response => {
-
-          this.router.navigate(['/administrador/lista']);
-          swal.fire('Usuario añadido', `¡Usuario ${response.nombre} añadido!`, 'success');
-        }, err => {
-          if(err.status == 500){
-            swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
-          }
-        });
+    if(this.validarRegis.validarFormatoCampos(this.usuario)){
+      //Controlar que es para actualizar un usuario
+      if(this.id==undefined){
+        this.updateUsuario();
+      }else if(this.isLogged()){
+        this.registroNormal();
       }else{
-          this.authService.registro(this.usuario).subscribe( response => {
-            this.authService.guardarUsuario(response.token);
-            this.authService.guardarToken(response.token);
-            let usuario = this.authService.usuario;
-            this.router.navigate(['/productos']);
-            swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
-          }, err => {
-            if(err.status == 500){
-              swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
-            }
-          });
-        }
+        this.crearUsuarioAdmin();
+      }
+
     }
+  }
+
+  registroNormal(): void{
+    this.authService.registro(this.usuario).subscribe( response => {
+
+      this.authService.guardarUsuario(response.token);
+      this.authService.guardarToken(response.token);
+      let usuario = this.authService.usuario;
+      this.router.navigate(['/productos']);
+      swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
+
+    }, err => {
+      if(err.status == 500){
+        swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
+      }
+    });
+  }
+
+  crearUsuarioAdmin(): void{
+
+    this.authService.registro(this.usuario).subscribe( response => {
+      this.router.navigate(['/administrador/lista']);
+      swal.fire('Usuario añadido', `¡Usuario ${response.nombre} añadido!`, 'success');
+    }, err => {
+      if(err.status == 500){
+        swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
+      }
+    });
+  }
+
+  updateUsuario(): void{
+    this.administrarUsuarioService.update(this.usuario).subscribe(
+      usuario => {
+          this.router.navigate(['/administrador/lista']);
+          swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
+
+      });
   }
 
   isLogged(): boolean{
     return this.authService.isAuthenticated();
-  }
-
-  validarFormatoCampos(): boolean{
-
-    if(!this.validarEmail(this.usuario.email)){
-
-      swal.fire('Error formato email','El formato del correo electrónico no es válido. Ejemplo: ejemplo@gmail.com','error');
-      return false;
-
-    }else if(!this.validarPassword(this.usuario.password)){
-
-      swal.fire('Error en el formato de la contraseña','La contraseña indicada debe contener minúsculas, mayúsculas y caracteres especiales de tipo:"." "," "/" "-" "_"','error');
-      return false;
-
-    }else if(!this.compararPassword(this.usuario.password, this.usuario.password2)){
-
-      swal.fire('Error al comparar las contraseñas','Las contraseñas deben ser iguales','error');
-      return false;
-
-    }
-
-    return true;
-  }
-
-  validarEmail(email: any): boolean{
-
-    return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es|gal|net|org)+$/.test(email);
-
-  }
-
-  validarPassword(password1: String): boolean{
-    console.log(this.passwordEditable());
-    if(this.passwordEditable()==undefined || this.passwordEditable()){
-      let minuscula: boolean=false;
-      let mayuscula: boolean=false;
-      let caracterEspecial: boolean = false;
-
-      for(let i=0;i<password1.length;i++){
-        if(this.esMayuscula(password1.charAt(i))&& !mayuscula){
-          mayuscula=true;
-        }
-
-        if(this.esMinuscula(password1.charAt(i)) && !minuscula){
-          minuscula=true;
-        }
-
-        if(this.esCaracterEspecial(password1.charAt(i)) && !caracterEspecial){
-          caracterEspecial=true;
-        }
-
-        if(minuscula && mayuscula && caracterEspecial){
-          return true;
-        }
-      }
-    }else{
-      return true;
-    }
-    return false;
-  }
-
-
-
-  compararPassword(password1: String, password2:String): any{
-    return password1==password2;
-  }
-
-  esMayuscula(letra: String): boolean{
-    return letra==letra.toUpperCase();
-  }
-
-  esMinuscula(letra: String): boolean{
-    return letra==letra.toLowerCase();
-  }
-
-  esCaracterEspecial(letra: String): boolean{
-    let caracterEspecial = [".", ",", "/", "-", "_"];
-    for(let caracter of caracterEspecial){
-      if(caracter==letra){
-        return true;
-      }
-    }
-    return false;
   }
 
   compararPerfil(perfil: Perfil, perfil2: Perfil){

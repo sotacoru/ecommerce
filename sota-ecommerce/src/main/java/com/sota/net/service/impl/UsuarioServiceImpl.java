@@ -35,6 +35,7 @@ public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public Usuario save(Usuario usuario) {
 		return usuarioRepository.save(usuario);
 	}
@@ -46,6 +47,7 @@ public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public void deleteUsuarioById(Long idUsuario) {
 		usuarioRepository.deleteById(idUsuario);
 	}
@@ -56,7 +58,7 @@ public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 		return usuarioRepository.findById(idUsuario).orElse(null);
 	}
 
-	@Transactional
+	@Transactional(readOnly=true)
 	@Override
 	public List<Usuario> findWithFilter(UsuarioBusqueda dto) {
 		if (dto.isEmpty()) {

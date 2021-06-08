@@ -36,6 +36,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
 import com.sota.net.entity.dto.GetUsuarioDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
 import com.sota.net.model.JwtUserResponse;

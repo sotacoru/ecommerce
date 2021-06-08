@@ -33,4 +33,6 @@ export class AdministrarUsuariosService {
     return this.http.put<Usuario>('http://localhost:8090/api/usuario/'+usuario.idUsuario
         ,usuario,{headers: this.httpHeaders}).pipe();
   }
+
+  //desbloquear
 }
