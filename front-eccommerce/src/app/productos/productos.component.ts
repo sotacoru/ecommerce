@@ -52,13 +52,21 @@ export class ProductosComponent implements OnInit {
                     return e.cantidad > 0
                   }
                 )
-                console.log(this.productos)
+
               }
             })
         } else {
           this.ps.getProductosCategoria(categoria).subscribe(
             response => {
-              this.productos = response
+              if (!this.isCliente()) {
+                this.productos = response
+              } else {
+                this.productos = response.filter(
+                  e => {
+                    return e.cantidad > 0
+                  }
+                )
+              }
             }
           )
         }
