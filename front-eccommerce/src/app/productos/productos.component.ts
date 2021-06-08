@@ -44,29 +44,12 @@ export class ProductosComponent implements OnInit {
         if (categoria === undefined) {
           this.ps.getProductos().subscribe(
             response => {
-              if (!this.isCliente()) {
-                this.productos = response
-              } else {
-                this.productos = response.filter(
-                  e => {
-                    return e.cantidad > 0
-                  }
-                )
-
-              }
+              this.filtrarProductosStock(response)
             })
         } else {
           this.ps.getProductosCategoria(categoria).subscribe(
             response => {
-              if (!this.isCliente()) {
-                this.productos = response
-              } else {
-                this.productos = response.filter(
-                  e => {
-                    return e.cantidad > 0
-                  }
-                )
-              }
+              this.filtrarProductosStock(response)
             }
           )
         }
@@ -96,10 +79,23 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+  filtrarProductosStock(response: Producto[]) {
+    if (!this.isCliente()) {
+      this.productos = response
+    } else {
+      this.productos = response.filter(
+        e => {
+          return e.cantidad > 0
+        }
+      )
+    }
+  }
+
   buscar() {
     this.ps.getProductosBusqueda(this.busqueda).subscribe(
       response => {
-        this.productos = response
+
+        this.filtrarProductosStock(response)
       }
     );
   }
