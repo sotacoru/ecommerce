@@ -76,12 +76,12 @@ public class Usuario implements Serializable, UserDetails {
 	}
 	
 
-    public Long getIdusuario() {
+    public Long getIdUsuario() {
 		return idUsuario;
 	}
 
-	public void setIdusuario(Long idusuario) {
-		this.idUsuario = idusuario;
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public String getNombre() {

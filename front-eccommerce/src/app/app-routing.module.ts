@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: 'formulario/:id', component: FormComponent},
   {path: 'formulario', component: FormComponent},
   {path: 'administrador/lista', component:AdministrarUsuariosComponent},
-  {path: 'administrador/actualizar/:idusuario/:condicion', component: LoginRegisComponent},
+  {path: 'administrador/actualizar/:idUsuario/:condicion', component: LoginRegisComponent},
   {path: 'administrador/añadir', component: LoginRegisComponent}
 ];
 

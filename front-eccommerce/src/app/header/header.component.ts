@@ -60,13 +60,6 @@ export class HeaderComponent implements OnInit {
           {label: 'Cerrar sesión', command: () => {this.authService.logout()}}
     ]
 
-    
-    if(this.nombre==''){
-      this.authService.getUsuario().subscribe( usuario =>{
-        this.nombre=usuario.nombre;
-      }
-      )
-    }
   }
 
   nombreUsuario(): String{

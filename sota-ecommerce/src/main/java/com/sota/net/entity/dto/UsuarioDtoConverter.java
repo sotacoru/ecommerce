@@ -26,7 +26,7 @@ public class UsuarioDtoConverter {
 	
 	public GetUsuarioDto converUsuarioEntityToGetUserDto(Usuario usuario) {
 		GetUsuarioDto user = new GetUsuarioDto(
-				usuario.getIdusuario(),
+				usuario.getIdUsuario(),
 				usuario.getNombre(),
 				usuario.getPrimerapellido(),
 				usuario.getSegundoapellido(),
@@ -56,7 +56,7 @@ public class UsuarioDtoConverter {
 		return u;
 	}
 	public GetUsuarioPedido usuarioPedido(Usuario u){
-		return  new GetUsuarioPedido(u.getIdusuario(),
+		return  new GetUsuarioPedido(u.getIdUsuario(),
 			u.getNombre(),
 			u.getPrimerapellido(),
 				u.getSegundoapellido(),

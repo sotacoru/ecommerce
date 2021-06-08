@@ -31,8 +31,6 @@ export class LoginRegisComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    console.log(this.passwordEditable());
-    console.log(this.isLogged());
     this.cargarPerfiles();
     this.cargarUsuario();
 
@@ -49,7 +47,7 @@ export class LoginRegisComponent implements OnInit {
   cargarUsuario(): void{
     console.log('entre');
     this.activateRoute.params.subscribe(params =>{
-        let id = params['idusuario'];
+        let id = params['idUsuario'];
         //Mirar si quiere cambiar la password
         this.passwordDisabled = params ['condicion'];
         if(id){
@@ -93,8 +91,6 @@ export class LoginRegisComponent implements OnInit {
 
   registrarse(){
     if(this.validarFormatoCampos()){
-      console.log(this.isLogged());
-      console.log(this.passwordEditable());
       //Si editable = undefined significa que entró a añadir un usuario;
         if(this.isLogged() && this.passwordEditable()!=undefined){
 
@@ -231,8 +227,6 @@ export class LoginRegisComponent implements OnInit {
     }
 
     deshabilitarSelect(perfil: Perfil): boolean{
-      console.log(perfil);
-      console.log(this.isLogged());
       if(perfil===undefined && this.isLogged()){
         return true;
       }
