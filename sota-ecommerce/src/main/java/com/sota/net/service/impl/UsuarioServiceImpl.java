@@ -9,6 +9,9 @@ import com.sota.net.service.IUsuarioService;
 import com.sota.net.utils.busqueda.UsuarioCriteria;
 import io.github.jhipster.service.QueryService;
 import io.github.jhipster.service.filter.StringFilter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,10 +22,11 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 
-	@Autowired
-	private IUsuarioRepository usuarioRepository;
+	
+	private final IUsuarioRepository usuarioRepository;
 
 	@Override
 	@Transactional(readOnly=true)

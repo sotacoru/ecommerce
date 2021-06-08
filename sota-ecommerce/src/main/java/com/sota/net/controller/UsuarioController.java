@@ -134,7 +134,6 @@ public class UsuarioController {
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
-		System.out.println("entré2");
 
 		return creacionTokenUsuario(usuarioNew.getEmail(),passwordUsuario);
 				
@@ -144,7 +143,6 @@ public class UsuarioController {
 	@PutMapping("/usuario/{idUsuario}")
 	public ResponseEntity<?> update(@RequestBody Usuario usuario, BindingResult result, @PathVariable Long idUsuario) {
 		Usuario usuarioActual = usuarioService.findById(idUsuario);
-		Usuario usuarioUpdated = null;
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -168,23 +166,20 @@ public class UsuarioController {
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
 			usuarioActual.setEmail(usuario.getEmail());
 			usuarioActual.setPerfil(usuario.getPerfil());
-
+			
+			System.out.println(usuarioActual.getEmail());
 			if(usuario.getPassword()!=null) {
 				usuarioActual.setPassword(passwordEncoder.encode(usuario.getPassword()));
 			}
 
-			usuarioUpdated = usuarioService.save(usuarioActual);
+			usuarioService.save(usuarioActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert");
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		response.put("mensaje", "El usuario ha sido actualizado con exito");
-		response.put("usuario", usuarioUpdated);
-
-		System.out.println(usuarioUpdated);
-		return new ResponseEntity<>(usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuarioUpdated), HttpStatus.CREATED);
+		return new ResponseEntity<>(null, HttpStatus.CREATED);
 	}
 
 

@@ -93,7 +93,6 @@ export class LoginRegisComponent implements OnInit {
     if(this.validarFormatoCampos()){
       //Si editable = undefined significa que entró a añadir un usuario;
         if(this.isLogged() && this.passwordEditable()!=undefined){
-
             this.administrarUsuarioService.update(this.usuario).subscribe(
               usuario => {
                   console.log(usuario.nombre);

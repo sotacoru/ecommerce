@@ -50,8 +50,6 @@ public class Usuario implements Serializable, UserDetails {
 	//@Size(min=10, max=320)
 	private String email;
 	
-	private int intentos;
-	
 	private boolean bloqueada;
 
 	@ApiModelProperty(value = "password del usuario", dataType = "String", example = "password123.", position = 6)
@@ -64,13 +62,12 @@ public class Usuario implements Serializable, UserDetails {
 	private Perfil perfil;
 	
 	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password,
-			int intentos, boolean bloqueada, Perfil perfil) {
+			boolean bloqueada, Perfil perfil) {
 		this.nombre = nombre;
 		this.primerapellido = primerapellido;
 		this.segundoapellido = segundoapellido;
 		this.email = email;
 		this.password = password;
-		this.intentos = intentos;
 		this.bloqueada = bloqueada;
 		this.perfil = perfil;
 	}
@@ -130,14 +127,6 @@ public class Usuario implements Serializable, UserDetails {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
-	}
-	
-	public int getIntentos() {
-		return intentos;
-	}
-	
-	public void setIntentos(int intentos) {
-		this.intentos = intentos;
 	}
 	
 	public boolean getBloqueada() {

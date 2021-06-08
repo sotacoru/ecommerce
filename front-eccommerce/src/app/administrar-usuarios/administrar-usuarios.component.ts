@@ -23,6 +23,7 @@ export class AdministrarUsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.administrarUsuarioService.getUsuario().subscribe( usuarios =>{
+      console.log(usuarios);
       this.usuarios = usuarios
     });
   }

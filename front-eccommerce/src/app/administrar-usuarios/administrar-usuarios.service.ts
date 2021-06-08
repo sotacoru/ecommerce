@@ -30,7 +30,7 @@ export class AdministrarUsuariosService {
 
   update(usuario: Usuario): Observable<Usuario>{
     console.log(usuario);
-    return this.http.put<Usuario>('http://localhost:8090/api/usuario/'+usuario.idusuario
+    return this.http.put<Usuario>('http://localhost:8090/api/usuario/'+usuario.idUsuario
         ,usuario,{headers: this.httpHeaders}).pipe();
   }
 }
