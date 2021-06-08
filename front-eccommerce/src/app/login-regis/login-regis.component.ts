@@ -23,6 +23,7 @@ export class LoginRegisComponent implements OnInit {
   isLogin: boolean;
   passwordDisabled: boolean = false;
   id: number;
+  intentos: number = 2;
 
   constructor(private authService: AuthUsuarioService,
     private router: Router,
@@ -50,11 +51,11 @@ export class LoginRegisComponent implements OnInit {
   cargarUsuario(): void{
     this.activateRoute.params.subscribe(params =>{
       //Id global para comprobar
-        let id = params['idUsuario'];
+        this.id = params['idUsuario'];
         //Mirar si quiere cambiar la password
         this.passwordDisabled = params ['condicion'];
-        if(id){
-          this.administrarUsuarioService.getUsuarioId(id).subscribe(
+        if(this.id){
+          this.administrarUsuarioService.getUsuarioId(this.id).subscribe(
             (usuario) => {
               this.usuario = usuario;
             }
@@ -81,26 +82,37 @@ export class LoginRegisComponent implements OnInit {
 
         this.authService.guardarUsuario(response.token);
         this.authService.guardarToken(response.token);
-
         let usuario = this.authService.usuario;
-        this.router.navigate(['/productos']);
+
+        if(usuario.perfil.nombreperfil==="ADMINISTRADOR"){
+          this.router.navigate(['administrador/productos']);
+        }else{
+          this.router.navigate(['/productos']);
+        }
         swal.fire('Login', `Hola ${usuario.nombre}  has iniciado sesion correctamente`, 'success');
       }, err => {
         if (err.status == 403){
+          if(this.intentos>0){
+            swal.fire('Contraseña',`Contraseña incorrecta. Número de intentos restantes: ${this.intentos}` ,'error');
+            this.intentos--;
+          }else{
+            swal.fire('Cuenta bloqueada',`Cuenta bloqueada debido a que superó el número máximo de intentos` ,'error');
+          }
+
+        }else if(err.status == 500){
           swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
         }
       });
   }
 
   registrarse(){
-    if(this.validarRegis.validarFormatoCampos(this.usuario)){
-      //Controlar que es para actualizar un usuario
-      if(this.id==undefined){
-        this.updateUsuario();
+    if(this.validarRegis.validarFormatoCampos(this.usuario, this.passwordDisabled)){
+      if(this.id==undefined && this.isLogged()){
+        this.crearUsuarioByAdmin();
       }else if(this.isLogged()){
-        this.registroNormal();
+        this.updateUsuario();
       }else{
-        this.crearUsuarioAdmin();
+        this.registroNormal();
       }
 
     }
@@ -122,7 +134,7 @@ export class LoginRegisComponent implements OnInit {
     });
   }
 
-  crearUsuarioAdmin(): void{
+  crearUsuarioByAdmin(): void{
 
     this.authService.registro(this.usuario).subscribe( response => {
       this.router.navigate(['/administrador/lista']);
@@ -138,6 +150,7 @@ export class LoginRegisComponent implements OnInit {
     this.administrarUsuarioService.update(this.usuario).subscribe(
       usuario => {
           this.router.navigate(['/administrador/lista']);
+          console.log(usuario);
           swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
 
       });

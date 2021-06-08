@@ -9,27 +9,33 @@ import swal from 'sweetalert2';
 })
 export class ValidarRegis{
 
-  validarFormatoCampos(usuario: Usuario): boolean{
+  validarFormatoCampos(usuario: Usuario, passwordDisabled: boolean): boolean{
 
     if(!this.validarEmail(usuario.email)){
 
       swal.fire('Error formato email','El formato del correo electrónico no es válido. Ejemplo: ejemplo@gmail.com','error');
       return false;
 
-    }else if(!this.validarPassword(usuario.password)){
+    }
 
-      swal.fire('Error en el formato de la contraseña','La contraseña indicada debe contener minúsculas, mayúsculas y caracteres especiales de tipo:"." "," "/" "-" "_"','error');
-      return false;
+    console.log(!passwordDisabled);
+    if(!passwordDisabled){
+      if(!this.validarPassword(usuario.password)){
 
-    }else if(!this.compararPassword(usuario.password, usuario.password2)){
+       swal.fire('Error en el formato de la contraseña','La contraseña indicada debe contener minúsculas, mayúsculas y caracteres especiales de tipo:"." "," "/" "-" "_"','error');
+       return false;
 
-      swal.fire('Error al comparar las contraseñas','Las contraseñas deben ser iguales','error');
-      return false;
+      }else if(!this.compararPassword(usuario.password, usuario.password2)){
+
+       swal.fire('Error al comparar las contraseñas','Las contraseñas deben ser iguales','error');
+       return false;
+
+      }
+    }
+      return true;
 
     }
 
-    return true;
-  }
 
   validarEmail(email: any): boolean{
 

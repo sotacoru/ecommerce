@@ -21,7 +21,8 @@ const routes: Routes = [
   {path: 'formulario', component: FormComponent},
   {path: 'administrador/lista', component:AdministrarUsuariosComponent},
   {path: 'administrador/actualizar/:idUsuario/:condicion', component: LoginRegisComponent},
-  {path: 'administrador/añadir', component: LoginRegisComponent}
+  {path: 'administrador/añadir', component: LoginRegisComponent},
+  {path: 'administrador/productos', component: ProductosComponent,}
 ];
 
 @NgModule({

@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint{
 
-	private ObjectMapper mapper;
+	private final ObjectMapper mapper;
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
