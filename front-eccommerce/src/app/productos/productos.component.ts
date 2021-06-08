@@ -132,7 +132,7 @@ export class ProductosComponent implements OnInit {
   }
 
   addProductoCarrito(producto: Producto) {
-    if (this.pedido) {
+    if (this.pedido !== undefined) {
       this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
 
     } else {
