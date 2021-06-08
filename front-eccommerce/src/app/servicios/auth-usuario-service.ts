@@ -15,7 +15,6 @@ export class AuthUsuarioService {
   private _usuario: Usuario;
   private _token: string;
   private urlEndPoint: string = 'http://localhost:8090/api/usuario';
-  private idusuario: number;
 
   constructor(private http: HttpClient) {
   }
@@ -27,7 +26,7 @@ export class AuthUsuarioService {
       this._usuario = JSON.parse(sessionStorage.getItem('usuario')) as Usuario;
       return this._usuario;
     }
-    return new Usuario();
+    return null;
   }
 
   public get token(): string {
