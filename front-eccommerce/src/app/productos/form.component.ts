@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
-import { Producto } from '../entity/producto';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputTextModule } from 'primeng/inputtext';
-import { ProductoService } from '../servicios/producto.service';
-import { Categoria } from '../entity/categoria';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PrimeNGConfig} from 'primeng/api';
+import {Producto} from '../entity/producto';
+import {ProductoService} from '../servicios/producto.service';
+import {Categoria} from '../entity/categoria';
 import Swal from 'sweetalert2';
-import { HttpEventType } from '@angular/common/http';
+import {HttpEventType} from '@angular/common/http';
 
 @Component({
   selector: 'app-form',
@@ -17,17 +15,19 @@ import { HttpEventType } from '@angular/common/http';
 export class FormComponent implements OnInit {
 
   titulo: string = "Nuevo producto";
-  producto: Producto = new Producto;
+  producto: Producto;
   categorias: Categoria[];
   public fotoSeleccionada: File;
   public errores: string[];
+
   constructor(
     private router: Router,
     private productoService: ProductoService,
     private primengConfig: PrimeNGConfig,
     private activateRoute: ActivatedRoute
-
-  ) { }
+  ) {
+    this.producto = new Producto()
+  }
 
   ngOnInit(): void {
     this.cargarProducto()
@@ -40,15 +40,17 @@ export class FormComponent implements OnInit {
       let id = params['id']
       if (id) {
         this.productoService.getProducto(id).subscribe((producto) => {
-          this.producto = producto
-          console.log(this.producto)
-        }
+            this.producto = producto
+            console.log(this.producto)
+          }
         )
         this.productoService.getProductosId(id).subscribe((producto) => this.producto = producto)
 
       }
     })
-    this.productoService.getCategorias().subscribe(categoria => { this.categorias = categoria })
+    this.productoService.getCategorias().subscribe(categoria => {
+      this.categorias = categoria
+    })
     console.log(this.categorias)
   }
 
@@ -60,9 +62,9 @@ export class FormComponent implements OnInit {
         /*  this.router.navigate([''])
          Swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con exito`, 'success') */
 
-        if(!this.fotoSeleccionada){
+        if (!this.fotoSeleccionada) {
           Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
-        }else{
+        } else {
           this.productoService.subirFoto(this.fotoSeleccionada, response.producto.id).subscribe(
             event => {
               if (event.type === HttpEventType.UploadProgress) {
@@ -75,7 +77,7 @@ export class FormComponent implements OnInit {
             }
           )
         }
-      Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success')
+        //   Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success')
 
       },
       err => {
@@ -96,7 +98,7 @@ export class FormComponent implements OnInit {
 
   update(): void {
     this.productoService.update(this.producto).subscribe(response => {
-      if(this.fotoSeleccionada){
+      if (this.fotoSeleccionada) {
 
         this.productoService.subirFoto(this.fotoSeleccionada, response.producto.id).subscribe(
           event => {
@@ -106,7 +108,6 @@ export class FormComponent implements OnInit {
               this.producto = response.cliente as Producto;
             }
           }
-
         )
       }
 
@@ -117,7 +118,6 @@ export class FormComponent implements OnInit {
   }
 
 
-
   compararCategoriaa(o1: Categoria, o2: Categoria): boolean {
 
     if (o1 === undefined || o2 === undefined) {
@@ -125,7 +125,6 @@ export class FormComponent implements OnInit {
     }
     return o1 == null || o2 == null || o1 == undefined || o2 == undefined ? false : o1.id === o2.id;
   }
-
 
 
   subirFoto() {

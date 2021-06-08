@@ -16,33 +16,29 @@
 
         <div class="form-group mb-3">
           <label required class="input-group-text" for="descripcion">Descripción</label>
-          <textarea class="form-control"  rows="3" name="descripcion"
-            [(ngModel)]="producto.descripcion"></textarea>
+          <textarea class="form-control" id="descripcion" rows="3" name="descripcion"
+                    [(ngModel)]="producto.descripcion"></textarea>
         </div>
 
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" >Precio</span>
+            <span class="input-group-text">Precio</span>
           </div>
           <input required type="number" class="form-control" name="precio" [(ngModel)]="producto.precio">
         </div>
 
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" >Cantidad</span>
+            <span class="input-group-text">Cantidad</span>
           </div>
           <input required type="number" class="form-control" name="Cantidad" [(ngModel)]="producto.cantidad">
         </div>
 
 
-
-
-
-
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <input  required (change)="seleccionarFoto($event)" type="file" class="form-control" id="inputGroupFile04">
+            <input required (change)="seleccionarFoto($event)" type="file" class="form-control" id="inputGroupFile04">
           </div>
         </div>
 
@@ -65,13 +61,16 @@
 
         <div class="col-sm-6">
           <button type="submit" class="btn btn-primary" role="button" (click)="create()"
-            [disabled]="!prodcutoForm.form.valid" *ngIf="!producto.id else elseBlock ">Crear</button>
+                  [disabled]="!prodcutoForm.form.valid" *ngIf="!producto.id else elseBlock ">Crear
+          </button>
         </div>
-        <ng-template #elseBlock> <button type="submit" class="btn btn-primary" role="button"
-            [disabled]="!prodcutoForm.form.valid" (click)="update()">Actualizar</button></ng-template>
+        <ng-template #elseBlock>
+          <button type="submit" class="btn btn-primary" role="button"
+                  [disabled]="!prodcutoForm.form.valid" (click)="update()">Actualizar
+          </button>
+        </ng-template>
 
       </div>
-
 
 
     </form>
