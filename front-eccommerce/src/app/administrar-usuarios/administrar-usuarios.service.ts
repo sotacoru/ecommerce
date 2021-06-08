@@ -29,9 +29,12 @@ export class AdministrarUsuariosService {
   }
 
   update(usuario: Usuario): Observable<Usuario>{
-    console.log(usuario);
     return this.http.put<Usuario>('http://localhost:8090/api/usuario/'+usuario.idUsuario
         ,usuario,{headers: this.httpHeaders}).pipe();
+  }
+
+  getIdUsuarioByEmail(email: string): Observable<Usuario>{
+    return this.http.post<Usuario>('http://localhost:8090/api/usuario/email',email, {headers: this.httpHeaders}).pipe();
   }
 
   //desbloquear

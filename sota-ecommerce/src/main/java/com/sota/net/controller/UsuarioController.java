@@ -21,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.server.authorization.HttpStatusServerAccessDeniedHandler;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -147,6 +148,7 @@ public class UsuarioController {
 		Usuario usuarioNew = null;
 		Map<String, Object> response = new HashMap<>();
 
+		
 		if (result.hasErrors()) {
 
 			List<String> errors = result.getFieldErrors().stream()
@@ -167,8 +169,8 @@ public class UsuarioController {
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
 			usuarioActual.setEmail(usuario.getEmail());
 			usuarioActual.setPerfil(usuario.getPerfil());
+			usuarioActual.setBloqueada(usuario.getBloqueada());
 			
-			System.out.println(usuarioActual.getEmail());
 			if(usuario.getPassword()!=null) {
 				usuarioActual.setPassword(passwordEncoder.encode(usuario.getPassword()));
 			}
@@ -204,8 +206,18 @@ public class UsuarioController {
 	@SuppressWarnings("unchecked")
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> login(@RequestBody LoginRequest loginRequest) {
+		//Como no lo encuentra devuelve un error 500
 		userDetailsService.loadUserByUsername(loginRequest.getEmail());
+		
 		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
+	}
+	
+	//Aquí solo entra si existe
+	@PostMapping("/usuario/email")
+	public GetUsuarioDto idUserByEmail(@RequestBody String email){
+		System.out.println(email);
+		Usuario u = (Usuario) userDetailsService.loadUserByUsername(email);
+		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(u); 
 	}
 
 	

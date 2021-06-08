@@ -23,7 +23,7 @@ export class LoginRegisComponent implements OnInit {
   isLogin: boolean;
   passwordDisabled: boolean = false;
   id: number;
-  intentos: number = 2;
+  intentos: number;
 
   constructor(private authService: AuthUsuarioService,
     private router: Router,
@@ -35,6 +35,7 @@ export class LoginRegisComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    this.intentos=2;
     this.cargarPerfiles();
     this.cargarUsuario();
 
@@ -97,6 +98,14 @@ export class LoginRegisComponent implements OnInit {
             this.intentos--;
           }else{
             swal.fire('Cuenta bloqueada',`Cuenta bloqueada debido a que superó el número máximo de intentos` ,'error');
+            console.log(this.usuario.email);
+            this.administrarUsuarioService.getIdUsuarioByEmail(this.usuario.email).subscribe( response =>
+            {
+                response.bloqueada = true;
+                this.administrarUsuarioService.update(response).subscribe(response =>{
+                  console.log('bien');
+                });
+            });
           }
 
         }else if(err.status == 500){
@@ -135,7 +144,6 @@ export class LoginRegisComponent implements OnInit {
   }
 
   crearUsuarioByAdmin(): void{
-
     this.authService.registro(this.usuario).subscribe( response => {
       this.router.navigate(['/administrador/lista']);
       swal.fire('Usuario añadido', `¡Usuario ${response.nombre} añadido!`, 'success');
