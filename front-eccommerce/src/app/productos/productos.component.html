@@ -19,7 +19,7 @@
               <label for="foto">Sólo productos con foto</label>
 
             </div>
-              <p-button class="mx-2" icon="pi pi-shopping-cart mr-2" [routerLink]="['/formulario']"
+              <p-button class="mx-2 mr-2" [routerLink]="['/formulario']"
                         label="Añadir Producto"
                         *ngIf="!this.isCliente()"></p-button>
 
@@ -70,7 +70,7 @@
 
           </div>
           <div class="product-grid-item-bottom row-cols-2 justify-content-sm-center"
-               *ngIf="!this.isCliente()">
+               *ngIf="this.isCliente()">
             <span class="product-price">{{producto.precio}}€</span>
             <p-button (click)="addProductoCarrito(producto)" icon="pi pi-shopping-cart"
                       label="Añadir al carrito"></p-button>
