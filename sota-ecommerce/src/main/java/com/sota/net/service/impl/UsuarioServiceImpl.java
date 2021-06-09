@@ -3,18 +3,17 @@ package com.sota.net.service.impl;
 import com.sota.net.entity.Usuario;
 
 
-import com.sota.net.entity.Usuario_;
+
+//import com.sota.net.entity.Usuario_;
 import com.sota.net.entity.dto.UsuarioBusqueda;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
 import com.sota.net.utils.busqueda.UsuarioCriteria;
 import io.github.jhipster.service.QueryService;
 import io.github.jhipster.service.filter.StringFilter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

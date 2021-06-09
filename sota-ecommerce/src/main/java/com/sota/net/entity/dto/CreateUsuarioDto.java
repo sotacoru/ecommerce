@@ -1,32 +1,33 @@
 package com.sota.net.entity.dto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import com.sota.net.entity.Pago;
 import com.sota.net.entity.Perfil;
+
+import io.swagger.annotations.ApiModelProperty;
 
 
 public class CreateUsuarioDto {
 
-	@NotNull
-	@Size(min=2, max=20)
+	
+	@ApiModelProperty(value = "Nombre del usuario", dataType = "String", example = "Pepe", position = 1)
     private String nombre;
-	@NotNull
-	@Size(min=2, max=20)
+	
+	@ApiModelProperty(value = "Primer apellido del usuario", dataType = "String", example = "Rodríguez", position = 2)
     private String primerApellido;
-	@NotNull
-	@Size(min=2, max=20)
+	
+	@ApiModelProperty(value = "Segundo apellido del usuario", dataType = "String", example = "López", position = 3)
     private String segundoApellido;
-	@NotNull
-	@Size(min=10, max=320)
+	
+	@ApiModelProperty(value = "Email del usuario", dataType = "String", example = "email@email.com", position = 4)
     private String email;
-	@NotNull
-	@Size(min=6, max=30)
+	
+	@ApiModelProperty(value = "password del usuario", dataType = "String", example = "password123.", position = 5)
     private String password;
-	@NotNull
-	@Size(min=10, max=30)
+	
+	@ApiModelProperty(value = "Comprobación de la contraseña", dataType = "String", example = "password123.", position = 6)
     private String password2;
+    
+	@ApiModelProperty(value = "Perfil asociado al usuario", dataType = "Perfil", example = "ADMINISTRADOR", position = 7)
     private Perfil perfil;
 
 

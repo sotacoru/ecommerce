@@ -31,16 +31,16 @@ public class Producto implements Serializable {
 	@ApiModelProperty(value = "Cantidad disponible del producto", dataType = "Int", example = "10", position = 5)
     private int cantidad;
     
-
 	@ApiModelProperty(value = "Ruta en donde se alamcena la imagen", dataType = "String", example = "ruta/foto.jpg", position = 6)
     private String foto;
 
+	@ApiModelProperty(value = "Lista de cada producto con su cantidad", dataType = "PedidoProducto", example = "10 Manzanas", position = 8)
 	 @OneToMany( mappedBy = "producto")
 	 @JsonIgnore
 	 private List<PedidoProducto> pedidoProducto;
 
 
-	@ApiModelProperty(value = "Categoría a la que pertenece el producto", dataType = "Categoria", example = "BEBIDAS ALCOHÓLICAS", position = 7)
+	@ApiModelProperty(value = "Categoría a la que pertenece el producto", dataType = "Categoria", example = "BEBIDAS ALCOHÓLICAS", position = 9)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idcategoria")
     private Categoria idcategoria;
@@ -61,7 +61,6 @@ public class Producto implements Serializable {
 
     public Producto() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 
