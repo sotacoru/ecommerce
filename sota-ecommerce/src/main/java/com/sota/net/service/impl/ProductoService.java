@@ -5,7 +5,6 @@ import com.sota.net.entity.Categoria;
 import com.sota.net.entity.Producto;
 
 //import com.sota.net.entity.Producto_;
-import com.sota.net.entity.Producto_;
 import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.repository.IProductoRepository;
 import com.sota.net.service.IProductoService;
@@ -93,15 +92,15 @@ public class ProductoService extends QueryService implements IProductoService {
             return specification;
         }
         if (criteria.getNombre() != null) {
-        specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
+       // specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
 
 
         }
         if (criteria.getDescripcion() != null) {
-           specification = specification.and(this.buildStringSpecification(criteria.getDescripcion(), Producto_.descripcion));
+         //  specification = specification.and(this.buildStringSpecification(criteria.getDescripcion(), Producto_.descripcion));
         }
         if (criteria.getHaveFoto() != null) {
-            specification = specification.and(this.buildSpecification(criteria.getHaveFoto(), Producto_.foto));
+           // specification = specification.and(this.buildSpecification(criteria.getHaveFoto(), Producto_.foto));
         }
 
 

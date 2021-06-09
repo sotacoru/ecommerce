@@ -189,6 +189,11 @@ export class LoginRegisComponent implements OnInit {
 
     deshabilitarSelect(perfil: Perfil): boolean{
       if(perfil===undefined && this.isLogged()){
+        return false;
+      }else if(perfil===undefined && !this.isLogged()){
+        return true;
+      }
+      else if(perfil.nombreperfil==='CLIENTE' && this.isLogged()){
         return true;
       }
         return perfil ===null || perfil ===undefined?
