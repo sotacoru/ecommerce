@@ -1,6 +1,7 @@
 package com.sota.net.controller;
 
 import com.sota.net.configuration.security.jwt.JwtProvider;
+
 import com.sota.net.entity.Perfil;
 import com.sota.net.entity.Usuario;
 import com.sota.net.entity.dto.UsuarioBusqueda;
@@ -8,6 +9,7 @@ import com.sota.net.entity.dto.UsuarioDtoConverter;
 import com.sota.net.model.JwtUserResponse;
 import com.sota.net.model.LoginRequest;
 import com.sota.net.repository.IUsuarioRepository;
+import com.sota.net.service.CustomUserDetailsService;
 import com.sota.net.service.IUsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -19,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.server.authorization.HttpStatusServerAccessDeniedHandler;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,12 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import com.sota.net.entity.dto.GetUsuarioDto;
-import com.sota.net.entity.dto.UsuarioDtoConverter;
-import com.sota.net.model.JwtUserResponse;
-import com.sota.net.model.LoginRequest;
 
-import lombok.RequiredArgsConstructor;
+import com.sota.net.entity.dto.GetUsuarioDto;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
@@ -51,6 +50,7 @@ public class UsuarioController {
 
 	private final IUsuarioRepository usuarioRepository;
 	private final UsuarioDtoConverter usuarioDtoConverter;
+	private final CustomUserDetailsService userDetailsService;
 
 	private final IUsuarioService usuarioService;
 	private final PasswordEncoder passwordEncoder;
@@ -70,6 +70,7 @@ public class UsuarioController {
 
 		return usuarioDtoConverter.convertListUsuarioEntityToGetUserDto1(usuario);
 	}
+	
 	@PostMapping("usuario/busqueda")
 	public ResponseEntity<?> buscarUsuario(@RequestBody UsuarioBusqueda ub, BindingResult result){
 		Map<String, Object> response = new HashMap<>();
@@ -113,7 +114,6 @@ public class UsuarioController {
 		
 		if(usuario.getPerfil()==null) {
 			Perfil p = new Perfil(Long.parseLong("1"),"CLIENTE");
-
 			usuario.setPerfil(p);
 		}
 
@@ -127,6 +127,8 @@ public class UsuarioController {
 
 		try {
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()).toString());
+			usuario.setBloqueada(false);
+			
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
 			System.out.println("Error 2");
@@ -134,7 +136,6 @@ public class UsuarioController {
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
-		System.out.println("entré2");
 
 		return creacionTokenUsuario(usuarioNew.getEmail(),passwordUsuario);
 				
@@ -144,10 +145,10 @@ public class UsuarioController {
 	@PutMapping("/usuario/{idUsuario}")
 	public ResponseEntity<?> update(@RequestBody Usuario usuario, BindingResult result, @PathVariable Long idUsuario) {
 		Usuario usuarioActual = usuarioService.findById(idUsuario);
-		Usuario usuarioUpdated = null;
-
+		Usuario usuarioNew = null;
 		Map<String, Object> response = new HashMap<>();
 
+		
 		if (result.hasErrors()) {
 
 			List<String> errors = result.getFieldErrors().stream()
@@ -168,23 +169,21 @@ public class UsuarioController {
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
 			usuarioActual.setEmail(usuario.getEmail());
 			usuarioActual.setPerfil(usuario.getPerfil());
-
+			usuarioActual.setBloqueada(usuario.getBloqueada());
+			usuarioActual.setIntentos(usuario.getIntentos());
+			
 			if(usuario.getPassword()!=null) {
 				usuarioActual.setPassword(passwordEncoder.encode(usuario.getPassword()));
 			}
 
-			usuarioUpdated = usuarioService.save(usuarioActual);
+			usuarioNew = usuarioService.save(usuarioActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert");
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		response.put("mensaje", "El usuario ha sido actualizado con exito");
-		response.put("usuario", usuarioUpdated);
-
-		System.out.println(usuarioUpdated);
-		return new ResponseEntity<>(usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuarioUpdated), HttpStatus.CREATED);
+		return new ResponseEntity<>(usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuarioNew), HttpStatus.CREATED);
 	}
 
 
@@ -208,11 +207,23 @@ public class UsuarioController {
 	@SuppressWarnings("unchecked")
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> login(@RequestBody LoginRequest loginRequest) {
+		//Como no lo encuentra devuelve un error 500
+		userDetailsService.loadUserByUsername(loginRequest.getEmail());
+		
 		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
+	}
+	
+	//Aquí solo entra si existe
+	@PostMapping("/usuario/email")
+	public GetUsuarioDto idUserByEmail(@RequestBody String email){
+		System.out.println(email);
+		Usuario u = (Usuario) userDetailsService.loadUserByUsername(email);
+		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(u); 
 	}
 
 	
 	private ResponseEntity<?> creacionTokenUsuario(String email, String password) {
+		
 		Authentication authentication = authUsuario(email, password);
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -220,13 +231,14 @@ public class UsuarioController {
 		Usuario usuarioNew = (Usuario) authentication.getPrincipal();
 
 		String jwtToken = jwtProvider.generateToken(authentication);
+		
+		System.out.println(usuarioNew.getBloqueada());
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(convertUserEntityAndTokenToJwtUserResponse(usuarioNew, jwtToken));
 	}
 	
 	private Authentication authUsuario(String email, String password) {
-		
 		Authentication authentication =
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 						email,
@@ -244,6 +256,8 @@ public class UsuarioController {
 				.segundoApellido(nuevoUsuario.getSegundoapellido())
 				.email(nuevoUsuario.getEmail())
 				.perfil(nuevoUsuario.getPerfil())
+				.bloqueada(nuevoUsuario.getBloqueada())
+				.intentos(nuevoUsuario.getIntentos())
 				.token(jwtToken)
 				.build();
 

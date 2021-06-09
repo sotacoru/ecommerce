@@ -4,6 +4,7 @@ import com.sota.net.entity.Categoria;
 import com.sota.net.entity.Producto;
 import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.service.IFotoService;
+import com.sota.net.service.IPedidoProductoService;
 import com.sota.net.service.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,9 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,13 +32,9 @@ public class ProductoController {
     private IProductoService productoService;
     @Autowired
     private IFotoService fotoService;
+    @Autowired
+    private IPedidoProductoService ppservices;
 
-    //Parte pública
-    @GetMapping("/producto/stock")
-    public List<Producto> getStock() {
-        return this.productoService.findByStock();
-
-    }
     
     @GetMapping("/producto/all")
     public List<Producto> getAllProducts() {
@@ -66,7 +60,7 @@ public class ProductoController {
         Producto producto = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            producto = this.productoService.findById(id);
+            producto = this.productoService.findById(id).get();
         } catch (DataAccessException e) {
             response.put("error", "No se ha podido acceder al recurso");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -126,7 +120,7 @@ public class ProductoController {
     @PutMapping("/administracion/producto/{id}")
     public ResponseEntity<?> update(@RequestBody Producto producto, BindingResult result, @PathVariable Long id) {
 
-        Producto productoActual = this.productoService.findById(id);
+        Producto productoActual = this.productoService.findById(id).get();
         Map<String, Object> response = new HashMap<>();
 
         Producto productoUpdate = null;
@@ -174,21 +168,16 @@ public class ProductoController {
     @DeleteMapping("/administracion/producto/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
-        Producto productoBorrar = this.productoService.findById(id);
+        Producto productoBorrar = this.productoService.findById(id).get();
         if (productoBorrar == null) {
             response.put("mensaje", "El producto que intenta eliminar no existe");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            String foto = productoBorrar.getFoto();
-            if (foto != null && foto.length() > 0) {
-                Path rant = Paths.get("uploads").resolve(foto).toAbsolutePath();
-                Files.delete(rant);
-
-            }
+            this.ppservices.deleteProducto(productoBorrar);
 
             this.productoService.delete(id);
-        } catch (DataAccessException | IOException e) {
+        } catch (DataAccessException e) {
             response.put("error", "No se hay podido eliminar el producto");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -201,7 +190,7 @@ public class ProductoController {
     @PostMapping("/administracion/productos/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
         Map<String, Object> response = new HashMap<>();
-        Producto producto = this.productoService.findById(id);
+        Producto producto = this.productoService.findById(id).get();
 
         if (!archivo.isEmpty()) {
             String nombreArchivo = null;

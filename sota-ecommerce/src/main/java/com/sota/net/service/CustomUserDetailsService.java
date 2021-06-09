@@ -1,15 +1,12 @@
 package com.sota.net.service;
 
 import com.sota.net.entity.Usuario;
+
 import com.sota.net.service.impl.UsuarioServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.sota.net.entity.Usuario;
 
 import lombok.RequiredArgsConstructor;
 

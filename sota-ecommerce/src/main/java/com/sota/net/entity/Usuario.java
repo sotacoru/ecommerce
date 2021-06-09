@@ -63,25 +63,25 @@ public class Usuario implements Serializable, UserDetails {
 	@JoinColumn(name = "idperfil")
 	private Perfil perfil;
 	
-	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password,
-			int intentos, boolean bloqueada, Perfil perfil) {
+	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password, int intentos,
+			boolean bloqueada, Perfil perfil) {
 		this.nombre = nombre;
 		this.primerapellido = primerapellido;
 		this.segundoapellido = segundoapellido;
 		this.email = email;
 		this.password = password;
-		this.intentos = intentos;
+		this.intentos=intentos;
 		this.bloqueada = bloqueada;
 		this.perfil = perfil;
 	}
 	
 
-    public Long getIdusuario() {
+    public Long getIdUsuario() {
 		return idUsuario;
 	}
 
-	public void setIdusuario(Long idusuario) {
-		this.idUsuario = idusuario;
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public String getNombre() {

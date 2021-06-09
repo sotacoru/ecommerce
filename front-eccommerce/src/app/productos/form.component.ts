@@ -71,7 +71,7 @@ export class FormComponent implements OnInit {
                 let response: any = event.body;
                 this.producto = response.producto as Producto;
                 Swal.fire('La foto se ha subido correctamente', response.message, 'success');
-              
+
               }
               /* this.cliente = cliente; */
             }

@@ -10,15 +10,16 @@
           <form class="formBusqueda">
             <input class="elementBusqueda" type="text" name="nombre" pInputText placeholder="Buscar por nombre"
                    [(ngModel)]="busqueda.nombre">
-            <input class="elementBusqueda" type="text" pInputText placeholder="Buscar por descripción">
-            <p-button class="elementBusqueda" role="button" (click)='buscar()'>
-              <i class="pi pi-search"></i>
-            </p-button>
+            <input class="elementBusqueda" type="text" name="descripcion" [(ngModel)]="busqueda.descripcion" pInputText
+                   placeholder="Buscar por descripción">
             <div class="p-field-checkbox elementBusqueda fotoCheck">
               <input type="checkbox" id="foto" name="foto" [(ngModel)]="busqueda.foto"/>
               <label for="foto">Sólo productos con foto</label>
 
             </div>
+             <p-button class="elementBusqueda" role="button" (click)='buscar()'>
+              <i class="pi pi-search"></i>
+            </p-button>
               <p-button class="mx-2 mr-2" [routerLink]="['/formulario']"
                         label="Añadir Producto"
                         *ngIf="!this.isCliente()"></p-button>
