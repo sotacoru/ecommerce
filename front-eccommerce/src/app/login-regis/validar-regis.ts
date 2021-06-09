@@ -2,34 +2,23 @@ import {Usuario} from '../entity/usuario';
 import {Perfil} from '../entity/perfil';
 import { Injectable } from '@angular/core';
 
-import swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidarRegis{
 
+
   validarFormatoCampos(usuario: Usuario, passwordDisabled: boolean): boolean{
 
     if(!this.validarEmail(usuario.email)){
-
-      swal.fire('Error formato email','El formato del correo electrónico no es válido. Ejemplo: ejemplo@gmail.com','error');
       return false;
-
     }
-
-    console.log(!passwordDisabled);
     if(!passwordDisabled){
       if(!this.validarPassword(usuario.password)){
-
-       swal.fire('Error en el formato de la contraseña','La contraseña indicada debe contener minúsculas, mayúsculas y caracteres especiales de tipo:"." "," "/" "-" "_"','error');
        return false;
-
       }else if(!this.compararPassword(usuario.password, usuario.password2)){
-
-       swal.fire('Error al comparar las contraseñas','Las contraseñas deben ser iguales','error');
        return false;
-
       }
     }
       return true;
@@ -39,11 +28,20 @@ export class ValidarRegis{
 
   validarEmail(email: any): boolean{
 
+    if(email===undefined){
+      return true;
+    }
     return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es|gal|net|org)+$/.test(email);
 
   }
 
   validarPassword(password1: String): boolean{
+    console.log(password1)
+
+    if(password1===undefined){
+      return true;
+    }
+
       let minuscula: boolean=false;
       let mayuscula: boolean=false;
       let caracterEspecial: boolean = false;
