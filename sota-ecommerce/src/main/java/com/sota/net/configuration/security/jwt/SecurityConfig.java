@@ -49,7 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 			.authorizeRequests()
-				.antMatchers("/api/**").permitAll();
+				.antMatchers("/api/login","api/usuario/email","/api/registro/usuarios").permitAll()
+				.antMatchers("/api/producto/**","/api/uploads/**").permitAll()
+				.antMatchers("/api/pedido/**").not().hasAnyRole("ADMINISTRADOR","SECRETARIO")
+				.antMatchers("/api/administrador/**").hasAnyRole("ADMINISTRADOR","SECRETARIO")
+				.antMatchers("/usuario/{idUsuario}","/usuario/{id}").hasRole("ADMINISTRADOR");
+				
 	}
 
 	@Override

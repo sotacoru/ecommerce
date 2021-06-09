@@ -1,10 +1,19 @@
 package com.sota.net.entity.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 
 public class UsuarioBusqueda {
+	
+	@ApiModelProperty(value = "Nombre del usuario", dataType = "String", example = "Pepe", position = 1)
     private String nombre;
+	
+	@ApiModelProperty(value = "Primer apellido del usuario", dataType = "String", example = "Rodríguez", position = 2)
     private String primerapellido;
+	
+	@ApiModelProperty(value = "Segundo apellido del usuario", dataType = "String", example = "López", position = 3)
     private String segundoapellido;
+	
+	@ApiModelProperty(value = "Email del usuario", dataType = "String", example = "email@email.com", position = 4)
     private String email;
 
     public UsuarioBusqueda(String nombre, String primerapellido, String segundoapellido, String email) {
