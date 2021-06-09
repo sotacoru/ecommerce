@@ -79,7 +79,7 @@ export class AdministrarUsuariosComponent implements OnInit {
         confirmButtonText: 'Sin contraseña',
         cancelButtonText: 'Con contraseña',
       }).then((result) => {
-        if (!result.isDismissed) {
+        if (!result.isDenied) {
           this.router.navigate(['/administrador/actualizar/', usuario.idUsuario, result.isConfirmed]);
         }
       })
@@ -102,7 +102,7 @@ export class AdministrarUsuariosComponent implements OnInit {
           response.intentos = 3
           response.bloqueada = false;
           this.administrarUsuarioService.update(response).subscribe(response => {
-            Swal.fire('Desbloqueo', `Usuario ${usuario.nombre} desbloqueado`, 'success');
+            window.location.reload();
           });
         });
       }
