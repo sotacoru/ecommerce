@@ -1,4 +1,4 @@
-<div class="card border-primary mb-3">
+<div class="card border-primary mb-6">
   <div class="card-header">Usuarios</div>
   <div class="card-body text-primary">
     <h5 class="card-title">Listado de usuarios</h5>
@@ -30,7 +30,7 @@
           <th>Segundo apellido</th>
           <th>Tipo perfil</th>
           <th colspan="3">
-            <button type="button" name="edssdds" class="btn btn-primary" (click)="addSecretarioAdmin()">
+            <button type="button" name="edssdds" class="btnAnhadir btn-lg btn-primary btn-block" (click)="addSecretarioAdmin()">
               Añadir usuario
           </button>
           </th>
@@ -48,17 +48,14 @@
               editar
           </button>
           </td>
-          <td *ngIf="usuario.email==nombreUsuario || rolUsuario!='ADMINISTRADOR'">
-            <button type="button" name="eliminar"  class="btn btn-danger" disabled>
-              Eliminar
-          </button>
-          <td *ngIf="usuario.email!=nombreUsuario && rolUsuario=='ADMINISTRADOR'">
-            <button type="button" name="eliminar" (click)="delete(usuario)" class="btn btn-danger">
+          <td>
+            <button type="button" name="eliminar" (click)="delete(usuario)" class="btn" [disabled]="usuario.email===nombreUsuario'">
               Eliminar
             </button>
           </td>
           <td>
-            <button type="button" name="Desbloquear" (click)="preguntaDesbloquear(usuario)" class="btn btn-danger" [disabled]="!usuario.bloqueada">
+            <button type="button" name="Desbloquear" (click)="preguntaDesbloquear(usuario)"
+             class="btn background-color:#CB2E19 btn-primary btn-block" [disabled]="!usuario.bloqueada">
               Desbloquear
             </button>
           </td>
