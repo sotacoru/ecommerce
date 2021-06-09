@@ -14,7 +14,8 @@ import {ModalUsuarioService} from '../modal-usuario/modal-usuario.service';
 })
 export class HeaderComponent implements OnInit {
 
-  itemsButton: MenuItem[] = [];
+  itemsButtonAd: MenuItem[] = [];
+  itemsButtonCli: MenuItem[] = [];
   items: MenuItem[] = [];
   subitems: MenuItem[] = [];
   abierto: boolean = false;
@@ -42,6 +43,7 @@ export class HeaderComponent implements OnInit {
         )
         this.categorias = response;
       }
+
     )
 
     this.items = [
@@ -57,7 +59,13 @@ export class HeaderComponent implements OnInit {
       },
     ];
 
-    this.itemsButton = [
+    this.itemsButtonAdmin();
+    this.itemsButtonCliente();
+
+  }
+
+  itemsButtonAdmin(): void{
+    this.itemsButtonAd = [
       {
         label: 'Información perfil', command: () => {
           this.abrirModal2()
@@ -70,14 +78,27 @@ export class HeaderComponent implements OnInit {
         }
       }
     ]
+  }
 
 
-    if (this.nombre == '') {
-      this.authService.getUsuario().subscribe(usuario => {
-          this.nombre = usuario.nombre;
+  itemsButtonCliente(): void{
+
+    this.itemsButtonCli = [
+      {
+        label: 'Información perfil', command: () => {
+          this.abrirModal2()
         }
-      )
-    }
+      },
+      {
+        label: 'Cerrar sesión', command: () => {
+          this.authService.logout()
+        }
+      }
+    ]
+  }
+
+  isAdmin(): boolean{
+    return !this.authService.isAuthenticated() || this.authService.getPerfil() === 'ADMINISTRADOR';
   }
 
   isCliente(): boolean {

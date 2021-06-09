@@ -15,7 +15,7 @@ export class AdministrarUsuariosComponent implements OnInit {
 
   usuarios: Usuario[];
   nombreUsuario: string = this.authService.usuario.email;
-  rolUsuario: string = this.authService.usuario.perfil.toString();
+  rolUsuario: string = this.authService.usuario.perfil.nombreperfil.toString();
   busqueda: UsuarioBusqueda = new UsuarioBusqueda();
 
   constructor(private administrarUsuarioService: AdministrarUsuariosService,
@@ -26,6 +26,7 @@ export class AdministrarUsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.administrarUsuarioService.getUsuario().subscribe(usuarios => {
+      console.log(usuarios);
       this.usuarios = usuarios
     });
   }
@@ -43,7 +44,7 @@ export class AdministrarUsuariosComponent implements OnInit {
     }).then((result) => {
       console.log(result.isConfirmed);
       if (result.isConfirmed) {
-        this.administrarUsuarioService.deleteUsuario(usuario.idUsuario).subscribe(
+        this.administrarUsuarioService.deleteUsuario(usuario.idusuario).subscribe(
           response => {
             this.usuarios = this.usuarios.filter(user => user !== usuario);
           }
@@ -77,14 +78,35 @@ export class AdministrarUsuariosComponent implements OnInit {
         cancelButtonColor: '#69F129',
         confirmButtonText: 'Sin contraseña',
         cancelButtonText: 'Con contraseña',
-        showDenyButton: true,
-        denyButtonText: 'Cancelar'
       }).then((result) => {
         if (!result.isDenied) {
           this.router.navigate(['/administrador/actualizar/', usuario.idUsuario, result.isConfirmed]);
         }
       })
     }
+  }
+
+  preguntaDesbloquear(usuario: Usuario): void {
+    Swal.fire({
+      title: 'Desbloqueo',
+      text: `¿Desea desbloquear a este usuario?`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#69F129',
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (!result.isDismissed) {
+        this.administrarUsuarioService.getIdUsuarioByEmail(usuario.email).subscribe(response => {
+          response.intentos = 3
+          response.bloqueada = false;
+          this.administrarUsuarioService.update(response).subscribe(response => {
+            window.location.reload();
+          });
+        });
+      }
+    });
   }
 
   addSecretarioAdmin(): void {

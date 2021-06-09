@@ -5,6 +5,7 @@ import {PerfilService} from '../usuarios/perfil.service';
 import {Usuario} from '../entity/usuario';
 import {AuthUsuarioService} from '../servicios/auth-usuario-service';
 import {AdministrarUsuariosService} from '../administrar-usuarios/administrar-usuarios.service';
+import {ValidarRegis} from './validar-regis';
 
 import swal from 'sweetalert2';
 
@@ -19,14 +20,17 @@ export class LoginRegisComponent implements OnInit {
   usuario: Usuario;
   isLogin: boolean;
   passwordDisabled: boolean = false;
+  id: number;
+  intentos: number;
 
   constructor(private authService: AuthUsuarioService,
-              private router: Router,
-              private activateRoute: ActivatedRoute,
-              private perfilService: PerfilService,
-              private administrarUsuarioService: AdministrarUsuariosService) {
-    this.usuario = new Usuario();
-  }
+    private router: Router,
+    private activateRoute: ActivatedRoute,
+    private perfilService: PerfilService,
+    private administrarUsuarioService: AdministrarUsuariosService,
+    private validarRegis: ValidarRegis) {
+      this.usuario = new Usuario();
+     }
 
   ngOnInit(): void {
     this.cargarPerfiles();
@@ -42,14 +46,14 @@ export class LoginRegisComponent implements OnInit {
     );
   }
 
-  cargarUsuario(): void {
-    console.log('entre');
-    this.activateRoute.params.subscribe(params => {
-        let id = params['idusuario'];
+  cargarUsuario(): void{
+    this.activateRoute.params.subscribe(params =>{
+      //Id global para comprobar
+        this.id = params['idUsuario'];
         //Mirar si quiere cambiar la password
         this.passwordDisabled = params ['condicion'];
-        if (id) {
-          this.administrarUsuarioService.getUsuarioId(id).subscribe(
+        if(this.id){
+          this.administrarUsuarioService.getUsuarioId(this.id).subscribe(
             (usuario) => {
               this.usuario = usuario;
             }
@@ -60,179 +64,137 @@ export class LoginRegisComponent implements OnInit {
   }
 
 
-  login() {
-    //Validacion formulario
 
-    if (this.usuario.password == null || this.usuario.email == null) {
-      swal.fire('Error login', '¡Username o password vacíos!', 'error');
-      return;
-    } else if (!this.validarEmail(this.usuario.email)) {
-      swal.fire('Error formato email', 'Formato de la dirección de email no válido', 'error');
-      return;
+  login(){
+      //Validacion formulario
+
+      if(this.usuario.password == null || this.usuario.email == null){
+        //swal.fire('Error login', '¡Username o password vacíos!', 'error');
+        return;
+      }else if(!this.validarRegis.validarEmail(this.usuario.email)){
+        //swal.fire('Error formato email','Formato de la dirección de email no válido','error');
+        return;
+      }
+
+      this.authService.login(this.usuario).subscribe(response => {
+
+        if(response.bloqueada){
+          swal.fire('Error', `El usuario está bloqueado`, 'error');
+          return;
+        }
+
+        this.authService.guardarUsuario(response.token);
+        this.authService.guardarToken(response.token);
+        let usuario = this.authService.usuario;
+
+        if(usuario.perfil.nombreperfil==="ADMINISTRADOR"){
+          this.router.navigate(['administrador/productos']);
+        }else{
+          this.router.navigate(['/productos']);
+        }
+        swal.fire('Login', `Hola ${usuario.nombre}  has iniciado sesion correctamente`, 'success');
+      }, err => {
+        if (err.status == 403){
+            //Mensaje intentos
+            //swal.fire('Contraseña',`Contraseña incorrecta. Número de intentos restantes: ${this.intentos}` ,'error');
+
+            this.administrarUsuarioService.getIdUsuarioByEmail(this.usuario.email).subscribe( response =>
+            {
+              if(response.intentos>1){
+                response.intentos--;
+                this.administrarUsuarioService.update(response).subscribe();
+              }else{
+                response.intentos--;
+                response.bloqueada = true;
+                this.administrarUsuarioService.update(response).subscribe(response =>{
+                  swal.fire('Contraseña',`Usuario bloqueado` ,'error');
+                });
+              }
+
+            });
+        }else if(err.status == 500){
+          swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
+        }
+      });
+  }
+
+  registrarse(){
+    if(this.validarRegis.validarFormatoCampos(this.usuario, this.passwordDisabled)){
+      if(this.id==undefined && this.isLogged()){
+        this.crearUsuarioByAdmin();
+      }else if(this.isLogged()){
+        this.updateUsuario();
+      }else{
+        this.registroNormal();
+      }
+
     }
+  }
 
-    this.authService.login(this.usuario).subscribe(response => {
+  registroNormal(): void{
+    this.authService.registro(this.usuario).subscribe( response => {
 
       this.authService.guardarUsuario(response.token);
       this.authService.guardarToken(response.token);
-
       let usuario = this.authService.usuario;
       this.router.navigate(['/productos']);
-      swal.fire('Login', `Hola ${usuario.nombre}  has iniciado sesion correctamente`, 'success');
+      swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
+
     }, err => {
-      if (err.status == 403) {
-        swal.fire('Error Login', 'Usuario o clave incorrecta!', 'error');
+      if(err.status == 500){
+        swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
       }
     });
   }
 
-  registrarse() {
-    if (this.validarFormatoCampos()) {
-      console.log(this.isLogged());
-      console.log(this.passwordEditable());
-      //Si editable = undefined significa que entró a añadir un usuario;
-      if (this.isLogged() && this.passwordEditable() != undefined) {
-
-        this.administrarUsuarioService.update(this.usuario).subscribe(
-          usuario => {
-            console.log(usuario.nombre);
-            this.router.navigate(['/administrador/lista']);
-            swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
-          });
-        //Si está logueado y editable = undefined significa que es un admin añadiendo a un usuario
-      } else if (this.isLogged() && this.passwordEditable() == undefined) {
-        this.authService.registro(this.usuario).subscribe(response => {
-
-          this.router.navigate(['/administrador/lista']);
-          swal.fire('Usuario añadido', `¡Usuario ${response.nombre} añadido!`, 'success');
-        }, err => {
-          if (err.status == 500) {
-            swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro', 'error');
-          }
-        });
-      } else {
-        this.authService.registro(this.usuario).subscribe(response => {
-          this.authService.guardarUsuario(response.token);
-          this.authService.guardarToken(response.token);
-          let usuario = this.authService.usuario;
-          this.router.navigate(['/productos']);
-          swal.fire('Login', `¡Bienvenid@ ${usuario.nombre}!`, 'success');
-        }, err => {
-          if (err.status == 500) {
-            swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro', 'error');
-          }
-        });
+  crearUsuarioByAdmin(): void{
+    this.authService.registro(this.usuario).subscribe( response => {
+      this.router.navigate(['/administrador/lista']);
+      swal.fire('Usuario añadido', `¡Usuario ${response.nombre} añadido!`, 'success');
+    }, err => {
+      if(err.status == 500){
+        swal.fire('Error', 'El email introducido ya está registrado en nuestro comercio. Pruebe con otro','error');
       }
-    }
+    });
+  }
+
+  updateUsuario(): void{
+    this.administrarUsuarioService.update(this.usuario).subscribe(
+      usuario => {
+          this.router.navigate(['/administrador/lista']);
+          console.log(usuario);
+          swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
+
+      });
   }
 
   isLogged(): boolean {
     return this.authService.isAuthenticated();
   }
 
-  validarFormatoCampos(): boolean {
-
-    if (!this.validarEmail(this.usuario.email)) {
-
-      swal.fire('Error formato email', 'El formato del correo electrónico no es válido. Ejemplo: ejemplo@gmail.com', 'error');
-      return false;
-
-    } else if (!this.validarPassword(this.usuario.password)) {
-
-      swal.fire('Error en el formato de la contraseña', 'La contraseña indicada debe contener minúsculas, mayúsculas y caracteres especiales de tipo:"." "," "/" "-" "_"', 'error');
-      return false;
-
-    } else if (!this.compararPassword(this.usuario.password, this.usuario.password2)) {
-
-      swal.fire('Error al comparar las contraseñas', 'Las contraseñas deben ser iguales', 'error');
-      return false;
-
-    }
-
-    return true;
-  }
-
-  validarEmail(email: any): boolean {
-
-    return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es|gal|net|org)+$/.test(email);
-
-  }
-
-  validarPassword(password1: String): boolean {
-    console.log(this.passwordEditable());
-    if (this.passwordEditable() == undefined || this.passwordEditable()) {
-      let minuscula: boolean = false;
-      let mayuscula: boolean = false;
-      let caracterEspecial: boolean = false;
-
-      for (let i = 0; i < password1.length; i++) {
-        if (this.esMayuscula(password1.charAt(i)) && !mayuscula) {
-          mayuscula = true;
-        }
-
-        if (this.esMinuscula(password1.charAt(i)) && !minuscula) {
-          minuscula = true;
-        }
-
-        if (this.esCaracterEspecial(password1.charAt(i)) && !caracterEspecial) {
-          caracterEspecial = true;
-        }
-
-        if (minuscula && mayuscula && caracterEspecial) {
-          return true;
-        }
-      }
-    } else {
+  compararPerfil(perfil: Perfil, perfil2: Perfil){
+    if(perfil===undefined && perfil2===undefined){
       return true;
     }
-    return false;
-  }
-
-
-  compararPassword(password1: String, password2: String): any {
-    return password1 == password2;
-  }
-
-  esMayuscula(letra: String): boolean {
-    return letra == letra.toUpperCase();
-  }
-
-  esMinuscula(letra: String): boolean {
-    return letra == letra.toLowerCase();
-  }
-
-  esCaracterEspecial(letra: String): boolean {
-    let caracterEspecial = [".", ",", "/", "-", "_"];
-    for (let caracter of caracterEspecial) {
-      if (caracter == letra) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  compararPerfil(perfil: Perfil, perfil2: Perfil) {
-    if (perfil === undefined && perfil2 === undefined) {
-      return true;
-    }
-    return perfil === null || perfil2 === null || perfil === undefined || perfil2 === undefined ?
-      false : perfil.idperfil === perfil2.idperfil
+      return perfil ===null || perfil2===null||perfil ===undefined || perfil2===undefined?
+        false: perfil.idperfil === perfil2.idperfil
   }
 
   //SI es true no se puede editar
-  passwordEditable(): boolean {
-    return this.passwordDisabled;
-  }
-
-  deshabilitarSelect(perfil: Perfil): boolean {
-    if (perfil === undefined && this.isLogged()) {
-      return false;
-    } else if (perfil === undefined && !this.isLogged()) {
-      return true;
-    } else if (perfil.nombreperfil === 'CLIENTE' && this.isLogged()) {
-      return true;
+    passwordEditable(): boolean{
+      return this.passwordDisabled;
     }
-    return perfil === null || perfil === undefined ?
-      true : perfil.idperfil === 1 && this.isLogged();
-  }
+
+    deshabilitarSelect(perfil: Perfil): boolean{
+      if(perfil===undefined && this.isLogged()){
+        return false;
+      }else if(perfil===undefined && !this.isLogged()){
+        return true;
+      }
+      else if(perfil.nombreperfil==='CLIENTE' && this.isLogged()){
+        return true;
+      }
+        return perfil ===null || perfil ===undefined?
+          true: perfil.idperfil === 1 && this.isLogged();
+    }
 }
