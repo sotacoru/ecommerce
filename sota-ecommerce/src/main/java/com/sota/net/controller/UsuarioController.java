@@ -216,7 +216,6 @@ public class UsuarioController {
 	//Aquí solo entra si existe
 	@PostMapping("/usuario/email")
 	public GetUsuarioDto idUserByEmail(@RequestBody String email){
-		System.out.println(email);
 		Usuario u = (Usuario) userDetailsService.loadUserByUsername(email);
 		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(u); 
 	}
