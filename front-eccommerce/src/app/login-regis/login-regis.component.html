@@ -19,22 +19,47 @@
         <label for="emaillog">
           Email <span class="req">*</span>
         </label>
-        <input type="email" class="input" id="emaillog" name="emaillog" required autocomplete="off"
-               [(ngModel)]="usuario.email"/>
+        <input required type="email" id="emaillog" class="form-control input" name="emaillog" autocomplete="off"
+          [(ngModel)]="usuario.email"  minlength="9" maxlength="320" #emaillog="ngModel"/>
+
+          <div *ngIf="(emaillog.invalid && (emaillog.dirty || emaillog.touched))"
+            class="alert alert-danger">
+            <div *ngIf="emaillog.errors?.required">
+              - El campo email es obligatorio
+            </div>
+            <div *ngIf="emaillog.errors?.minlength">
+              - El campo email debe tener por lo menos 9 caracteres
+            </div>
+          </div>
+
       </div>
 
       <div class="field-wrap">
         <label for="passwordlog">
           Password<span class="req">*</span>
         </label>
-        <input type="password" class="input" [(ngModel)]="usuario.password" class="form-control"
-               placeholder="Contraseña" name="passwordlog" id="passwordlog" required autocomplete="off"/>
+        <input type="password" class="input" [(ngModel)]="usuario.password" class="input"
+               name="passwordlog" id="passwordlog" required autocomplete="off"
+               minlength="6" maxlength="30" #passwordlog="ngModel"/>
+
+               <div *ngIf="passwordlog.invalid && (passwordlog.dirty ||passwordlog.touched)"
+                 class="alert alert-danger">
+                 <div *ngIf="passwordlog.errors?.required">
+                   El campo contraseña es obligatorio
+                 </div>
+                 <div *ngIf="passwordlog.errors?.minlength">
+                   El campo contraseña debe tener por lo menos 6 caracteres
+                 </div>
+               </div>
+      </div>
+      <div *ngIf="!loginIncorrecto!=undefined" style="color:#FF0000;">
+        {{loginIncorrecto}}
       </div>
 
+        <button [disabled]="!usuarioForm.form.valid || !validarRegis.validarEmail(usuario.email)" (click)='login()' class="button button-block">
+          Log In
+        </button>
 
-      <button [disabled]="!usuarioForm.form.valid" (click)='login()' class="button button-block">
-        Log In
-      </button>
 
     </form>
     <form #regisForm='ngForm' *ngIf="!isLogin" method="post">
@@ -44,20 +69,55 @@
           <label>
             Nombre <span class="req">*</span>
           </label>
-          <input type="text" class="input" name="nombre" required autocomplete="off" [(ngModel)]="usuario.nombre"/>
+          <input type="text" class="input" id="nombre" name="nombre" required autocomplete="off"
+          minlength="2" maxlength="20" [(ngModel)]="usuario.nombre" #nombre="ngModel"/>
+
+          <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+            class="alert alert-danger">
+            <div *ngIf="nombre.errors?.required">
+              El campo nombre es obligatorio
+            </div>
+            <div *ngIf="nombre.errors?.minlength">
+              El campo nombre debe tener por lo menos 2 caracteres
+            </div>
+          </div>
+
         </div>
 
         <div class="field-wrap">
           <label>Primer Apellido <span class="req">*</span>
           </label>
-          <input type="text" class="input" name="primerapellido"
-                 [(ngModel)]="usuario.primerapellido" required autocomplete="off"/>
+          <input type="text" class="input" name="primerapellido" id="primerapellido" [(ngModel)]="usuario.primerapellido"
+          required autocomplete="off" minlength="2" maxlength="20" #primerapellido="ngModel"/>
+
+                 <div *ngIf="primerapellido.invalid && (primerapellido.dirty || primerapellido.touched)"
+                   class="alert alert-danger">
+                   <div *ngIf="primerapellido.errors?.required">
+                     El campo primer apellido es obligatorio
+                   </div>
+                   <div *ngIf="primerapellido.errors?.minlength">
+                     El campo primer apellido debe tener por lo menos 2 caracteres
+                   </div>
+                 </div>
+
         </div>
         <div class="field-wrap">
           <label>Segundo Apellido <span class="req">*</span>
           </label>
-          <input type="text" class="input" name="primerapellido"
-                 [(ngModel)]="usuario.segundoapellido" required autocomplete="off"/>
+          <input type="text" class="input" name="segundoapellido" [(ngModel)]="usuario.segundoapellido"
+          id="segundoapellido" required autocomplete="off" minlength="2" maxlength="20"
+          #segundoapellido="ngModel"/>
+
+          <div *ngIf="segundoapellido.invalid && (segundoapellido.dirty || segundoapellido.touched)"
+            class="alert alert-danger">
+            <div *ngIf="segundoapellido.errors?.required">
+              El campo segundo apellido es obligatorio
+            </div>
+            <div *ngIf="segundoapellido.errors?.minlength">
+              El campo segundo apellido debe tener por lo menos 2 caracteres
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -65,25 +125,66 @@
         <label for="email">
           Email <span class="req">*</span>
         </label>
-        <input type="email" class="input" required autocomplete="off" id="email" name="email"
-               [(ngModel)]="usuario.email"/>
+        <input type="email" class="input" required autocomplete="off" id="email" name="email" minlength="9" maxlength="320"
+               [(ngModel)]="usuario.email" #email="ngModel"/>
+
+               <div *ngIf="(email.invalid && (email.dirty || email.touched)) || !validarRegis.validarEmail(usuario.email)"
+                 class="alert alert-danger">
+                 <div *ngIf="email.errors?.required">
+                   - El campo email es obligatorio
+                 </div>
+                 <div *ngIf="email.errors?.minlength">
+                   - El campo email debe tener por lo menos 9 caracteres
+                 </div>
+                 <div *ngIf="!validarRegis.validarEmail(usuario.email)">
+                   - El formato del email es incorrecto
+                 </div>
+               </div>
       </div>
 
       <div class="field-wrap">
         <label>
           Contraseña<span class="req">*</span>
         </label>
-        <input type="password" class="input" required name="password" [(ngModel)]="usuario.password"
-               [disabled]="passwordEditable()"
-               autocomplete="off"/>
+        <input type="password" class="input" required name="password" [(ngModel)]="usuario.password" id="password"
+          minlength="6" maxlength="30" [disabled]="passwordEditable()" autocomplete="off" #password="ngModel"/>
+
+          <div *ngIf="(password.invalid && (password.dirty ||password.touched)) || !validarRegis.validarPassword(usuario.password)"
+            class="alert alert-danger">
+            <div *ngIf="password.errors?.required">
+              - El campo contraseña es obligatorio
+            </div>
+            <div *ngIf="password.errors?.minlength">
+              - El campo contraseña debe tener por lo menos 6 caracteres
+            </div>
+            <div *ngIf="!validarRegis.validarPassword(usuario.password)">
+              - El campo contraseña debe contener como mínimo: Una letra mayúscula, una letra minúscula y un caracter especial
+            </div>
+          </div>
       </div>
+
       <div class="field-wrap">
         <label>
           Repite Contraseña<span class="req">*</span>
         </label>
-        <input type="password" class="input" required name="password2" [(ngModel)]="usuario.password2"
-               [disabled]="passwordEditable()" autocomplete="off"/>
+        <input type="password" class="input" required name="password2" id="password2" [(ngModel)]="usuario.password2"
+          minlength="6" maxlength="30" [disabled]="passwordEditable()" autocomplete="off" #password2="ngModel"/>
+          <div *ngIf="(password2.invalid && (password2.dirty ||password2.touched)) ||
+          (!validarRegis.compararPassword(usuario.password,usuario.password2) &&
+            validarRegis.validarPassword(usuario.password))"
+            class="alert alert-danger">
+            <div *ngIf="password2.errors?.required">
+              - El campo repite contraseña es obligatorio
+            </div>
+            <div *ngIf="password2.errors?.minlength">
+              - El campo repite contraseña debe tener por lo menos 6 caracteres
+            </div>
+            <div *ngIf="!validarRegis.compararPassword(usuario.password,usuario.password2)">
+              - Las contraseñas deben coincidir
+            </div>
+          </div>
       </div>
+
       <div class="field-wrap" *ngIf="!deshabilitarSelect(usuario.perfil)">
         <select [compareWith]="compararPerfil" class="custom-select mr-sm-2 select" [(ngModel)]="usuario.perfil"
                 name="perfil">
@@ -91,7 +192,11 @@
         </select>
       </div>
 
-      <button [disabled]="!regisForm.form.valid" (click)='registrarse()' type="submit" class="button button-block">
+      <div *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000;">
+        {{registroIncorrecto}}
+      </div>
+
+      <button [disabled]="!regisForm.form.valid || !validarRegis.validarFormatoCampos(usuario, passwordDisabled)" (click)='registrarse()' type="submit" class="button button-block">
         Registrar
       </button>
 
