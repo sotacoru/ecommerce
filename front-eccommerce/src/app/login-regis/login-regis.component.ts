@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Perfil } from '../entity/perfil';
-import { PerfilService} from '../usuarios/perfil.service';
-import { Usuario } from '../entity/usuario';
-import { AuthUsuarioService } from '../servicios/auth-usuario-service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Perfil} from '../entity/perfil';
+import {PerfilService} from '../usuarios/perfil.service';
+import {Usuario} from '../entity/usuario';
+import {AuthUsuarioService} from '../servicios/auth-usuario-service';
 import {AdministrarUsuariosService} from '../administrar-usuarios/administrar-usuarios.service';
 import {ValidarRegis} from './validar-regis';
 
@@ -16,9 +16,7 @@ import swal from 'sweetalert2';
 })
 export class LoginRegisComponent implements OnInit {
 
-  titulo: string = 'Por favor, sign in';
-  titulo2: string = 'Por favor, registrese';
-  perfiles: Perfil[]=[];
+  perfiles: Perfil[] = [];
   usuario: Usuario;
   isLogin: boolean;
   passwordDisabled: boolean = false;
@@ -40,7 +38,7 @@ export class LoginRegisComponent implements OnInit {
 
   }
 
-  cargarPerfiles(): void{
+  cargarPerfiles(): void {
     this.perfilService.getPerfil().subscribe(
       perfiles => {
         this.perfiles = perfiles;
@@ -170,7 +168,7 @@ export class LoginRegisComponent implements OnInit {
       });
   }
 
-  isLogged(): boolean{
+  isLogged(): boolean {
     return this.authService.isAuthenticated();
   }
 
