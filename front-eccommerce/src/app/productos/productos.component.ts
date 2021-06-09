@@ -136,8 +136,11 @@ export class ProductosComponent implements OnInit {
     } else {
       this.pedido = new PedidoDto();
       this.pedido.precioTotal = 0;
-      this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.authService.usuario);
-      this.pedido.idUsuario.idUsuario = this.authService.getSub()
+      if (this.authService.isAuthenticated()) {
+        this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.authService.usuario);
+      } else {
+        this.pedido.idUsuario = null;
+      }
       this.pedidoService.postPedido(this.pedido)
       this.pedido.precioTotal = producto.precio
       this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
