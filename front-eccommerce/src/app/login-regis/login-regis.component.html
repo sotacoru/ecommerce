@@ -1,5 +1,4 @@
 <div class="form">
-
   <ul class="tab-group" *ngIf="!isLogged()">
 
     <li class="tab"><a (click)='isLogin = true'>Login</a></li>
@@ -9,17 +8,18 @@
   </ul>
 
   <div class="tab-content">
+    <h1 *ngIf="isLogin">Bienvenido! <img [src]="['assets/images/logo.png']" alt="atos"
+                                         class="img-fluid rounded-circle m-2" width="10%"></h1>
+    <h1 *ngIf="!isLogin && !isLogged()">Regístrate Gratis! <img [src]="['assets/images/logo.png']" alt="atos"
+                                                                class="img-fluid rounded-circle m-2" width="10%"></h1>
 
-    <h1 *ngIf="isLogin">Bienvenido!</h1>
-    <h1 *ngIf="!isLogin && !isLogged()">Regístrate Gratis!</h1>
 
-
-    <form *ngIf="isLogin" method="post">
+    <form #usuarioForm='ngForm' *ngIf="isLogin" method="post">
       <div class="field-wrap">
         <label for="emaillog">
           Email <span class="req">*</span>
         </label>
-        <input type="email" id="emaillog" name="emaillog" id="emaillog" required autocomplete="off"
+        <input type="email" class="input" id="emaillog" name="emaillog" required autocomplete="off"
                [(ngModel)]="usuario.email"/>
       </div>
 
@@ -27,36 +27,36 @@
         <label for="passwordlog">
           Password<span class="req">*</span>
         </label>
-        <input type="password" [(ngModel)]="usuario.password" class="form-control"
+        <input type="password" class="input" [(ngModel)]="usuario.password" class="form-control"
                placeholder="Contraseña" name="passwordlog" id="passwordlog" required autocomplete="off"/>
       </div>
 
 
-      <button (click)='login()' class="button button-block">
+      <button [disabled]="!usuarioForm.form.valid" (click)='login()' class="button button-block">
         Log In
       </button>
 
     </form>
-    <form *ngIf="!isLogin" method="post">
+    <form #regisForm='ngForm' *ngIf="!isLogin" method="post">
 
       <div class="top-row">
         <div class="field-wrap">
           <label>
             Nombre <span class="req">*</span>
           </label>
-          <input type="text" name="nombre" required autocomplete="off" [(ngModel)]="usuario.nombre"/>
+          <input type="text" class="input" name="nombre" required autocomplete="off" [(ngModel)]="usuario.nombre"/>
         </div>
 
         <div class="field-wrap">
           <label>Primer Apellido <span class="req">*</span>
           </label>
-          <input type="text" name="primerapellido"
+          <input type="text" class="input" name="primerapellido"
                  [(ngModel)]="usuario.primerapellido" required autocomplete="off"/>
         </div>
         <div class="field-wrap">
           <label>Segundo Apellido <span class="req">*</span>
           </label>
-          <input type="text" name="primerapellido"
+          <input type="text" class="input" name="primerapellido"
                  [(ngModel)]="usuario.segundoapellido" required autocomplete="off"/>
         </div>
       </div>
@@ -65,14 +65,15 @@
         <label for="email">
           Email <span class="req">*</span>
         </label>
-        <input type="email" required autocomplete="off" id="email" name="email" [(ngModel)]="usuario.email"/>
+        <input type="email" class="input" required autocomplete="off" id="email" name="email"
+               [(ngModel)]="usuario.email"/>
       </div>
 
       <div class="field-wrap">
         <label>
           Contraseña<span class="req">*</span>
         </label>
-        <input type="password" required name="password" [(ngModel)]="usuario.password"
+        <input type="password" class="input" required name="password" [(ngModel)]="usuario.password"
                [disabled]="passwordEditable()"
                autocomplete="off"/>
       </div>
@@ -80,17 +81,17 @@
         <label>
           Repite Contraseña<span class="req">*</span>
         </label>
-        <input type="password" required name="password2" [(ngModel)]="usuario.password2"
+        <input type="password" class="input" required name="password2" [(ngModel)]="usuario.password2"
                [disabled]="passwordEditable()" autocomplete="off"/>
       </div>
       <div class="field-wrap" *ngIf="!deshabilitarSelect(usuario.perfil)">
-        <select [compareWith]="compararPerfil" class="custom-select mr-sm-2" [(ngModel)]="usuario.perfil"
+        <select [compareWith]="compararPerfil" class="custom-select mr-sm-2 select" [(ngModel)]="usuario.perfil"
                 name="perfil">
           <option *ngFor="let perfil of perfiles" [ngValue]="perfil">{{perfil.nombreperfil}}</option>
         </select>
       </div>
 
-      <button (click)='registrarse()' type="submit" class="button button-block">
+      <button [disabled]="!regisForm.form.valid" (click)='registrarse()' type="submit" class="button button-block">
         Registrar
       </button>
 
