@@ -5,6 +5,7 @@ import com.sota.net.entity.Categoria;
 import com.sota.net.entity.Producto;
 
 //import com.sota.net.entity.Producto_;
+import com.sota.net.entity.Producto_;
 import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.repository.IProductoRepository;
 import com.sota.net.service.IProductoService;
