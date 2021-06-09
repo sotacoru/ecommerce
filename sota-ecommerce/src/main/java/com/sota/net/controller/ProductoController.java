@@ -6,6 +6,7 @@ import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.service.IFotoService;
 import com.sota.net.service.IPedidoProductoService;
 import com.sota.net.service.IProductoService;
+import com.sota.net.utils.errores.UtilsCommonErrores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
@@ -21,7 +22,7 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -48,7 +49,7 @@ public class ProductoController {
 
         Map<String, Object> response = new HashMap<>();
 
-        if (ProductoController.comporbarBindingResult(bindingResult, response))
+        if (UtilsCommonErrores.comporbarBindingResult(bindingResult, response))
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
         return ResponseEntity.ok(this.productoService.findWithFilter(pb));
@@ -60,7 +61,7 @@ public class ProductoController {
         Producto producto = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            producto = this.productoService.findById(id).get();
+            producto = this.productoService.findById(id).orElse(null);
         } catch (DataAccessException e) {
             response.put("error", "No se ha podido acceder al recurso");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -99,7 +100,7 @@ public class ProductoController {
 
         Map<String, Object> response = new HashMap<>();
 
-        if (ProductoController.comporbarBindingResult(result, response))
+        if (UtilsCommonErrores.comporbarBindingResult(result, response))
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         try {
             newProducto = this.productoService.save(producto);
@@ -120,19 +121,20 @@ public class ProductoController {
     @PutMapping("/administracion/producto/{id}")
     public ResponseEntity<?> update(@RequestBody Producto producto, BindingResult result, @PathVariable Long id) {
 
-        Producto productoActual = this.productoService.findById(id).get();
+        Producto productoActual = this.productoService.findById(id).orElse(null);
         Map<String, Object> response = new HashMap<>();
 
         Producto productoUpdate = null;
 
-        if (ProductoController.comporbarBindingResult(result, response))
+        if (UtilsCommonErrores.comporbarBindingResult(result, response))
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
-        if (productoActual == null) {
+        if (productoActual==null) {
             response.put("mensaje", "Error, no se puede editar, el cliente con el ID:"
                     .concat(id.toString().concat(" no existe en la bbdd")));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+
 
         try {
             productoActual.setNombre(producto.getNombre());
@@ -150,32 +152,21 @@ public class ProductoController {
 
         response.put("mensaje", "El producto ha sido creado con exito!");
         response.put("producto", productoUpdate);
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
 
-    private static boolean comporbarBindingResult(BindingResult result, Map<String, Object> response) {
-        if (!result.hasErrors()) {
-            return false;
-        }
-        List<String> errors = result.getFieldErrors().stream()
-                .map(err -> "El campo:'" + err.getField() + "' " + err.getDefaultMessage())
-                .collect(Collectors.toList());
-        response.put("errors", errors);
-        return true;
-    }
 
     @DeleteMapping("/administracion/producto/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
-        Producto productoBorrar = this.productoService.findById(id).get();
-        if (productoBorrar == null) {
+        Producto productoBorrar = this.productoService.findById(id).orElse(null);
+        if (productoBorrar==null) {
             response.put("mensaje", "El producto que intenta eliminar no existe");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
             this.ppservices.deleteProducto(productoBorrar);
-
             this.productoService.delete(id);
         } catch (DataAccessException e) {
             response.put("error", "No se hay podido eliminar el producto");
@@ -190,8 +181,11 @@ public class ProductoController {
     @PostMapping("/administracion/productos/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
         Map<String, Object> response = new HashMap<>();
-        Producto producto = this.productoService.findById(id).get();
-
+        Producto producto = this.productoService.findById(id).orElse(null);
+        if (producto==null){
+            response.put("mensaje", "El producto no existe");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
         if (!archivo.isEmpty()) {
             String nombreArchivo = null;
             try {
@@ -201,6 +195,7 @@ public class ProductoController {
                 response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
+
             String nombreFotoAntiguo = producto.getFoto();
             
             

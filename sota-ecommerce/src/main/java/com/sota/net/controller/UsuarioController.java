@@ -1,7 +1,6 @@
 package com.sota.net.controller;
 
 import com.sota.net.configuration.security.jwt.JwtProvider;
-
 import com.sota.net.entity.Perfil;
 import com.sota.net.entity.Usuario;
 import com.sota.net.entity.dto.UsuarioBusqueda;
@@ -11,6 +10,7 @@ import com.sota.net.model.LoginRequest;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.CustomUserDetailsService;
 import com.sota.net.service.IUsuarioService;
+import com.sota.net.utils.errores.UtilsCommonErrores;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import com.sota.net.entity.dto.GetUsuarioDto;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -70,23 +69,19 @@ public class UsuarioController {
 
 		return usuarioDtoConverter.convertListUsuarioEntityToGetUserDto1(usuario);
 	}
-	
+
 	@PostMapping("usuario/busqueda")
 	public ResponseEntity<?> buscarUsuario(@RequestBody UsuarioBusqueda ub, BindingResult result){
 		Map<String, Object> response = new HashMap<>();
-		if (result.hasErrors()) {
-			List<String> errors = result.getFieldErrors().stream()
-					.map(err -> "El campo " + err.getField() + err.getDefaultMessage()).collect(Collectors.toList());
-			response.put("errors", errors);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-		}
+		if (UtilsCommonErrores.comporbarBindingResult(result, response))
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		return ResponseEntity.ok(this.usuarioService.findWithFilter(ub));
 	}
 
 	// MOSTRAR USUARIO POR ID
 	@RequestMapping(value = "/usuario/{idUsuario}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> show(@PathVariable Long idUsuario) {
-		Usuario usuario = usuarioService.findById(idUsuario);
+		Usuario usuario = null;
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -95,11 +90,11 @@ public class UsuarioController {
 		} catch (DataAccessException e) {
 			response.put("mensaje", "El usuario ID no existe en la BBDD");
 			response.put("error", e.getMessage().concat(" : ".concat(e.getMostSpecificCause().getMessage())));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if (usuario == null) {
 			response.put("mensaje", "El usuario ID: ".concat(idUsuario.toString().concat(" no existe en la BBDD")));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuario), HttpStatus.OK);
 	}
@@ -114,21 +109,17 @@ public class UsuarioController {
 		
 		if(usuario.getPerfil()==null) {
 			Perfil p = new Perfil(Long.parseLong("1"),"CLIENTE");
+
 			usuario.setPerfil(p);
 		}
 
-		if (result.hasErrors()) {
-			System.out.println("Error 1");
-			List<String> errors = result.getFieldErrors().stream()
-					.map(err -> "El campo " + err.getField() + err.getDefaultMessage()).collect(Collectors.toList());
-			response.put("errors", errors);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-		}
+		if (UtilsCommonErrores.comporbarBindingResult(result, response))
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
 		try {
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()).toString());
 			usuario.setBloqueada(false);
-			
+
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
 			System.out.println("Error 2");
@@ -136,6 +127,7 @@ public class UsuarioController {
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
+		System.out.println("entré2");
 
 		return creacionTokenUsuario(usuarioNew.getEmail(),passwordUsuario);
 				
@@ -148,19 +140,13 @@ public class UsuarioController {
 		Usuario usuarioNew = null;
 		Map<String, Object> response = new HashMap<>();
 
-		
-		if (result.hasErrors()) {
-
-			List<String> errors = result.getFieldErrors().stream()
-					.map(err -> "El campo " + err.getField() + err.getDefaultMessage()).collect(Collectors.toList());
-			response.put("errors", errors);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-		}
+		if (UtilsCommonErrores.comporbarBindingResult(result, response))
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
 		if (usuarioActual == null) {
 			response.put("mensaje",
 					"Error, no se puede editar: ".concat(idUsuario.toString().concat(" no existe en la BBDD")));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
 
 		try {
@@ -171,7 +157,7 @@ public class UsuarioController {
 			usuarioActual.setPerfil(usuario.getPerfil());
 			usuarioActual.setBloqueada(usuario.getBloqueada());
 			usuarioActual.setIntentos(usuario.getIntentos());
-			
+
 			if(usuario.getPassword()!=null) {
 				usuarioActual.setPassword(passwordEncoder.encode(usuario.getPassword()));
 			}
@@ -180,7 +166,7 @@ public class UsuarioController {
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert");
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return new ResponseEntity<>(usuarioDtoConverter.converUsuarioEntityToGetUserDto(usuarioNew), HttpStatus.CREATED);
@@ -197,11 +183,11 @@ public class UsuarioController {
 		}catch(DataAccessException ex) {
 			response.put("mensaje", "Error al eliminar un usuario en la base de datos");
 			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("exito", "El usuario ha sido eliminado con éxito");
 
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -209,20 +195,20 @@ public class UsuarioController {
 	public ResponseEntity<JwtUserResponse> login(@RequestBody LoginRequest loginRequest) {
 		//Como no lo encuentra devuelve un error 500
 		userDetailsService.loadUserByUsername(loginRequest.getEmail());
-		
+
 		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
 	}
-	
+
 	//Aquí solo entra si existe
 	@PostMapping("/usuario/email")
 	public GetUsuarioDto idUserByEmail(@RequestBody String email){
 		Usuario u = (Usuario) userDetailsService.loadUserByUsername(email);
-		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(u); 
+		return usuarioDtoConverter.converUsuarioEntityToGetUserDto(u);
 	}
 
 	
 	private ResponseEntity<?> creacionTokenUsuario(String email, String password) {
-		
+
 		Authentication authentication = authUsuario(email, password);
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -230,7 +216,7 @@ public class UsuarioController {
 		Usuario usuarioNew = (Usuario) authentication.getPrincipal();
 
 		String jwtToken = jwtProvider.generateToken(authentication);
-		
+
 		System.out.println(usuarioNew.getBloqueada());
 
 		return ResponseEntity.status(HttpStatus.CREATED)
@@ -238,13 +224,11 @@ public class UsuarioController {
 	}
 	
 	private Authentication authUsuario(String email, String password) {
-		Authentication authentication =
-				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-						email,
-						password
-						));
-		
-		return authentication;
+
+		return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+				email,
+				password
+				));
 	}
 	
 	private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario nuevoUsuario, String jwtToken) {;
