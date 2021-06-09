@@ -30,7 +30,6 @@ export class PedidosService {
   postPedido(pedido: PedidoDto) {
     return this.http.post<any>(this.url, pedido).pipe().subscribe(
       response => {
-        console.log(response)
         this.pedido.next(response.pedido)
       }
     )

@@ -3,6 +3,11 @@ import {Producto} from "../../entity/producto";
 import {ProductoService} from "../../servicios/producto.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PedidosService} from "../../servicios/pedidos.service";
+import {PedidoDto} from "../../entity/dto/pedidoDto";
+import {UsuarioAdapter} from "../../adpaters/usuarioAdapter";
+import {ProductoAdapter} from "../../adpaters/productoAdapter";
+import {AuthUsuarioService} from "../../servicios/auth-usuario-service";
+import {PedidoAdapter} from "../../adpaters/pedidoAdapter";
 
 @Component({
   selector: 'app-detalle-pedido',
@@ -13,8 +18,13 @@ export class DetalleProductoComponent implements OnInit {
   producto: Producto;
   urlImg: string = "http://localhost:8090/api/uploads/img/";
   imgDefecto: string = "http://localhost:8090/images/notImagen.jpg"
+  pedido: PedidoDto;
+  private ua: UsuarioAdapter = new UsuarioAdapter();
+  private pa: ProductoAdapter = new ProductoAdapter()
+  private pedidoAdapter: PedidoAdapter = new PedidoAdapter();
 
-  constructor(private ps: ProductoService, private activateRoute: ActivatedRoute, private router: Router, private pedidoService: PedidosService,) {
+  constructor(private ps: ProductoService, private activateRoute: ActivatedRoute,
+              private authService: AuthUsuarioService, private router: Router, private pedidoService: PedidosService,) {
     this.producto = new Producto();
   }
 
@@ -30,6 +40,11 @@ export class DetalleProductoComponent implements OnInit {
         )
       }
     )
+    this.pedidoService.getPedido().subscribe(
+      p => {
+        this.pedido = this.pedidoAdapter.pedidoAdapter(p)
+      }
+    )
   }
 
 
@@ -43,6 +58,19 @@ export class DetalleProductoComponent implements OnInit {
 
 
   addProductoCarrito(producto: Producto) {
+    if (this.pedido !== undefined) {
+      this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
 
+    } else {
+      this.pedido = new PedidoDto();
+      this.pedido.precioTotal = 0;
+      this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.authService.usuario);
+      this.pedido.idUsuario.idUsuario = this.authService.getSub()
+      this.pedidoService.postPedido(this.pedido)
+      this.pedido.precioTotal = producto.precio
+      this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
+      console.log(this.pedido)
+
+    }
   }
 }
