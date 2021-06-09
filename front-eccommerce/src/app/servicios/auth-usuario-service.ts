@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Usuario} from '../entity/usuario';
 import {map} from "rxjs/operators";
@@ -16,7 +17,8 @@ export class AuthUsuarioService {
   private _token: string;
   private urlEndPoint: string = 'http://localhost:8090/api/usuario';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+    private router: Router) {
   }
 
   public get usuario(): Usuario {
@@ -106,6 +108,7 @@ export class AuthUsuarioService {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('usuario');
 
+    this.router.navigate(['/productos']);
   }
 
   getUsuario(): Observable<Usuario> {
