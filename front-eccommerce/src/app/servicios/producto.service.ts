@@ -6,20 +6,20 @@ import {Producto} from "../entity/producto";
 import {Router} from '@angular/router';
 import {Observable, throwError} from 'rxjs';
 import {Categoria} from '../entity/categoria';
+import { URL_BACKEND } from '../config/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
-  private url: string = 'http://localhost:8090/api/producto'
-  private adminurl: string = 'http://localhost:8090/api/administracion/producto'
+  private url: string = URL_BACKEND
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient, private router: Router) {
   }
 
   getProductos(): Observable<any> {
-    return this.http.get(this.url + '/all').pipe(
+    return this.http.get(this.url + '/api/producto/all').pipe(
       map((response: any) => {
         return response;
       }),
@@ -29,7 +29,7 @@ export class ProductoService {
 
 
   getProductosId(id): Observable<Producto> {
-    return this.http.get<Producto>(`${this.url}/${id}`).pipe(
+    return this.http.get<Producto>(`${this.url}/api/producto/${id}`).pipe(
       catchError(e => {
         if (e.status != 401 && e.error.mensaje)
           this.router.navigate(['/producto'])
@@ -41,7 +41,7 @@ export class ProductoService {
   }
 
   getProductosBusqueda(busqueda: ProductoBusqueda): Observable<Producto[]> {
-    return this.http.post(this.url + '/busqueda', busqueda, {headers: this.httpHeaders}).pipe(
+    return this.http.post(this.url + '/api/producto/busqueda', busqueda, {headers: this.httpHeaders}).pipe(
       map((response: any) => {
         return response;
       })
@@ -49,20 +49,20 @@ export class ProductoService {
   }
 
   getProductosCategoria(categoria: string): Observable<Producto[]> {
-    return this.http.get<Producto[]>(`${this.url}/categoria/${categoria}`)
+    return this.http.get<Producto[]>(`${this.url}/api/producto/categoria/${categoria}`)
   }
 
   getCategorias(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(this.url + '/categorias');
+    return this.http.get<Categoria[]>(this.url + '/api/producto/categorias');
   }
 
   getProducto(id): Observable<Producto> {
-    return this.http.get<Producto>(`${this.url}/${id}`)
+    return this.http.get<Producto>(`${this.url}/api/producto/${id}`)
   }
 
   create(producto: Producto): Observable<any> {
     console.log(producto)
-    return this.http.post<Producto>(this.adminurl, producto).pipe(
+    return this.http.post<Producto>(`${this.url}api/administracion/producto`, producto).pipe(
       catchError(e => {
         if (e.status === 400) {
           return throwError(e);
@@ -75,7 +75,7 @@ export class ProductoService {
 
 
   update(producto: Producto): Observable<any> {
-    return this.http.put<Producto>(`${this.adminurl}/${producto.id}`, producto).pipe(
+    return this.http.put<Producto>(`${this.url}/api/administracion/producto/${producto.id}`, producto).pipe(
       catchError(e => {
 
 
@@ -97,7 +97,7 @@ export class ProductoService {
     formdata.append('id', id);
 
 
-    const req = new HttpRequest('POST', `http://localhost:8090/api/administracion/productos/upload`, formdata)
+    const req = new HttpRequest('POST', `${this.url}/api/administracion/productos/upload`, formdata)
 
     return this.http.request(req);
 
@@ -106,7 +106,7 @@ export class ProductoService {
 
 
   delete(id: number): Observable<Producto> {
-    return this.http.delete<Producto>(`http://localhost:8090/api/administracion/producto/${id}`, {headers: this.httpHeaders}).pipe(
+    return this.http.delete<Producto>(`${this.url}/api/administracion/producto/${id}`, {headers: this.httpHeaders}).pipe(
     )
   }
 

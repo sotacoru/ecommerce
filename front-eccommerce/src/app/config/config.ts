@@ -1,0 +1,1 @@
+export const URL_BACKEND = "https://sota-ecommerce.herokuapp.com/";

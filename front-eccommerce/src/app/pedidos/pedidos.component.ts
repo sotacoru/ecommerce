@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 import {UsuarioAdapter} from "../adpaters/usuarioAdapter";
 import {PedidoAdapter} from "../adpaters/pedidoAdapter";
 import {ProductoPedidoDto} from "../entity/dto/productopedidodto";
-
+import { URL_BACKEND } from '../config/config';
 @Component({
   selector: 'app-pedidos',
   templateUrl: './pedidos.component.html',
@@ -20,8 +20,8 @@ import {ProductoPedidoDto} from "../entity/dto/productopedidodto";
 export class PedidosComponent implements OnInit, OnDestroy {
   pedido: Pedido;
   productos: ProductoPedido[] = [];
-  urlImg: string = "http://localhost:8090/api/uploads/img/"
-  imgDefecto: string = "http://localhost:8090/images/notImagen.jpg"
+  urlImg: string = `${URL_BACKEND}/api/uploads/img/`
+  imgDefecto: string = `${URL_BACKEND}/images/notImagen.jpg`
   sus: Subscription
   metodosdePago: Pago[]
   itemsPago: MenuItem[] = [];

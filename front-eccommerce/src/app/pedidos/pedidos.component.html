@@ -11,56 +11,56 @@
       </div>
       <table class=" table align-middle table-bordered table-striped" *ngIf="productos?.length>0">
         <thead>
-        <tr>
-          <th scope="imagen"> Imagen</th>
-          <th scope="nombre">Nombre producto</th>
-          <th scope="descripcion">Descripcion</th>
+          <tr>
+            <th scope="imagen"> Imagen</th>
+            <th scope="nombre">Nombre producto</th>
+            <th scope="descripcion">Descripcion</th>
 
-          <th scope="precio">Precio/ud</th>
-          <th scope="cantidad">Cantidad</th>
-          <th scope="precio">Precio total</th>
+            <th scope="precio">Precio/ud</th>
+            <th scope="cantidad">Cantidad</th>
+            <th scope="precio">Precio total</th>
 
-          <th scope="eliminar"></th>
-        </tr>
+            <th scope="eliminar"></th>
+          </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let producto of productos" class="align-content-center">
-          <td width="5%">
-            <img class="img-thumbnail rounded-circle" *ngIf="producto.producto?.foto"
-                 [src]="urlImg +''+ producto.producto.foto" [alt]="producto.producto.nombre"/>
-            <img class="img-thumbnail rounded-circle" *ngIf="!producto.producto?.foto" [src]="imgDefecto">
-          <td>{{producto.producto.nombre}}</td>
-          <td>{{producto.producto.descripcion}}</td>
-          <td>{{producto.producto.precio.toFixed(2)}}€</td>
-          <td>
-            <a (click)="sumarCantidad(producto)"> <i class="pi pi-plus"></i> </a>
-            {{producto.cantidad}}
-            <a (click)="restarCantidad(producto)"> <i class="pi pi-minus"></i> </a>
-          </td>
-          <td>{{(producto.producto.precio * producto.cantidad).toFixed(2)}}€</td>
-          <td>
-            <button pButton type="button" icon="pi pi-trash"
-                    class="p-button-rounded p-button-danger p-button-sm" (click)="eliminarProducto(producto)"></button>
-          </td>
-        </tr>
+
+          <tr *ngFor="let producto of productos" class="align-content-center">
+            <td width="5%">
+              <img class="img-thumbnail rounded-circle" *ngIf="producto.producto?.foto"
+                [src]="urlImg +''+ producto.producto.foto" [alt]="producto.producto.nombre" />
+              <img class="img-thumbnail rounded-circle" *ngIf="!producto.producto?.foto" [src]="imgDefecto">
+            <td>{{producto.producto.nombre}}</td>
+            <td>{{producto.producto.descripcion}}</td>
+            <td>{{producto.producto.precio.toFixed(2)}}€</td>
+            <td>{{producto.cantidad}}</td>
+            <td>{{(producto.producto.precio * producto.cantidad).toFixed(2)}}€</td>
+            <td>
+              <button pButton type="button" icon="pi pi-times"
+                class="p-button-rounded p-button-danger p-button-sm"></button>
+            </td>
+          </tr>
+
         </tbody>
         <tfoot>
-        <tr>
-          <td colspan="4"></td>
-
-          <td colspan="2">Total: {{calcularTotal().toFixed(2)}} €</td>
-          <td>
-            <span class="dropdown" *ngIf="isLogged()">
-              <p-splitButton label="Selecciona método pago" icon="pi pi-fw pi-money-bill" [model]="itemsPago"
-                             styleClass="p-button-success mx-2 my-1"></p-splitButton>
-            </span>
-            <span class="dropdown" *ngIf="!isLogged()">
-            <p-button icon="pi pi-sign-in" label="Login" [routerLink]="'/login'"></p-button>
-            </span>
-          </td>
+          <tr>
+            <td colspan="4"></td>
 
 
-        </tr>
+            <td colspan="2">Total: {{calcularTotal().toFixed(2)}} €</td>
+            <td>
+              <span class="dropdown" *ngIf="isLogged()">
+                <p-splitButton label="Selecciona método pago" icon="pi pi-fw pi-money-bill" [model]="itemsPago"
+                  styleClass="p-button-success mx-2 my-1"></p-splitButton>
+              </span>
+              <span class="dropdown" *ngIf="!isLogged()">
+                <p-button icon="pi pi-sign-in" label="Login" [routerLink]="'/login'"></p-button>
+              </span>
+            </td>
+
+
+
+          </tr>
 
         </tfoot>
       </table>

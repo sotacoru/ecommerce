@@ -6,12 +6,13 @@ import {PedidoDto} from "../entity/dto/pedidoDto";
 import {ProductoPedido} from "../entity/dto/productopedido";
 import {Pago} from "../entity/pago";
 
+import { URL_BACKEND } from '../config/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PedidosService {
-  private url: string = 'http://localhost:8090/api/pedido'
+  private url: string = URL_BACKEND
   private productos = new BehaviorSubject<ProductoPedido[]>([]);
   private pedido = new BehaviorSubject<Pedido>(null);
 
@@ -28,7 +29,7 @@ export class PedidosService {
   }
 
   postPedido(pedido: PedidoDto) {
-    return this.http.post<any>(this.url, pedido).pipe().subscribe(
+    return this.http.post<any>(`${this.url}/api/pedido`, pedido).pipe().subscribe(
       response => {
         this.pedido.next(response.pedido)
       }
@@ -100,13 +101,13 @@ export class PedidosService {
   }*/
 
   getPagos(): Observable<Pago[]> {
-    return this.http.get<Pago[]>(this.url + '/pagos');
+    return this.http.get<Pago[]>(this.url + '/api/pedido/pagos');
   }
 
   confirmarPedido(pedido: PedidoDto, id: number): Observable<any> {
     pedido.productos = this.productos.value
     this.deleteProductosPedido()
-    return this.http.put<any>(`${this.url}/${id}`, pedido).pipe();
+    return this.http.put<any>(`${this.url}/api/pedido/${id}`, pedido).pipe();
   }
 
   contains(id: number): ProductoPedido {

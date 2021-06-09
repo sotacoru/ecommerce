@@ -36,7 +36,7 @@
       <div class="p-col-12">
         <div class="product-list-item">
           <img *ngIf="producto?.foto" [src]="urlImg +''+ producto.foto" [alt]="producto.nombre"/>
-          <img class="img-thumbnail rounded" *ngIf="!producto?.foto" src="http://localhost:8090/images/notImagen.jpg"
+          <img class="img-thumbnail rounded" *ngIf="!producto?.foto" src="{{urlBackend}}/images/notImagen.jpg"
                alt="sin foto">
           <div class="product-list-detail">
             <div class="product-name">{{producto.nombre}}</div>

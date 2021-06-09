@@ -10,7 +10,7 @@ import {PedidosService} from "../servicios/pedidos.service";
 import {AuthUsuarioService} from "../servicios/auth-usuario-service";
 import {UsuarioAdapter} from "../adpaters/usuarioAdapter";
 import {ProductoAdapter} from "../adpaters/productoAdapter";
-
+import { URL_BACKEND } from '../config/config';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -28,7 +28,7 @@ export class ProductosComponent implements OnInit {
   isAdmin: boolean = false;
   private ua: UsuarioAdapter = new UsuarioAdapter();
   private pa: ProductoAdapter = new ProductoAdapter()
-
+  urlBackend: string = URL_BACKEND;
   constructor(private ps: ProductoService,
               private pedidoService: PedidosService,
               private primengConfig: PrimeNGConfig,

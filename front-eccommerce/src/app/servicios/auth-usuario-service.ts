@@ -6,6 +6,7 @@ import {map} from "rxjs/operators";
 import {UsuarioBusqueda} from "../entity/dto/usuario_busqueda";
 import swal from "sweetalert2";
 
+import { URL_BACKEND } from '../config/config';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AuthUsuarioService {
 
   private _usuario: Usuario;
   private _token: string;
-  private urlEndPoint: string = 'http://localhost:8090/api/usuario';
+  private urlEndPoint: string =URL_BACKEND;
 
   constructor(private http: HttpClient) {
   }
@@ -40,18 +41,18 @@ export class AuthUsuarioService {
   }
 
   registro(usuario: Usuario): Observable<any> {
-    const urlEndPoint = 'http://localhost:8090/api/registro/usuario';
+    const urlEndPoint = `${URL_BACKEND}/api/registro/usuario`;
 
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic '
     });
 
-    return this.http.post<any>(urlEndPoint, usuario, {headers: httpHeaders});
+    return this.http.post<any>(`${urlEndPoint}/api/registro/usuario`, usuario, {headers: httpHeaders});
   }
 
   login(usuario: Usuario): Observable<any> {
-    const urlEndPoint = 'http://localhost:8090/api/login';
+    const urlEndPoint = `${URL_BACKEND}/api/login`;
 
     //const credenciales = btoa('AngularApp' + ':' + '1234.Abcd ');
 
