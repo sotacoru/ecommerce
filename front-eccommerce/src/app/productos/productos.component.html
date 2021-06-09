@@ -17,10 +17,10 @@
               <label for="foto">Sólo productos con foto</label>
 
             </div>
-             <p-button class="elementBusqueda" role="button" (click)='buscar()'>
+             <p-button class="elementBusqueda" role="button" styleClass="p-button-success mx-2" (click)='buscar()'>
               <i class="pi pi-search"></i>
             </p-button>
-              <p-button class="mx-2 mr-2" [routerLink]="['/formulario']"
+              <p-button styleClass="p-button-success mb-1" [routerLink]="['/formulario']"
                         label="Añadir Producto"
                         *ngIf="!this.isCliente()"></p-button>
 
@@ -47,7 +47,7 @@
           <div class="product-list-action">
             <span class="product-price">{{producto.precio}}€</span>
             <p-button *ngIf="isCliente()" (click)="addProductoCarrito(producto)" icon="pi pi-shopping-cart"
-                      label="Añadir al carrito"></p-button>
+                      label="Añadir al carrito" styleClass="p-button-success mx-2 my-1"></p-button>
             <div class="row-cols-2 " *ngIf="!isCliente()">
               <button (click)="eliminar(producto)" pButton pRipple type="button" icon="pi pi-times"
                       class="p-button-rounded p-button-danger"></button>
