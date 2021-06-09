@@ -15,7 +15,7 @@ import {HttpEventType} from '@angular/common/http';
 export class FormComponent implements OnInit {
 
   titulo: string = "Nuevo producto";
-  producto: Producto;
+  producto: Producto = new Producto();
   categorias: Categoria[];
   public fotoSeleccionada: File;
   public errores: string[];
