@@ -2,7 +2,7 @@
   .p-dropdown {
     width: 14rem;
     font-weight: normal;
-    margin-top:.5rem;
+    margin-top: .5rem;
   }
 
   .product-name {
@@ -65,12 +65,14 @@
     margin: .5em;
     border: 1px solid #dee2e6;
     max-width: 500px;
+
     .product-grid-item-top,
     .product-grid-item-bottom {
       display: inline-flex;
       align-items: center;
       justify-content: space-between;
-      button{
+
+      button {
         margin-left: 0.5rem;
       }
     }
@@ -89,21 +91,24 @@
       font-size: 1.5rem;
       font-weight: 600;
     }
-    .product-description{
+
+    .product-description {
       font-size: 1rem;
       min-height: 50px;
 
     }
   }
 }
-.formBusqueda{
-  .elementBusqueda{
-    margin-left:.5rem;
-    margin-top:.5rem;
+
+.formBusqueda {
+  .elementBusqueda {
+    margin-left: .5rem;
+    margin-top: .5rem;
     display: inline-flex;
   }
 
 }
+
 .card {
   padding: 2rem;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
@@ -112,14 +117,14 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .product-grid-item{
+  .product-grid-item {
     min-height: auto;
 
   }
-  .product-grid-item-bottom{
+  .product-grid-item-bottom {
     display: inline-block;
   }
-  :host ::ng-deep .product-list-item{
+  :host ::ng-deep .product-list-item {
     flex-direction: column;
     align-items: center;
 
