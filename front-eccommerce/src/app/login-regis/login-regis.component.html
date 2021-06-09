@@ -19,7 +19,7 @@
         <label for="emaillog">
           Email <span class="req">*</span>
         </label>
-        <input type="email" class="input" id="emaillog" name="emaillog" required autocomplete="off"
+        <input type="email" class="input" id="emaillog" name="emaillog" required autocomplete="off" minlength="9" maxlength="320"
                [(ngModel)]="usuario.email"/>
       </div>
 
@@ -28,7 +28,7 @@
           Password<span class="req">*</span>
         </label>
         <input type="password" class="input" [(ngModel)]="usuario.password" class="form-control"
-               placeholder="Contraseña" name="passwordlog" id="passwordlog" required autocomplete="off"/>
+               placeholder="Contraseña" name="passwordlog" id="passwordlog" required autocomplete="off" minlength="6" maxlength="30"/>
       </div>
 
 
@@ -44,20 +44,20 @@
           <label>
             Nombre <span class="req">*</span>
           </label>
-          <input type="text" class="input" name="nombre" required autocomplete="off" [(ngModel)]="usuario.nombre"/>
+          <input type="text" class="input" name="nombre" required autocomplete="off" minlength="2" maxlength="20" [(ngModel)]="usuario.nombre"/>
         </div>
 
         <div class="field-wrap">
           <label>Primer Apellido <span class="req">*</span>
           </label>
           <input type="text" class="input" name="primerapellido"
-                 [(ngModel)]="usuario.primerapellido" required autocomplete="off"/>
+                 [(ngModel)]="usuario.primerapellido" required autocomplete="off" minlength="2" maxlength="20"/>
         </div>
         <div class="field-wrap">
           <label>Segundo Apellido <span class="req">*</span>
           </label>
           <input type="text" class="input" name="primerapellido"
-                 [(ngModel)]="usuario.segundoapellido" required autocomplete="off"/>
+                 [(ngModel)]="usuario.segundoapellido" required autocomplete="off" minlength="2" maxlength="20"/>
         </div>
       </div>
 
@@ -65,7 +65,7 @@
         <label for="email">
           Email <span class="req">*</span>
         </label>
-        <input type="email" class="input" required autocomplete="off" id="email" name="email"
+        <input type="email" class="input" required autocomplete="off" id="email" name="email" minlength="9" maxlength="320"
                [(ngModel)]="usuario.email"/>
       </div>
 
@@ -73,7 +73,7 @@
         <label>
           Contraseña<span class="req">*</span>
         </label>
-        <input type="password" class="input" required name="password" [(ngModel)]="usuario.password"
+        <input type="password" class="input" required name="password" [(ngModel)]="usuario.password" minlength="6" maxlength="30"
                [disabled]="passwordEditable()"
                autocomplete="off"/>
       </div>
@@ -81,7 +81,7 @@
         <label>
           Repite Contraseña<span class="req">*</span>
         </label>
-        <input type="password" class="input" required name="password2" [(ngModel)]="usuario.password2"
+        <input type="password" class="input" required name="password2" [(ngModel)]="usuario.password2" minlength="6" maxlength="30"
                [disabled]="passwordEditable()" autocomplete="off"/>
       </div>
       <div class="field-wrap" *ngIf="!deshabilitarSelect(usuario.perfil)">
