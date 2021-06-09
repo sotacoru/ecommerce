@@ -20,12 +20,12 @@ export class ProguardService implements CanActivate {
       return false;
     }
     this.realRole = this.as.usuario.perfil.nombreperfil;
-    if (expectedRole.indexOf(this.realRole) > 0) {
+    if (expectedRole.indexOf(this.realRole) >= 0) {
+
       return true
     }
 
     console.log('esperado ' + expectedRole + '\nReal: ' + this.realRole)
-
     console.log("no me hace la redirecion")
     Swal.fire('Sin Permisos', 'No tienes los permisos necesarios para hacer esto', 'error')
     this.router.navigate(['/productos']);

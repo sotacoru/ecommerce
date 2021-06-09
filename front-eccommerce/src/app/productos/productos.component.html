@@ -51,7 +51,9 @@
             <div class="row-cols-2 " *ngIf="!isCliente()">
               <button (click)="eliminar(producto)" pButton pRipple type="button" icon="pi pi-times"
                       class="p-button-rounded p-button-danger"></button>
-              <button [routerLink]="['/formulario', producto.id]" pButton pRipple type="button" icon="pi pi-pencil"
+
+              <button [routerLink]="['/formulario', producto.id]" pButton pRipple type="button"
+                      icon="pi pi-pencil"
                       class="p-button-rounded p-button-warning"></button>
             </div>
           </div>

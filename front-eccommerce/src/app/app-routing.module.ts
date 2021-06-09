@@ -9,10 +9,11 @@ import {FormComponent} from './productos/form.component';
 import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-producto.component";
 import {AdministrarUsuariosComponent} from './administrar-usuarios/administrar-usuarios.component';
 import {ProguardService} from "./servicios/proguard.service";
+import {ActivatedLoginService} from "./servicios/activatedLogin.service";
 
 const routes: Routes = [
   {path: '', redirectTo: '/productos', pathMatch: 'full'},
-  {path: 'login', component: LoginRegisComponent},
+  {path: 'login', component: LoginRegisComponent, canActivate: [ActivatedLoginService]},
   {path: 'productos/:categoria', component: ProductosComponent},
   {path: 'productos', component: ProductosComponent},
   {
