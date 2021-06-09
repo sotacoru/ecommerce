@@ -58,10 +58,10 @@ export class PedidosComponent implements OnInit, OnDestroy {
         this.metodosdePago = r;
       }
     )
-    if (this.as.usuario !== undefined) {
-      this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.as.usuario)
+    if (this.as.isAuthenticated()) {
+      this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.as.usuario);
     } else {
-      this.pedido.idUsuario = null
+      this.pedido.idUsuario = null;
     }
 
 

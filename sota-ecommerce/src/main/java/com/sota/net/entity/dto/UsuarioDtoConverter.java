@@ -26,12 +26,14 @@ public class UsuarioDtoConverter {
 	
 	public GetUsuarioDto converUsuarioEntityToGetUserDto(Usuario usuario) {
 		GetUsuarioDto user = new GetUsuarioDto(
-				usuario.getIdusuario(),
+				usuario.getIdUsuario(),
 				usuario.getNombre(),
 				usuario.getPrimerapellido(),
 				usuario.getSegundoapellido(),
 				usuario.getEmail(),
-				usuario.getPerfil()
+				usuario.getPerfil(),
+				usuario.getBloqueada(),
+				usuario.getIntentos()
 				);
 		return user;
 	}
@@ -45,7 +47,7 @@ public class UsuarioDtoConverter {
 					nuevoUsuario.getSegundoApellido(),
 					nuevoUsuario.getEmail(),
 					passEncoder.encode(nuevoUsuario.getPassword()).toString(),
-					0,
+					3,
 					false,
 					nuevoUsuario.getPerfil());
 
@@ -56,7 +58,7 @@ public class UsuarioDtoConverter {
 		return u;
 	}
 	public GetUsuarioPedido usuarioPedido(Usuario u){
-		return  new GetUsuarioPedido(u.getIdusuario(),
+		return  new GetUsuarioPedido(u.getIdUsuario(),
 			u.getNombre(),
 			u.getPrimerapellido(),
 				u.getSegundoapellido(),

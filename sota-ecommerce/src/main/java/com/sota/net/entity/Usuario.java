@@ -40,7 +40,7 @@ public class Usuario implements Serializable, UserDetails {
 	private String primerapellido;
 
 	@ApiModelProperty(value = "Segundo apellido del usuario", dataType = "String", example = "López", position = 4)
-	//@NotNull
+	//@NotNull 
 	//@Size(min=2, max=20)
 	private String segundoapellido;
 
@@ -50,38 +50,40 @@ public class Usuario implements Serializable, UserDetails {
 	//@Size(min=10, max=320)
 	private String email;
 	
-	private int intentos;
-	
-	private boolean bloqueada;
-
 	@ApiModelProperty(value = "password del usuario", dataType = "String", example = "password123.", position = 6)
 	private String password;
+	
+	@ApiModelProperty(value = "Intentos del usuario (máximo)", dataType = "Int", example = "3", position = 7)
+	private int intentos;
+	
+	@ApiModelProperty(value = "Información de si el usuario tiene la cuenta bloqueada", dataType = "Boolean (1 bloqueada, 0 no bloqueada)", example = "0", position = 8)
+	private boolean bloqueada;
 
-	@ApiModelProperty(value = "Perfil asociado al usuario", dataType = "Perfil", example = "ADMINISTRADOR", position = 7)
+	@ApiModelProperty(value = "Perfil asociado al usuario", dataType = "Perfil", example = "ADMINISTRADOR", position = 9)
 	@JsonSerialize
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idperfil")
 	private Perfil perfil;
 	
-	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password,
-			int intentos, boolean bloqueada, Perfil perfil) {
+	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password, int intentos,
+			boolean bloqueada, Perfil perfil) {
 		this.nombre = nombre;
 		this.primerapellido = primerapellido;
 		this.segundoapellido = segundoapellido;
 		this.email = email;
 		this.password = password;
-		this.intentos = intentos;
+		this.intentos=intentos;
 		this.bloqueada = bloqueada;
 		this.perfil = perfil;
 	}
 	
 
-    public Long getIdusuario() {
+    public Long getIdUsuario() {
 		return idUsuario;
 	}
 
-	public void setIdusuario(Long idusuario) {
-		this.idUsuario = idusuario;
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public String getNombre() {

@@ -33,7 +33,7 @@ export class ProductoService {
       catchError(e => {
         if (e.status != 401 && e.error.mensaje)
           this.router.navigate(['/producto'])
-        /* console.log(e.error.mensaje) */
+
 
         return throwError(e);
       })
@@ -96,16 +96,8 @@ export class ProductoService {
     formdata.append('archivo', archivo);
     formdata.append('id', id);
 
-    /*   let httpHeaders = new HttpHeaders();
-      let token = this.authservice.token;
-      if(token != null) {
-        httpHeaders  = httpHeaders.append('Authorization','Bearer ' + token)
-      } */
 
-    const req = new HttpRequest('POST', `http://localhost:8090/api/administracion/productos/upload`, formdata /* {
-      reportProgress: true,
-      headers: httpHeaders
-    } */)
+    const req = new HttpRequest('POST', `http://localhost:8090/api/administracion/productos/upload`, formdata)
 
     return this.http.request(req);
 

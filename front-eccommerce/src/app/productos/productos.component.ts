@@ -81,6 +81,7 @@ export class ProductosComponent implements OnInit {
 
   filtrarProductosStock(response: Producto[]) {
     if (!this.isCliente()) {
+      console.log("soy un cliente")
       this.productos = response
     } else {
       this.productos = response.filter(
@@ -94,7 +95,7 @@ export class ProductosComponent implements OnInit {
   buscar() {
     this.ps.getProductosBusqueda(this.busqueda).subscribe(
       response => {
-
+        console.log(this.busqueda)
         this.filtrarProductosStock(response)
       }
     );
@@ -136,8 +137,11 @@ export class ProductosComponent implements OnInit {
     } else {
       this.pedido = new PedidoDto();
       this.pedido.precioTotal = 0;
-      this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.authService.usuario);
-      this.pedido.idUsuario.idUsuario = this.authService.getSub()
+      if (this.authService.isAuthenticated()) {
+        this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.authService.usuario);
+      } else {
+        this.pedido.idUsuario = null;
+      }
       this.pedidoService.postPedido(this.pedido)
       this.pedido.precioTotal = producto.precio
       this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
