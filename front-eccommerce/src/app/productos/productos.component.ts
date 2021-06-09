@@ -81,6 +81,7 @@ export class ProductosComponent implements OnInit {
 
   filtrarProductosStock(response: Producto[]) {
     if (!this.isCliente()) {
+      console.log("soy un cliente")
       this.productos = response
     } else {
       this.productos = response.filter(
