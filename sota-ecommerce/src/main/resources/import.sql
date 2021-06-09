@@ -5,10 +5,10 @@ INSERT INTO perfil(nombrePerfil, descripcion) VALUES('CLIENTE','Cliente de la ti
 INSERT INTO	perfil(nombrePerfil, descripcion) VALUES('SECRETARIO','Secretario de la tienda. Puede dar de alta y baja productos');
 INSERT INTO perfil(nombrePerfil, descripcion) VALUES('ADMINISTRADOR','Administrador de la tienda. Puede dar de alta y baja secretarios');
 
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil,intentos,bloqueada) VALUES ('Usuario 1','Apellido 1', 'Apellido 1.2', 'email1@gmail.com','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',1,0,false);
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos,bloqueada) VALUES ('Usuario 2','Apellido 2', 'Apellido 2.1', 'email2@yahoo.es','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',3, 0,false);
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos,bloqueada) VALUES ('Usuario 3','Apellido 3', 'Apellido 3.1', 'email3@yahoo.es','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',2, 0,false);
-INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos,bloqueada) VALUES ('Usuario 4','Apellido 4', 'Apellido 4.1', 'email4@gmail.com','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',3, 0,false);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos, bloqueada) VALUES ('Usuario 1','Apellido 1', 'Apellido 1.2', 'email1@gmail.com','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',1, 3,false);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos, bloqueada) VALUES ('Usuario 2','Apellido 2', 'Apellido 2.1', 'email2@yahoo.es','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',3, 3,false);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos, bloqueada) VALUES ('Usuario 3','Apellido 3', 'Apellido 3.1', 'email3@yahoo.es','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',2, 3,false);
+INSERT INTO usuario(nombre, primerApellido, segundoApellido, email, password, idPerfil, intentos, bloqueada) VALUES ('Usuario 4','Apellido 4', 'Apellido 4.1', 'email4@gmail.com','$2a$10$ZccuI.q6yBmUgywHZuvXje12j1PjIxo8ImWIWlfuGeVfm6jJWIEqa',3, 3, false);
 
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Frutas','Frutas');
 INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Verduras','Verduras que no contienen químicos ni son alteradas genéticamente');
@@ -22,7 +22,7 @@ INSERT INTO categoria (nombreCategoria,descripcion) VALUES ('Bebidas alcoholicas
 INSERT INTO producto (nombre, precio, descripcion, cantidad,  foto, idCategoria) VALUES ("Plátano", 2.5, "Plátanos de Canarias de agricultura ecológica", 0, "38617683-0195-4299-a9f6-67a336128540_platano-frutas-600x600.jpg", 1);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Manzana Golden", 2.8, "Manzana variedad GOLDEN procedente de agricultura ecológica", 90, "38af5f51-274d-4660-8753-14addca73f8d_manzana-golden-ecologica-600x600.jpg", 1);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Manzana Gala", 3.8, "Manzana variedad GALA procedente de agricultura ecológica", 130, "c68e1c73-32a4-4917-97ab-d819e0551047_1111616.jpg", 1);
-INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Pera Conferéncia", 2.5, "Pera Conférencia procedente de agricultura ecológica y agricultores locales", 50, "63bc1cba-d3fc-40b2-a99b-074dc51d7878_Pera-conferencia.jpg ", 1);
+INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Pera Conferéncia", 2.5, "Pera Conferencia procedente de agricultura ecológica y agricultores locales", 50, "63bc1cba-d3fc-40b2-a99b-074dc51d7878_Pera-conferencia.jpg ", 1);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Fresas tarrina 250g", 4.8, "Fresas procedentes de Begonte(Lugo) de agricultura ecológica", 200, "ee4b9a4b-36e2-41eb-aa0e-9e549b808855_fresa-tarrina.jpg ", 1);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Aguacate Hass ", 2.5, "Aguacate Hass(Rugoso) de agricultura ecológica", 100, "7241bd92-e2d9-4f7c-97e5-9dfd4605f301_aguacate-web.jpg ", 1);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ("Coco (Unidad)", 1.59, "Coco procedente de Agricultura Ecológica ", 200, "0473a979-d0a8-4e00-8a8f-f3caf39fd1f3_producto-385-1201.jpg", 1);

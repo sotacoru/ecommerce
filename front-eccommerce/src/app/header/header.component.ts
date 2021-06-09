@@ -42,6 +42,7 @@ export class HeaderComponent implements OnInit {
         )
         this.categorias = response;
       }
+
     )
 
     this.items = [
@@ -71,13 +72,6 @@ export class HeaderComponent implements OnInit {
       }
     ]
 
-
-    if (this.nombre == '') {
-      this.authService.getUsuario().subscribe(usuario => {
-          this.nombre = usuario.nombre;
-        }
-      )
-    }
   }
 
   isCliente(): boolean {

@@ -62,6 +62,7 @@ export class AuthUsuarioService {
     return this.http.post<any>(urlEndPoint, usuario, {headers: httpHeaders});
   }
 
+
   guardarUsuario(accessToken: string): void {
     let payload = this.obtenerDatosToken(accessToken);
 
@@ -110,6 +111,7 @@ export class AuthUsuarioService {
   getUsuario(): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.urlEndPoint}/${this.getSub()}`);
   }
+
 
   getUsuariosBusqueda(busqueda: UsuarioBusqueda): Observable<Usuario[]> {
     return this.http.post(this.urlEndPoint + '/busqueda', busqueda).pipe(
