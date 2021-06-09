@@ -12,8 +12,12 @@
       </button>
     </span>
 
-    <span class="dropdown" *ngIf="isLogged()">
-      <p-splitButton label="{{nombreUsuario()}}" icon="pi pi-fw pi-users" [model]="itemsButton"
+    <span class="dropdown" *ngIf="isLogged() && isAdmin()">
+      <p-splitButton icon="pi pi-fw pi-users" [model]="itemsButtonAd"
+                     styleClass="p-button-success mx-2 my-1"></p-splitButton>
+    </span>
+    <span class="dropdown" *ngIf="isLogged() && !isAdmin()">
+      <p-splitButton icon="pi pi-fw pi-users" [model]="itemsButtonCli"
                      styleClass="p-button-success mx-2 my-1"></p-splitButton>
     </span>
 
