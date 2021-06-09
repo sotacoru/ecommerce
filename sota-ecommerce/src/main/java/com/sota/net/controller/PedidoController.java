@@ -1,9 +1,11 @@
 package com.sota.net.controller;
 
+import com.sota.net.adapters.PedidoAdapter;
 import com.sota.net.adapters.PedidoProductoAdapter;
 import com.sota.net.entity.Pago;
 import com.sota.net.entity.Pedido;
 import com.sota.net.entity.PedidoProducto;
+import com.sota.net.entity.Usuario;
 import com.sota.net.entity.dto.PedidoCreadoDto;
 import com.sota.net.entity.dto.PedidoDto;
 import com.sota.net.entity.dto.UsuarioDtoConverter;
@@ -72,7 +74,12 @@ public class PedidoController {
 		if (result.hasErrors()) {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
-		Pedido pedido = getPedido(pedidoDto);
+		Usuario usuarioPedido = null;
+		if (pedidoDto.getIdUsuario().getIdUsuario()!=null){
+			usuarioPedido = usuarioDtoConverter.usuarioPedidoToUsuario(pedidoDto.getIdUsuario());
+		}
+
+		Pedido pedido = PedidoAdapter.getPedido(pedidoDto, usuarioPedido);
 		try {
 			pedidonuevo = this.pedidoService.save(pedido);
 
@@ -89,16 +96,7 @@ public class PedidoController {
 
 	}
 
-	private Pedido getPedido(PedidoCreadoDto pedidoDto) {
-		Pedido pedido = new Pedido();
-		if (pedidoDto.getIdUsuario()!=null){
-			pedido.setIdUsuario(usuarioDtoConverter.usuarioPedidoToUsuario(pedidoDto.getIdUsuario()));
-		}
-		pedido.setPrecioTotal(pedidoDto.getPrecioTotal());
-		pedido.setIdPago(pedidoDto.getIdPago());
-		pedido.setPedidoProducto(new ArrayList<>());
-		return pedido;
-	}
+
 	@PutMapping("/pedido/{id}")
 	public ResponseEntity<?> actualizarPedido(@RequestBody PedidoDto pedidoDto, @PathVariable long id, BindingResult result) {
 		Pedido pedidoActual = this.pedidoService.findById(id);
