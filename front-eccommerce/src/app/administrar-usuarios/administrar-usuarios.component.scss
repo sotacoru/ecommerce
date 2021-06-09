@@ -22,20 +22,14 @@
   border-radius: 5px;
 }
 
-.btnEditar {
+.btnEditar{
   width: 100%;
-  background-color: #218BC0;
   color: white;
   padding: 10px 20px;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   text-transform: uppercase;
   margin: 4px 2px;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  cursor: pointer;
   border-radius: 5px;
 }
 
@@ -50,25 +44,5 @@
   font-size: 14px;
   text-transform: uppercase;
   margin: 4px 2px;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.btnEliminar {
-  width: 100%;
-  background-color:#CB2E19;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  text-transform: uppercase;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  cursor: pointer;
   border-radius: 5px;
 }

@@ -49,13 +49,13 @@
           </button>
           </td>
           <td>
-            <button type="button" name="eliminar" (click)="delete(usuario)" class="btn" [disabled]="usuario.email===nombreUsuario'">
+            <button type="button" name="eliminar" (click)="delete(usuario)" class="btn btn-danger" [disabled]="usuario.email==nombreUsuario">
               Eliminar
             </button>
           </td>
           <td>
             <button type="button" name="Desbloquear" (click)="preguntaDesbloquear(usuario)"
-             class="btn background-color:#CB2E19 btn-primary btn-block" [disabled]="!usuario.bloqueada">
+             class="btn btn-secundary btn-primary btn-block" [disabled]="!usuario.bloqueada">
               Desbloquear
             </button>
           </td>
