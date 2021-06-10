@@ -9,7 +9,7 @@
         <label>Nombre
         </label>
         <input required type="text" class="form-control input" name="name" pInputText [(ngModel)]="producto.nombre"
-               #nombreP="ngModel" minlength="2" maxlength="50">
+               #nombreP="ngModel" minlength="2" maxlength="100">
         <div *ngIf="nombreP.invalid && (nombreP.dirty || nombreP.touched)"
              class="alert alert-danger">
           <div *ngIf="nombreP.errors?.required">
@@ -24,7 +24,7 @@
 
       <div class="field-wrap">
         <label for="descripcion">Descripción</label>
-        <textarea class="form-control" id="descripcion" rows="3" name="descripcion" maxlength="200"
+        <textarea class="form-control" id="descripcion" rows="3" name="descripcion" maxlength="300"
                   [(ngModel)]="producto.descripcion"></textarea>
       </div>
 

@@ -21,13 +21,13 @@ public class Producto implements Serializable {
 
 	@ApiModelProperty(value = "Nombre del producto", dataType = "String", example = "CERVEZA DE CEBADA", position = 2)
     @NotNull
-    @Size(min=2, max=50)
+    @Size(min=2, max=100)
     private String nombre;
 
 	@ApiModelProperty(value = "Precio por unidad del producto", dataType = "Double", example = "2,5", position = 3)
     @NotNull
     private Double precio;
-    @Size( max=200)
+    @Size( max=300)
 	@ApiModelProperty(value = "Pago favorito elegido por el usuario", dataType = "String", example = "Cerveza hecha a partir de cebada", position = 4)
     private String descripcion;
 
