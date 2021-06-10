@@ -69,7 +69,7 @@ export class LoginRegisComponent implements OnInit {
   login(){
 
       this.authService.login(this.usuario).subscribe(response => {
-
+        
         if(response.bloqueada){
           this.loginIncorrecto=`Su usuario está bloqueado, no puede iniciar sesión`;
           return;
@@ -97,21 +97,27 @@ export class LoginRegisComponent implements OnInit {
   comprobarIntentosLogin(): void{
     this.administrarUsuarioService.getIdUsuarioByEmail(this.usuario.email).subscribe( response =>
     {
-      if(response.intentos>1){
-        response.intentos--;
-        this.loginIncorrecto = `Contraseña incorrecta. Número de intentos restantes: ${response.intentos}`;
-        this.administrarUsuarioService.update(response).subscribe();
-      }else if(response.intentos=1){
-        response.intentos--;
-        response.bloqueada = true;
-        this.loginIncorrecto='';
-        this.administrarUsuarioService.update(response).subscribe(response =>{
-          swal.fire('Bloqueo de usuario',`Su usuario ha sido bloqueado ya que ha superado el número máximo de intentos.` ,'error');
-        });
-      }else{
-        this.loginIncorrecto='El usuario al que está intentando acceder está bloqueado';
-      }
 
+      if(response.perfil.nombreperfil!='ADMINISTRADOR'){
+        if(response.intentos>1){
+          response.intentos--;
+          this.loginIncorrecto = `Contraseña incorrecta. Número de intentos restantes: ${response.intentos}`;
+          this.administrarUsuarioService.update(response).subscribe();
+        }else if(response.intentos==1){
+          console.log(response.intentos);
+          console.log(response.bloqueada);
+          response.intentos--;
+          response.bloqueada = true;
+          this.loginIncorrecto='';
+          this.administrarUsuarioService.update(response).subscribe(response =>{
+            swal.fire('Bloqueo de usuario',`Su usuario ha sido bloqueado ya que ha superado el número máximo de intentos.` ,'error');
+          });
+        }else{
+          this.loginIncorrecto='El usuario al que está intentando acceder está bloqueado';
+        }
+      }else{
+        this.loginIncorrecto='Contraseña incorrecta';
+      }
     });
   }
 

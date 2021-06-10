@@ -42,7 +42,6 @@ export class AdministrarUsuariosComponent implements OnInit {
       confirmButtonText: 'Sí, estoy seguro',
       cancelButtonText: 'No',
     }).then((result) => {
-      console.log(result.isConfirmed);
       if (result.isConfirmed) {
         this.administrarUsuarioService.deleteUsuario(usuario.idusuario).subscribe(
           response => {
@@ -79,7 +78,7 @@ export class AdministrarUsuariosComponent implements OnInit {
         confirmButtonText: 'Sin contraseña',
         cancelButtonText: 'Con contraseña',
       }).then((result) => {
-        if (!result.isDenied) {
+        if (!result.isDismissed) {
           this.router.navigate(['/administrador/actualizar/', usuario.idUsuario, result.isConfirmed]);
         }
       })

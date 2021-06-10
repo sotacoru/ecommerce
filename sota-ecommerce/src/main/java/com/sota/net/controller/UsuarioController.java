@@ -194,7 +194,7 @@ public class UsuarioController {
 		//Como no lo encuentra devuelve un error
 		userDetailsService.loadUserByUsername(loginRequest.getEmail().toLowerCase());
 
-		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
+		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail().toLowerCase(), loginRequest.getPassword());
 	}
 
 	//Aquí solo entra si existe
@@ -235,7 +235,7 @@ public class UsuarioController {
 				.nombre(nuevoUsuario.getNombre())
 				.primerApellido(nuevoUsuario.getPrimerapellido())
 				.segundoApellido(nuevoUsuario.getSegundoapellido())
-				.email(nuevoUsuario.getEmail())
+				.email(nuevoUsuario.getEmail().toLowerCase())
 				.perfil(nuevoUsuario.getPerfil())
 				.bloqueada(nuevoUsuario.getBloqueada())
 				.intentos(nuevoUsuario.getIntentos())

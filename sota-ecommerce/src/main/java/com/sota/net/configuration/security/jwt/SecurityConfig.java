@@ -27,8 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final UserDetailsService userDetailsService;
 	private final PasswordEncoder passwordEncoder;
-	private final AuthenticationEntryPoint jwtAuthenticationEntryPoint;
-	private final JwtAuthorizationFilter JwtAuthorizationFilter;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -48,9 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 		.csrf()
 			.disable()
-			.exceptionHandling()
-				.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-		.and()
 		.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
@@ -61,8 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/administrador/**").hasAnyRole("ADMINISTRADOR","SECRETARIO")
 				.antMatchers("/usuario/{idUsuario}","/usuario/{id}").hasRole("ADMINISTRADOR");
 		
-		//Coge el token y si es válido hace funcionar la seguridad
-		http.addFilterBefore(JwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);		
 	}
 
 	@Override
