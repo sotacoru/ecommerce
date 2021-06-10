@@ -7,6 +7,18 @@ import { Injectable } from '@angular/core';
 })
 export class ValidarRegis{
 
+/*
+
+validarEmail(email: any): boolean{
+
+    if(email===undefined){
+      return true;
+    }
+    return /^\w+([.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos|edu.xunta).(?:|com|es|gal|net|org)+$/.test(email);
+
+  }
+
+*/
 
   validarFormatoCampos(usuario: Usuario, passwordDisabled: boolean): boolean{
 

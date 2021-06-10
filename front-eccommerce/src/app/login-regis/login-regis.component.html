@@ -197,9 +197,9 @@
         </select>
       </div>
 
-      <div *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000; padding-bottom=10px">
+      <h4 *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000; padding-bottom=10px;">
         {{registroIncorrecto}}
-      </div>
+      </h4>
 
       <button [disabled]="!regisForm.form.valid || !validarRegis.validarFormatoCampos(usuario, passwordDisabled)"
               (click)='registrarse()' type="submit" class="button button-block">

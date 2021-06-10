@@ -147,6 +147,7 @@ export class LoginRegisComponent implements OnInit {
       swal.fire('Usuario añadido', `¡Usuario ${response.nombre} añadido!`, 'success');
     }, err => {
       if(err.status == 500){
+        console.log('sdjsdkdssdk')
         this.registroIncorrecto='El email introducido ya existe en este comercio';
       }
     });
@@ -156,10 +157,15 @@ export class LoginRegisComponent implements OnInit {
     this.administrarUsuarioService.update(this.usuario).subscribe(
       usuario => {
           this.router.navigate(['/administrador/lista']);
-          console.log(usuario);
           swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
+      }, err => {
+        if(err.status == 500){
+          console.log('sdjsdkdssdk')
+          this.registroIncorrecto='El email introducido ya existe en este comercio';
+        }
+    });
 
-      });
+
   }
 
   isLogged(): boolean {

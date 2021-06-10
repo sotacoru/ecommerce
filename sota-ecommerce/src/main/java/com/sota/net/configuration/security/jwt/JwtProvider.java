@@ -4,6 +4,8 @@ import com.sota.net.entity.Usuario;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.extern.java.Log;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,7 @@ public class JwtProvider {
 	public static final String TOKEN_PREFIX = "Bearer ";
 	public static final String TOKEN_TYPE="JWT";
 	
-	@Value("${jwt.secret:Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus e}")
+	@Value("${jwt.secret}")
 	private String jwtSecreto;
 	
 	@SuppressWarnings("unused")
@@ -25,7 +27,7 @@ public class JwtProvider {
 		return jwtSecreto;
 	}
 	
-	@Value("${jwt.token-expiration:864000}")
+	@Value("${jwt.token-expiration}")
 	private int jwtDurationTokenEnSegundos;
 	
 	public String generateToken(Authentication authentication) {
@@ -64,19 +66,19 @@ public class JwtProvider {
 			Jwts.parser().setSigningKey(jwtSecreto.getBytes()).parseClaimsJws(authToken);
 			return true;
 		}catch(SignatureException ex) {
-			System.out.println("Error en la firma del token JWT");
+			System.out.println("Error en la firma del token JWT " + ex.getMessage());
 			
 		}catch(MalformedJwtException ex) {
-			System.out.println("Token malformado");
+			System.out.println("Token malformado " + ex.getMessage());
 			
 		}catch(ExpiredJwtException ex) {
-			System.out.println("El token ha expirado");
+			System.out.println("El token ha expirado " + ex.getMessage());
 			
 		}catch(UnsupportedJwtException ex) {
-			System.out.println("Token JWT no soportado");
+			System.out.println("Token JWT no soportado " + ex.getMessage());
 			
 		}catch(IllegalArgumentException ex) {
-			System.out.println("JWT Claims vacío");
+			System.out.println("JWT Claims vacío " + ex.getMessage());
 			
 		}
 		

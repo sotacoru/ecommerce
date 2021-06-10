@@ -18,11 +18,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint{
 
-	private final ObjectMapper mapper;
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException {
+		//Ponemos la respuesta del estado en no autorizado
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		
 	}

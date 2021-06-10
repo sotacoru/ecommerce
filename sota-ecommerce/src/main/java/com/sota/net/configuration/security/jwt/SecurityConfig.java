@@ -27,12 +27,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final UserDetailsService userDetailsService;
 	private final PasswordEncoder passwordEncoder;
+	private final AuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private final JwtAuthorizationFilter JwtAuthorizationFilter;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 	}
 
+	//Expone el mecanismo de autenticación 
 	@Bean(BeanIds.AUTHENTICATION_MANAGER)
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -45,16 +48,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 		.csrf()
 			.disable()
+			.exceptionHandling()
+				.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+		.and()
 		.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 			.authorizeRequests()
 				.antMatchers("/api/login","api/usuario/email","/api/registro/usuarios").permitAll()
 				.antMatchers("/api/producto/**","/api/uploads/**").permitAll()
-				.antMatchers("/api/pedido/**").not().hasAnyRole("ADMINISTRADOR","SECRETARIO")
+				.antMatchers("/api/pedido").not().hasAnyRole("ADMINISTRADOR","SECRETARIO")
 				.antMatchers("/api/administrador/**").hasAnyRole("ADMINISTRADOR","SECRETARIO")
 				.antMatchers("/usuario/{idUsuario}","/usuario/{id}").hasRole("ADMINISTRADOR");
-				
+		
+		//Coge el token y si es válido hace funcionar la seguridad
+		http.addFilterBefore(JwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);		
 	}
 
 	@Override
