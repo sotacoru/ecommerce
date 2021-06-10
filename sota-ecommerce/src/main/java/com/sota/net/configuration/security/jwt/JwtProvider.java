@@ -64,19 +64,19 @@ public class JwtProvider {
 			Jwts.parser().setSigningKey(jwtSecreto.getBytes()).parseClaimsJws(authToken);
 			return true;
 		}catch(SignatureException ex) {
-			//Error en la firma del token JWT
+			System.out.println("Error en la firma del token JWT");
 			
 		}catch(MalformedJwtException ex) {
-			//Token malformado
+			System.out.println("Token malformado");
 			
 		}catch(ExpiredJwtException ex) {
-			//El token ha expirado
+			System.out.println("El token ha expirado");
 			
 		}catch(UnsupportedJwtException ex) {
-			//Token JWT no soportado
+			System.out.println("Token JWT no soportado");
 			
 		}catch(IllegalArgumentException ex) {
-			//JWT claims vacío
+			System.out.println("JWT Claims vacío");
 			
 		}
 		

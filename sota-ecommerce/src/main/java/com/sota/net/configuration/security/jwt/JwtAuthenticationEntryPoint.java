@@ -25,13 +25,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint{
 			AuthenticationException authException) throws IOException {
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		
-		/*
-		 * Cuando cree clase ApiError
-		 * ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED, authException.getMessage
-		 * String strApiError = mapper.writeValueAsString(apiError)
-		 * PrintWriter writer = response.getWriter
-		 * writer.println(strApiError)
-		 */
 	}
 	
 	
