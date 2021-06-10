@@ -14,7 +14,7 @@ import {HttpEventType} from '@angular/common/http';
 })
 export class FormComponent implements OnInit {
 
-  titulo: string = "Nuevo producto";
+  titulo: string;
   producto: Producto = new Producto();
   categorias: Categoria[];
   public fotoSeleccionada: File;
@@ -31,6 +31,12 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarProducto()
+    if (this.producto.id) {
+      this.titulo = "Actualizar Producto"
+    } else {
+      this.titulo = "Nuevo producto"
+    }
+
 
   }
 
@@ -57,9 +63,6 @@ export class FormComponent implements OnInit {
   create(): void {
     this.productoService.create(this.producto).subscribe(
       response => {
-        console.log(response.producto)
-
-        // Swal.fire('Nuevo cliente', `Cliente ${response.cliente.nombre} creado con exito`, 'success') */
 
         if (!this.fotoSeleccionada) {
           Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
@@ -73,11 +76,10 @@ export class FormComponent implements OnInit {
                 Swal.fire('La foto se ha subido correctamente', response.message, 'success');
 
               }
-              /* this.cliente = cliente; */
             }
           )
         }
-        //   Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success')
+        Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success')
 
       },
       err => {
@@ -120,31 +122,10 @@ export class FormComponent implements OnInit {
 
 
   compararCategoriaa(o1: Categoria, o2: Categoria): boolean {
-
-    if (o1 === undefined || o2 === undefined) {
+    if (o1 === undefined && o2 === undefined) {
       return true;
     }
-    return o1 == null || o2 == null || o1 == undefined || o2 == undefined ? false : o1.id === o2.id;
+    return o1 === null || o2 === null || o1 === undefined || o2 === undefined ? false : o1.id === o2.id
   }
 
-
-  subirFoto() {
-    if (!this.fotoSeleccionada) {
-      Swal.fire('Error ', `tiene que selecionar una foto`, 'error');
-    } else {
-      this.productoService.subirFoto(this.fotoSeleccionada, this.producto.id).subscribe(
-        event => {
-          if (event.type === HttpEventType.UploadProgress) {
-
-          } else if (event.type === HttpEventType.Response) {
-            let response: any = event.body;
-            this.producto = response.cliente as Producto;
-
-            Swal.fire('La foto se ha subido correctamente', response.message, 'success');
-          }
-          /* this.cliente = cliente; */
-        }
-      );
-    }
-  }
 }
