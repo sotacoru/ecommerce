@@ -44,29 +44,12 @@ export class ProductosComponent implements OnInit {
         if (categoria === undefined) {
           this.ps.getProductos().subscribe(
             response => {
-              if (!this.isCliente()) {
-                this.productos = response
-              } else {
-                this.productos = response.filter(
-                  e => {
-                    return e.cantidad > 0
-                  }
-                )
-
-              }
+              this.filtrarProductosStock(response)
             })
         } else {
           this.ps.getProductosCategoria(categoria).subscribe(
             response => {
-              if (!this.isCliente()) {
-                this.productos = response
-              } else {
-                this.productos = response.filter(
-                  e => {
-                    return e.cantidad > 0
-                  }
-                )
-              }
+              this.filtrarProductosStock(response)
             }
           )
         }
@@ -96,9 +79,25 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+  filtrarProductosStock(response: Producto[]) {
+    if (!this.isCliente()) {
+      console.log("soy un cliente")
+      this.productos = response
+    } else {
+      this.productos = response.filter(
+        e => {
+          return e.cantidad > 0
+        }
+      )
+    }
+  }
+
   buscar() {
     this.ps.getProductosBusqueda(this.busqueda).subscribe(
-      response => this.productos = response
+      response => {
+        console.log(this.busqueda)
+        this.filtrarProductosStock(response)
+      }
     );
   }
 
@@ -132,14 +131,17 @@ export class ProductosComponent implements OnInit {
   }
 
   addProductoCarrito(producto: Producto) {
-    if (this.pedido) {
+    if (this.pedido !== undefined) {
       this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
 
     } else {
       this.pedido = new PedidoDto();
       this.pedido.precioTotal = 0;
-      this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.authService.usuario);
-      this.pedido.idUsuario.idUsuario = this.authService.getSub()
+      if (this.authService.isAuthenticated()) {
+        this.pedido.idUsuario = this.ua.usuarioToUsuarioPedido(this.authService.usuario);
+      } else {
+        this.pedido.idUsuario = null;
+      }
       this.pedidoService.postPedido(this.pedido)
       this.pedido.precioTotal = producto.precio
       this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Usuario} from '../entity/usuario';
 import {map} from "rxjs/operators";
@@ -16,7 +17,8 @@ export class AuthUsuarioService {
   private _token: string;
   private urlEndPoint: string = 'http://localhost:8090/api/usuario';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
   }
 
   public get usuario(): Usuario {
@@ -62,6 +64,7 @@ export class AuthUsuarioService {
     return this.http.post<any>(urlEndPoint, usuario, {headers: httpHeaders});
   }
 
+
   guardarUsuario(accessToken: string): void {
     let payload = this.obtenerDatosToken(accessToken);
 
@@ -105,11 +108,13 @@ export class AuthUsuarioService {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('usuario');
 
+    this.router.navigate(['/login']);
   }
 
   getUsuario(): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.urlEndPoint}/${this.getSub()}`);
   }
+
 
   getUsuariosBusqueda(busqueda: UsuarioBusqueda): Observable<Usuario[]> {
     return this.http.post(this.urlEndPoint + '/busqueda', busqueda).pipe(

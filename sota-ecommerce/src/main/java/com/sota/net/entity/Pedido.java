@@ -33,6 +33,7 @@ public class Pedido implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Pago idPago;
 
+	@ApiModelProperty(value = "Lista de los productos que están en el pedido", dataType = "PedidoProducto", example = "10", position = 5)
 	 @OneToMany( mappedBy = "pedido")
 	 @JsonIgnore
 	 private List<PedidoProducto> pedidoProducto ;

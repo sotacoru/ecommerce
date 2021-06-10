@@ -9,8 +9,8 @@ import com.sota.net.service.IUsuarioService;
 import com.sota.net.utils.busqueda.UsuarioCriteria;
 import io.github.jhipster.service.QueryService;
 import io.github.jhipster.service.filter.StringFilter;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +19,11 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 
-	@Autowired
-	private IUsuarioRepository usuarioRepository;
+	
+	private final IUsuarioRepository usuarioRepository;
 
 	@Override
 	@Transactional(readOnly=true)
@@ -31,6 +32,7 @@ public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public Usuario save(Usuario usuario) {
 		return usuarioRepository.save(usuario);
 	}
@@ -42,6 +44,7 @@ public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public void deleteUsuarioById(Long idUsuario) {
 		usuarioRepository.deleteById(idUsuario);
 	}
@@ -52,7 +55,7 @@ public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 		return usuarioRepository.findById(idUsuario).orElse(null);
 	}
 
-	@Transactional
+	@Transactional(readOnly=true)
 	@Override
 	public List<Usuario> findWithFilter(UsuarioBusqueda dto) {
 		if (dto.isEmpty()) {

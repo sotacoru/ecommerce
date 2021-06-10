@@ -24,7 +24,8 @@
           </div>
 
           <div class="action">
-            <app-add-carrito [producto]="producto"></app-add-carrito>
+            <p-button (click)="addProductoCarrito(producto)" icon="pi pi-shopping-cart"
+                      label="Añadir al carrito" styleClass="p-button-success mx-2 my-1"></p-button>
           </div>
         </div>
       </div>

@@ -10,8 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,58 +30,59 @@ public class Usuario implements Serializable, UserDetails {
 	private Long idUsuario;
 
 	@ApiModelProperty(value = "Nombre del usuario", dataType = "String", example = "Pepe", position = 2)
-//	@NotNull
-//	@Size(min=2, max=20)
+	@NotNull
+	@Size(min=2, max=20)
 	private String nombre;
 
 	@ApiModelProperty(value = "Primer apellido del usuario", dataType = "String", example = "Rodríguez", position = 3)
-//	@NotNull
-	//@Size(min=2, max=20)
+	@NotNull
+	@Size(min=2, max=20)
 	private String primerapellido;
 
 	@ApiModelProperty(value = "Segundo apellido del usuario", dataType = "String", example = "López", position = 4)
-	//@NotNull
-	//@Size(min=2, max=20)
+	@NotNull
+	@Size(min=2, max=20)
 	private String segundoapellido;
 
 	@ApiModelProperty(value = "Email del usuario", dataType = "String", example = "email@email.com", position = 5)
 	@Column(unique = true)
-	//@NotNull
-	//@Size(min=10, max=320)
+	@NotNull
 	private String email;
 	
-	private int intentos;
-	
-	private boolean bloqueada;
-
 	@ApiModelProperty(value = "password del usuario", dataType = "String", example = "password123.", position = 6)
 	private String password;
+	
+	@ApiModelProperty(value = "Intentos del usuario (máximo)", dataType = "Int", example = "3", position = 7)
+	private int intentos;
+	
+	@ApiModelProperty(value = "Información de si el usuario tiene la cuenta bloqueada", dataType = "Boolean (1 bloqueada, 0 no bloqueada)", example = "0", position = 8)
+	private boolean bloqueada;
 
-	@ApiModelProperty(value = "Perfil asociado al usuario", dataType = "Perfil", example = "ADMINISTRADOR", position = 7)
+	@ApiModelProperty(value = "Perfil asociado al usuario", dataType = "Perfil", example = "ADMINISTRADOR", position = 9)
 	@JsonSerialize
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idperfil")
 	private Perfil perfil;
 	
-	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password,
-			int intentos, boolean bloqueada, Perfil perfil) {
+	public Usuario(String nombre, String primerapellido, String segundoapellido, String email, String password, int intentos,
+			boolean bloqueada, Perfil perfil) {
 		this.nombre = nombre;
 		this.primerapellido = primerapellido;
 		this.segundoapellido = segundoapellido;
 		this.email = email;
 		this.password = password;
-		this.intentos = intentos;
+		this.intentos=intentos;
 		this.bloqueada = bloqueada;
 		this.perfil = perfil;
 	}
 	
 
-    public Long getIdusuario() {
+    public Long getIdUsuario() {
 		return idUsuario;
 	}
 
-	public void setIdusuario(Long idusuario) {
-		this.idUsuario = idusuario;
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public String getNombre() {

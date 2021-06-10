@@ -1,40 +1,92 @@
-.btn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+
+.tab-group {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  li a {
+    display: block;
+    text-decoration: none;
+    padding: 15px;
+    background: rgba(#a0b3b0, .25);
+    color: black;
+    font-size: 20px;
+    float: left;
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+    transition: .5s ease;
+
+    &:hover {
+      background: darken(#689f38, 5%);
+      color: white;
+    }
+  }
+
+
+}
+
+
+h1 {
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  text-transform: uppercase;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  border-radius: 10px;
+  color: #4b5250;
+  font-weight: 300;
+  margin: 0 0 40px;
 }
 
-.p1{
-  display: flex;
-  justify-content: center;
+label {
+  font-size: 22px;
+
+  .req {
+    margin: 2px;
+    color: #689f38;
+  }
 }
 
-.botones{
-  margin-bottom: 8px;
+
+label.highlight {
+  color: #4b5250;
 }
 
-.formularios{
 
+.field-wrap {
+  position: relative;
+  margin-bottom: 40px;
 }
 
-form{
-    width:500px;
-    padding:16px;
-    border-radius:10px;
-    margin:auto;
-    background-color:#ccc;
+.top-row {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  > div {
+    float: left;
+    width: 48%;
+    margin-right: 4%;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
 }
 
-input{
-  width:450px;
+
+.button-block {
+  display: block;
+  width: 100%;
 }
+
+
