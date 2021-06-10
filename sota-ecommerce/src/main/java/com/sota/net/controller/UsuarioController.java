@@ -192,7 +192,7 @@ public class UsuarioController {
 	@SuppressWarnings("unchecked")
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> login(@RequestBody LoginRequest loginRequest) {
-		//Como no lo encuentra devuelve un error 500
+		//Como no lo encuentra devuelve un error
 		userDetailsService.loadUserByUsername(loginRequest.getEmail().toLowerCase());
 
 		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
