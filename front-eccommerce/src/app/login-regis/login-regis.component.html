@@ -56,7 +56,7 @@
         {{loginIncorrecto}}
       </div>
 
-      <button [disabled]="!usuarioForm.form.valid || !validarRegis.validarEmail(usuario.email)" (click)='login()'
+      <button [disabled]="!usuarioForm.form.valid" (click)='login()'
               class="button button-block">
         Log In
       </button>
@@ -128,10 +128,9 @@
           Email <span class="req">*</span>
         </label>
         <input type="email" class="input" required autocomplete="off" id="email" name="email" minlength="9"
-               maxlength="320"
-               [(ngModel)]="usuario.email" #email="ngModel"/>
+               maxlength="320" [(ngModel)]="usuario.email" #email="ngModel" [pattern]="validarRegis.validarEmail(usuario.email)"/>
 
-        <div *ngIf="(email.invalid && (email.dirty || email.touched)) || !validarRegis.validarEmail(usuario.email)"
+        <div *ngIf="(email.invalid && (email.dirty || email.touched)) || !email.pattern"
              class="alert alert-danger">
           <div *ngIf="email.errors?.required">
             - El campo email es obligatorio
@@ -198,7 +197,7 @@
         </select>
       </div>
 
-      <div *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000;">
+      <div *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000; padding-bottom=10px">
         {{registroIncorrecto}}
       </div>
 

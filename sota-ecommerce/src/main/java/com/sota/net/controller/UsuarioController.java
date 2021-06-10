@@ -119,7 +119,7 @@ public class UsuarioController {
 		try {
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()).toString());
 			usuario.setBloqueada(false);
-
+			usuario.setEmail(usuario.getEmail().toLowerCase());
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
 			System.out.println("Error 2");
@@ -127,7 +127,6 @@ public class UsuarioController {
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
-		System.out.println("entré2");
 
 		return creacionTokenUsuario(usuarioNew.getEmail(),passwordUsuario);
 				
@@ -153,7 +152,7 @@ public class UsuarioController {
 			usuarioActual.setNombre(usuario.getNombre());
 			usuarioActual.setPrimerapellido(usuario.getPrimerapellido());
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
-			usuarioActual.setEmail(usuario.getEmail());
+			usuarioActual.setEmail(usuario.getEmail().toLowerCase());
 			usuarioActual.setPerfil(usuario.getPerfil());
 			usuarioActual.setBloqueada(usuario.getBloqueada());
 			usuarioActual.setIntentos(usuario.getIntentos());
@@ -194,7 +193,7 @@ public class UsuarioController {
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> login(@RequestBody LoginRequest loginRequest) {
 		//Como no lo encuentra devuelve un error 500
-		userDetailsService.loadUserByUsername(loginRequest.getEmail());
+		userDetailsService.loadUserByUsername(loginRequest.getEmail().toLowerCase());
 
 		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
 	}

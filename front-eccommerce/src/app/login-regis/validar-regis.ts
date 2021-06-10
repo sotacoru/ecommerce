@@ -31,6 +31,7 @@ export class ValidarRegis{
     if(email===undefined){
       return true;
     }
+
     return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es|gal|net|org)+$/.test(email);
 
   }
