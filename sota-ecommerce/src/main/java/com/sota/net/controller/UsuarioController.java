@@ -174,7 +174,6 @@ public class UsuarioController {
 
 	@DeleteMapping("/usuario/{id}")
 	private ResponseEntity<?> delete(@PathVariable Long id) {
-		System.out.println(id);
 
 		Map<String, Object> response = new HashMap<>();
 		try {

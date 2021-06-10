@@ -87,29 +87,32 @@ export class LoginRegisComponent implements OnInit {
         swal.fire('Login', `Hola ${usuario.nombre}  has iniciado sesion correctamente`, 'success');
       }, err => {
         if (err.status == 403){
-
-            this.administrarUsuarioService.getIdUsuarioByEmail(this.usuario.email).subscribe( response =>
-            {
-              if(response.intentos>1){
-                response.intentos--;
-                this.loginIncorrecto = `Contraseña incorrecta. Número de intentos restantes: ${response.intentos}`;
-                this.administrarUsuarioService.update(response).subscribe();
-              }else if(response.intentos=1){
-                response.intentos--;
-                response.bloqueada = true;
-                this.loginIncorrecto='';
-                this.administrarUsuarioService.update(response).subscribe(response =>{
-                  swal.fire('Bloqueo de usuario',`Su usuario ha sido bloqueado ya que ha superado el número máximo de intentos.` ,'error');
-                });
-              }else{
-                this.loginIncorrecto='El usuario al que está intentando acceder está bloqueado';
-              }
-
-            });
+          this.comprobarIntentosLogin();
         }else if(err.status == 500){
           this.loginIncorrecto = `Lamentablemente, ha habido un error en el inicio de sesión. Asegúrate de que estás utilizando la dirección de correo electrónico correcta.`;
         }
       });
+  }
+
+  comprobarIntentosLogin(): void{
+    this.administrarUsuarioService.getIdUsuarioByEmail(this.usuario.email).subscribe( response =>
+    {
+      if(response.intentos>1){
+        response.intentos--;
+        this.loginIncorrecto = `Contraseña incorrecta. Número de intentos restantes: ${response.intentos}`;
+        this.administrarUsuarioService.update(response).subscribe();
+      }else if(response.intentos=1){
+        response.intentos--;
+        response.bloqueada = true;
+        this.loginIncorrecto='';
+        this.administrarUsuarioService.update(response).subscribe(response =>{
+          swal.fire('Bloqueo de usuario',`Su usuario ha sido bloqueado ya que ha superado el número máximo de intentos.` ,'error');
+        });
+      }else{
+        this.loginIncorrecto='El usuario al que está intentando acceder está bloqueado';
+      }
+
+    });
   }
 
   registrarse(){
@@ -147,7 +150,6 @@ export class LoginRegisComponent implements OnInit {
       swal.fire('Usuario añadido', `¡Usuario ${response.nombre} añadido!`, 'success');
     }, err => {
       if(err.status == 500){
-        console.log('sdjsdkdssdk')
         this.registroIncorrecto='El email introducido ya existe en este comercio';
       }
     });
@@ -160,7 +162,6 @@ export class LoginRegisComponent implements OnInit {
           swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
       }, err => {
         if(err.status == 500){
-          console.log('sdjsdkdssdk')
           this.registroIncorrecto='El email introducido ya existe en este comercio';
         }
     });
