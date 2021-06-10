@@ -1,5 +1,4 @@
 import {Usuario} from '../entity/usuario';
-import {Perfil} from '../entity/perfil';
 import { Injectable } from '@angular/core';
 
 
@@ -11,9 +10,6 @@ export class ValidarRegis{
 
   validarFormatoCampos(usuario: Usuario, passwordDisabled: boolean): boolean{
 
-    if(!this.validarEmail(usuario.email)){
-      return false;
-    }
     if(!passwordDisabled){
       if(!this.validarPassword(usuario.password)){
        return false;
@@ -24,17 +20,6 @@ export class ValidarRegis{
       return true;
 
     }
-
-
-  validarEmail(email: any): boolean{
-
-    if(email===undefined){
-      return true;
-    }
-
-    return /^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|atos)\.(?:|com|es|gal|net|org)+$/.test(email);
-
-  }
 
   validarPassword(password1: String): boolean{
     console.log(password1)

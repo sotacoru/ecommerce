@@ -128,9 +128,9 @@
           Email <span class="req">*</span>
         </label>
         <input type="email" class="input" required autocomplete="off" id="email" name="email" minlength="9"
-               maxlength="320" [(ngModel)]="usuario.email" #email="ngModel" [pattern]="validarRegis.validarEmail(usuario.email)"/>
+               maxlength="320" [(ngModel)]="usuario.email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
 
-        <div *ngIf="(email.invalid && (email.dirty || email.touched)) || !email.pattern"
+        <div *ngIf="(email.invalid && (email.dirty || email.touched))"
              class="alert alert-danger">
           <div *ngIf="email.errors?.required">
             - El campo email es obligatorio
@@ -138,8 +138,8 @@
           <div *ngIf="email.errors?.minlength">
             - El campo email debe tener por lo menos 9 caracteres
           </div>
-          <div *ngIf="!validarRegis.validarEmail(usuario.email)">
-            - El formato del email es incorrecto
+          <div *ngIf="email.errors?.pattern">
+            - El formato del email es incorrecto. Un ejemplo de formato sería: ejemplo@gmail.com
           </div>
         </div>
       </div>
