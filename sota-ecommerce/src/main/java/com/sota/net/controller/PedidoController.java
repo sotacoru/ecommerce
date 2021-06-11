@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +74,7 @@ public class PedidoController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 		Usuario usuarioPedido = null;
-		if (pedidoDto.getIdUsuario().getIdUsuario()!=null){
+		if (pedidoDto.getIdUsuario()!=null){
 			usuarioPedido = usuarioDtoConverter.usuarioPedidoToUsuario(pedidoDto.getIdUsuario());
 		}
 
