@@ -17,8 +17,12 @@
               <label for="foto">Sólo productos con foto</label>
 
             </div>
-             <p-button class="elementBusqueda" role="button" styleClass="p-button-success mx-2" (click)='buscar()'>
+             <p-button class="elementBusqueda" role="button" styleClass="p-button-success mx-1" (click)='buscar()'>
               <i class="pi pi-search"></i>
+            </p-button>
+            <p-button class="elementBusqueda mx-1" type="reset" styleClass="p-button-success"
+                      (click)="cargarProductos()">
+              <i class="pi pi-refresh"></i>
             </p-button>
               <p-button styleClass="p-button-success mb-1" [routerLink]="['/formulario']"
                         label="Añadir Producto"
