@@ -78,7 +78,9 @@ export class FormComponent implements OnInit {
             }
           )
         }
-        Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success')
+        Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success').then(
+          r => this.router.navigate(['/productos'])
+        )
 
       },
       err => {
@@ -113,7 +115,10 @@ export class FormComponent implements OnInit {
         )
       }
 
-      Swal.fire('Producto actualizado', `Prducto ${response.producto.nombre} actualizado con exito`, 'success')
+      Swal.fire('Producto actualizado', `Producto ${response.producto.nombre} actualizado con exito`, 'success').then(
+        r => this.router.navigate(['/productos'])
+      )
+
     })
 
 
