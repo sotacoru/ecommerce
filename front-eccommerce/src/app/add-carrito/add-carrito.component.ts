@@ -74,7 +74,6 @@ export class AddCarritoComponent implements OnInit {
       this.pedidoService.postPedido(this.pedido)
       this.pedido.precioTotal = producto.precio
       this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
-      console.log(this.pedido)
 
     }
   }
