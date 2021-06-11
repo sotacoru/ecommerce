@@ -38,10 +38,18 @@
         <label for="passwordlog">
           Password<span class="req">*</span>
         </label>
-        <input type="password" class="input" [(ngModel)]="usuario.password" class="input"
-               name="passwordlog" id="passwordlog" required autocomplete="off"
-               minlength="6" maxlength="30" #passwordlog="ngModel"/>
-
+        <div>
+          <input [type]="varMostrarPassword?'text':'password'" class="input" style="width:89%;" [(ngModel)]="usuario.password" class="input"
+                 name="passwordlog" id="passwordlog" required autocomplete="off"
+                 minlength="6" maxlength="30" #passwordlog="ngModel"/>
+                 <p-button  styleClass="p-button-secondary" (click)="mostrarPassword()">
+                  <i class="pi " [ngClass]="{
+                    'pi-eye': varMostrarPassword,
+                    'pi-eye-slash': !varMostrarPassword
+                  }"
+                  ></i>
+                </p-button>
+        </div>
         <div *ngIf="passwordlog.invalid && (passwordlog.dirty ||passwordlog.touched)"
              class="alert alert-danger">
           <div *ngIf="passwordlog.errors?.required">
@@ -130,6 +138,7 @@
         <input type="email" class="input" required autocomplete="off" id="email" name="email" minlength="9"
                maxlength="320" [(ngModel)]="usuario.email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
 
+
         <div *ngIf="(email.invalid && (email.dirty || email.touched))"
              class="alert alert-danger">
           <div *ngIf="email.errors?.required">
@@ -148,8 +157,16 @@
         <label>
           Contraseña<span class="req">*</span>
         </label>
-        <input type="password" class="input" required name="password" [(ngModel)]="usuario.password" id="password"
+        <input [type]="varMostrarPassword?'text':'password'" class="input" style="width:89%;" required name="password" [(ngModel)]="usuario.password" id="password"
                minlength="6" maxlength="30" [disabled]="passwordEditable()" autocomplete="off" #password="ngModel"/>
+
+               <p-button  styleClass="p-button-secondary" (click)="mostrarPassword()">
+                <i class="pi " [ngClass]="{
+                  'pi-eye': varMostrarPassword,
+                  'pi-eye-slash': !varMostrarPassword
+                }"
+                ></i>
+              </p-button>
 
         <div
           *ngIf="(password.invalid && (password.dirty ||password.touched)) || !validarRegis.validarPassword(usuario.password)"
@@ -171,8 +188,17 @@
         <label>
           Repite Contraseña<span class="req">*</span>
         </label>
-        <input type="password" class="input" required name="password2" id="password2" [(ngModel)]="usuario.password2"
+        <input [type]="varMostrarPassword?'text':'password'" class="input"  style="width:89%;" required name="password2" id="password2" [(ngModel)]="usuario.password2"
                minlength="6" maxlength="30" [disabled]="passwordEditable()" autocomplete="off" #password2="ngModel"/>
+
+               <p-button  styleClass="p-button-secondary" (click)="mostrarPassword()">
+                <i class="pi " [ngClass]="{
+                  'pi-eye': varMostrarPassword,
+                  'pi-eye-slash': !varMostrarPassword
+                }"
+                ></i>
+              </p-button>
+
         <div *ngIf="(password2.invalid && (password2.dirty ||password2.touched)) ||
           (!validarRegis.compararPassword(usuario.password,usuario.password2) &&
             validarRegis.validarPassword(usuario.password))"
@@ -197,9 +223,9 @@
         </select>
       </div>
 
-      <div *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000;">
+      <h3 *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000;">
         {{registroIncorrecto}}
-      </div>
+      </h3>
 
       <button [disabled]="!regisForm.form.valid || !validarRegis.validarFormatoCampos(usuario, passwordDisabled)"
               (click)='registrarse()' type="submit" class="button button-block">
@@ -212,3 +238,16 @@
 
 
 </div>
+
+
+
+<script>
+  function mostrarContrasena(){
+      var tipo = document.getElementById("passwordlog");
+      if(tipo.type == "password"){
+          tipo.type = "text";
+      }else{
+          tipo.type = "password";
+      }
+  }
+</script>

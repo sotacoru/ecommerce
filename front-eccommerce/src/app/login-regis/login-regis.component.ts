@@ -24,6 +24,7 @@ export class LoginRegisComponent implements OnInit {
   intentos: number;
   loginIncorrecto: String;
   registroIncorrecto: String;
+  varMostrarPassword: boolean = false;
 
   constructor(private authService: AuthUsuarioService,
     private router: Router,
@@ -69,7 +70,7 @@ export class LoginRegisComponent implements OnInit {
   login(){
 
       this.authService.login(this.usuario).subscribe(response => {
-        
+
         if(response.bloqueada){
           this.loginIncorrecto=`Su usuario está bloqueado, no puede iniciar sesión`;
           return;
@@ -187,9 +188,19 @@ export class LoginRegisComponent implements OnInit {
         false: perfil.idperfil === perfil2.idperfil
   }
 
-  //SI es true no se puede editar
-    passwordEditable(): boolean{
-      return this.passwordDisabled;
+    mostrarPassword(): string{
+      if(!this.varMostrarPassword){
+        console.log('text');
+        this.varMostrarPassword=true;
+        return 'text';
+      }
+      console.log('password')
+      this.varMostrarPassword=false;
+      return 'password';
+    }
+
+    passwordEditable(): boolean {
+    return this.passwordDisabled;
     }
 
     deshabilitarSelect(perfil: Perfil): boolean{
