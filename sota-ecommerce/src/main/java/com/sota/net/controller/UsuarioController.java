@@ -119,7 +119,7 @@ public class UsuarioController {
 		try {
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()).toString());
 			usuario.setBloqueada(false);
-
+			usuario.setEmail(usuario.getEmail().toLowerCase());
 			usuarioNew = usuarioService.save(usuario);
 		} catch (DataAccessException e) {
 			System.out.println("Error 2");
@@ -127,7 +127,6 @@ public class UsuarioController {
 			response.put("error: ", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
-		System.out.println("entré2");
 
 		return creacionTokenUsuario(usuarioNew.getEmail(),passwordUsuario);
 				
@@ -153,7 +152,7 @@ public class UsuarioController {
 			usuarioActual.setNombre(usuario.getNombre());
 			usuarioActual.setPrimerapellido(usuario.getPrimerapellido());
 			usuarioActual.setSegundoapellido(usuario.getSegundoapellido());
-			usuarioActual.setEmail(usuario.getEmail());
+			usuarioActual.setEmail(usuario.getEmail().toLowerCase());
 			usuarioActual.setPerfil(usuario.getPerfil());
 			usuarioActual.setBloqueada(usuario.getBloqueada());
 			usuarioActual.setIntentos(usuario.getIntentos());
@@ -175,9 +174,9 @@ public class UsuarioController {
 
 	@DeleteMapping("/usuario/{id}")
 	private ResponseEntity<?> delete(@PathVariable Long id) {
-		System.out.println(id);
 
 		Map<String, Object> response = new HashMap<>();
+		System.out.println(id);
 		try {
 			usuarioService.deleteUsuarioById(id);
 		}catch(DataAccessException ex) {
@@ -193,10 +192,10 @@ public class UsuarioController {
 	@SuppressWarnings("unchecked")
 	@PostMapping("/login")
 	public ResponseEntity<JwtUserResponse> login(@RequestBody LoginRequest loginRequest) {
-		//Como no lo encuentra devuelve un error 500
-		userDetailsService.loadUserByUsername(loginRequest.getEmail());
+		//Como no lo encuentra devuelve un error
+		userDetailsService.loadUserByUsername(loginRequest.getEmail().toLowerCase());
 
-		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail(), loginRequest.getPassword());
+		return (ResponseEntity<JwtUserResponse>) creacionTokenUsuario(loginRequest.getEmail().toLowerCase(), loginRequest.getPassword());
 	}
 
 	//Aquí solo entra si existe
@@ -217,8 +216,6 @@ public class UsuarioController {
 
 		String jwtToken = jwtProvider.generateToken(authentication);
 
-		System.out.println(usuarioNew.getBloqueada());
-
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(convertUserEntityAndTokenToJwtUserResponse(usuarioNew, jwtToken));
 	}
@@ -237,7 +234,7 @@ public class UsuarioController {
 				.nombre(nuevoUsuario.getNombre())
 				.primerApellido(nuevoUsuario.getPrimerapellido())
 				.segundoApellido(nuevoUsuario.getSegundoapellido())
-				.email(nuevoUsuario.getEmail())
+				.email(nuevoUsuario.getEmail().toLowerCase())
 				.perfil(nuevoUsuario.getPerfil())
 				.bloqueada(nuevoUsuario.getBloqueada())
 				.intentos(nuevoUsuario.getIntentos())

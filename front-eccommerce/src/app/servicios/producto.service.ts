@@ -17,7 +17,7 @@ export class ProductoService {
 
   constructor(private http: HttpClient, private router: Router) {
   }
-
+  //Optener productos
   getProductos(): Observable<any> {
     return this.http.get(this.url + '/all').pipe(
       map((response: any) => {
@@ -27,7 +27,7 @@ export class ProductoService {
 
   }
 
-
+  //Optener Producto por id
   getProductosId(id): Observable<Producto> {
     return this.http.get<Producto>(`${this.url}/${id}`).pipe(
       catchError(e => {
@@ -51,7 +51,7 @@ export class ProductoService {
   getProductosCategoria(categoria: string): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${this.url}/categoria/${categoria}`)
   }
-
+  //Busca las categorias de la bbdd
   getCategorias(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(this.url + '/categorias');
   }
@@ -61,7 +61,6 @@ export class ProductoService {
   }
 
   create(producto: Producto): Observable<any> {
-    console.log(producto)
     return this.http.post<Producto>(this.adminurl, producto).pipe(
       catchError(e => {
         if (e.status === 400) {
@@ -73,7 +72,7 @@ export class ProductoService {
 
   }
 
-
+  //Actualiza el producto
   update(producto: Producto): Observable<any> {
     return this.http.put<Producto>(`${this.adminurl}/${producto.id}`, producto).pipe(
       catchError(e => {
@@ -90,7 +89,7 @@ export class ProductoService {
 
   }
 
-
+  //Sube la foto del producto
   subirFoto(archivo: File, id): Observable<HttpEvent<{}>> {
     let formdata = new FormData();
     formdata.append('archivo', archivo);
@@ -104,7 +103,7 @@ export class ProductoService {
 
   }
 
-
+  //Borrar producto
   delete(id: number): Observable<Producto> {
     return this.http.delete<Producto>(`http://localhost:8090/api/administracion/producto/${id}`, {headers: this.httpHeaders}).pipe(
     )

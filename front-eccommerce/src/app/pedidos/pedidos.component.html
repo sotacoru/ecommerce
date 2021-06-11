@@ -38,7 +38,7 @@
             <a (click)="restarCantidad(producto)"> <i class="pi pi-minus"></i> </a>
           </td>
           <td>{{(producto.producto.precio * producto.cantidad).toFixed(2)}}€</td>
-          <td>
+          <td align="center">
             <button pButton type="button" icon="pi pi-trash"
                     class="p-button-rounded p-button-danger p-button-sm" (click)="eliminarProducto(producto)"></button>
           </td>

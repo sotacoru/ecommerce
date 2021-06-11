@@ -1,11 +1,11 @@
 package com.sota.net.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,15 +20,19 @@ public class Producto implements Serializable {
     private Long id;
 
 	@ApiModelProperty(value = "Nombre del producto", dataType = "String", example = "CERVEZA DE CEBADA", position = 2)
+    @NotNull
+    @Size(min=2, max=100)
     private String nombre;
 
 	@ApiModelProperty(value = "Precio por unidad del producto", dataType = "Double", example = "2,5", position = 3)
+    @NotNull
     private Double precio;
-
+    @Size( max=300)
 	@ApiModelProperty(value = "Pago favorito elegido por el usuario", dataType = "String", example = "Cerveza hecha a partir de cebada", position = 4)
     private String descripcion;
 
-	@ApiModelProperty(value = "Cantidad disponible del producto", dataType = "Int", example = "10", position = 5)
+    @ApiModelProperty(value = "Cantidad disponible del producto", dataType = "Int", example = "10", position = 5)
+    @NotNull
     private int cantidad;
     
 	@ApiModelProperty(value = "Ruta en donde se alamcena la imagen", dataType = "String", example = "ruta/foto.jpg", position = 6)

@@ -30,7 +30,7 @@ public class UsuarioDtoConverter {
 				usuario.getNombre(),
 				usuario.getPrimerapellido(),
 				usuario.getSegundoapellido(),
-				usuario.getEmail(),
+				usuario.getEmail().toLowerCase(),
 				usuario.getPerfil(),
 				usuario.getBloqueada(),
 				usuario.getIntentos()
@@ -45,7 +45,7 @@ public class UsuarioDtoConverter {
 					nuevoUsuario.getNombre(),
 					nuevoUsuario.getPrimerApellido(),
 					nuevoUsuario.getSegundoApellido(),
-					nuevoUsuario.getEmail(),
+					nuevoUsuario.getEmail().toLowerCase(),
 					passEncoder.encode(nuevoUsuario.getPassword()).toString(),
 					3,
 					false,

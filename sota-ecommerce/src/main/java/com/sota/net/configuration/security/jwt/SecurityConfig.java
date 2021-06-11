@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 	}
 
+	//Expone el mecanismo de autenticación 
 	@Bean(BeanIds.AUTHENTICATION_MANAGER)
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -51,10 +52,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/api/login","api/usuario/email","/api/registro/usuarios").permitAll()
 				.antMatchers("/api/producto/**","/api/uploads/**").permitAll()
-				.antMatchers("/api/pedido/**").not().hasAnyRole("ADMINISTRADOR","SECRETARIO")
+				.antMatchers("/api/pedido").not().hasAnyRole("ADMINISTRADOR","SECRETARIO")
 				.antMatchers("/api/administrador/**").hasAnyRole("ADMINISTRADOR","SECRETARIO")
 				.antMatchers("/usuario/{idUsuario}","/usuario/{id}").hasRole("ADMINISTRADOR");
-				
+		
 	}
 
 	@Override

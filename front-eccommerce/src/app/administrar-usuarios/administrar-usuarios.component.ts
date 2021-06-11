@@ -25,8 +25,11 @@ export class AdministrarUsuariosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
+  public cargarUsuarios() {
     this.administrarUsuarioService.getUsuario().subscribe(usuarios => {
-      console.log(usuarios);
       this.usuarios = usuarios
     });
   }
@@ -42,9 +45,8 @@ export class AdministrarUsuariosComponent implements OnInit {
       confirmButtonText: 'Sí, estoy seguro',
       cancelButtonText: 'No',
     }).then((result) => {
-      console.log(result.isConfirmed);
       if (result.isConfirmed) {
-        this.administrarUsuarioService.deleteUsuario(usuario.idusuario).subscribe(
+        this.administrarUsuarioService.deleteUsuario(usuario.idUsuario).subscribe(
           response => {
             this.usuarios = this.usuarios.filter(user => user !== usuario);
           }
@@ -57,7 +59,6 @@ export class AdministrarUsuariosComponent implements OnInit {
   }
 
   update(usuario: Usuario): void {
-    console.log(usuario)
     this.administrarUsuarioService.update(usuario).subscribe(
       usuario => {
         this.router.navigate(['/administrador/actualizar']);

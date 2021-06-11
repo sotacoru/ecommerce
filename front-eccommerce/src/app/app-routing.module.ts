@@ -17,13 +17,11 @@ const routes: Routes = [
   {path: 'productos/:categoria', component: ProductosComponent},
   {path: 'productos', component: ProductosComponent},
   {
-    path: 'pedido', component: PedidosComponent, canActivate: [ProguardService],
-    data: {expectedRol: ['CLIENTE']}
+    path: 'pedido', component: PedidosComponent
   },
 
   {
-    path: 'producto/:id', component: DetalleProductoComponent, canActivate: [ProguardService],
-    data: {expectedRol: ['CLIENTE']}
+    path: 'producto/:id', component: DetalleProductoComponent
   },
   {
     path: 'thankyou', component: ThankyouPageComponent, canActivate: [ProguardService],

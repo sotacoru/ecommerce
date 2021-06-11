@@ -24,6 +24,7 @@ export class LoginRegisComponent implements OnInit {
   intentos: number;
   loginIncorrecto: String;
   registroIncorrecto: String;
+  varMostrarPassword: boolean = false;
 
   constructor(private authService: AuthUsuarioService,
     private router: Router,
@@ -87,29 +88,38 @@ export class LoginRegisComponent implements OnInit {
         swal.fire('Login', `Hola ${usuario.nombre}  has iniciado sesion correctamente`, 'success');
       }, err => {
         if (err.status == 403){
-
-            this.administrarUsuarioService.getIdUsuarioByEmail(this.usuario.email).subscribe( response =>
-            {
-              if(response.intentos>1){
-                response.intentos--;
-                this.loginIncorrecto = `Contraseña incorrecta. Número de intentos restantes: ${response.intentos}`;
-                this.administrarUsuarioService.update(response).subscribe();
-              }else if(response.intentos=1){
-                response.intentos--;
-                response.bloqueada = true;
-                this.loginIncorrecto='';
-                this.administrarUsuarioService.update(response).subscribe(response =>{
-                  swal.fire('Bloqueo de usuario',`Su usuario ha sido bloqueado ya que ha superado el número máximo de intentos.` ,'error');
-                });
-              }else{
-                this.loginIncorrecto='El usuario al que está intentando acceder está bloqueado';
-              }
-
-            });
+          this.comprobarIntentosLogin();
         }else if(err.status == 500){
           this.loginIncorrecto = `Lamentablemente, ha habido un error en el inicio de sesión. Asegúrate de que estás utilizando la dirección de correo electrónico correcta.`;
         }
       });
+  }
+
+  comprobarIntentosLogin(): void{
+    this.administrarUsuarioService.getIdUsuarioByEmail(this.usuario.email).subscribe( response =>
+    {
+
+      if(response.perfil.nombreperfil!='ADMINISTRADOR'){
+        if(response.intentos>1){
+          response.intentos--;
+          this.loginIncorrecto = `Contraseña incorrecta. Número de intentos restantes: ${response.intentos}`;
+          this.administrarUsuarioService.update(response).subscribe();
+        }else if(response.intentos==1){
+          console.log(response.intentos);
+          console.log(response.bloqueada);
+          response.intentos--;
+          response.bloqueada = true;
+          this.loginIncorrecto='';
+          this.administrarUsuarioService.update(response).subscribe(response =>{
+            swal.fire('Bloqueo de usuario',`Su usuario ha sido bloqueado ya que ha superado el número máximo de intentos.` ,'error');
+          });
+        }else{
+          this.loginIncorrecto='El usuario al que está intentando acceder está bloqueado';
+        }
+      }else{
+        this.loginIncorrecto='Contraseña incorrecta';
+      }
+    });
   }
 
   registrarse(){
@@ -156,10 +166,14 @@ export class LoginRegisComponent implements OnInit {
     this.administrarUsuarioService.update(this.usuario).subscribe(
       usuario => {
           this.router.navigate(['/administrador/lista']);
-          console.log(usuario);
           swal.fire('Actualizado', `¡Usuario ${usuario.nombre} actualizado!`, 'success');
+      }, err => {
+        if(err.status == 500){
+          this.registroIncorrecto='El email introducido ya existe en este comercio';
+        }
+    });
 
-      });
+
   }
 
   isLogged(): boolean {
@@ -174,9 +188,16 @@ export class LoginRegisComponent implements OnInit {
         false: perfil.idperfil === perfil2.idperfil
   }
 
-  //SI es true no se puede editar
-    passwordEditable(): boolean{
-      return this.passwordDisabled;
+  mostrarPassword(): void{
+    if(!this.varMostrarPassword){
+      this.varMostrarPassword=true;
+    }else{
+    this.varMostrarPassword=false;
+    }
+  }
+
+    passwordEditable(): boolean {
+    return this.passwordDisabled;
     }
 
     deshabilitarSelect(perfil: Perfil): boolean{

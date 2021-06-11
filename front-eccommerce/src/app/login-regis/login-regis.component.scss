@@ -1,7 +1,9 @@
 
+
 *, *:before, *:after {
   box-sizing: border-box;
 }
+
 
 
 .tab-group {
@@ -63,6 +65,9 @@ label.highlight {
 .field-wrap {
   position: relative;
   margin-bottom: 40px;
+  .alerta{
+    width: 90%;
+  }
 }
 
 .top-row {
@@ -88,5 +93,3 @@ label.highlight {
   display: block;
   width: 100%;
 }
-
-

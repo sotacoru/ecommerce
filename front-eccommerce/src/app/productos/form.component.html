@@ -6,39 +6,71 @@
     <form #prodcutoForm='ngForm' method="post">
 
       <div class="field-wrap">
-        <label>Nombre
+        <label>Nombre<span class="req">*</span>
         </label>
-        <input required type="text" class="form-control input" name="name" pInputText [(ngModel)]="producto.nombre">
+        <input required type="text" class="form-control input" name="name" pInputText [(ngModel)]="producto.nombre"
+               #nombreP="ngModel" minlength="2" maxlength="100">
+        <div *ngIf="nombreP.invalid && (nombreP.dirty || nombreP.touched)"
+             class="alert alert-danger">
+          <div *ngIf="nombreP.errors?.required">
+            El campo nombre es obligatorio
+          </div>
+          <div *ngIf="nombreP.errors?.minlength">
+            El campo nombre debe tener por lo menos 2 caracteres
+          </div>
+        </div>
       </div>
 
 
       <div class="field-wrap">
         <label for="descripcion">Descripción</label>
-        <textarea class="form-control" id="descripcion" rows="3" name="descripcion"
+        <textarea class="form-control" id="descripcion" rows="3" name="descripcion" maxlength="300"
                   [(ngModel)]="producto.descripcion"></textarea>
       </div>
 
 
       <div class="field-wrap">
-        <label>Precio</label>
-        <input required type="number" class="form-control input" name="precio" [(ngModel)]="producto.precio">
+        <label>Precio<span class="req">*</span></label>
+        <input required type="number" class="form-control input" name="precio" [(ngModel)]="producto.precio"
+               #precio="ngModel" min="0">
+        <div *ngIf="precio.invalid && (precio.dirty || precio.touched)"
+             class="alert alert-danger">
+          <div *ngIf="precio.errors?.required">
+            El campo precio es obligatorio
+          </div>
+          <div *ngIf="precio.errors?.min">
+            El valor tiene que ser positivo
+          </div>
+        </div>
       </div>
       <div class="field-wrap">
-        <label>Cantidad</label>
-        <input required type="number" class="form-control input" name="Cantidad" [(ngModel)]="producto.cantidad">
+        <label>Cantidad<span class="req">*</span></label>
+        <input required type="number" class="form-control input" name="Cantidad" [(ngModel)]="producto.cantidad"
+               #cantidad="ngModel" min="0">
+        <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)"
+             class="alert alert-danger">
+          <div *ngIf="cantidad.errors?.required">
+            El campo cantidad es obligatorio
+          </div>
+          <div *ngIf="cantidad.errors?.min">
+            El valor tiene que ser positivo
+          </div>
+        </div>
       </div>
 
       <div class="field-wrap">
-        <input required (change)="seleccionarFoto($event)" type="file" class="form-control input" id="inputGroupFile04">
+        <input (change)="seleccionarFoto($event)" type="file" class="form-control input" id="inputGroupFile04">
       </div>
 
 
       <div class="field-wrap">
         <label class="m-2">Categoria</label>
-        <select name="categoria" [(ngModel)]="producto.idcategoria" class="custom-select select"
+
+        <select name="categoria" [compareWith]="compararCategoriaa" [(ngModel)]="producto.idcategoria"
+                class="custom-select select"
                 id="inputGroupSelect01">
-          <option [ngValue]="undefined" select>Selecionar una Categoria</option>
-          <option *ngFor="let categoria of categorias" [ngValue]="  categoria">{{categoria.nombrecategoria}}
+          <option [ngValue]="undefined">Selecionar una Categoria</option>
+          <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{categoria.nombrecategoria}}
           </option>
 
         </select>

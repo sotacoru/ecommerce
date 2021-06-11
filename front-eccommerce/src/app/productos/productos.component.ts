@@ -38,6 +38,17 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit() {
+    //Carga todos los productos
+    this.cargarProductos();
+
+    this.sortOptions = [
+      {label: 'Más caros primero', value: '!precio'},
+      {label: 'Más baratos primero', value: 'precio'}
+    ];
+    this.primengConfig.ripple = true;
+  }
+
+  public cargarProductos() {
     this.route.params.subscribe(
       params => {
         let categoria: string = params.categoria;
@@ -54,12 +65,6 @@ export class ProductosComponent implements OnInit {
           )
         }
       })
-
-    this.sortOptions = [
-      {label: 'Más caros primero', value: '!precio'},
-      {label: 'Más baratos primero', value: 'precio'}
-    ];
-    this.primengConfig.ripple = true;
   }
 
   isCliente(): boolean {
@@ -81,7 +86,6 @@ export class ProductosComponent implements OnInit {
 
   filtrarProductosStock(response: Producto[]) {
     if (!this.isCliente()) {
-      console.log("soy un cliente")
       this.productos = response
     } else {
       this.productos = response.filter(
@@ -95,13 +99,13 @@ export class ProductosComponent implements OnInit {
   buscar() {
     this.ps.getProductosBusqueda(this.busqueda).subscribe(
       response => {
-        console.log(this.busqueda)
         this.filtrarProductosStock(response)
       }
     );
   }
 
 
+  //Elimina el producto pero pide confirmacion 
   eliminar(producto: Producto) {
     Swal.fire({
       title: 'Está seguro',
@@ -145,10 +149,9 @@ export class ProductosComponent implements OnInit {
       this.pedidoService.postPedido(this.pedido)
       this.pedido.precioTotal = producto.precio
       this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
-      console.log(this.pedido)
+
 
     }
   }
-
 
 }
