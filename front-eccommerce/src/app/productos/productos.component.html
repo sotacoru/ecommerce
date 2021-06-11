@@ -69,7 +69,8 @@
           <div class="product-grid-item-top">
             <div>
               <i class="pi pi-tag product-category-icon"></i>
-              <span class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
+              <span *ngIf="producto.idcategoria!=null"
+                    class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
             </div>
 
           </div>

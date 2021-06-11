@@ -42,6 +42,9 @@ export class FormComponent implements OnInit {
 
 
   cargarProducto(): void {
+    this.productoService.getCategorias().subscribe(categoria => {
+      this.categorias = categoria
+    })
     this.activateRoute.params.subscribe(params => {
       let id = params['id']
       if (id) {
@@ -53,9 +56,7 @@ export class FormComponent implements OnInit {
 
       }
     })
-    this.productoService.getCategorias().subscribe(categoria => {
-      this.categorias = categoria
-    })
+
 
   }
 
