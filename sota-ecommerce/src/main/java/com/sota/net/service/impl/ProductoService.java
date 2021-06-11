@@ -1,10 +1,8 @@
 package com.sota.net.service.impl;
 
 import com.sota.net.entity.Categoria;
-
-
 import com.sota.net.entity.Producto;
-//import com.sota.net.entity.Producto_;
+import com.sota.net.entity.Producto_;
 import com.sota.net.entity.dto.ProductoBusqueda;
 import com.sota.net.repository.IProductoRepository;
 import com.sota.net.service.IProductoService;
@@ -67,9 +65,11 @@ public class ProductoService extends QueryService implements IProductoService {
 
     @Override
     public List<Producto> findWithFilter(ProductoBusqueda dto) {
+        //Si el dto está vacio devovlemos una lista vacia
         if (dto.isEmpty()) {
             return Collections.emptyList();
         }
+        //Filtramos todos lo productos segun los filtros
         final Specification<Producto> specification = this.createSpecification(ProductoService.createCriteria(dto));
         List<Producto> productos = this.rep.findAll(specification);
         return productos;
@@ -85,28 +85,32 @@ public class ProductoService extends QueryService implements IProductoService {
             }
         }
     }
-
+  /**
+     * Creamos la specificaciónm a través del producto ya filtrado
+     */
     private Specification<Producto> createSpecification(ProductoCriteria criteria) {
         Specification<Producto> specification = Specification.where(null);
         if (criteria == null) {
             return specification;
         }
         if (criteria.getNombre() != null) {
-        //specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
+        specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Producto_.nombre));
 
 
         }
         if (criteria.getDescripcion() != null) {
-           //specification = specification.and(this.buildStringSpecification(criteria.getDescripcion(), Producto_.descripcion));
+           specification = specification.and(this.buildStringSpecification(criteria.getDescripcion(), Producto_.descripcion));
         }
         if (criteria.getHaveFoto() != null) {
-           // specification = specification.and(this.buildSpecification(criteria.getHaveFoto(), Producto_.foto));
+           specification = specification.and(this.buildSpecification(criteria.getHaveFoto(), Producto_.foto));
         }
 
 
         return specification;
     }
-
+    /**
+     * Creamos el Producto con los filtros correspondientes
+     */
 
     private static ProductoCriteria createCriteria(ProductoBusqueda dto) {
         ProductoCriteria productoCriteria = new ProductoCriteria();

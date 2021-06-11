@@ -1,8 +1,7 @@
 package com.sota.net.service.impl;
 
 import com.sota.net.entity.Usuario;
-
-//import com.sota.net.entity.Usuario_;
+import com.sota.net.entity.Usuario_;
 import com.sota.net.entity.dto.UsuarioBusqueda;
 import com.sota.net.repository.IUsuarioRepository;
 import com.sota.net.service.IUsuarioService;
@@ -58,34 +57,38 @@ public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 	@Transactional(readOnly=true)
 	@Override
 	public List<Usuario> findWithFilter(UsuarioBusqueda dto) {
+		//Si el dto está vacio devovlemos una lista vacia
 		if (dto.isEmpty()) {
 			return Collections.emptyList();
 		}
+		//Filtramos todos lo productos segun los filtros
 		final Specification<Usuario> specification = this.createSpecification(UsuarioServiceImpl.createCriteria(dto));
 		List<Usuario> usuarios = this.usuarioRepository.findAll(specification);
 		return usuarios;
 	}
-
+	/**
+	 * Creamos la specificaciónm a través del usuario ya filtrado
+	 */
 	private Specification<Usuario> createSpecification(UsuarioCriteria criteria) {
 		Specification<Usuario> specification = Specification.where(null);
 		if (criteria == null) {
 			return specification;
 		}
 		if (criteria.getNombre() != null) {
-			//specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Usuario_.nombre));
+			specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Usuario_.nombre));
 
 
 		}
 		if (criteria.getEmail() != null) {
-			//specification = specification.and(this.buildStringSpecification(criteria.getEmail(), Usuario_.email));
+			specification = specification.and(this.buildStringSpecification(criteria.getEmail(), Usuario_.email));
 
 		}
 		if (criteria.getPrimerapellido()!= null) {
-			//specification = specification.and(this.buildStringSpecification(criteria.getPrimerapellido(), Usuario_.primerapellido));
+			specification = specification.and(this.buildStringSpecification(criteria.getPrimerapellido(), Usuario_.primerapellido));
 
 		}
 		if (criteria.getSegundoapellido() != null) {
-			//specification = specification.and(this.buildStringSpecification(criteria.getSegundoapellido(), Usuario_.segundoapellido));
+			specification = specification.and(this.buildStringSpecification(criteria.getSegundoapellido(), Usuario_.segundoapellido));
 
 		}
 
@@ -93,7 +96,9 @@ public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 		return specification;
 	}
 
-
+	/**
+	 * Creamos el Usuario con los filtros correspondientes
+	 */
 	private static UsuarioCriteria createCriteria(UsuarioBusqueda dto) {
 		UsuarioCriteria usuarioCriteria = new UsuarioCriteria();
 		if (dto != null) {
