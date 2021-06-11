@@ -38,6 +38,16 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cargarProductos();
+
+    this.sortOptions = [
+      {label: 'Más caros primero', value: '!precio'},
+      {label: 'Más baratos primero', value: 'precio'}
+    ];
+    this.primengConfig.ripple = true;
+  }
+
+  public cargarProductos() {
     this.route.params.subscribe(
       params => {
         let categoria: string = params.categoria;
@@ -54,12 +64,6 @@ export class ProductosComponent implements OnInit {
           )
         }
       })
-
-    this.sortOptions = [
-      {label: 'Más caros primero', value: '!precio'},
-      {label: 'Más baratos primero', value: 'precio'}
-    ];
-    this.primengConfig.ripple = true;
   }
 
   isCliente(): boolean {
@@ -147,6 +151,5 @@ export class ProductosComponent implements OnInit {
 
     }
   }
-
 
 }
