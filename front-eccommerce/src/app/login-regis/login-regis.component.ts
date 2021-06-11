@@ -25,6 +25,8 @@ export class LoginRegisComponent implements OnInit {
   loginIncorrecto: String;
   registroIncorrecto: String;
   varMostrarPassword: boolean = false;
+  varMostrarPassword2: boolean = false;
+  varMostrarPassword3: boolean = false;
 
   constructor(private authService: AuthUsuarioService,
     private router: Router,
@@ -188,16 +190,14 @@ export class LoginRegisComponent implements OnInit {
         false: perfil.idperfil === perfil2.idperfil
   }
 
-    mostrarPassword(): string{
-      if(!this.varMostrarPassword){
-        console.log('text');
-        this.varMostrarPassword=true;
-        return 'text';
-      }
-      console.log('password')
+  mostrarPassword(): void{
+    if(!this.varMostrarPassword){
+      this.varMostrarPassword=true;
+    }else{
       this.varMostrarPassword=false;
-      return 'password';
     }
+
+  }
 
     passwordEditable(): boolean {
     return this.passwordDisabled;

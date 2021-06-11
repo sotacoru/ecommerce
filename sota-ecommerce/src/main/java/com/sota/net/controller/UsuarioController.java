@@ -176,6 +176,7 @@ public class UsuarioController {
 	private ResponseEntity<?> delete(@PathVariable Long id) {
 
 		Map<String, Object> response = new HashMap<>();
+		System.out.println(id);
 		try {
 			usuarioService.deleteUsuarioById(id);
 		}catch(DataAccessException ex) {

@@ -20,7 +20,7 @@
           Email <span class="req">*</span>
         </label>
         <input required type="email" id="emaillog" class="form-control input" name="emaillog" autocomplete="off"
-               [(ngModel)]="usuario.email" minlength="9" maxlength="320" #emaillog="ngModel"/>
+               [(ngModel)]="usuario.email" minlength="9" maxlength="70" #emaillog="ngModel"/>
 
         <div *ngIf="(emaillog.invalid && (emaillog.dirty || emaillog.touched))"
              class="alert alert-danger">
@@ -60,9 +60,9 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!loginIncorrecto!=undefined" style="color:#FF0000;">
-        {{loginIncorrecto}}
-      </div>
+      <h4 *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000;">
+        {{registroIncorrecto}}
+      </h4>
 
       <button [disabled]="!usuarioForm.form.valid" (click)='login()'
               class="button button-block">
@@ -82,7 +82,7 @@
                  minlength="2" maxlength="20" [(ngModel)]="usuario.nombre" #nombre="ngModel"/>
 
           <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
-               class="alert alert-danger">
+               class="alert alert-danger alerta">
             <div *ngIf="nombre.errors?.required">
               El campo nombre es obligatorio
             </div>
@@ -101,7 +101,7 @@
                  required autocomplete="off" minlength="2" maxlength="20" #primerapellido="ngModel"/>
 
           <div *ngIf="primerapellido.invalid && (primerapellido.dirty || primerapellido.touched)"
-               class="alert alert-danger">
+               class="alert alert-danger alerta">
             <div *ngIf="primerapellido.errors?.required">
               El campo primer apellido es obligatorio
             </div>
@@ -119,7 +119,7 @@
                  #segundoapellido="ngModel"/>
 
           <div *ngIf="segundoapellido.invalid && (segundoapellido.dirty || segundoapellido.touched)"
-               class="alert alert-danger">
+               class="alert alert-danger alerta">
             <div *ngIf="segundoapellido.errors?.required">
               El campo segundo apellido es obligatorio
             </div>
@@ -136,11 +136,11 @@
           Email <span class="req">*</span>
         </label>
         <input type="email" class="input" required autocomplete="off" id="email" name="email" minlength="9"
-               maxlength="320" [(ngModel)]="usuario.email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
+               maxlength="70" [(ngModel)]="usuario.email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
 
 
         <div *ngIf="(email.invalid && (email.dirty || email.touched))"
-             class="alert alert-danger">
+             class="alert alert-danger alerta">
           <div *ngIf="email.errors?.required">
             - El campo email es obligatorio
           </div>
@@ -157,20 +157,12 @@
         <label>
           Contraseña<span class="req">*</span>
         </label>
-        <input [type]="varMostrarPassword?'text':'password'" class="input" style="width:89%;" required name="password" [(ngModel)]="usuario.password" id="password"
+        <input [type]="varMostrarPassword?'text':'password'" class="input" required name="password" [(ngModel)]="usuario.password" id="password"
                minlength="6" maxlength="30" [disabled]="passwordEditable()" autocomplete="off" #password="ngModel"/>
-
-               <p-button  styleClass="p-button-secondary" (click)="mostrarPassword()">
-                <i class="pi " [ngClass]="{
-                  'pi-eye': varMostrarPassword,
-                  'pi-eye-slash': !varMostrarPassword
-                }"
-                ></i>
-              </p-button>
 
         <div
           *ngIf="(password.invalid && (password.dirty ||password.touched)) || !validarRegis.validarPassword(usuario.password)"
-          class="alert alert-danger">
+          class="alert alert-danger alerta">
           <div *ngIf="password.errors?.required">
             - El campo contraseña es obligatorio
           </div>
@@ -219,13 +211,13 @@
         <select [compareWith]="compararPerfil" class="custom-select mr-sm-2 select" [(ngModel)]="usuario.perfil"
                 name="perfil">
           <option [ngValue]="undefined">Selecionar un perfil</option>
-          <option *ngFor="let perfil of perfiles" [ngValue]="perfil">{{perfil.nombreperfil}}</option>
+          <option required *ngFor="let perfil of perfiles" [ngValue]="perfil">{{perfil.nombreperfil}}</option>
         </select>
       </div>
 
-      <h3 *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000;">
+      <h4 *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000;">
         {{registroIncorrecto}}
-      </h3>
+      </h4>
 
       <button [disabled]="!regisForm.form.valid || !validarRegis.validarFormatoCampos(usuario, passwordDisabled)"
               (click)='registrarse()' type="submit" class="button button-block">
