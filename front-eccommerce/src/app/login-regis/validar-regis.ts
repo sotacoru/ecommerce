@@ -1,11 +1,11 @@
 import {Usuario} from '../entity/usuario';
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ValidarRegis{
+export class ValidarRegis {
 
 /*
 
@@ -29,57 +29,56 @@ validarEmail(email: any): boolean{
        return false;
       }
     }
-      return true;
+    return true;
 
-    }
+  }
 
   validarPassword(password1: String): boolean{
-    console.log(password1)
 
-    if(password1===undefined){
+    if (password1 === undefined) {
       return true;
     }
 
-      let minuscula: boolean=false;
-      let mayuscula: boolean=false;
-      let caracterEspecial: boolean = false;
+    let minuscula: boolean = false;
+    let mayuscula: boolean = false;
+    let caracterEspecial: boolean = false;
 
-      for(let i=0;i<password1.length;i++){
-        if(this.esMayuscula(password1.charAt(i))&& !mayuscula){
-          mayuscula=true;
-        }
-
-        if(this.esMinuscula(password1.charAt(i)) && !minuscula){
-          minuscula=true;
-        }
-
-        if(this.esCaracterEspecial(password1.charAt(i)) && !caracterEspecial){
-          caracterEspecial=true;
-        }
-
-        if(minuscula && mayuscula && caracterEspecial){
-          return true;
-        }
+    for (let i = 0; i < password1.length; i++) {
+      if (this.esMayuscula(password1.charAt(i)) && !mayuscula) {
+        mayuscula = true;
       }
+
+      if (this.esMinuscula(password1.charAt(i)) && !minuscula) {
+        minuscula = true;
+      }
+
+      if (this.esCaracterEspecial(password1.charAt(i)) && !caracterEspecial) {
+        caracterEspecial = true;
+      }
+
+      if (minuscula && mayuscula && caracterEspecial) {
+        return true;
+      }
+    }
     return false;
   }
 
-  compararPassword(password1: String, password2:String): any{
-    return password1==password2;
+  compararPassword(password1: String, password2: String): any {
+    return password1 == password2;
   }
 
-  esMayuscula(letra: String): boolean{
-    return letra==letra.toUpperCase();
+  esMayuscula(letra: String): boolean {
+    return letra == letra.toUpperCase();
   }
 
-  esMinuscula(letra: String): boolean{
-    return letra==letra.toLowerCase();
+  esMinuscula(letra: String): boolean {
+    return letra == letra.toLowerCase();
   }
 
-  esCaracterEspecial(letra: String): boolean{
+  esCaracterEspecial(letra: String): boolean {
     let caracterEspecial = [".", ",", "/", "-", "_"];
-    for(let caracter of caracterEspecial){
-      if(caracter==letra){
+    for (let caracter of caracterEspecial) {
+      if (caracter == letra) {
         return true;
       }
     }

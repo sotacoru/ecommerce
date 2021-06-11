@@ -1,7 +1,7 @@
 <div class="card mb-6" style="border-color: #4CAF50">
   <div class="card-header">Usuarios</div>
-  <div class="card-body text-primary">
-    <h5 class="card-title">Listado de usuarios</h5>
+  <div class="card-body">
+    <h5 class="card-title" style="color:#689f38">Listado de usuarios</h5>
     <form class="formBusqueda">
       <input class=" elementBusqueda" type="text" name="email" pInputText placeholder="Buscar por email"
              [(ngModel)]="busqueda.email">
@@ -12,54 +12,59 @@
              [(ngModel)]="busqueda.primerapellido">
       <input class="elementBusqueda" type="text" name="segundoapellido" pInputText placeholder="Buscar por 2º apellido"
              [(ngModel)]="busqueda.segundoapellido">
-      <p-button class="elementBusqueda boton" role="button" (click)='buscar()'>
+      <p-button class="elementBusqueda boton" role="button" styleClass="p-button-success" (click)='buscar()'>
         <i class="pi pi-search"></i>
       </p-button>
-
-
+      <p-button class="elementBusqueda mx-1" type="reset" styleClass="p-button-success"
+                (click)="cargarUsuarios()">
+        <i class="pi pi-refresh"></i>
+      </p-button>
     </form>
     <div class="my-2 text-left">
     </div>
 
-    <table class="table table-bordered table-striped" >
+    <table class="table table-bordered table-striped">
       <thead>
-        <tr>
-          <th>Email</th>
-          <th>Nombre</th>
-          <th>Primer apellido</th>
-          <th>Segundo apellido</th>
-          <th>Tipo perfil</th>
-          <th colspan="3">
-            <button type="button" name="edssdds" class="btnAnhadir btn-lg btn-primary btn-block" (click)="addSecretarioAdmin()">
-              Añadir usuario
+      <tr>
+        <th>Email</th>
+        <th>Nombre</th>
+        <th>Primer apellido</th>
+        <th>Segundo apellido</th>
+        <th>Tipo perfil</th>
+        <th colspan="3">
+          <button type="button" name="edssdds" class="btnAnhadir btn-lg btn-primary btn-block"
+                  (click)="addSecretarioAdmin()">
+            Añadir usuario
           </button>
-          </th>
-        </tr>
+        </th>
+      </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let usuario of usuarios ">
-            <td>{{ usuario.email}}</td>
-            <td>{{ usuario.nombre }}</td>
-            <td>{{ usuario.primerapellido }}</td>
-            <td>{{ usuario.segundoapellido }}</td>
-            <td>{{ usuario.perfil.nombreperfil }}</td>
-            <td align="center">
-            <button type="button" name="editar"class="btn btn-primary" (click)="preguntaEditar(usuario)" >
-              editar
+      <tr *ngFor="let usuario of usuarios ">
+        <td>{{ usuario.email}}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.primerapellido }}</td>
+        <td>{{ usuario.segundoapellido }}</td>
+        <td>{{ usuario.perfil.nombreperfil }}</td>
+        <td align="center">
+          <button pButton type="button" label="Editar" icon="pi pi-pencil" name="editar" class="p-button-success">
           </button>
-          </td>
-          <td>
-            <button type="button" name="eliminar" (click)="delete(usuario)" class="btn btn-danger" [disabled]="usuario.email==nombreUsuario">
-              Eliminar
-            </button>
-          </td>
-          <td>
-            <button type="button" name="Desbloquear" (click)="preguntaDesbloquear(usuario)"
-             class="btn btn-secundary btn-primary btn-block" [disabled]="!usuario.bloqueada">
-              Desbloquear
-            </button>
-          </td>
-        </tr>
+        </td>
+        <td align="center">
+          <button pButton type="button" label="Eliminar" icon="pi pi-trash" name="eliminar" (click)="delete(usuario)"
+                  class="p-button-danger"
+                  [disabled]="usuario.email==nombreUsuario">
+
+          </button>
+        </td>
+        <td align="center">
+          <button pButton type="button" label="Desbloquear" icon="pi pi-check" name="Desbloquear"
+                  (click)="preguntaDesbloquear(usuario)"
+                  class="p-button-secondary" [disabled]="!usuario.bloqueada">
+
+          </button>
+        </td>
+      </tr>
       </tbody>
     </table>
 

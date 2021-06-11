@@ -17,8 +17,12 @@
               <label for="foto">Sólo productos con foto</label>
 
             </div>
-             <p-button class="elementBusqueda" role="button" styleClass="p-button-success mx-2" (click)='buscar()'>
+             <p-button class="elementBusqueda" role="button" styleClass="p-button-success mx-1" (click)='buscar()'>
               <i class="pi pi-search"></i>
+            </p-button>
+            <p-button class="elementBusqueda mx-1" type="reset" styleClass="p-button-success"
+                      (click)="cargarProductos()">
+              <i class="pi pi-refresh"></i>
             </p-button>
               <p-button styleClass="p-button-success mb-1" [routerLink]="['/formulario']"
                         label="Añadir Producto"
@@ -34,7 +38,7 @@
     <!--Panel List View-->
     <ng-template let-producto pTemplate="listItem">
       <div class="p-col-12">
-        <div class="product-list-item" [routerLink]="['/producto/', producto.id]">
+        <div class="product-list-item" [routerLink]="isCliente()?['/producto/', producto.id]:['./']">
           <img *ngIf="producto?.foto" [src]="urlImg +''+ producto.foto" [alt]="producto.nombre"/>
           <img class="img-thumbnail rounded" *ngIf="!producto?.foto" src="http://localhost:8090/images/notImagen.jpg"
                alt="sin foto">
@@ -42,7 +46,7 @@
             <div class="product-name">{{producto.nombre}}</div>
             <div class="product-description">{{producto.descripcion}}</div>
             <i class="pi pi-tag product-category-icon"></i><span
-            class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
+            class="product-category" *ngIf="producto.idcategoria!=null">{{producto.idcategoria.nombrecategoria}}</span>
           </div>
           <div class="product-list-action">
             <span class="product-price">{{producto.precio}}€</span>
@@ -69,11 +73,13 @@
           <div class="product-grid-item-top">
             <div>
               <i class="pi pi-tag product-category-icon"></i>
-              <span class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
+              <span *ngIf="producto.idcategoria!=null"
+                    class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
             </div>
 
           </div>
-          <div class="product-grid-item-content" [routerLink]="['/producto/', producto.id]" width="70%">
+          <div class="product-grid-item-content" [routerLink]="isCliente()?['/producto/', producto.id]:['./']"
+               width="70%">
             <img *ngIf="producto?.foto" [src]="urlImg +''+ producto.foto" [alt]="producto.nombre"/>
             <img class="img-thumbnail rounded" *ngIf="!producto?.foto" [src]="imgDefecto" alt="sin foto">
             <div class="product-name">{{producto.nombre}}</div>

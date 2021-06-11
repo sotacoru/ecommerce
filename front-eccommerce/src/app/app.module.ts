@@ -33,7 +33,6 @@ import {DetalleProductoComponent} from "./productos/detalle-producto/detalle-pro
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {AdministrarUsuariosComponent} from './administrar-usuarios/administrar-usuarios.component';
 import {ModalUsuarioComponent} from './modal-usuario/modal-usuario.component';
-import {AddCarritoComponent} from "./add-carrito/add-carrito.component";
 
 
 @NgModule({
@@ -51,7 +50,7 @@ import {AddCarritoComponent} from "./add-carrito/add-carrito.component";
     DetalleProductoComponent,
     AdministrarUsuariosComponent,
     ModalUsuarioComponent,
-    AddCarritoComponent
+
   ],
   imports: [
     BrowserModule,

@@ -42,22 +42,22 @@ export class FormComponent implements OnInit {
 
 
   cargarProducto(): void {
+    this.productoService.getCategorias().subscribe(categoria => {
+      this.categorias = categoria
+    })
     this.activateRoute.params.subscribe(params => {
       let id = params['id']
       if (id) {
         this.productoService.getProducto(id).subscribe((producto) => {
             this.producto = producto
-            console.log(this.producto)
           }
         )
         this.productoService.getProductosId(id).subscribe((producto) => this.producto = producto)
 
       }
     })
-    this.productoService.getCategorias().subscribe(categoria => {
-      this.categorias = categoria
-    })
-    console.log(this.categorias)
+
+
   }
 
   create(): void {
@@ -79,7 +79,9 @@ export class FormComponent implements OnInit {
             }
           )
         }
-        Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success')
+        Swal.fire('Nuevo procuto', `Producto ${response.producto.nombre} creado con exito`, 'success').then(
+          r => this.router.navigate(['/productos'])
+        )
 
       },
       err => {
@@ -92,7 +94,7 @@ export class FormComponent implements OnInit {
 
   seleccionarFoto(event) {
     this.fotoSeleccionada = event.target.files[0];
-    console.log(this.fotoSeleccionada);
+
     if (this.fotoSeleccionada.type.indexOf('image') < 0) {
       Swal.fire('Error ', `El archivo debe ser tipo imagen`, 'error');
       this.fotoSeleccionada = null;
@@ -114,7 +116,10 @@ export class FormComponent implements OnInit {
         )
       }
 
-      Swal.fire('Producto actualizado', `Prducto ${response.producto.nombre} actualizado con exito`, 'success')
+      Swal.fire('Producto actualizado', `Producto ${response.producto.nombre} actualizado con exito`, 'success').then(
+        r => this.router.navigate(['/productos'])
+      )
+
     })
 
 

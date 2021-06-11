@@ -61,7 +61,6 @@ export class ProductoService {
   }
 
   create(producto: Producto): Observable<any> {
-    console.log(producto)
     return this.http.post<Producto>(this.adminurl, producto).pipe(
       catchError(e => {
         if (e.status === 400) {

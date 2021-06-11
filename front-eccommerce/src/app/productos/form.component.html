@@ -6,7 +6,7 @@
     <form #prodcutoForm='ngForm' method="post">
 
       <div class="field-wrap">
-        <label>Nombre
+        <label>Nombre<span class="req">*</span>
         </label>
         <input required type="text" class="form-control input" name="name" pInputText [(ngModel)]="producto.nombre"
                #nombreP="ngModel" minlength="2" maxlength="100">
@@ -30,24 +30,30 @@
 
 
       <div class="field-wrap">
-        <label>Precio</label>
+        <label>Precio<span class="req">*</span></label>
         <input required type="number" class="form-control input" name="precio" [(ngModel)]="producto.precio"
-               #precio="ngModel">
+               #precio="ngModel" min="0">
         <div *ngIf="precio.invalid && (precio.dirty || precio.touched)"
              class="alert alert-danger">
           <div *ngIf="precio.errors?.required">
             El campo precio es obligatorio
           </div>
+          <div *ngIf="precio.errors?.min">
+            El valor tiene que ser positivo
+          </div>
         </div>
       </div>
       <div class="field-wrap">
-        <label>Cantidad</label>
+        <label>Cantidad<span class="req">*</span></label>
         <input required type="number" class="form-control input" name="Cantidad" [(ngModel)]="producto.cantidad"
-               #cantidad="ngModel">
+               #cantidad="ngModel" min="0">
         <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)"
              class="alert alert-danger">
           <div *ngIf="cantidad.errors?.required">
             El campo cantidad es obligatorio
+          </div>
+          <div *ngIf="cantidad.errors?.min">
+            El valor tiene que ser positivo
           </div>
         </div>
       </div>

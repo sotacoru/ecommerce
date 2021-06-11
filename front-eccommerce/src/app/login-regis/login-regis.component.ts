@@ -193,10 +193,8 @@ export class LoginRegisComponent implements OnInit {
   mostrarPassword(): void{
     if(!this.varMostrarPassword){
       this.varMostrarPassword=true;
-    }else{
-      this.varMostrarPassword=false;
-    }
-
+    }else{}
+    this.varMostrarPassword=false;
   }
 
     passwordEditable(): boolean {
