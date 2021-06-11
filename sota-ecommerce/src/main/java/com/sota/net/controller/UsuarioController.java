@@ -216,8 +216,6 @@ public class UsuarioController {
 
 		String jwtToken = jwtProvider.generateToken(authentication);
 
-		System.out.println(usuarioNew.getBloqueada());
-
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(convertUserEntityAndTokenToJwtUserResponse(usuarioNew, jwtToken));
 	}

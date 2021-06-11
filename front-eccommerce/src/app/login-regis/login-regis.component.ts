@@ -25,8 +25,6 @@ export class LoginRegisComponent implements OnInit {
   loginIncorrecto: String;
   registroIncorrecto: String;
   varMostrarPassword: boolean = false;
-  varMostrarPassword2: boolean = false;
-  varMostrarPassword3: boolean = false;
 
   constructor(private authService: AuthUsuarioService,
     private router: Router,
@@ -193,8 +191,9 @@ export class LoginRegisComponent implements OnInit {
   mostrarPassword(): void{
     if(!this.varMostrarPassword){
       this.varMostrarPassword=true;
-    }else{}
+    }else{
     this.varMostrarPassword=false;
+    }
   }
 
     passwordEditable(): boolean {
