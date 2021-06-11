@@ -47,7 +47,7 @@
         <td>{{ usuario.segundoapellido }}</td>
         <td>{{ usuario.perfil.nombreperfil }}</td>
         <td align="center">
-          <button pButton type="button" label="Editar" icon="pi pi-pencil" name="editar" class="p-button-success">
+          <button pButton type="button" label="Editar" icon="pi pi-pencil" name="editar" class="p-button-success" (click)="preguntaEditar(usuario)">
           </button>
         </td>
         <td align="center">
