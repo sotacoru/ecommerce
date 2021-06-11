@@ -42,7 +42,7 @@
             <div class="product-name">{{producto.nombre}}</div>
             <div class="product-description">{{producto.descripcion}}</div>
             <i class="pi pi-tag product-category-icon"></i><span
-            class="product-category">{{producto.idcategoria.nombrecategoria}}</span>
+            class="product-category" *ngIf="producto.idcategoria!=null">{{producto.idcategoria.nombrecategoria}}</span>
           </div>
           <div class="product-list-action">
             <span class="product-price">{{producto.precio}}€</span>
