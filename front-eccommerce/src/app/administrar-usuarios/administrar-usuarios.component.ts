@@ -26,7 +26,6 @@ export class AdministrarUsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.administrarUsuarioService.getUsuario().subscribe(usuarios => {
-      console.log(usuarios);
       this.usuarios = usuarios
     });
   }
@@ -42,7 +41,6 @@ export class AdministrarUsuariosComponent implements OnInit {
       confirmButtonText: 'Sí, estoy seguro',
       cancelButtonText: 'No',
     }).then((result) => {
-      console.log(result.isConfirmed);
       if (result.isConfirmed) {
         this.administrarUsuarioService.deleteUsuario(usuario.idusuario).subscribe(
           response => {
@@ -57,7 +55,6 @@ export class AdministrarUsuariosComponent implements OnInit {
   }
 
   update(usuario: Usuario): void {
-    console.log(usuario)
     this.administrarUsuarioService.update(usuario).subscribe(
       usuario => {
         this.router.navigate(['/administrador/actualizar']);

@@ -95,7 +95,6 @@ export class ProductosComponent implements OnInit {
   buscar() {
     this.ps.getProductosBusqueda(this.busqueda).subscribe(
       response => {
-        console.log(this.busqueda)
         this.filtrarProductosStock(response)
       }
     );
@@ -145,7 +144,7 @@ export class ProductosComponent implements OnInit {
       this.pedidoService.postPedido(this.pedido)
       this.pedido.precioTotal = producto.precio
       this.pedidoService.setProductosPedido(this.pa.productoPedidoAdapter(producto))
-      console.log(this.pedido)
+
 
     }
   }

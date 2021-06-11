@@ -47,7 +47,6 @@ export class FormComponent implements OnInit {
       if (id) {
         this.productoService.getProducto(id).subscribe((producto) => {
             this.producto = producto
-            console.log(this.producto)
           }
         )
         this.productoService.getProductosId(id).subscribe((producto) => this.producto = producto)
@@ -57,7 +56,7 @@ export class FormComponent implements OnInit {
     this.productoService.getCategorias().subscribe(categoria => {
       this.categorias = categoria
     })
-    console.log(this.categorias)
+
   }
 
   create(): void {
@@ -92,7 +91,7 @@ export class FormComponent implements OnInit {
 
   seleccionarFoto(event) {
     this.fotoSeleccionada = event.target.files[0];
-    console.log(this.fotoSeleccionada);
+
     if (this.fotoSeleccionada.type.indexOf('image') < 0) {
       Swal.fire('Error ', `El archivo debe ser tipo imagen`, 'error');
       this.fotoSeleccionada = null;
