@@ -38,6 +38,7 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit() {
+    //Carga todos los productos
     this.cargarProductos();
 
     this.sortOptions = [
@@ -104,6 +105,7 @@ export class ProductosComponent implements OnInit {
   }
 
 
+  //Elimina el producto pero pide confirmacion 
   eliminar(producto: Producto) {
     Swal.fire({
       title: 'Está seguro',

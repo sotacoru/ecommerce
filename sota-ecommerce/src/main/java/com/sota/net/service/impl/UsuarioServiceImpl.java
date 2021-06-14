@@ -1,6 +1,7 @@
 package com.sota.net.service.impl;
 
 import com.sota.net.entity.Usuario;
+import com.sota.net.entity.Usuario_;
 //import com.sota.net.entity.Usuario_;
 import com.sota.net.entity.dto.UsuarioBusqueda;
 import com.sota.net.repository.IUsuarioRepository;
@@ -75,20 +76,20 @@ public class UsuarioServiceImpl extends QueryService implements IUsuarioService{
 			return specification;
 		}
 		if (criteria.getNombre() != null) {
-		//	specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Usuario_.nombre));
+		specification = specification.and(this.buildStringSpecification(criteria.getNombre(), Usuario_.nombre));
 
 
 		}
 		if (criteria.getEmail() != null) {
-		//	specification = specification.and(this.buildStringSpecification(criteria.getEmail(), Usuario_.email));
+		specification = specification.and(this.buildStringSpecification(criteria.getEmail(), Usuario_.email));
 
 		}
 		if (criteria.getPrimerapellido()!= null) {
-		//	specification = specification.and(this.buildStringSpecification(criteria.getPrimerapellido(), Usuario_.primerapellido));
+		specification = specification.and(this.buildStringSpecification(criteria.getPrimerapellido(), Usuario_.primerapellido));
 
 		}
 		if (criteria.getSegundoapellido() != null) {
-		//	specification = specification.and(this.buildStringSpecification(criteria.getSegundoapellido(), Usuario_.segundoapellido));
+		specification = specification.and(this.buildStringSpecification(criteria.getSegundoapellido(), Usuario_.segundoapellido));
 
 		}
 
