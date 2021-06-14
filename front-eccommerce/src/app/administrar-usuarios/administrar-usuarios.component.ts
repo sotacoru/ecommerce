@@ -49,10 +49,15 @@ export class AdministrarUsuariosComponent implements OnInit {
         this.administrarUsuarioService.deleteUsuario(usuario.idUsuario).subscribe(
           response => {
             this.usuarios = this.usuarios.filter(user => user !== usuario);
-          }
+            Swal.fire('Eliminado', `¡Usuario ${usuario.nombre} eliminado!`, 'success');
+          }, err => {
+            if(err.status == 500){
+            Swal.fire('Error al eliminar', `No se puede eliminar un cliente que
+            tenga compras en su haber, como es el caso de ${usuario.nombre}`, 'error');
+            }
+          },
         );
 
-        Swal.fire('Eliminado', `¡Usuario ${usuario.nombre} eliminado!`, 'success');
       }
     })
 

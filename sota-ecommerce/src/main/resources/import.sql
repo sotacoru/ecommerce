@@ -70,7 +70,5 @@ INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) 
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Queso vegano Vegancheese ahumado Grano vita 200 g", 2.88, "Delicioso 'queso vegano' de anacardo, ideal para tomar en crudo como para cocinar, con suave y cremosa textura.", 4, "1aed12b8-950a-4c67-bb78-47897ddbba49_35761_1_1400.jpg ", 7);
 INSERT INTO producto (nombre, precio, descripcion, cantidad, foto, idCategoria) VALUES ( "Queso vegano Veggieques lonchas BIO Natursoy, 150 g", 2.72, "Ingredientes: Agua, grasa de coco*(20%), almidón de patata*, harina de ALTRAMUZ*, sal marina, espesantes: goma xantana y agar-agar*, extracto de cúrcuma*, aromas naturales.", 10, "4766686a-41af-4ecd-a479-1145c9876c7b_refrig-queso-vegano-veggieques-lonchas-bio-natursoy-150-g.jpg ", 7);
 
-INSERT INTO pedido (id, precio_total, realizado, idpago, idusuario) VALUES (1, 1000, true, 1, 1);
-INSERT INTO pedido_producto (id_pedido, id_producto, cantidad) VALUES (1, 1, 21);
 
 

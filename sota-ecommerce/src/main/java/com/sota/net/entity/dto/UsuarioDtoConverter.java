@@ -52,11 +52,12 @@ public class UsuarioDtoConverter {
 					nuevoUsuario.getPerfil());
 
 		}else {
-
+			return null;
 		}
 
 		return u;
 	}
+	
 	public GetUsuarioPedido usuarioPedido(Usuario u){
 		return  new GetUsuarioPedido(u.getIdUsuario(),
 			u.getNombre(),

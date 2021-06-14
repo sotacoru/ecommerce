@@ -107,7 +107,7 @@ export class AuthUsuarioService {
     sessionStorage.clear();
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('usuario');
-
+    
     this.router.navigate(['/login']);
   }
 

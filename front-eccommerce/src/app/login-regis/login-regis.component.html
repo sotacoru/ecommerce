@@ -60,8 +60,8 @@
           </div>
         </div>
       </div>
-      <h4 *ngIf="!registroIncorrecto!=undefined" style="color:#FF0000;">
-        {{registroIncorrecto}}
+      <h4 *ngIf="!loginIncorrecto!=undefined" style="color:#FF0000;">
+        {{loginIncorrecto}}
       </h4>
 
       <button [disabled]="!usuarioForm.form.valid" (click)='login()'

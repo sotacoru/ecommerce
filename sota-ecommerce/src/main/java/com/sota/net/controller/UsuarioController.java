@@ -1,6 +1,7 @@
 package com.sota.net.controller;
 
 import com.sota.net.configuration.security.jwt.JwtProvider;
+
 import com.sota.net.entity.Perfil;
 import com.sota.net.entity.Usuario;
 import com.sota.net.entity.dto.UsuarioBusqueda;
@@ -21,9 +22,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.server.authorization.HttpStatusServerAccessDeniedHandler;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +37,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import com.sota.net.entity.dto.GetUsuarioDto;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -228,7 +226,7 @@ public class UsuarioController {
 				));
 	}
 	
-	private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario nuevoUsuario, String jwtToken) {;
+	private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario nuevoUsuario, String jwtToken) {
 		return JwtUserResponse
 				.jwtUserResponseBuilder()
 				.nombre(nuevoUsuario.getNombre())
