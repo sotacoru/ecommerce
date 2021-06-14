@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PrimeNGConfig} from 'primeng/api';
-import {Producto} from '../entity/producto';
-import {ProductoService} from '../servicios/producto.service';
-import {Categoria} from '../entity/categoria';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PrimeNGConfig } from 'primeng/api';
+import { Producto } from '../entity/producto';
+import { ProductoService } from '../servicios/producto.service';
+import { Categoria } from '../entity/categoria';
 import Swal from 'sweetalert2';
-import {HttpEventType} from '@angular/common/http';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-form',
@@ -30,6 +30,7 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //En el caso de tener id busca el producto 
     this.cargarProducto()
     if (this.producto.id) {
       this.titulo = "Actualizar Producto"
@@ -49,8 +50,8 @@ export class FormComponent implements OnInit {
       let id = params['id']
       if (id) {
         this.productoService.getProducto(id).subscribe((producto) => {
-            this.producto = producto
-          }
+          this.producto = producto
+        }
         )
         this.productoService.getProductosId(id).subscribe((producto) => this.producto = producto)
 
@@ -60,6 +61,7 @@ export class FormComponent implements OnInit {
 
   }
 
+  //Crea un nuevo producto
   create(): void {
     this.productoService.create(this.producto).subscribe(
       response => {
@@ -91,7 +93,7 @@ export class FormComponent implements OnInit {
 
   }
 
-
+  //Optiene el la imagen del formulario
   seleccionarFoto(event) {
     this.fotoSeleccionada = event.target.files[0];
 
@@ -101,6 +103,7 @@ export class FormComponent implements OnInit {
     }
   }
 
+  //Actualiza el producto
   update(): void {
     this.productoService.update(this.producto).subscribe(response => {
       if (this.fotoSeleccionada) {
